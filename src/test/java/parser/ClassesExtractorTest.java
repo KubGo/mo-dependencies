@@ -1,15 +1,12 @@
 package parser;
 
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import utils.Utils;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,80 +19,170 @@ class ClassesExtractorTest {
         listener = new ClassesExtractor();
     }
 
+    // BouncingBall.mo tests
+
     @Test
     void extractClasses_BouncingBall_classesMatch() throws IOException {
-        String modelicaText = Utils.getModelicaTextFromResources("BouncingBall.mo");
-        ModelicaLexer modelicaLexer = new ModelicaLexer(CharStreams.fromString(modelicaText));
-
-        CommonTokenStream tokens = new CommonTokenStream(modelicaLexer);
-        ModelicaParser modelicaParser = new ModelicaParser(tokens);
-        ParseTree tree = modelicaParser.stored_definition();
-        ParseTreeWalker walker = new ParseTreeWalker();
-        walker.walk(listener, tree);
+        String modelicaText = Utils.getModelicaTextFromResources(Utils.BouncingBall);
+        ClassesExtractor parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
 
         assertEquals(
                 3,
-                listener.classes.size());
+                parsedListener.classes.size());
         assertEquals(
                 List.of("Height", "Real", "Velocity"),
-                listener.classes.stream().sorted().toList());
+                parsedListener.classes.stream().sorted().toList());
     }
 
     @Test
     void extractImports_BouncingBall_classesMatch() throws IOException {
-        String modelicaText = Utils.getModelicaTextFromResources("BouncingBall.mo");
-        ModelicaLexer modelicaLexer = new ModelicaLexer(CharStreams.fromString(modelicaText));
-
-        CommonTokenStream tokens = new CommonTokenStream(modelicaLexer);
-        ModelicaParser modelicaParser = new ModelicaParser(tokens);
-        ParseTree tree = modelicaParser.stored_definition();
-        ParseTreeWalker walker = new ParseTreeWalker();
-        walker.walk(listener, tree);
+        String modelicaText = Utils.getModelicaTextFromResources(Utils.BouncingBall);
+        ClassesExtractor parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
 
         assertEquals(
                 0,
-                listener.imports.size());
+                parsedListener.imports.size());
     }
 
+    // ImportsTest.mo tests
     @Test
     void extractImports_ImportsTest_importsMatch() throws IOException {
-        String modelicaText = Utils.getModelicaTextFromResources("ImportsTest.mo");
-        ModelicaLexer modelicaLexer = new ModelicaLexer(CharStreams.fromString(modelicaText));
-
-        CommonTokenStream tokens = new CommonTokenStream(modelicaLexer);
-        ModelicaParser modelicaParser = new ModelicaParser(tokens);
-        ParseTree tree = modelicaParser.stored_definition();
-        ParseTreeWalker walker = new ParseTreeWalker();
-        walker.walk(listener, tree);
+        String modelicaText = Utils.getModelicaTextFromResources(Utils.ImportsTest);
+        ClassesExtractor parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
 
         assertEquals(
                 2,
-                listener.imports.size());
-
+                parsedListener.imports.size());
     }
     @Test
     void extractClasses_ImportsTest_classesMatch() throws IOException {
-        String modelicaText = Utils.getModelicaTextFromResources("ImportsTest.mo");
-        ModelicaLexer modelicaLexer = new ModelicaLexer(CharStreams.fromString(modelicaText));
-
-        CommonTokenStream tokens = new CommonTokenStream(modelicaLexer);
-        ModelicaParser modelicaParser = new ModelicaParser(tokens);
-        ClassesExtractor listener = new ClassesExtractor();
-        ParseTree tree = modelicaParser.stored_definition();
-        ParseTreeWalker walker = new ParseTreeWalker();
-        walker.walk(listener, tree);
+        String modelicaText = Utils.getModelicaTextFromResources(Utils.ImportsTest);
+        ClassesExtractor parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
 
         assertEquals(
                 4,
-                listener.classes.size()
-        );
+                parsedListener.classes.size());
         assertEquals(
                 List.of(
                         "SI.Height",
                         "SI.Temperature",
                         "Sources.Ramp",
                         "Sources.Sine"),
-                listener.classes.stream().sorted().toList()
+                parsedListener.classes.stream().sorted().toList());
+    }
+
+    // ComplexExample.mo tests
+
+    @Test
+    void extractImports_ComplexExample_importsMatch() throws IOException {
+        String modelicaText = Utils.getModelicaTextFromResources(Utils.ComplexExample);
+        ClassesExtractor parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
+
+        assertEquals(
+                1,
+                parsedListener.imports.size());
+    }
+
+    @Test
+    void extractClasses_ComplexExample_classesMatch() throws IOException {
+        String modelicaText = Utils.getModelicaTextFromResources(Utils.ComplexExample);
+        ClassesExtractor parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
+        assertEquals(
+                7,
+                parsedListener.classes.size());
+        assertEquals(
+                List.of(
+                        "Modelica.Blocks.Sources.Ramp",
+                        "Modelica.Fluid.Sources.Boundary_pT",
+                        "Modelica.Fluid.Sources.MassFlowSource_T",
+                        "Package.OtherPackage.Component",
+                        "Pipe", // "Modelica.Fluid.Pipes.DynamicPipe",
+                        "Real",
+                        "SI.CrossSection"),
+                parsedListener.classes.stream().sorted().toList());
+    }
+
+    @Test
+    void extractExtendingClasses_ComplexExample_classesMatch() throws IOException {
+        String modelicaText = Utils.getModelicaTextFromResources(Utils.ComplexExample);
+        ClassesExtractor parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
+
+        assertEquals(
+                1,
+                parsedListener.extendingClasses.size()
+        );
+        assertEquals(
+            List.of("Modelica.Icons.ExamplesPackage"),
+                parsedListener.extendingClasses.stream().sorted().toList()
+        );
+    }
+
+    @Test
+    void extractFunctionCalls_ComplexExample_classesMatch() throws IOException {
+        String modelicaText = Utils.getModelicaTextFromResources(Utils.ComplexExample);
+        ClassesExtractor parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
+
+        assertEquals(
+                1,
+                parsedListener.functions.size()
+        );
+        assertEquals(
+                List.of("Modelica.Units.Conversions.to_degF"),
+                parsedListener.functions.stream().toList()
+        );
+    }
+
+    @Test
+    void getPackageName_ComplexExample_constraintsMapCorrect() throws IOException {
+        String modelicaText = Utils.getModelicaTextFromResources(Utils.ComplexExample);
+        ClassesExtractor parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
+
+        assertEquals(
+                "Library.Package.CustomPackage",
+                parsedListener.packageName
+        );
+    }
+
+    @Test
+    void extractConstrainingClasses_ComplexExample_constraintsMapCorrect() throws IOException {
+        String modelicaText = Utils.getModelicaTextFromResources(Utils.ComplexExample);
+        ClassesExtractor parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
+
+        assertEquals(
+                1,
+                parsedListener.constrainingClassesMap.size()
+        );
+        assertEquals(
+                Map.of(
+                        "Modelica.Blocks.Interfaces.SO",
+                        "Modelica.Blocks.Sources.Ramp"
+                ),
+                parsedListener.constrainingClassesMap
+        );
+    }
+
+    @Test
+    void getExtends_ComplexExample_extendClassesMatch() throws IOException {
+        String modelicaText = Utils.getModelicaTextFromResources(Utils.ComplexExample);
+        ClassesExtractor parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
+
+        assertEquals(
+                List.of("Modelica.Icons.ExamplesPackage"),
+                parsedListener.extendingClasses
+        );
+    }
+
+    @Test
+    void getClassDefinitions_ComplexExample_classDefinitionMapMatches() throws IOException {
+        String modelicaText = Utils.getModelicaTextFromResources(Utils.ComplexExample);
+        ClassesExtractor parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
+
+        assertEquals(
+                Map.of(
+                        "Pipe",
+                        "Modelica.Fluid.Pipes.DynamicPipe"
+                ),
+                parsedListener.classDefinitionsMap
         );
     }
 
