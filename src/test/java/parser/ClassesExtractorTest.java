@@ -1,5 +1,6 @@
 package parser;
 
+import modelica.ClassType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import utils.Utils;
@@ -184,6 +185,16 @@ class ClassesExtractorTest {
                 ),
                 parsedListener.classDefinitionsMap
         );
+    }
+
+    @Test
+    void getType_ComplexExample_classTypeMatches() throws IOException {
+        String modelicaText = Utils.getModelicaTextFromResources(Utils.ComplexExample);
+        ClassesExtractor parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
+
+        assertEquals(
+                ClassType.MODEL,
+                parsedListener.classType);
     }
 
 }

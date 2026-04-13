@@ -1,11 +1,14 @@
 package parser;
 
+import modelica.ClassType;
+import modelica.ClassTypeProvider;
 import modelica.ModelicaFileSection;
 
 import java.util.*;
 
 public class ClassesExtractor extends ModelicaBaseListener{
     String packageName;
+    ClassType classType;
     List<String> imports = new ArrayList<>();
     Set<String> classes = new HashSet<>();
     Set<String> functions = new HashSet<>();
@@ -28,6 +31,7 @@ public class ClassesExtractor extends ModelicaBaseListener{
     @Override
     public void enterStored_definition(ModelicaParser.Stored_definitionContext ctx) {
         packageName = ctx.name().getFirst().getText();
+        classType = ClassTypeProvider.getClassType(ctx.class_definition().getFirst().class_prefixes().getText());
     }
 
     @Override
