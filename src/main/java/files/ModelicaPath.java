@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.regex.Pattern;
 
 public class ModelicaPath {
-    private final String filePath;
+    String filePath;
     String path;
     String className;
 

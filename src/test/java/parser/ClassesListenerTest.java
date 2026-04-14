@@ -11,13 +11,13 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ClassesExtractorTest {
+class ClassesListenerTest {
 
-    ClassesExtractor listener;
+    ClassesListener listener;
 
     @BeforeEach
     void setUp(){
-        listener = new ClassesExtractor();
+        listener = new ClassesListener();
     }
 
     // BouncingBall.mo tests
@@ -25,7 +25,7 @@ class ClassesExtractorTest {
     @Test
     void extractClasses_BouncingBall_classesMatch() throws IOException {
         String modelicaText = Utils.getModelicaTextFromResources(Utils.BouncingBall);
-        ClassesExtractor parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
+        ClassesListener parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
 
         assertEquals(
                 3,
@@ -38,7 +38,7 @@ class ClassesExtractorTest {
     @Test
     void extractImports_BouncingBall_classesMatch() throws IOException {
         String modelicaText = Utils.getModelicaTextFromResources(Utils.BouncingBall);
-        ClassesExtractor parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
+        ClassesListener parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
 
         assertEquals(
                 0,
@@ -49,7 +49,7 @@ class ClassesExtractorTest {
     @Test
     void extractImports_ImportsTest_importsMatch() throws IOException {
         String modelicaText = Utils.getModelicaTextFromResources(Utils.ImportsTest);
-        ClassesExtractor parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
+        ClassesListener parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
 
         assertEquals(
                 2,
@@ -58,7 +58,7 @@ class ClassesExtractorTest {
     @Test
     void extractClasses_ImportsTest_classesMatch() throws IOException {
         String modelicaText = Utils.getModelicaTextFromResources(Utils.ImportsTest);
-        ClassesExtractor parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
+        ClassesListener parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
 
         assertEquals(
                 4,
@@ -77,7 +77,7 @@ class ClassesExtractorTest {
     @Test
     void extractImports_ComplexExample_importsMatch() throws IOException {
         String modelicaText = Utils.getModelicaTextFromResources(Utils.ComplexExample);
-        ClassesExtractor parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
+        ClassesListener parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
 
         assertEquals(
                 1,
@@ -87,7 +87,7 @@ class ClassesExtractorTest {
     @Test
     void extractClasses_ComplexExample_classesMatch() throws IOException {
         String modelicaText = Utils.getModelicaTextFromResources(Utils.ComplexExample);
-        ClassesExtractor parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
+        ClassesListener parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
         assertEquals(
                 7,
                 parsedListener.classes.size());
@@ -106,7 +106,7 @@ class ClassesExtractorTest {
     @Test
     void extractExtendingClasses_ComplexExample_classesMatch() throws IOException {
         String modelicaText = Utils.getModelicaTextFromResources(Utils.ComplexExample);
-        ClassesExtractor parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
+        ClassesListener parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
 
         assertEquals(
                 1,
@@ -121,7 +121,7 @@ class ClassesExtractorTest {
     @Test
     void extractFunctionCalls_ComplexExample_classesMatch() throws IOException {
         String modelicaText = Utils.getModelicaTextFromResources(Utils.ComplexExample);
-        ClassesExtractor parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
+        ClassesListener parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
 
         assertEquals(
                 1,
@@ -136,7 +136,7 @@ class ClassesExtractorTest {
     @Test
     void getPackageName_ComplexExample_constraintsMapCorrect() throws IOException {
         String modelicaText = Utils.getModelicaTextFromResources(Utils.ComplexExample);
-        ClassesExtractor parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
+        ClassesListener parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
 
         assertEquals(
                 "Library.Package.CustomPackage",
@@ -147,7 +147,7 @@ class ClassesExtractorTest {
     @Test
     void extractConstrainingClasses_ComplexExample_constraintsMapCorrect() throws IOException {
         String modelicaText = Utils.getModelicaTextFromResources(Utils.ComplexExample);
-        ClassesExtractor parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
+        ClassesListener parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
 
         assertEquals(
                 1,
@@ -165,7 +165,7 @@ class ClassesExtractorTest {
     @Test
     void getExtends_ComplexExample_extendClassesMatch() throws IOException {
         String modelicaText = Utils.getModelicaTextFromResources(Utils.ComplexExample);
-        ClassesExtractor parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
+        ClassesListener parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
 
         assertEquals(
                 List.of("Modelica.Icons.ExamplesPackage"),
@@ -176,7 +176,7 @@ class ClassesExtractorTest {
     @Test
     void getClassDefinitions_ComplexExample_classDefinitionMapMatches() throws IOException {
         String modelicaText = Utils.getModelicaTextFromResources(Utils.ComplexExample);
-        ClassesExtractor parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
+        ClassesListener parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
 
         assertEquals(
                 Map.of(
@@ -190,7 +190,7 @@ class ClassesExtractorTest {
     @Test
     void getType_ComplexExample_classTypeMatches() throws IOException {
         String modelicaText = Utils.getModelicaTextFromResources(Utils.ComplexExample);
-        ClassesExtractor parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
+        ClassesListener parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
 
         assertEquals(
                 ClassType.MODEL,

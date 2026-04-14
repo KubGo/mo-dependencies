@@ -6,7 +6,7 @@ import modelica.ModelicaFileSection;
 
 import java.util.*;
 
-public class ClassesExtractor extends ModelicaBaseListener{
+public class ClassesListener extends ModelicaBaseListener{
     String packageName;
     ClassType classType;
     List<String> imports = new ArrayList<>();
