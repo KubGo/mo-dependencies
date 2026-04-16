@@ -32,5 +32,9 @@ class ModelicaFilesStructureTest {
 						.getChildren()
 						.size()
 					);
+		assertEquals(
+				"",
+				tree.toString()
+					);
 	}
 }

@@ -8,6 +8,7 @@ public class PackageInfo extends ModelicaFileInfo{
 	List<ModelicaFileInfo> children = new ArrayList<>();
 
 	public PackageInfo(String systemPath, PackageInfo parent){
+		this.modelicaPathConverter.setLibraryName(parent.modelicaPathInfo.libraryName);
 		modelicaPathInfo = modelicaPathConverter.convertToModelicaPath(
 				systemPath);
 		this.parent = parent;
@@ -25,5 +26,17 @@ public class PackageInfo extends ModelicaFileInfo{
 
 	public List<ModelicaFileInfo> getChildren(){
 		return children;
+	}
+
+	@Override
+	public String toStringWithIndent(int indent, int limit) {
+		StringBuilder sb = new StringBuilder();
+		sb.repeat(" ", 2 * indent).append(modelicaPathInfo.className).append("\n");
+		if (indent + 1 < limit) {
+			for (var child : children) {
+				sb.append(child.toStringWithIndent(indent + 1, limit));
+			}
+		}
+		return sb.toString();
 	}
 }

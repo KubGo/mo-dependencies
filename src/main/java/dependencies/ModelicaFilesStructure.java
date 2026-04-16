@@ -1,6 +1,7 @@
 package dependencies;
 
 import dependencies.structureinfo.ClassInfo;
+import dependencies.structureinfo.ModelicaFileInfo;
 import dependencies.structureinfo.PackageInfo;
 
 import java.io.File;
@@ -51,4 +52,22 @@ public class ModelicaFilesStructure {
 		return packageName + "." + fileName;
 	}
 
+	@Override
+	public String toString() {
+		int indent = 1;
+		int limit = 15;
+		StringBuilder builder = new StringBuilder();
+		builder.append(libraryName).append("\n");
+		for (String key : tree.descendingKeySet().reversed()){
+			var fileInfoList = tree.get(key);
+			for (ModelicaFileInfo fileInfo : fileInfoList.getChildren()){
+				builder.append(fileInfo.toStringWithIndent(indent, limit));
+			}
+			indent++;
+			if (indent > limit){
+				break;
+			}
+		}
+		return builder.toString();
+	}
 }
