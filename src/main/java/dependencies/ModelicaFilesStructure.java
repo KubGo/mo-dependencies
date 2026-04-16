@@ -1,19 +1,22 @@
 package dependencies;
 
-import files.ModelicaPath;
+import dependencies.structureinfo.ClassInfo;
+import dependencies.structureinfo.PackageInfo;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Stack;
 import java.util.TreeMap;
 
 public class ModelicaFilesStructure {
-	TreeMap<String, List<String>> tree = new TreeMap<>();
-	Boolean pastFiles = false;
+	private PackageInfo currentPackage;
+	private Stack<PackageInfo> packagesStack = new Stack<>();
+	TreeMap<String, PackageInfo> tree = new TreeMap<>();
 	private final String libraryName;
 	public ModelicaFilesStructure(String path, String libraryName){
 		this.libraryName = libraryName;
-		tree.put(libraryName, new ArrayList<>());
+		currentPackage = new PackageInfo(path, libraryName);
+		packagesStack.push(currentPackage);
+		tree.put(libraryName, currentPackage);
 		getModelicaPaths(path, libraryName);
 	}
 
@@ -22,21 +25,26 @@ public class ModelicaFilesStructure {
 		if (files == null){
 			return;
 		}
-		pastFiles = true;
 		for (File file: files){
 			if (file.isDirectory()){
+				PackageInfo packageInfo = new PackageInfo(file.getPath(), currentPackage);
+				packagesStack.push(packageInfo);
 				String directoryPath = getSubpackagePath(packageName, file.getName());
-				tree.get(packageName).add(file.getName());
-				tree.put(directoryPath, new ArrayList<>());
+				tree.get(packageName).addChild(packageInfo);
+				tree.put(directoryPath, packageInfo);
 				getModelicaPaths(
-						file.getPath(), directoryPath
-						);
+						file.getPath(), directoryPath);
 			}
 			else if (file.getName().endsWith(".mo") && !file.getName().equals("package.mo")){
-				ModelicaPath modelicaPath = new ModelicaPath(path, "");
-				tree.get(packageName).add(file.getName());
+				ClassInfo classInfo = new ClassInfo(file.getPath(), currentPackage);
+				tree.get(packageName).addChild(classInfo);
 			}
 		}
+		returnToPreviousPackage();
+	}
+
+	private void returnToPreviousPackage(){
+		currentPackage = packagesStack.pop();
 	}
 
 	private String getSubpackagePath(String packageName, String fileName){

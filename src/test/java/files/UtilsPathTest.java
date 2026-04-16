@@ -8,14 +8,14 @@ class UtilsPathTest {
 
     @Test
     void checkCorrectPathFromParentDir(){
-        ModelicaPath path = new ModelicaPath("TopPackage\\Package\\Model.mo");
+        ModelicaPathInfo path = new ModelicaPathInfo("TopPackage\\Package\\Model.mo");
         assertEquals("Model", path.className);
         assertEquals("TopPackage.Package.Model", path.path);
     }
 
     @Test
     void CheckCorrectPathWithLibraryName(){
-        ModelicaPath path = new ModelicaPath("C:\\Documents\\TopPackage\\Package\\Model.mo", "TopPackage");
+        ModelicaPathInfo path = new ModelicaPathInfo("C:\\Documents\\TopPackage\\Package\\Model.mo", "TopPackage");
         assertEquals("Model", path.className);
         assertEquals("TopPackage.Package.Model", path.path);
     }

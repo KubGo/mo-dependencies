@@ -17,12 +17,20 @@ class ModelicaFilesStructureTest {
 		);
 		assertEquals(
 				20,
-				tree.tree.get("Buildings").size());
+				tree.tree.get("Buildings").getChildren().size());
 		assertEquals(
 				1,
-				tree.tree.get("Buildings.Air").size());
+				tree.tree.get("Buildings.Air").getChildren().size());
 		assertEquals(
 				10,
-				tree.tree.get("Buildings.HeatTransfer.Examples").size());
+				tree.tree.get("Buildings.HeatTransfer.Examples")
+						.getChildren()
+						.size());
+		assertEquals(
+				7,
+				tree.tree.get("Buildings.HeatTransfer.Radiosity")
+						.getChildren()
+						.size()
+					);
 	}
 }
