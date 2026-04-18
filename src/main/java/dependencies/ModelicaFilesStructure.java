@@ -10,10 +10,17 @@ import java.util.TreeMap;
 
 public class ModelicaFilesStructure {
 	private PackageInfo currentPackage;
-	private Stack<PackageInfo> packagesStack = new Stack<>();
+	private final Stack<PackageInfo> packagesStack = new Stack<>();
 	TreeMap<String, PackageInfo> tree = new TreeMap<>();
-	private final String libraryName;
+	private String libraryName;
+	public ModelicaFilesStructure(){
+
+	}
 	public ModelicaFilesStructure(String path, String libraryName){
+		resolveFileStructure(path, libraryName);
+	}
+
+	public void resolveFileStructure(String path, String libraryName){
 		this.libraryName = libraryName;
 		currentPackage = new PackageInfo(path, libraryName);
 		packagesStack.push(currentPackage);
@@ -29,7 +36,7 @@ public class ModelicaFilesStructure {
 		for (File file: files){
 			if (file.isDirectory()){
 				PackageInfo packageInfo = new PackageInfo(file.getPath(), currentPackage);
-				packagesStack.push(packageInfo);
+				updateCurrentPackage(packageInfo);
 				String directoryPath = getSubpackagePath(packageName, file.getName());
 				tree.get(packageName).addChild(packageInfo);
 				tree.put(directoryPath, packageInfo);
@@ -46,6 +53,10 @@ public class ModelicaFilesStructure {
 
 	private void returnToPreviousPackage(){
 		currentPackage = packagesStack.pop();
+	}
+	private void updateCurrentPackage(PackageInfo packageInfo){
+		packagesStack.push(currentPackage);
+		currentPackage = packageInfo;
 	}
 
 	private String getSubpackagePath(String packageName, String fileName){

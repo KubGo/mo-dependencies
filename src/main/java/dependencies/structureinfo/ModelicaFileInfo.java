@@ -13,4 +13,11 @@ public abstract class ModelicaFileInfo {
 	public String toStringWithIndent(int indent){
 		return toStringWithIndent(indent, 4);
 	}
+
+	public String getClassName(){
+		return modelicaPathInfo.className;
+	}
+	public ModelicaFileInfo getParent(){
+		return parent;
+	}
 }

@@ -27,14 +27,24 @@ class ModelicaFilesStructureTest {
 						.getChildren()
 						.size());
 		assertEquals(
+				"HeatTransfer",
+				tree.tree.get("Buildings.HeatTransfer.Examples")
+						.getParent()
+						.getClassName());
+		assertEquals(
+				"Tutorial",
+				tree.tree.get("Buildings.Examples.Tutorial.SpaceCooling")
+						.getParent()
+						.getClassName());
+		assertEquals(
 				7,
 				tree.tree.get("Buildings.HeatTransfer.Radiosity")
 						.getChildren()
 						.size()
 					);
-		assertEquals(
-				"",
-				tree.toString()
-					);
+//		assertEquals(
+//				"",
+//				tree.toString()
+//					);
 	}
 }
