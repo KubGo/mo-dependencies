@@ -8,15 +8,12 @@ class ModelicaFilesStructureTest {
 	@Test
 	void getFilesTreeStructure_BuildingsLibrary_numberOfClassesInPackagesMatch(){
 		String buildingLibraryPath = System.getenv("BuildingsLibraryPath");
-		if (buildingLibraryPath == null){
-			return;
-		}
 		ModelicaFilesStructure tree = new ModelicaFilesStructure(
 				buildingLibraryPath,
 				"Buildings"
 		);
 		assertEquals(
-				20,
+				19,
 				tree.tree.get("Buildings").getChildren().size());
 		assertEquals(
 				1,
@@ -42,9 +39,15 @@ class ModelicaFilesStructureTest {
 						.getChildren()
 						.size()
 					);
-//		assertEquals(
-//				"",
-//				tree.toString()
-//					);
+	}
+
+	@Test
+	void filterNonModelicaPackages_BuildingLibrary_nonModelicaDirectoryNotIncluded(){
+		String buildingLibraryPath = System.getenv("BuildingsLibraryPath");
+		ModelicaFilesStructure tree = new ModelicaFilesStructure(
+				buildingLibraryPath,
+				"Buildings"
+		);
+		assertNull(tree.tree.get("Buildings.Resources"));
 	}
 }

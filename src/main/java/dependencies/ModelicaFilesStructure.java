@@ -3,6 +3,7 @@ package dependencies;
 import dependencies.structureinfo.ClassInfo;
 import dependencies.structureinfo.ModelicaFileInfo;
 import dependencies.structureinfo.PackageInfo;
+import filtering.ModelicaPackageFilter;
 
 import java.io.File;
 import java.util.Stack;
@@ -13,6 +14,7 @@ public class ModelicaFilesStructure {
 	private final Stack<PackageInfo> packagesStack = new Stack<>();
 	TreeMap<String, PackageInfo> tree = new TreeMap<>();
 	private String libraryName;
+	private final ModelicaPackageFilter modelicaPackageFilter = new ModelicaPackageFilter();
 	public ModelicaFilesStructure(){
 
 	}
@@ -35,13 +37,14 @@ public class ModelicaFilesStructure {
 		}
 		for (File file: files){
 			if (file.isDirectory()){
-				PackageInfo packageInfo = new PackageInfo(file.getPath(), currentPackage);
-				updateCurrentPackage(packageInfo);
-				String directoryPath = getSubpackagePath(packageName, file.getName());
-				tree.get(packageName).addChild(packageInfo);
-				tree.put(directoryPath, packageInfo);
-				getModelicaPaths(
-						file.getPath(), directoryPath);
+				if (modelicaPackageFilter.filterName(file.getPath())) {
+					PackageInfo packageInfo = new PackageInfo(file.getPath(), currentPackage);
+					updateCurrentPackage(packageInfo);
+					String directoryPath = getSubpackagePath(packageName, file.getName());
+					tree.get(packageName).addChild(packageInfo);
+					tree.put(directoryPath, packageInfo);
+					getModelicaPaths(file.getPath(), directoryPath);
+				}
 			}
 			else if (file.getName().endsWith(".mo") && !file.getName().equals("package.mo")){
 				ClassInfo classInfo = new ClassInfo(file.getPath(), currentPackage);

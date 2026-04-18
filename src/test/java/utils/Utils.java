@@ -10,23 +10,23 @@ import parser.ModelicaListener;
 import parser.ModelicaParser;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Objects;
 
 public class Utils {
     public final static String BouncingBall = "BouncingBall.mo";
     public final static String ImportsTest = "ImportsTest.mo";
     public final static String ComplexExample = "ComplexExample.mo";
+    public static String getPathAsString(String resourceName){
+        return Objects.requireNonNull(
+                        Utils.class.getClassLoader().getResource(resourceName))
+                .getPath();
+    }
     public static String getModelicaTextFromResources(String resourceName) throws IOException {
         ModelicaFileReader modelicaFileReader = new ModelicaFileReader();
-        String filePath = Objects.requireNonNull(
-                Utils.class.getClassLoader().getResource(resourceName))
-                .getPath();
+        String filePath = getPathAsString(resourceName);
 
-        List<String> lines = modelicaFileReader.readFile(
+        return modelicaFileReader.readFile(
                 filePath);
-
-        return String.join("\n", lines);
     }
     public static <T extends ModelicaListener> T getParsedListenerFromText(String text, T listener){
         ModelicaLexer modelicaLexer = new ModelicaLexer(CharStreams.fromString(text));

@@ -13,8 +13,9 @@ class UtilsFileReaderTest {
     void testReadingFile() throws IOException {
         ModelicaFileReader modelicaFileReader = new ModelicaFileReader();
 
-        var lines = modelicaFileReader.readFile(
+        String text = modelicaFileReader.readFile(
                 Objects.requireNonNull(getClass().getClassLoader().getResource("BouncingBall.mo")).getPath());
-        assertEquals("model BouncingBall \"The 'classic' bouncing ball model\"", lines.getFirst());
+        assertEquals("model BouncingBall \"The 'classic' bouncing ball model\"",
+                     text.split("\n")[1]);
     }
 }
