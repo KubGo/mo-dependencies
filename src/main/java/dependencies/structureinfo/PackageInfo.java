@@ -28,6 +28,13 @@ public class PackageInfo extends ModelicaFileInfo{
 		return children;
 	}
 
+	public List<ClassInfo> getClassDefinitions(){
+		return children.stream().filter(
+				x -> x instanceof ClassInfo)
+				.map(x -> (ClassInfo) x)
+				.toList();
+	}
+
 	@Override
 	public String toStringWithIndent(int indent, int limit) {
 		StringBuilder sb = new StringBuilder();

@@ -4,10 +4,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ModelicaFileReader {
-    public List<String> readFile(String path) throws IOException {
+    public String readFile(String path) throws IOException {
         ArrayList<String> lines = new ArrayList<>();
         try (FileReader fileReader = new FileReader(path)) {
             BufferedReader reader = new BufferedReader(fileReader);
@@ -17,6 +16,6 @@ public class ModelicaFileReader {
             }
             reader.close();
         }
-        return lines;
+        return String.join("\n", lines);
     }
 }

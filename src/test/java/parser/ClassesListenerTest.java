@@ -110,11 +110,11 @@ class ClassesListenerTest {
 
         assertEquals(
                 1,
-                parsedListener.extendingClasses.size()
+                parsedListener.parentClasses.size()
         );
         assertEquals(
             List.of("Modelica.Icons.ExamplesPackage"),
-                parsedListener.extendingClasses.stream().sorted().toList()
+                parsedListener.parentClasses.stream().sorted().toList()
         );
     }
 
@@ -169,7 +169,7 @@ class ClassesListenerTest {
 
         assertEquals(
                 List.of("Modelica.Icons.ExamplesPackage"),
-                parsedListener.extendingClasses
+                parsedListener.parentClasses
         );
     }
 

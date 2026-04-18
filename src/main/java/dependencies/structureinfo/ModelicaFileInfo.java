@@ -17,6 +17,9 @@ public abstract class ModelicaFileInfo {
 	public String getClassName(){
 		return modelicaPathInfo.className;
 	}
+	public String getModelicaPath(){
+		return modelicaPathInfo.path;
+	}
 	public ModelicaFileInfo getParent(){
 		return parent;
 	}

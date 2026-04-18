@@ -7,14 +7,15 @@ import modelica.ModelicaFileSection;
 import java.util.*;
 
 public class ClassesListener extends ModelicaBaseListener{
-    String packageName;
-    ClassType classType;
-    List<String> imports = new ArrayList<>();
-    Set<String> classes = new HashSet<>();
-    Set<String> functions = new HashSet<>();
-    List<String> extendingClasses = new ArrayList<>();
-    Map<String, String> constrainingClassesMap = new HashMap<>();
-    Map<String, String> classDefinitionsMap = new HashMap<>();
+    public String packageName;
+    public ClassType classType;
+    public List<String> imports = new ArrayList<>();
+    public Set<String> classes = new HashSet<>();
+    public Set<String> functions = new HashSet<>();
+    public List<String> parentClasses = new ArrayList<>();
+    public Map<String, String> constrainingClassesMap = new HashMap<>();
+    public Map<String, String> classDefinitionsMap = new HashMap<>();
+    private String typeName = "";
 
     private ModelicaFileSection currentSection = ModelicaFileSection.DECLARATIVE;
     private final Stack<ModelicaFileSection> lastSections = new Stack<>();
@@ -32,6 +33,7 @@ public class ClassesListener extends ModelicaBaseListener{
     public void enterStored_definition(ModelicaParser.Stored_definitionContext ctx) {
         packageName = ctx.name().getFirst().getText();
         classType = ClassTypeProvider.getClassType(ctx.class_definition().getFirst().class_prefixes().getText());
+
     }
 
     @Override
@@ -90,15 +92,21 @@ public class ClassesListener extends ModelicaBaseListener{
     @Override
     public void enterExtends_clause(ModelicaParser.Extends_clauseContext ctx) {
         String extendingClass = ctx.name().getText();
-        extendingClasses.add(extendingClass);
+        parentClasses.add(extendingClass);
     }
 
     @Override
     public void enterElement(ModelicaParser.ElementContext ctx) {
         if (ctx.constraining_clause() != null) {
+            String constrainingClause;
+            if (ctx.component_clause() == null){
+                constrainingClause = "choicesAllMatching";
+			} else {
+                constrainingClause = ctx.component_clause().type_specifier().name().getText();
+            }
             constrainingClassesMap.put(
                     ctx.constraining_clause().name().getText(),
-                    ctx.component_clause().type_specifier().name().getText()
+                    constrainingClause
             );
         }
     }
@@ -107,6 +115,10 @@ public class ClassesListener extends ModelicaBaseListener{
     public void enterClass_definition(ModelicaParser.Class_definitionContext ctx) {
         if (ctx.class_specifier().short_class_specifier() != null) {
             var shortClassSpecifier = ctx.class_specifier().short_class_specifier();
+            if (shortClassSpecifier.name() == null){
+                typeName = shortClassSpecifier.getText().split("=")[0].trim();
+                return;
+			}
             String className = shortClassSpecifier.name().getText();
             String name = shortClassSpecifier.getText().split("=")[0].trim();
             classDefinitionsMap.put(
@@ -114,5 +126,13 @@ public class ClassesListener extends ModelicaBaseListener{
                     className
             );
         }
+    }
+
+
+    @Override
+    public void enterEnumeration_literal(ModelicaParser.Enumeration_literalContext ctx) {
+        classDefinitionsMap.put(
+                ctx.getText().split("\"")[0].trim(),
+                typeName);
     }
 }
