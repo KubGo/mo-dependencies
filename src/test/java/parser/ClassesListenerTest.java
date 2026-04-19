@@ -54,6 +54,13 @@ class ClassesListenerTest {
         assertEquals(
                 2,
                 parsedListener.imports.size());
+        assertEquals(
+                List.of(
+                        "Modelica.Units.SI",
+                        "Modelica.Blocks.Sources"
+                       ),
+                parsedListener.imports
+                    );
     }
     @Test
     void extractClasses_ImportsTest_classesMatch() throws IOException {

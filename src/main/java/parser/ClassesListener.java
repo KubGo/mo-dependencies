@@ -44,7 +44,7 @@ public class ClassesListener extends ModelicaBaseListener{
 
     @Override
     public void enterImport_clause(ModelicaParser.Import_clauseContext ctx) {
-        String importClause = ctx.getText();
+        String importClause = ctx.name().getText();
         imports.add(importClause);
     }
 

@@ -1,5 +1,7 @@
 package dependencies.classesinfo;
 
+import modelica.PathJoiner;
+import modelica.pathresolvers.StandardImportPathResolver;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -12,11 +14,12 @@ import java.util.*;
 
 public class ClassDependencies {
 	String className;
-	private List<String> importedClasses;
-	private Set<String> usedClasses;
-	private List<String> parentClasses;
+	private final List<String> importedClasses;
+	private final ArrayList<String> usedClasses = new ArrayList<>();
+	private final List<String> parentClasses;
 	private Map<String, String> constrainingClassesMap = new HashMap<>();
 	private Map<String, String> classDefinitionsMap = new HashMap<>();
+	private boolean standardImportsResolved;
 
 	public ClassDependencies(String className, String text) {
 		ModelicaLexer modelicaLexer = new ModelicaLexer(CharStreams.fromString(text));
@@ -28,14 +31,33 @@ public class ClassDependencies {
 		walker.walk(listener, tree);
 		this.className = className;
 		importedClasses = listener.imports;
-		usedClasses = listener.classes;
+		standardImportsResolved = importedClasses.isEmpty();
+		usedClasses.addAll(listener.classes);
 		parentClasses = listener.parentClasses;
 		constrainingClassesMap = listener.constrainingClassesMap;
 		classDefinitionsMap = listener.classDefinitionsMap;
 	}
 
 	public List<String> getAbsolutePathsClassList(){
-		// TODO(Resolve classes to absolute paths)
+		resolverStandardImports();
 		return usedClasses.stream().toList();
+	}
+
+	public void resolveInternalDependencies(){
+		resolverStandardImports();
+	}
+
+	private void resolverStandardImports(){
+		if (!standardImportsResolved){
+			StandardImportPathResolver pathResolver = new StandardImportPathResolver();
+			for (int i = 0; i < usedClasses.size(); i++) {
+				for (String importedClass: importedClasses){
+					if (pathResolver.isSubPath(importedClass, usedClasses.get(i))){
+						usedClasses.set(i, PathJoiner.joinPaths(importedClass, usedClasses.get(i)));
+					}
+				}
+			}
+			standardImportsResolved = true;
+		}
 	}
 }

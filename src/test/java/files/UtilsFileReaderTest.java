@@ -14,7 +14,8 @@ class UtilsFileReaderTest {
         ModelicaFileReader modelicaFileReader = new ModelicaFileReader();
 
         String text = modelicaFileReader.readFile(
-                Objects.requireNonNull(getClass().getClassLoader().getResource("BouncingBall.mo")).getPath());
+                Objects.requireNonNull(getClass().getClassLoader().getResource(
+		                "BuildingsLite/Tests/BouncingBall.mo")).getPath());
         assertEquals("model BouncingBall \"The 'classic' bouncing ball model\"",
                      text.split("\n")[1]);
     }

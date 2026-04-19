@@ -14,7 +14,7 @@ class ModelicaFilesStructureTest {
 				"BuildingsLite"
 		);
 		assertEquals(
-				3,
+				4,
 				tree.tree.get("BuildingsLite").getChildren().size());
 		assertEquals(
 				1,
