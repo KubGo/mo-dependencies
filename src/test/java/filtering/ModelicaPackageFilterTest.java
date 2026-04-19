@@ -1,8 +1,7 @@
 package filtering;
 
 import org.junit.jupiter.api.Test;
-import java.nio.file.Paths;
-
+import utils.Utils;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -11,14 +10,13 @@ class ModelicaPackageFilterTest {
 
 	 @Test
 	 void filterPackage_BuildingsLibrary_modelicaPackageDiscovered(){
-		 String buildingsPath = System.getenv("BuildingsLibraryPath");
+		 String buildingsPath = Utils.getPathAsString("BuildingsLite");
 		 assertTrue(modelicaPackageFilter.filterName(buildingsPath));
 	 }
 
 	@Test
 	void filterPackage_BuildingsLibrary_nonModelicaPackageDiscovered(){
-		String buildingsPath = System.getenv("BuildingsLibraryPath");
-		String resourcesPath = Paths.get(buildingsPath, "Resources").toString();
+		String resourcesPath = Utils.getPathAsString("BuildingsLite/Resources");
 		assertFalse(modelicaPackageFilter.filterName(resourcesPath));
 	}
 

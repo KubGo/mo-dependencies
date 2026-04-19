@@ -2,6 +2,7 @@ package dependencies;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import utils.Utils;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -13,21 +14,21 @@ class DependencyTreeTest {
 	DependencyTree tree;
 
 	private final List<String> booleanDelayExampleClasses = Stream.of(
-			"Buildings.Controls.Discrete.BooleanDelay",
+			"BuildingsLite.Controls.Discrete.BooleanDelay",
 			"Modelica.Blocks.Sources.BooleanPulse")
 			.sorted().toList();
 	private final List<String> conductorStepResponseClasses = Stream.of(
-					"Buildings.HeatTransfer.Data.Solids.Concrete",
-					"Buildings.HeatTransfer.Data.Resistances.Carpet",
-					"Buildings.HeatTransfer.Data.OpaqueConstructions.Generic",
-					"Buildings.HeatTransfer.Conduction.MultiLayer",
-					"Buildings.HeatTransfer.Conduction.SingleLayer",
-					"Buildings.HeatTransfer.Sources.FixedTemperature",
-					"Buildings.HeatTransfer.Sources.PrescribedTemperature",
+					"BuildingsLite.HeatTransfer.Data.Solids.Concrete",
+					"BuildingsLite.HeatTransfer.Data.Resistances.Carpet",
+					"BuildingsLite.HeatTransfer.Data.OpaqueConstructions.Generic",
+					"BuildingsLite.HeatTransfer.Conduction.MultiLayer",
+					"BuildingsLite.HeatTransfer.Conduction.SingleLayer",
+					"BuildingsLite.HeatTransfer.Sources.FixedTemperature",
+					"BuildingsLite.HeatTransfer.Sources.PrescribedTemperature",
 					"Modelica.Blocks.Sources.Step",
 					"Modelica.Thermal.HeatTransfer.Sensors.HeatFlowSensor",
 					"Modelica.Blocks.Math.Add",
-					"Buildings.HeatTransfer.Convection.Interior")
+					"BuildingsLite.HeatTransfer.Convection.Interior")
 			.sorted().toList();
 
 	@BeforeEach
@@ -37,16 +38,16 @@ class DependencyTreeTest {
 
 	@Test
 	void getDependencyTree_BuildingsLibrary_correctDependenciesOfClasses(){
-		String buildingLibraryPath = System.getenv("BuildingsLibraryPath");
-		tree.generateLibraryDependencies(buildingLibraryPath, "Buildings");
+		String buildingLibraryPath = Utils.getPathAsString("BuildingsLite");
+		tree.generateLibraryDependencies(buildingLibraryPath, "BuildingsLite");
 		assertEquals(
 				booleanDelayExampleClasses,
-				tree.dependenciesMap.get("Buildings.Controls.Discrete.Examples.BooleanDelay")
+				tree.dependenciesMap.get("BuildingsLite.Controls.Discrete.Examples.BooleanDelay")
 						.getAbsolutePathsClassList().stream().sorted().toList()
 					);
 		assertEquals(
 				conductorStepResponseClasses,
-				tree.dependenciesMap.get("Buildings.HeatTransfer.Examples.ConductorStepResponse")
+				tree.dependenciesMap.get("BuildingsLite.HeatTransfer.Examples.ConductorStepResponse")
 						.getAbsolutePathsClassList().stream().sorted().toList()
 		            );
 	}

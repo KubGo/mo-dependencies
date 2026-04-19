@@ -38,6 +38,13 @@ public class DependencyTree {
 							throw new RuntimeException(e);
 						}
 					});
-		});
+				});
 	}
+
+	public void resolveAbsolutePaths(){
+
+	}
+
+
+
 }

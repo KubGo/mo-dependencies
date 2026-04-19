@@ -1,41 +1,42 @@
 package dependencies;
 
 import org.junit.jupiter.api.Test;
+import utils.Utils;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ModelicaFilesStructureTest {
 	@Test
 	void getFilesTreeStructure_BuildingsLibrary_numberOfClassesInPackagesMatch(){
-		String buildingLibraryPath = System.getenv("BuildingsLibraryPath");
+		String buildingLibraryPath = Utils.getPathAsString("BuildingsLite");
 		ModelicaFilesStructure tree = new ModelicaFilesStructure(
 				buildingLibraryPath,
-				"Buildings"
+				"BuildingsLite"
 		);
 		assertEquals(
-				19,
-				tree.tree.get("Buildings").getChildren().size());
+				3,
+				tree.tree.get("BuildingsLite").getChildren().size());
 		assertEquals(
 				1,
-				tree.tree.get("Buildings.Air").getChildren().size());
+				tree.tree.get("BuildingsLite.Airflow").getChildren().size());
 		assertEquals(
 				10,
-				tree.tree.get("Buildings.HeatTransfer.Examples")
+				tree.tree.get("BuildingsLite.HeatTransfer.Examples")
 						.getChildren()
 						.size());
 		assertEquals(
 				"HeatTransfer",
-				tree.tree.get("Buildings.HeatTransfer.Examples")
+				tree.tree.get("BuildingsLite.HeatTransfer.Examples")
 						.getParent()
 						.getClassName());
 		assertEquals(
-				"Tutorial",
-				tree.tree.get("Buildings.Examples.Tutorial.SpaceCooling")
+				"HeatTransfer",
+				tree.tree.get("BuildingsLite.HeatTransfer.Radiosity")
 						.getParent()
 						.getClassName());
 		assertEquals(
 				7,
-				tree.tree.get("Buildings.HeatTransfer.Radiosity")
+				tree.tree.get("BuildingsLite.HeatTransfer.Radiosity")
 						.getChildren()
 						.size()
 					);
