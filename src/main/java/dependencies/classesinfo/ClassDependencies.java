@@ -20,6 +20,7 @@ public class ClassDependencies {
 	private Map<String, String> constrainingClassesMap = new HashMap<>();
 	private Map<String, String> classDefinitionsMap = new HashMap<>();
 	private boolean standardImportsResolved;
+	private boolean classDefinitionsResolved;
 
 	public ClassDependencies(String className, String text) {
 		ModelicaLexer modelicaLexer = new ModelicaLexer(CharStreams.fromString(text));
@@ -36,6 +37,7 @@ public class ClassDependencies {
 		parentClasses = listener.parentClasses;
 		constrainingClassesMap = listener.constrainingClassesMap;
 		classDefinitionsMap = listener.classDefinitionsMap;
+		classDefinitionsResolved = classDefinitionsMap.isEmpty();
 	}
 
 	public List<String> getAbsolutePathsClassList(){
@@ -44,6 +46,7 @@ public class ClassDependencies {
 	}
 
 	public void resolveInternalDependencies(){
+		resolveClassDefinitions();
 		resolverStandardImports();
 	}
 
@@ -58,6 +61,17 @@ public class ClassDependencies {
 				}
 			}
 			standardImportsResolved = true;
+		}
+	}
+
+	private void resolveClassDefinitions(){
+		if (!classDefinitionsResolved){
+			classDefinitionsMap.forEach( (name, classPath) -> {
+				int index = usedClasses.indexOf(name);
+				if (index > 0){
+					usedClasses.set(index, classPath);
+				}
+			} );
 		}
 	}
 }
