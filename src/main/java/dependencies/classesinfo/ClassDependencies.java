@@ -1,6 +1,5 @@
 package dependencies.classesinfo;
 
-import modelica.PathJoiner;
 import modelica.pathresolvers.StandardImportPathResolver;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -10,7 +9,10 @@ import parser.ClassesListener;
 import parser.ModelicaLexer;
 import parser.ModelicaParser;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ClassDependencies {
 	String className;
@@ -20,7 +22,7 @@ public class ClassDependencies {
 	private Map<String, String> constrainingClassesMap = new HashMap<>();
 	private Map<String, String> classDefinitionsMap = new HashMap<>();
 	private boolean standardImportsResolved;
-	private boolean classDefinitionsResolved;
+	private final boolean classDefinitionsResolved;
 
 	public ClassDependencies(String className, String text) {
 		ModelicaLexer modelicaLexer = new ModelicaLexer(CharStreams.fromString(text));
@@ -55,8 +57,9 @@ public class ClassDependencies {
 			StandardImportPathResolver pathResolver = new StandardImportPathResolver();
 			for (int i = 0; i < usedClasses.size(); i++) {
 				for (String importedClass: importedClasses){
-					if (pathResolver.isSubPath(importedClass, usedClasses.get(i))){
-						usedClasses.set(i, PathJoiner.joinPaths(importedClass, usedClasses.get(i)));
+					pathResolver.setImportPath(importedClass);
+					if (pathResolver.isSubPath(usedClasses.get(i))) {
+						usedClasses.set(i, pathResolver.getAbsolutePath(usedClasses.get(i)));
 					}
 				}
 			}

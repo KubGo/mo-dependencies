@@ -29,11 +29,13 @@ public class DependencyTree {
 						String modelicaPath = classInfo.getModelicaPath();
 						String className = classInfo.getClassName();
 						try {
+							ClassDependencies classDependencies = new ClassDependencies(
+									className,
+									modelicaFileReader.readFile(
+											classInfo.path));
+							classDependencies.resolveInternalDependencies();
 							dependenciesMap.put(
-									modelicaPath,
-									new ClassDependencies(
-											className,
-											modelicaFileReader.readFile(classInfo.path)));
+									modelicaPath, classDependencies);
 						} catch (IOException e) {
 							throw new RuntimeException(e);
 						}
