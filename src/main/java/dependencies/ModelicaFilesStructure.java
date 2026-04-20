@@ -18,6 +18,10 @@ public class ModelicaFilesStructure {
 	public ModelicaFilesStructure(){
 
 	}
+
+	public TreeMap<String, PackageInfo> getTree() {
+		return tree;
+	}
 	public ModelicaFilesStructure(String path, String libraryName){
 		resolveFileStructure(path, libraryName);
 	}

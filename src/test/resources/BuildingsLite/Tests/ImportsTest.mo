@@ -1,4 +1,4 @@
-within ModelicaByExample;
+within BuildingsLite.Tests;
 model ImportsTest
   import Modelica.Units.SI;
   import Modelica.Blocks.Sources;

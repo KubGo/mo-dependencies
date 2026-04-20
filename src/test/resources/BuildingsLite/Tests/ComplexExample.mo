@@ -1,4 +1,4 @@
-within Library.Package.CustomPackage;
+within BuildingsLite.Tests;
 model ComplexExample
 
   import Modelica.Units.SI;

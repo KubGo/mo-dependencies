@@ -14,6 +14,11 @@ public class PackageInfo extends ModelicaFileInfo{
 		this.parent = parent;
 	}
 
+	@Override
+	public PackageInfo getParent() {
+		return (parent == null) ? null : (PackageInfo) parent;
+	}
+
 	public PackageInfo(String systemPath, String libraryName){
 		this.modelicaPathConverter.setLibraryName(libraryName);
 		modelicaPathInfo = modelicaPathConverter.convertToModelicaPath(systemPath);
@@ -45,5 +50,20 @@ public class PackageInfo extends ModelicaFileInfo{
 			}
 		}
 		return sb.toString();
+	}
+
+	@Override
+	public ModelicaFileInfo matchPath(String className) {
+		for (ModelicaFileInfo file : children) {
+			if (file.getClassName().equals(className)) {
+				return file;
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public boolean isFinal() {
+		return children.isEmpty();
 	}
 }

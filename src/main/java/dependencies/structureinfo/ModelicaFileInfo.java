@@ -20,7 +20,10 @@ public abstract class ModelicaFileInfo {
 	public String getModelicaPath(){
 		return modelicaPathInfo.path;
 	}
-	public ModelicaFileInfo getParent(){
-		return parent;
-	}
+
+	public abstract ModelicaFileInfo getParent();
+
+	public abstract ModelicaFileInfo matchPath(String className);
+
+	public abstract boolean isFinal();
 }
