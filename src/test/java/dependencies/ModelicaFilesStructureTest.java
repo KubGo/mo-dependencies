@@ -3,7 +3,8 @@ package dependencies;
 import org.junit.jupiter.api.Test;
 import utils.Utils;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class ModelicaFilesStructureTest {
 	@Test
@@ -14,7 +15,7 @@ class ModelicaFilesStructureTest {
 				"BuildingsLite"
 		);
 		assertEquals(
-				4,
+				5,
 				tree.tree.get("BuildingsLite").getChildren().size());
 		assertEquals(
 				1,

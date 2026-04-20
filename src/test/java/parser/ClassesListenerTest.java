@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ClassesListenerTest {
 
@@ -146,7 +146,7 @@ class ClassesListenerTest {
         ClassesListener parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
 
         assertEquals(
-                "Library.Package.CustomPackage",
+                "BuildingsLite.Tests",
                 parsedListener.packageName
         );
     }
