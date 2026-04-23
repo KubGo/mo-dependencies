@@ -9,6 +9,7 @@ model SimpleModel
     Placement(transformation(origin = {50, 50}, extent = {{-10, -10}, {10, 10}})));
   BouncingBall bouncingBall;
   OtherLibrary.HeatTransfer.Conduction.DiscretizedConduction conductionModel;
+
 equation
 
 end SimpleModel;

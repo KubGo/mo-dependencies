@@ -49,9 +49,9 @@ class FileStructurePathResolverTest {
 	}
 
 	@Test
-	void getAbsolutePath_modelInDifferentPackage_getAbsolutePathOfSingleLayer() {
-		String absolutePath = fileStructurePathResolver.getAbsolutePath("HeatTransfer.Conduction.SingleLayer");
-		assertEquals("BuildingsLite.HeatTransfer.Conduction.SingleLayer", absolutePath);
+	void getAbsolutePath_modelInDifferentPackage_getAbsolutePathOfMediumColumn() {
+		String absolutePath = fileStructurePathResolver.getAbsolutePath("Airflow.Multizone.MediumColumn");
+		assertEquals("BuildingsLite.Airflow.Multizone.MediumColumn", absolutePath);
 	}
 
 	@Test
@@ -59,5 +59,19 @@ class FileStructurePathResolverTest {
 		String absolutePath = fileStructurePathResolver.getAbsolutePath(
 				"OtherLibrary.HeatTransfer.Conduction.DiscretizedConduction");
 		assertEquals("OtherLibrary.HeatTransfer.Conduction.DiscretizedConduction", absolutePath);
+
 	}
+
+	@Test
+	void getAbsolutePath_twoSimilarPackageNames_retrieveCorrectAbsolutePath() {
+		String absolutePath = fileStructurePathResolver.getAbsolutePath("HeatTransfer.Conduction.SingleLayer");
+		assertEquals("BuildingsLite.HeatTransfer.Conduction.SingleLayer", absolutePath);
+	}
+
+	@Test
+	void getAbsolutePath_twoSimilarPackageNames_retrieveCorrectAbsolutePathOfMockModel() {
+		String absolutePath = fileStructurePathResolver.getAbsolutePath("HeatTransfer.Conduction.DummyModel");
+		assertEquals("BuildingsLite.Tests.HeatTransfer.Conduction.DummyModel", absolutePath);
+	}
+
 }

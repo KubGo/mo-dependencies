@@ -3,15 +3,14 @@ package modelica.pathresolvers;
 import dependencies.structureinfo.ModelicaFileInfo;
 import dependencies.structureinfo.PackageInfo;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.TreeMap;
+import java.util.*;
 
 public class FileStructurePathResolver implements IPathResolver {
 	private final TreeMap<String, PackageInfo> filesTree;
 	private List<String> currentPathToResolve = List.of();
 	private int pathIndex = 0;
 	private PackageInfo currentPackage = null;
+	private final Set<String> visitedPaths = new HashSet<>();
 
 
 	public FileStructurePathResolver(TreeMap<String, PackageInfo> filesTree) {
@@ -32,10 +31,17 @@ public class FileStructurePathResolver implements IPathResolver {
 		// TODO(Refactor method)
 		setCurrentPathToResolve(pathToResolve);
 		while (currentPackage != null) {
-			ModelicaFileInfo file = currentPackage.matchPath(currentPathToResolve.get(pathIndex));
+			ModelicaFileInfo file = getFile(currentPathToResolve.get(pathIndex));
 			if (file == null) {
-				setCurrentPackage(currentPackage.getParent());
-				continue;
+				if (pathIndex == 0) {
+					setCurrentPackage(currentPackage.getParent());
+					continue;
+				}
+				else {
+					pathIndex--;
+					setCurrentPackage(currentPackage.getParent());
+					continue;
+				}
 			}
 			if (file.isFinal() && pathIndex == currentPathToResolve.size() - 1) {
 				return file.getModelicaPath();
@@ -49,6 +55,18 @@ public class FileStructurePathResolver implements IPathResolver {
 			boolean hasNext = nextClass();
 		}
 		return pathToResolve;
+	}
+
+	private ModelicaFileInfo getFile(String path) {
+		ModelicaFileInfo file = currentPackage.matchPath(path);
+		if (file == null) {
+			return null;
+		}
+		if (visitedPaths.contains(file.getModelicaPath())) {
+			return null;
+		}
+		visitedPaths.add(file.getModelicaPath());
+		return file;
 	}
 
 	private boolean nextClass() {
