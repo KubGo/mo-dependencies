@@ -21,13 +21,13 @@ class FileStructurePathResolverTest {
 
 	@Test
 	void isSubPath_correctPath_returnTrue() {
-		fileStructurePathResolver.setCurrentPathToResolve("BouncingBall");
+		fileStructurePathResolver.setPathsToResolve("BouncingBall");
 		assertTrue(fileStructurePathResolver.isSubPath("BouncingBall"));
 	}
 
 	@Test
 	void isSubPath_incorrectPath_returnFalse() {
-		fileStructurePathResolver.setCurrentPathToResolve("BouncingBall");
+		fileStructurePathResolver.setPathsToResolve("BouncingBall");
 		assertFalse(fileStructurePathResolver.isSubPath("ComplexExample"));
 	}
 

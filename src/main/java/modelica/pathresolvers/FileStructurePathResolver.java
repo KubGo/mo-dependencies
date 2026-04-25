@@ -7,9 +7,10 @@ import java.util.*;
 
 public class FileStructurePathResolver implements IPathResolver {
 	private final TreeMap<String, PackageInfo> filesTree;
-	private List<String> currentPathToResolve = List.of();
+	private List<String> pathsToResolve = List.of();
 	private int pathIndex = 0;
 	private PackageInfo currentPackage = null;
+	private PackageInfo packageToSearch = null;
 	private final Set<String> visitedPaths = new HashSet<>();
 
 
@@ -17,9 +18,13 @@ public class FileStructurePathResolver implements IPathResolver {
 		this.filesTree = filesTree;
 	}
 
+	public PackageInfo getPackageInfoByKey(String key) {
+		return filesTree.get(key);
+	}
+
 	@Override
 	public boolean isSubPath(String pathToTest) {
-		return currentPathToResolve.get(pathIndex).equals(pathToTest);
+		return pathsToResolve.get(pathIndex).equals(pathToTest);
 	}
 
 	/**
@@ -29,21 +34,22 @@ public class FileStructurePathResolver implements IPathResolver {
 	 */
 	public String getAbsolutePath(String pathToResolve) {
 		// TODO(Refactor method)
-		setCurrentPathToResolve(pathToResolve);
+		resetCurrentPackage();
+		setPathsToResolve(pathToResolve);
 		while (currentPackage != null) {
-			ModelicaFileInfo file = getFile(currentPathToResolve.get(pathIndex));
+			ModelicaFileInfo file = getFile(pathsToResolve.get(pathIndex));
 			if (file == null) {
 				if (pathIndex == 0) {
-					setCurrentPackage(currentPackage.getParent());
+					currentPackage = currentPackage.getParent();
 					continue;
 				}
 				else {
 					pathIndex--;
-					setCurrentPackage(currentPackage.getParent());
+					currentPackage = currentPackage.getParent();
 					continue;
 				}
 			}
-			if (file.isFinal() && pathIndex == currentPathToResolve.size() - 1) {
+			if (file.isFinal() && pathIndex == pathsToResolve.size() - 1) {
 				return file.getModelicaPath();
 			}
 			if (file instanceof PackageInfo) {
@@ -71,15 +77,22 @@ public class FileStructurePathResolver implements IPathResolver {
 
 	private boolean nextClass() {
 		pathIndex++;
-		return pathIndex < currentPathToResolve.size();
+		return pathIndex < pathsToResolve.size();
 	}
 
 	public void setCurrentPackage(PackageInfo packageInfo) {
 		currentPackage = packageInfo;
+		packageToSearch = packageInfo;
+	}
+
+	private void resetCurrentPackage() {
+		currentPackage = packageToSearch;
+		pathIndex = 0;
+		visitedPaths.clear();
 	}
 
 
-	public void setCurrentPathToResolve(String currentPathToResolve) {
-		this.currentPathToResolve = Arrays.stream(currentPathToResolve.split("\\.")).toList();
+	public void setPathsToResolve(String pathsToResolve) {
+		this.pathsToResolve = Arrays.stream(pathsToResolve.split("\\.")).toList();
 	}
 }

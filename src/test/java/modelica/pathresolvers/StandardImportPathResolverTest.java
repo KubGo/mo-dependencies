@@ -37,9 +37,7 @@ class StandardImportPathResolverTest {
 	void isSubPath_differentTopPackage_importedClassNotDiscovered() {
 		pathResolver.setImportPath("Modelica.Units.SI");
 		assertFalse(
-				pathResolver.isSubPath(
-						"Package.SI.Length")
-		           );
+				pathResolver.isSubPath("Package.SI.Length"));
 	}
 
 	@Test

@@ -1,5 +1,7 @@
 package dependencies.classesinfo;
 
+import dependencies.structureinfo.PackageInfo;
+import modelica.pathresolvers.FileStructurePathResolver;
 import modelica.pathresolvers.StandardImportPathResolver;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -23,6 +25,7 @@ public class ClassDependencies {
 	private Map<String, String> classDefinitionsMap = new HashMap<>();
 	private boolean standardImportsResolved;
 	private final boolean classDefinitionsResolved;
+	private final String packageName;
 
 	public ClassDependencies(String className, String text) {
 		ModelicaLexer modelicaLexer = new ModelicaLexer(CharStreams.fromString(text));
@@ -40,16 +43,25 @@ public class ClassDependencies {
 		constrainingClassesMap = listener.constrainingClassesMap;
 		classDefinitionsMap = listener.classDefinitionsMap;
 		classDefinitionsResolved = classDefinitionsMap.isEmpty();
+		packageName = listener.packageName;
 	}
 
 	public List<String> getAbsolutePathsClassList(){
-		resolverStandardImports();
 		return usedClasses.stream().toList();
 	}
 
 	public void resolveInternalDependencies(){
 		resolveClassDefinitions();
 		resolverStandardImports();
+	}
+
+	public void resolveLibraryDependencies(FileStructurePathResolver pathResolver) {
+		PackageInfo currentPackage = pathResolver.getPackageInfoByKey(packageName);
+		if (currentPackage == null) {
+			return;
+		}
+		pathResolver.setCurrentPackage(currentPackage);
+		usedClasses.replaceAll(pathResolver::getAbsolutePath);
 	}
 
 	private void resolverStandardImports(){

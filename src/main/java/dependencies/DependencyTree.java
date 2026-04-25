@@ -3,6 +3,7 @@ package dependencies;
 import dependencies.classesinfo.ClassDependencies;
 import dependencies.structureinfo.ClassInfo;
 import files.ModelicaFileReader;
+import modelica.pathresolvers.FileStructurePathResolver;
 
 import java.io.IOException;
 import java.util.List;
@@ -13,6 +14,7 @@ public class DependencyTree {
 	ModelicaFilesStructure filesStructure = new ModelicaFilesStructure();
 	ModelicaFileReader modelicaFileReader = new ModelicaFileReader();
 	Map<String, ClassDependencies> dependenciesMap = new TreeMap<>();
+	private FileStructurePathResolver fileStructurePathResolver;
 
 	public DependencyTree(){
 
@@ -22,10 +24,13 @@ public class DependencyTree {
 			String path,
 			String libraryName){
 		filesStructure.resolveFileStructure(path, libraryName);
+		fileStructurePathResolver = new FileStructurePathResolver(filesStructure.tree);
+
 		filesStructure.tree.forEach(
 				(packageName, packageInfo) -> {
 					List<ClassInfo> classInfoList = packageInfo.getClassDefinitions();
 					classInfoList.forEach(classInfo -> {
+						fileStructurePathResolver.setCurrentPackage(packageInfo);
 						String modelicaPath = classInfo.getModelicaPath();
 						String className = classInfo.getClassName();
 						try {
@@ -34,6 +39,7 @@ public class DependencyTree {
 									modelicaFileReader.readFile(
 											classInfo.path));
 							classDependencies.resolveInternalDependencies();
+							classDependencies.resolveLibraryDependencies(fileStructurePathResolver);
 							dependenciesMap.put(
 									modelicaPath, classDependencies);
 						} catch (IOException e) {
@@ -42,11 +48,4 @@ public class DependencyTree {
 					});
 				});
 	}
-
-	public void resolveAbsolutePaths(){
-
-	}
-
-
-
 }
