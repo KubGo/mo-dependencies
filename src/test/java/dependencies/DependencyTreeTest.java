@@ -1,5 +1,6 @@
 package dependencies;
 
+import dependencies.writedependencies.JsonDependenciesWriter;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import utils.Utils;
@@ -85,5 +86,11 @@ class DependencyTreeTest {
 								.stream()
 								.sorted()
 								.toList()));
+	}
+
+	@Test
+	void saveDependencyTree_BuildingsLite_allWritersWork() {
+		JsonDependenciesWriter jsonDependenciesWriter = new JsonDependenciesWriter();
+		tree.saveDependencies(jsonDependenciesWriter);
 	}
 }

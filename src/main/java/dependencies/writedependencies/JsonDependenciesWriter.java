@@ -25,14 +25,18 @@ public class JsonDependenciesWriter extends IDependenciesWriter {
 		File file = new File(path);
 
 		try {
-			fileWriter = new FileWriter(Paths.get(file.toPath().toString(), getFileName()).toString());
+			if (file.exists()) {
+				file.delete();
+			}
+			fileWriter = new FileWriter(Paths.get(file.toPath().toString(), getFileName()).toString(), true);
+			fileWriter.write("");
 		} catch (IOException e) {
 			throw new RuntimeException("Couldn't write to a file");
 		}
 
 		dependencies.reset();
 		while (dependencies.hasNextClassDependencies()) {
-			gson.toJson(dependencies.getNextClassDependencies(), fileWriter);
+			gson.toJson(dependencies.getNextClassDependencies());
 		}
 	}
 }
