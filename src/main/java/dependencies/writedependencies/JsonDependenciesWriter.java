@@ -8,7 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Paths;
 
-public class JsonDependenciesWriter extends IDependenciesWriter {
+public class JsonDependenciesWriter extends AbstractDependenciesWriter {
 	public JsonDependenciesWriter(String suffix) {
 		extension = ".json";
 		this.suffix = suffix;

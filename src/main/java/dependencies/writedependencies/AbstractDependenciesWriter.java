@@ -4,7 +4,7 @@ import dependencies.DependencyTree;
 
 import java.io.IOException;
 
-public abstract class IDependenciesWriter {
+public abstract class AbstractDependenciesWriter {
 	protected String extension;
 	protected String path;
 	protected String suffix;

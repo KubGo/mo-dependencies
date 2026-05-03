@@ -3,7 +3,7 @@ package dependencies;
 import dependencies.classesinfo.ClassDependencies;
 import dependencies.classesinfo.DependenciesRecord;
 import dependencies.structureinfo.ClassInfo;
-import dependencies.writedependencies.IDependenciesWriter;
+import dependencies.writedependencies.AbstractDependenciesWriter;
 import files.ModelicaFileReader;
 import modelica.pathresolvers.FileStructurePathResolver;
 
@@ -73,8 +73,8 @@ public class DependencyTree {
 		currentPathIndex = 0;
 	}
 
-	public void saveDependencies(IDependenciesWriter... writers) {
-		for (IDependenciesWriter writer : writers) {
+	public void saveDependencies(AbstractDependenciesWriter... writers) {
+		for (AbstractDependenciesWriter writer : writers) {
 			writer.setLibraryName(libraryName);
 			writer.setPath(libraryPath);
 			try {
