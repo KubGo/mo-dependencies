@@ -5,6 +5,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import utils.Utils;
 
+import java.io.IOException;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class JsonDependenciesWriterTest {
@@ -36,6 +38,10 @@ class JsonDependenciesWriterTest {
 
 	@Test
 	void writeDependencies_BuildingsLite_dependenciesSavedCorrectly() {
-		jsonDependenciesWriter.writeDependencies(tree);
+		try {
+			jsonDependenciesWriter.writeDependencies(tree);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 }

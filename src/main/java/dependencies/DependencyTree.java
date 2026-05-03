@@ -77,7 +77,11 @@ public class DependencyTree {
 		for (IDependenciesWriter writer : writers) {
 			writer.setLibraryName(libraryName);
 			writer.setPath(libraryPath);
-			writer.writeDependencies(this);
+			try {
+				writer.writeDependencies(this);
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
 		}
 	}
 }

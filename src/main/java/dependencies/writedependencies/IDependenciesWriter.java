@@ -2,13 +2,15 @@ package dependencies.writedependencies;
 
 import dependencies.DependencyTree;
 
+import java.io.IOException;
+
 public abstract class IDependenciesWriter {
 	protected String extension;
 	protected String path;
 	protected String suffix;
 	protected String libraryName;
 
-	public abstract void writeDependencies(DependencyTree dependencies);
+	public abstract void writeDependencies(DependencyTree dependencies) throws IOException;
 
 	public String getFileName() {
 		return libraryName + suffix + extension;

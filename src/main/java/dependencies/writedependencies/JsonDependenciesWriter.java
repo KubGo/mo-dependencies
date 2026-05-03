@@ -1,6 +1,6 @@
 package dependencies.writedependencies;
 
-import com.google.gson.Gson;
+
 import dependencies.DependencyTree;
 
 import java.io.File;
@@ -19,24 +19,26 @@ public class JsonDependenciesWriter extends IDependenciesWriter {
 	}
 
 	@Override
-	public void writeDependencies(DependencyTree dependencies) {
-		Gson gson = new Gson();
+	public void writeDependencies(DependencyTree dependencies) throws IOException {
 		FileWriter fileWriter;
-		File file = new File(path);
-
-		try {
-			if (file.exists()) {
-				file.delete();
-			}
-			fileWriter = new FileWriter(Paths.get(file.toPath().toString(), getFileName()).toString(), true);
-			fileWriter.write("");
-		} catch (IOException e) {
-			throw new RuntimeException("Couldn't write to a file");
+		String file_name = Paths.get(path, getFileName()).toString();
+		File file = new File(file_name);
+		if (file.exists()) {
+			boolean deleted = file.delete();
+			System.out.println(deleted ? "Deleted " + file_name : "Couldn't delete " + file_name);
 		}
+		fileWriter = new FileWriter(file_name, true);
+		fileWriter.write("{[");
 
 		dependencies.reset();
-		while (dependencies.hasNextClassDependencies()) {
-			gson.toJson(dependencies.getNextClassDependencies());
+		if (dependencies.hasNextClassDependencies()){
+			fileWriter.write(dependencies.getNextClassDependencies().toString());
 		}
+		while (dependencies.hasNextClassDependencies()) {
+			fileWriter.write(", ");
+			fileWriter.write(dependencies.getNextClassDependencies().toString());
+		}
+		fileWriter.write("]}");
+		fileWriter.close();
 	}
 }
