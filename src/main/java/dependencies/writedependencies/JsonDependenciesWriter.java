@@ -28,7 +28,7 @@ public class JsonDependenciesWriter extends IDependenciesWriter {
 			System.out.println(deleted ? "Deleted " + file_name : "Couldn't delete " + file_name);
 		}
 		fileWriter = new FileWriter(file_name, true);
-		fileWriter.write("{[");
+		fileWriter.write("[");
 
 		dependencies.reset();
 		if (dependencies.hasNextClassDependencies()){
@@ -38,7 +38,7 @@ public class JsonDependenciesWriter extends IDependenciesWriter {
 			fileWriter.write(", ");
 			fileWriter.write(dependencies.getNextClassDependencies().toString());
 		}
-		fileWriter.write("]}");
+		fileWriter.write("]");
 		fileWriter.close();
 	}
 }
