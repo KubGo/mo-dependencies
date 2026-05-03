@@ -76,6 +76,8 @@ public class DependencyTree {
 	public void saveDependencies(IDependenciesWriter... writers) {
 		for (IDependenciesWriter writer : writers) {
 			writer.setLibraryName(libraryName);
+			writer.setPath(libraryPath);
+			writer.writeDependencies(this);
 		}
 	}
 }

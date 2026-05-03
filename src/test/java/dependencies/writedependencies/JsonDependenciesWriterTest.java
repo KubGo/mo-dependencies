@@ -28,6 +28,13 @@ class JsonDependenciesWriterTest {
 	}
 
 	@Test
+	void getFileName_BuildingsLite_correctFileNameWithDifferentExtension() {
+		jsonDependenciesWriter.setSuffix("_dep");
+		assertEquals("BuildingsLite_dep.json", jsonDependenciesWriter.getFileName());
+	}
+
+
+	@Test
 	void writeDependencies_BuildingsLite_dependenciesSavedCorrectly() {
 		jsonDependenciesWriter.writeDependencies(tree);
 	}

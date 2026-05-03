@@ -1,6 +1,6 @@
 package dependencies;
 
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import utils.Utils;
 
@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class DependencyTreeTest {
 
-	DependencyTree tree;
+	static DependencyTree tree;
 
 	private final List<String> booleanDelayExampleClasses = Stream.of(
 			"BuildingsLite.Controls.Discrete.BooleanDelay",
@@ -44,8 +44,8 @@ class DependencyTreeTest {
 //			"Modelica.Fluid.Types.Dynamics.FixedInitial" TODO(Consider redefinitions and assignments)
 	                                                                   ).sorted().toList();
 
-	@BeforeEach
-	void setUp() {
+	@BeforeAll
+	static void setUp() {
 		tree = new DependencyTree();
 		String buildingLibraryPath = Utils.getPathAsString("BuildingsLite");
 		tree.generateLibraryDependencies(buildingLibraryPath, "BuildingsLite");

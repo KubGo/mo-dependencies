@@ -21,4 +21,8 @@ public abstract class IDependenciesWriter {
 	public void setPath(String path) {
 		this.path = path;
 	}
+
+	public void setSuffix(String suffix) {
+		this.suffix = suffix;
+	}
 }
