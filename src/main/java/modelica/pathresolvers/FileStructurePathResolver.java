@@ -33,32 +33,23 @@ public class FileStructurePathResolver implements IPathResolver {
 	 * @return - absolute path or current used path if absolute one wasn't found.
 	 */
 	public String getAbsolutePath(String pathToResolve) {
-		// TODO(Refactor method)
 		resetCurrentPackage();
 		setPathsToResolve(pathToResolve);
-		while (currentPackage != null) {
+		while (continueSearch()) {
 			ModelicaFileInfo file = getFile(pathsToResolve.get(pathIndex));
-			if (file == null) {
-				if (pathIndex == 0) {
-					currentPackage = currentPackage.getParent();
-					continue;
-				}
-				else {
-					pathIndex--;
-					currentPackage = currentPackage.getParent();
-					continue;
-				}
+			if (!checkIfThePathMatches(file)) {
+				continue;
 			}
-			if (file.isFinal() && pathIndex == pathsToResolve.size() - 1) {
-				return file.getModelicaPath();
+			if (isThisPathFinal(file)) {
+				return file != null ? file.getModelicaPath() : pathToResolve;
 			}
 			if (file instanceof PackageInfo) {
 				currentPackage = (PackageInfo) file;
 			}
 			else {
-				currentPackage = (PackageInfo) file.getParent();
+				currentPackage = (PackageInfo) (file != null ? file.getParent() : null);
 			}
-			boolean hasNext = nextClass();
+			nextClass();
 		}
 		return pathToResolve;
 	}
@@ -75,9 +66,30 @@ public class FileStructurePathResolver implements IPathResolver {
 		return file;
 	}
 
-	private boolean nextClass() {
+	private void nextClass() {
 		pathIndex++;
-		return pathIndex < pathsToResolve.size();
+	}
+
+	private boolean isThisPathFinal(ModelicaFileInfo file) {
+		if (pathIndex < pathsToResolve.size() - 1) {
+			return false;
+		}
+		return file.isFinal();
+	}
+
+	private boolean checkIfThePathMatches(ModelicaFileInfo file) {
+		if (file == null) {
+			if (pathIndex != 0) {
+				pathIndex--;
+			}
+			currentPackage = currentPackage.getParent();
+			return false;
+		}
+		return true;
+	}
+
+	private boolean continueSearch() {
+		return currentPackage != null;
 	}
 
 	public void setCurrentPackage(PackageInfo packageInfo) {
