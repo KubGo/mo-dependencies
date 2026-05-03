@@ -89,4 +89,8 @@ public class ClassDependencies {
 			} );
 		}
 	}
+
+	public DependenciesRecord toDependenciesRecord() {
+		return new DependenciesRecord(packageName + "." + className, getAbsolutePathsClassList());
+	}
 }
