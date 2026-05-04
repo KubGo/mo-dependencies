@@ -3,7 +3,7 @@ package dependencies.writedependencies;
 
 import com.google.gson.Gson;
 import dependencies.DependencyTree;
-import dependencies.classesinfo.DependenciesRecord;
+import dependencies.classesinfo.ClassDependencies;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -35,11 +35,11 @@ public class JsonDependenciesWriter extends AbstractDependenciesWriter {
 		fileWriter = new FileWriter(file_name, true);
 		Gson gson = new Gson();
 
-		List<DependenciesRecord> dependenciesRecordList = new ArrayList<>();
+		List<ClassDependencies> classDependenciesList = new ArrayList<>();
 		while (dependencies.hasNextClassDependencies()) {
-			dependenciesRecordList.add(dependencies.getNextClassDependencies());
+			classDependenciesList.add(dependencies.getNextClassDependencies());
 		}
-		gson.toJson(dependenciesRecordList, fileWriter);
+		gson.toJson(classDependenciesList, fileWriter);
 
 		fileWriter.close();
 	}

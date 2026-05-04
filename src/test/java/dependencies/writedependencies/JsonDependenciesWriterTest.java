@@ -1,27 +1,41 @@
 package dependencies.writedependencies;
 
 import dependencies.DependencyTree;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import utils.Utils;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class JsonDependenciesWriterTest {
 
 	static DependencyTree tree;
+	static String buildingLibraryPath;
 
 	static JsonDependenciesWriter jsonDependenciesWriter = new JsonDependenciesWriter();
 
 	@BeforeAll
 	static void setUp() {
 		tree = new DependencyTree();
-		String buildingLibraryPath = Utils.getPathAsString("BuildingsLite");
+		buildingLibraryPath = Utils.getPathAsString("BuildingsLite");
 		tree.generateLibraryDependencies(buildingLibraryPath, "BuildingsLite");
 		jsonDependenciesWriter.setLibraryName("BuildingsLite");
 		jsonDependenciesWriter.setPath(buildingLibraryPath);
+	}
+
+	@AfterAll
+	static void cleanUp() {
+		try {
+			File file = new File(Path.of(buildingLibraryPath, "BuildingsLite_dependencies.json").toUri());
+			if (file.exists()) file.delete();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Test

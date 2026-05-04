@@ -1,7 +1,7 @@
 package dependencies;
 
 import dependencies.classesinfo.ClassDependencies;
-import dependencies.classesinfo.DependenciesRecord;
+import dependencies.classesinfo.ClassDependenciesResolver;
 import dependencies.structureinfo.ClassInfo;
 import dependencies.writedependencies.AbstractDependenciesWriter;
 import files.ModelicaFileReader;
@@ -16,7 +16,7 @@ import java.util.TreeMap;
 public class DependencyTree {
 	ModelicaFilesStructure filesStructure = new ModelicaFilesStructure();
 	ModelicaFileReader modelicaFileReader = new ModelicaFileReader();
-	Map<String, ClassDependencies> dependenciesMap = new TreeMap<>();
+	Map<String, ClassDependenciesResolver> dependenciesMap = new TreeMap<>();
 	private FileStructurePathResolver fileStructurePathResolver;
 	private String libraryName = "";
 	private String libraryPath;
@@ -44,14 +44,13 @@ public class DependencyTree {
 						String modelicaPath = classInfo.getModelicaPath();
 						String className = classInfo.getClassName();
 						try {
-							ClassDependencies classDependencies = new ClassDependencies(
+							ClassDependenciesResolver classDependenciesResolver = new ClassDependenciesResolver(
 									className,
 									modelicaFileReader.readFile(
 											classInfo.path));
-							classDependencies.resolveInternalDependencies();
-							classDependencies.resolveLibraryDependencies(fileStructurePathResolver);
-							dependenciesMap.put(
-									modelicaPath, classDependencies);
+							classDependenciesResolver.resolveInternalDependencies();
+							classDependenciesResolver.resolveLibraryDependencies(fileStructurePathResolver);
+							dependenciesMap.put(modelicaPath, classDependenciesResolver);
 						} catch (IOException e) {
 							throw new RuntimeException(e);
 						}
@@ -60,9 +59,9 @@ public class DependencyTree {
 		keys = new ArrayList<>(dependenciesMap.keySet());
 	}
 
-	public DependenciesRecord getNextClassDependencies() {
+	public ClassDependencies getNextClassDependencies() {
 		currentPathIndex++;
-		return dependenciesMap.get(keys.get(currentPathIndex)).toDependenciesRecord();
+		return dependenciesMap.get(keys.get(currentPathIndex)).toClassDependencies();
 	}
 
 	public boolean hasNextClassDependencies() {
