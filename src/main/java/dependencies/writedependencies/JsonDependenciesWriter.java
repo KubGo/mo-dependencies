@@ -1,12 +1,16 @@
 package dependencies.writedependencies;
 
 
+import com.google.gson.Gson;
 import dependencies.DependencyTree;
+import dependencies.classesinfo.DependenciesRecord;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Paths;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
 public class JsonDependenciesWriter extends AbstractDependenciesWriter {
 	public JsonDependenciesWriter(String suffix) {
@@ -21,24 +25,22 @@ public class JsonDependenciesWriter extends AbstractDependenciesWriter {
 	@Override
 	public void writeDependencies(DependencyTree dependencies) throws IOException {
 		FileWriter fileWriter;
-		String file_name = Paths.get(path, getFileName()).toString();
+		String file_name = Path.of(path, getFileName()).toString();
 		File file = new File(file_name);
+
 		if (file.exists()) {
 			boolean deleted = file.delete();
 			System.out.println(deleted ? "Deleted " + file_name : "Couldn't delete " + file_name);
 		}
 		fileWriter = new FileWriter(file_name, true);
-		fileWriter.write("[");
+		Gson gson = new Gson();
 
-		dependencies.reset();
-		if (dependencies.hasNextClassDependencies()){
-			fileWriter.write(dependencies.getNextClassDependencies().toString());
-		}
+		List<DependenciesRecord> dependenciesRecordList = new ArrayList<>();
 		while (dependencies.hasNextClassDependencies()) {
-			fileWriter.write(", ");
-			fileWriter.write(dependencies.getNextClassDependencies().toString());
+			dependenciesRecordList.add(dependencies.getNextClassDependencies());
 		}
-		fileWriter.write("]");
+		gson.toJson(dependenciesRecordList, fileWriter);
+
 		fileWriter.close();
 	}
 }

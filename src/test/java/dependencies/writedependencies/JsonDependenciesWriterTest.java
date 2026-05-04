@@ -1,7 +1,7 @@
 package dependencies.writedependencies;
 
 import dependencies.DependencyTree;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import utils.Utils;
 
@@ -11,12 +11,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class JsonDependenciesWriterTest {
 
-	DependencyTree tree;
+	static DependencyTree tree;
 
-	JsonDependenciesWriter jsonDependenciesWriter = new JsonDependenciesWriter();
+	static JsonDependenciesWriter jsonDependenciesWriter = new JsonDependenciesWriter();
 
-	@BeforeEach
-	void setUp() {
+	@BeforeAll
+	static void setUp() {
 		tree = new DependencyTree();
 		String buildingLibraryPath = Utils.getPathAsString("BuildingsLite");
 		tree.generateLibraryDependencies(buildingLibraryPath, "BuildingsLite");

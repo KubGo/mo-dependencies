@@ -9,8 +9,8 @@ import parser.ModelicaLexer;
 import parser.ModelicaListener;
 import parser.ModelicaParser;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.Objects;
 
 public class Utils {
     public final static String BouncingBall = "BuildingsLite/Tests/BouncingBall.mo";
@@ -18,9 +18,8 @@ public class Utils {
     public final static String ComplexExample = "BuildingsLite/Tests/ComplexExample.mo";
     public final static String BuildingsLite = "BuildingsLite";
     public static String getPathAsString(String resourceName){
-        return Objects.requireNonNull(
-                        Utils.class.getClassLoader().getResource(resourceName))
-                .getPath();
+        File file = new File("src/test/resources/" + resourceName);
+        return file.getAbsolutePath();
     }
     public static String getModelicaTextFromResources(String resourceName) throws IOException {
         ModelicaFileReader modelicaFileReader = new ModelicaFileReader();
