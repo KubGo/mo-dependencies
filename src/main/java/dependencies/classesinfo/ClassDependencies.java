@@ -1,5 +1,6 @@
 package dependencies.classesinfo;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class ClassDependencies {
@@ -18,5 +19,9 @@ public class ClassDependencies {
                 ", ", dependencies.stream()
                         .map(it -> "\"" + it + "\"")
                         .toList()) + "]}";
+    }
+
+    public boolean isAffected(String... modelicaClass) {
+        return !Arrays.stream(modelicaClass).filter(it -> dependencies.contains(it)).toList().isEmpty();
     }
 }
