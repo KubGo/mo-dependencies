@@ -51,10 +51,10 @@ class JsonDependenciesReaderTest {
     void readDependencies_BuildingsLite_verifyDependenciesMatch() {
         jsonDependenciesReader = new JsonDependenciesReader(Utils.getPathAsString(Utils.BuildingsLite));
         List<ClassDependencies> dependencies = jsonDependenciesReader.readDependencies();
-        tree.reset();
+        List<ClassDependencies> actualDependencies = tree.getAllClassDependencies();
         int i = 0;
-        while (tree.hasNextClassDependencies()) {
-            assertEquals(tree.getNextClassDependencies().toString(), dependencies.get(i).toString());
+        while (i < actualDependencies.size()) {
+            assertEquals(actualDependencies.get(i).toString(), dependencies.get(i).toString());
             i++;
         }
     }

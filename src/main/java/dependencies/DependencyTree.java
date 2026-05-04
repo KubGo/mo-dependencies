@@ -8,7 +8,6 @@ import files.ModelicaFileReader;
 import modelica.pathresolvers.FileStructurePathResolver;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -20,9 +19,6 @@ public class DependencyTree {
 	private FileStructurePathResolver fileStructurePathResolver;
 	private String libraryName = "";
 	private String libraryPath;
-
-	private int currentPathIndex = 0;
-	private List<String> keys = new ArrayList<>();
 
 	public DependencyTree(){
 
@@ -56,20 +52,10 @@ public class DependencyTree {
 						}
 					});
 				});
-		keys = new ArrayList<>(dependenciesMap.keySet());
 	}
 
-	public ClassDependencies getNextClassDependencies() {
-		currentPathIndex++;
-		return dependenciesMap.get(keys.get(currentPathIndex)).toClassDependencies();
-	}
-
-	public boolean hasNextClassDependencies() {
-		return currentPathIndex + 1 < keys.size();
-	}
-
-	public void reset() {
-		currentPathIndex = 0;
+	public List<ClassDependencies> getAllClassDependencies() {
+		return dependenciesMap.values().stream().map(ClassDependenciesResolver::toClassDependencies).toList();
 	}
 
 	public void saveDependencies(AbstractDependenciesWriter... writers) {

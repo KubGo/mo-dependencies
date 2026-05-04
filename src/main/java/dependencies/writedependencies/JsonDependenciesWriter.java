@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.List;
 
 public class JsonDependenciesWriter extends AbstractDependenciesWriter {
@@ -35,12 +34,8 @@ public class JsonDependenciesWriter extends AbstractDependenciesWriter {
 		fileWriter = new FileWriter(file_name, true);
 		Gson gson = new Gson();
 
-		List<ClassDependencies> classDependenciesList = new ArrayList<>();
-		while (dependencies.hasNextClassDependencies()) {
-			classDependenciesList.add(dependencies.getNextClassDependencies());
-		}
+		List<ClassDependencies> classDependenciesList = dependencies.getAllClassDependencies();
 		gson.toJson(classDependenciesList, fileWriter);
-
 		fileWriter.close();
 	}
 }
