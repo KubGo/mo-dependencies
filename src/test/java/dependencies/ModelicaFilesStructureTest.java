@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 class ModelicaFilesStructureTest {
 	@Test
 	void getFilesTreeStructure_BuildingsLibrary_numberOfClassesInPackagesMatch(){
-		String buildingLibraryPath = Utils.getPathAsString("BuildingsLite");
+		String buildingLibraryPath = Utils.getPathAsString(Utils.BuildingsLite);
 		ModelicaFilesStructure tree = new ModelicaFilesStructure(
 				buildingLibraryPath,
 				"BuildingsLite"
@@ -45,7 +45,7 @@ class ModelicaFilesStructureTest {
 
 	@Test
 	void filterNonModelicaPackages_BuildingLibrary_nonModelicaDirectoryNotIncluded(){
-		String buildingLibraryPath = System.getenv("BuildingsLibraryPath");
+		String buildingLibraryPath = Utils.getPathAsString(Utils.BuildingsLite);
 		ModelicaFilesStructure tree = new ModelicaFilesStructure(
 				buildingLibraryPath,
 				"Buildings"
