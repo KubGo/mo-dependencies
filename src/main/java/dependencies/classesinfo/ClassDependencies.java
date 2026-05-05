@@ -59,4 +59,8 @@ public class ClassDependencies {
     public boolean isAffected(String... modelicaClass) {
         return !Arrays.stream(modelicaClass).filter(it -> dependencies.contains(it)).toList().isEmpty();
     }
+
+    public void setAreAllDependenciesResolved(boolean areResolved){
+        this.areAllDependenciesResolved = areResolved;
+    }
 }

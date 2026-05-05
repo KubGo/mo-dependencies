@@ -54,6 +54,10 @@ public class DependencyTree {
 				});
 	}
 
+	public void includeParentsDependentClasses(){
+
+	}
+
 	public List<ClassDependencies> getAllClassDependencies() {
 		return dependenciesMap.values().stream().map(ClassDependenciesResolver::toClassDependencies).toList();
 	}

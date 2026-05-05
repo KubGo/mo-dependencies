@@ -26,6 +26,21 @@ public class ClassDependenciesResolver {
 	private final Map<String, String> classDefinitionsMap;
 	private boolean standardImportsResolved;
 
+
+	public List<String> getParentClasses() {
+		return parentClasses;
+	}
+
+	public boolean isParentDependenciesResolved() {
+		return parentDependenciesResolved;
+	}
+
+	public void setParentDependenciesResolved(boolean parentDependenciesResolved) {
+		this.parentDependenciesResolved = parentDependenciesResolved;
+	}
+
+	private boolean parentDependenciesResolved = false;
+
 	public ClassDependenciesResolver(String className, String text) {
 		ModelicaLexer modelicaLexer = new ModelicaLexer(CharStreams.fromString(text));
 		CommonTokenStream tokens = new CommonTokenStream(modelicaLexer);
