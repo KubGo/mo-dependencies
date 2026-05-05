@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,14 +14,20 @@ class ClassDependenciesTest {
 
     @BeforeAll
     static void setUp() {
-        classDependencies = new ClassDependencies(
-                "ModelicaClass", List.of("Modelica.Units.SI.Length", "Modelica.Sources.Ramp", "Library.Class"));
+        classDependencies = new ClassDependenciesBuilder()
+                .setModelicaPath("ModelicaClass")
+                .setDependencies(List.of("Modelica.Units.SI.Length", "Modelica.Sources.Ramp", "Library.Class"))
+                .setParentClasses(List.of("Modelica.Icons.Example"))
+                .setConstrainingClasses(Map.of("Modelica.Sources.Interfaces.SISO", "ChoicesAllMatching"))
+                .build();
     }
 
     @Test
     void toString_trivialExample_correctTextAsJson() {
         assertEquals(
-                "{modelicaPath: \"ModelicaClass\"," + " dependencies: [\"Modelica.Units.SI.Length\", \"Modelica.Sources.Ramp\", \"Library.Class\"]}",
+                "{modelicaPath: \"ModelicaClass\"," + " dependencies: [\"Modelica.Units.SI.Length\", \"Modelica.Sources.Ramp\", \"Library.Class\"], " +
+                        "parentClasses: [\"Modelica.Icons.Example\"], constrainingClasses: {{\"Modelica.Sources.Interfaces.SISO\": " +
+                        "\"ChoicesAllMatching\"}}}",
                 classDependencies.toString());
     }
 

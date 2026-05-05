@@ -12,7 +12,6 @@ import parser.ModelicaLexer;
 import parser.ModelicaParser;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,8 +22,8 @@ public class ClassDependenciesResolver {
 	private final boolean classDefinitionsResolved;
 	private final String packageName;
 	String className;
-	private Map<String, String> constrainingClassesMap = new HashMap<>();
-	private Map<String, String> classDefinitionsMap = new HashMap<>();
+	private final Map<String, String> constrainingClassesMap;
+	private final Map<String, String> classDefinitionsMap;
 	private boolean standardImportsResolved;
 
 	public ClassDependenciesResolver(String className, String text) {
@@ -91,6 +90,11 @@ public class ClassDependenciesResolver {
 	}
 
 	public ClassDependencies toClassDependencies() {
-		return new ClassDependencies(packageName + "." + className, getAbsolutePathsClassList());
+		return new ClassDependenciesBuilder()
+				.setModelicaPath(packageName + "." + className)
+				.setDependencies(getAbsolutePathsClassList())
+				.setParentClasses(this.parentClasses)
+				.setConstrainingClasses(this.constrainingClassesMap)
+				.build();
 	}
 }
