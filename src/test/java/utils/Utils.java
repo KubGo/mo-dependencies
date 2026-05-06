@@ -17,6 +17,8 @@ public class Utils {
     public final static String ImportsTest = "BuildingsLite/Tests/ImportsTest.mo";
     public final static String ComplexExample = "BuildingsLite/Tests/ComplexExample.mo";
     public final static String BuildingsLite = "BuildingsLite";
+    public final static String SimpleModel = "BuildingsLite/Tests/SimpleModel.mo";
+    public final static String PartialSimpleModel = "BuildingsLite/Tests/PartialSimpleModel.mo";
     public static String getPathAsString(String resourceName){
         File file = new File("src/test/resources/" + resourceName);
         return file.getAbsolutePath();

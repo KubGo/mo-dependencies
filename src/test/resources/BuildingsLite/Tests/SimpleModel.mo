@@ -1,6 +1,9 @@
 within BuildingsLite.Tests;
 
 model SimpleModel
+
+  extends PartialSimpleModel;
+
   HeatTransfer.Conduction.SingleLayer layer(A = 1, redeclare BuildingsLite.HeatTransfer.Data.Solids.Concrete material)  annotation(
     Placement(transformation(origin = {8, 8}, extent = {{-10, -10}, {10, 10}})));
   Controls.Discrete.BooleanDelay booleanDelay(samplePeriod = 1)  annotation(

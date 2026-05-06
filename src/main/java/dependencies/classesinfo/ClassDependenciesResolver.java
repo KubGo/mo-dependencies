@@ -11,13 +11,11 @@ import parser.ClassesListener;
 import parser.ModelicaLexer;
 import parser.ModelicaParser;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ClassDependenciesResolver {
 	private final List<String> importedClasses;
-	private final ArrayList<String> usedClasses = new ArrayList<>();
+	private ArrayList<String> usedClasses = new ArrayList<>();
 	private final List<String> parentClasses;
 	private final boolean classDefinitionsResolved;
 	private final String packageName;
@@ -35,8 +33,11 @@ public class ClassDependenciesResolver {
 		return parentDependenciesResolved;
 	}
 
-	public void setParentDependenciesResolved(boolean parentDependenciesResolved) {
-		this.parentDependenciesResolved = parentDependenciesResolved;
+	public void addClassesUsedByParents(List<String> parentClasses) {
+		Set<String> usedClassesSet = new HashSet<>(usedClasses);
+		usedClassesSet.addAll(parentClasses);
+		parentDependenciesResolved = true;
+		usedClasses = new ArrayList<>(usedClassesSet.stream().toList());
 	}
 
 	private boolean parentDependenciesResolved = false;
