@@ -1,5 +1,6 @@
 package dependencies.classesinfo;
 
+import dependencies.DependencyTree;
 import org.junit.jupiter.api.Test;
 import utils.Utils;
 
@@ -13,12 +14,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ParentDependenciesResolverTest {
 
-    static final List<String> partialSimpleModelClasses = Stream.of(
+    static final List<String> partialSimpleModelClassesTrivialExample = Stream.of(
             "Modelica.Units.SI.Length",
             "Modelica.Units.SI.Area",
             "HeatTransfer.Radiosity.Constant"
     ).sorted().toList();
-    static final List<String> SimpleModelClasses = Stream.of(
+    static final List<String> simpleModelClassesTrivialExample = Stream.of(
             "Modelica.Units.SI.Length",
             "Modelica.Units.SI.Area",
             "HeatTransfer.Radiosity.Constant",
@@ -29,6 +30,36 @@ class ParentDependenciesResolverTest {
             "BouncingBall",
             "OtherLibrary.HeatTransfer.Conduction.DiscretizedConduction"
     ).sorted().toList();
+    static final List<String> partialSimpleModelClassesBuildingLite = Stream.of(
+            "Modelica.Units.SI.Length",
+            "Modelica.Units.SI.Area",
+            "BuildingsLite.HeatTransfer.Radiosity.Constant"
+    ).sorted().toList();
+    static final List<String> simpleModelClassesBuildingLite = Stream.of(
+            "Modelica.Units.SI.Length",
+            "Modelica.Units.SI.Area",
+            "BuildingsLite.HeatTransfer.Radiosity.Constant",
+            "BuildingsLite.HeatTransfer.Conduction.SingleLayer",
+            "BuildingsLite.Controls.Discrete.BooleanDelay",
+            "BuildingsLite.HeatTransfer.Data.Solids.Concrete",
+            "BuildingsLite.Airflow.Multizone.MediumColumn",
+            "BuildingsLite.Tests.BouncingBall",
+            "OtherLibrary.HeatTransfer.Conduction.DiscretizedConduction"
+    ).sorted().toList();
+
+    static final List<String> multipleExtendsModelClasses = Stream.of(
+            "Modelica.Units.SI.Length",
+            "Modelica.Units.SI.Area",
+            "BuildingsLite.HeatTransfer.Radiosity.Constant",
+            "BuildingsLite.HeatTransfer.Conduction.SingleLayer",
+            "BuildingsLite.Controls.Discrete.BooleanDelay",
+            "BuildingsLite.HeatTransfer.Data.Solids.Concrete",
+            "BuildingsLite.Airflow.Multizone.MediumColumn",
+            "BuildingsLite.Tests.BouncingBall",
+            "OtherLibrary.HeatTransfer.Conduction.DiscretizedConduction",
+            "BuildingsLite.Controls.Predictors.ElectricalLoad"
+    ).sorted().toList();
+
     TreeMap<String, ClassDependenciesResolver> baseTree = new TreeMap<>();
     Map<String, String> modelPaths = Map.of(
             "SimpleModel", Utils.SimpleModel,
@@ -51,22 +82,43 @@ class ParentDependenciesResolverTest {
                 baseTree
         );
         TreeMap<String, ClassDependenciesResolver> resolvedTree = parentDependenciesResolver.resolveParentDependencies(baseTree);
-
         assertEquals(
-                partialSimpleModelClasses,
+                partialSimpleModelClassesTrivialExample,
                 resolvedTree.get("PartialSimpleModel")
                         .getAbsolutePathsClassList()
                         .stream().sorted()
                         .toList()
         );
         assertEquals(
-                SimpleModelClasses,
+                simpleModelClassesTrivialExample,
                 resolvedTree.get("SimpleModel")
                         .getAbsolutePathsClassList()
                         .stream().sorted()
                         .toList()
         );
+    }
 
+    @Test
+    void resolveParentDependencies_BuildingsLite_resolveWholeLibraryDependencies() {
+        DependencyTree tree = new DependencyTree();
+        String buildingLibraryPath = Utils.getPathAsString(Utils.BuildingsLite);
+        tree.generateLibraryDependencies(buildingLibraryPath, "BuildingsLite");
+        tree.includeParentsDependentClasses();
+        assertEquals(
+                partialSimpleModelClassesBuildingLite,
+                tree.getClassDependencies("BuildingsLite.Tests.PartialSimpleModel").getDependencies()
+                        .stream().sorted().toList()
+        );
+        assertEquals(
+                simpleModelClassesBuildingLite,
+                tree.getClassDependencies("BuildingsLite.Tests.SimpleModel").getDependencies()
+                        .stream().sorted().toList()
+        );
+        assertEquals(
+                multipleExtendsModelClasses,
+                tree.getClassDependencies("BuildingsLite.Tests.MultipleExtendsModel").getDependencies()
+                        .stream().sorted().toList()
+        );
     }
 
 }

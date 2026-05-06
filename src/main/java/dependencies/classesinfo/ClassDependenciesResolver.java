@@ -77,6 +77,7 @@ public class ClassDependenciesResolver {
 		}
 		pathResolver.setCurrentPackage(currentPackage);
 		usedClasses.replaceAll(pathResolver::getAbsolutePath);
+		parentClasses.replaceAll(pathResolver::getAbsolutePath);
 	}
 
 	private void resolverStandardImports() {

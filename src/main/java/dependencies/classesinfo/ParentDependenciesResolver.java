@@ -5,13 +5,17 @@ import java.util.List;
 import java.util.TreeMap;
 
 public class ParentDependenciesResolver {
-    List<TreeMap<String, ClassDependenciesResolver>> trees;
+    List<TreeMap<String, ClassDependenciesResolver>> trees = new ArrayList<>();
 
     TreeMap<String, List<String>> resolvedParents = new TreeMap<>();
 
     @SafeVarargs
     public ParentDependenciesResolver(TreeMap<String, ClassDependenciesResolver>... trees) {
-        this.trees = List.of(trees);
+        this.trees.addAll(List.of(trees));
+    }
+
+    public void addTreeForParentSearching(TreeMap<String, ClassDependenciesResolver> tree) {
+        trees.add(tree);
     }
 
     public TreeMap<String, ClassDependenciesResolver> resolveParentDependencies(TreeMap<String, ClassDependenciesResolver> treeToResolve){

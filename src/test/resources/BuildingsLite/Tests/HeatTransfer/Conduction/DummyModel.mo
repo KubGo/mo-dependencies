@@ -1,6 +1,7 @@
 within BuildingsLite.Tests.HeatTransfer.Conduction;
 
 model DummyModel
-equation
+
+    Controls.Predictors.ElectricalLoad load;
 
 end DummyModel;

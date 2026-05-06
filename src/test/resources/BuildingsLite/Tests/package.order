@@ -3,4 +3,5 @@ ComplexExample
 ImportsTest
 SimpleModel
 PartialSimpleModel
+MultipleExtendsModel
 HeatTransfer

@@ -48,7 +48,7 @@ class DependencyTreeTest {
 	@BeforeAll
 	static void setUp() {
 		tree = new DependencyTree();
-		String buildingLibraryPath = Utils.getPathAsString("BuildingsLite");
+		String buildingLibraryPath = Utils.getPathAsString(Utils.BuildingsLite);
 		tree.generateLibraryDependencies(buildingLibraryPath, "BuildingsLite");
 	}
 
