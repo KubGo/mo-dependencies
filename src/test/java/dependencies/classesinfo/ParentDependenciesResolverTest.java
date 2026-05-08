@@ -106,17 +106,17 @@ class ParentDependenciesResolverTest {
         tree.includeParentsDependentClasses();
         assertEquals(
                 partialSimpleModelClassesBuildingLite,
-                tree.getClassDependencies("BuildingsLite.Tests.PartialSimpleModel").getDependencies()
+                tree.getClassDependencies("BuildingsLite.Tests.PartialSimpleModel").getUsedClasses()
                         .stream().sorted().toList()
         );
         assertEquals(
                 simpleModelClassesBuildingLite,
-                tree.getClassDependencies("BuildingsLite.Tests.SimpleModel").getDependencies()
+                tree.getClassDependencies("BuildingsLite.Tests.SimpleModel").getUsedClasses()
                         .stream().sorted().toList()
         );
         assertEquals(
                 multipleExtendsModelClasses,
-                tree.getClassDependencies("BuildingsLite.Tests.MultipleExtendsModel").getDependencies()
+                tree.getClassDependencies("BuildingsLite.Tests.MultipleExtendsModel").getUsedClasses()
                         .stream().sorted().toList()
         );
     }

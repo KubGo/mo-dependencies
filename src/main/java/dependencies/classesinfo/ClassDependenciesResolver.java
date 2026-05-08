@@ -42,8 +42,8 @@ public class ClassDependenciesResolver implements IClassDependencies {
 	}
 
 	@Override
-	public void setLibrariesResolved(List<String> libraryName) {
-		resolvedLibraries.addAll(libraryName);
+	public void setLibrariesResolved(List<String> librariesNames) {
+		resolvedLibraries.addAll(librariesNames);
 	}
 
 	@Override

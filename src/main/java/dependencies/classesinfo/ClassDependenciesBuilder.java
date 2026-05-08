@@ -8,7 +8,7 @@ public class ClassDependenciesBuilder {
     private List<String> dependencies = List.of();
     private List<String> parentClasses = List.of();
     private Map<String, String> constrainingClasses = Map.of();
-    private boolean areAllDependenciesResolved = false;
+    private final boolean areAllDependenciesResolved = false;
 
     public ClassDependenciesBuilder setModelicaPath(String modelicaPath) {
         this.modelicaPath = modelicaPath;
@@ -28,7 +28,7 @@ public class ClassDependenciesBuilder {
     public ClassDependencies build() {
         ClassDependencies classDependencies = new ClassDependencies();
         classDependencies.setModelicaPath(modelicaPath);
-        classDependencies.setDependencies(dependencies);
+        classDependencies.setUsedClasses(dependencies);
         classDependencies.setParentClasses(parentClasses);
         classDependencies.setConstrainingClasses(constrainingClasses);
         return classDependencies;

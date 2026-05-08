@@ -9,7 +9,7 @@ public interface IClassDependencies {
 
     void addClassesUsedByParents(List<String> parentClasses);
 
-    boolean areParentDependenciesResolved(List<String> libraryName);
+    boolean areParentDependenciesResolved(List<String> librariesNames);
 
-    void setLibrariesResolved(List<String> libraryName);
+    void setLibrariesResolved(List<String> librariesNames);
 }
