@@ -16,7 +16,7 @@ class ClassDependenciesResolverTest {
 		String classText = Utils.getModelicaTextFromResources(Utils.BouncingBall);
 
 		ClassDependenciesResolver classDependenciesResolver = new ClassDependenciesResolver("BouncingBall", classText);
-		assertEquals(3, classDependenciesResolver.getAbsolutePathsClassList().size());
+		assertEquals(3, classDependenciesResolver.getClasses().size());
 	}
 
 	@Test
@@ -24,12 +24,12 @@ class ClassDependenciesResolverTest {
 		String classText = Utils.getModelicaTextFromResources(Utils.ImportsTest);
 		ClassDependenciesResolver classDependenciesResolver = new ClassDependenciesResolver("ImportsTest", classText);
 		classDependenciesResolver.resolveInternalDependencies();
-		assertEquals(4, classDependenciesResolver.getAbsolutePathsClassList().size());
+		assertEquals(4, classDependenciesResolver.getClasses().size());
 		assertEquals(
 				List.of(
 						"Modelica.Blocks.Sources.Ramp", "Modelica.Blocks.Sources.Sine", "Modelica.Units.SI.Height",
 						"Modelica.Units.SI.Temperature"),
-				classDependenciesResolver.getAbsolutePathsClassList().stream().sorted().toList());
+				classDependenciesResolver.getClasses().stream().sorted().toList());
 	}
 
 	@Test
@@ -38,13 +38,13 @@ class ClassDependenciesResolverTest {
 		ClassDependenciesResolver classDependenciesResolver = new ClassDependenciesResolver(
 				"ComplexExample", classText);
 		classDependenciesResolver.resolveInternalDependencies();
-		assertEquals(7, classDependenciesResolver.getAbsolutePathsClassList().size());
+		assertEquals(7, classDependenciesResolver.getClasses().size());
 		assertEquals(
 				List.of(
 						"Modelica.Blocks.Sources.Ramp", "Modelica.Fluid.Pipes.DynamicPipe",
 						"Modelica.Fluid.Sources.Boundary_pT", "Modelica.Fluid.Sources.MassFlowSource_T",
 						"Modelica.Units.SI.CrossSection", "Package.OtherPackage.Component", "Real"),
-				classDependenciesResolver.getAbsolutePathsClassList().stream().sorted().toList());
+				classDependenciesResolver.getClasses().stream().sorted().toList());
 	}
 
 }

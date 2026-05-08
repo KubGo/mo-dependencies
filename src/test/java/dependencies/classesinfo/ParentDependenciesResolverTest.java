@@ -85,14 +85,14 @@ class ParentDependenciesResolverTest {
         assertEquals(
                 partialSimpleModelClassesTrivialExample,
                 resolvedTree.get("PartialSimpleModel")
-                        .getAbsolutePathsClassList()
+                        .getClasses()
                         .stream().sorted()
                         .toList()
         );
         assertEquals(
                 simpleModelClassesTrivialExample,
                 resolvedTree.get("SimpleModel")
-                        .getAbsolutePathsClassList()
+                        .getClasses()
                         .stream().sorted()
                         .toList()
         );
@@ -120,5 +120,4 @@ class ParentDependenciesResolverTest {
                         .stream().sorted().toList()
         );
     }
-
 }

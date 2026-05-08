@@ -57,12 +57,12 @@ class DependencyTreeTest {
 		assertEquals(
 				booleanDelayExampleClasses,
 				tree.dependenciesMap.get("BuildingsLite.Controls.Discrete.Examples.BooleanDelay")
-						.getAbsolutePathsClassList().stream().sorted().toList()
+						.getClasses().stream().sorted().toList()
 					);
 		assertEquals(
 				conductorStepResponseClasses,
 				tree.dependenciesMap.get("BuildingsLite.HeatTransfer.Examples.ConductorStepResponse")
-						.getAbsolutePathsClassList().stream().sorted().toList()
+						.getClasses().stream().sorted().toList()
 		            );
 	}
 
@@ -71,7 +71,7 @@ class DependencyTreeTest {
 		assertEquals(
 				String.join("\n", simpleExampleClasses), String.join(
 						"\n", tree.dependenciesMap.get("BuildingsLite.Tests.SimpleModel")
-								.getAbsolutePathsClassList()
+								.getClasses()
 								.stream()
 								.sorted()
 								.toList()));
@@ -82,7 +82,7 @@ class DependencyTreeTest {
 		assertEquals(
 				String.join("\n", reverseBuoyancy3ZonesClasses), String.join(
 						"\n", tree.dependenciesMap.get("BuildingsLite.Airflow.Multizone.Examples.ReverseBuoyancy3Zones")
-								.getAbsolutePathsClassList()
+								.getClasses()
 								.stream()
 								.sorted()
 								.toList()));

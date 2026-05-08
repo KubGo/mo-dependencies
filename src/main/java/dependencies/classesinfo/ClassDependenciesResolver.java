@@ -13,7 +13,7 @@ import parser.ModelicaParser;
 
 import java.util.*;
 
-public class ClassDependenciesResolver {
+public class ClassDependenciesResolver implements IClassDependencies {
 	private final List<String> importedClasses;
 	private ArrayList<String> usedClasses = new ArrayList<>();
 	private final List<String> parentClasses;
@@ -23,24 +23,35 @@ public class ClassDependenciesResolver {
 	private final Map<String, String> constrainingClassesMap;
 	private final Map<String, String> classDefinitionsMap;
 	private boolean standardImportsResolved;
+	private final Set<String> resolvedLibraries = new HashSet<>();
 
 
+	@Override
 	public List<String> getParentClasses() {
 		return parentClasses;
 	}
 
-	public boolean isParentDependenciesResolved() {
-		return parentDependenciesResolved;
+	@Override
+	public List<String> getClasses() {
+		return usedClasses.stream().toList();
 	}
 
+	@Override
+	public boolean areParentDependenciesResolved(List<String> librariesNames) {
+		return resolvedLibraries.containsAll(librariesNames);
+	}
+
+	@Override
+	public void setLibrariesResolved(List<String> libraryName) {
+		resolvedLibraries.addAll(libraryName);
+	}
+
+	@Override
 	public void addClassesUsedByParents(List<String> parentClasses) {
 		Set<String> usedClassesSet = new HashSet<>(usedClasses);
 		usedClassesSet.addAll(parentClasses);
-		parentDependenciesResolved = true;
 		usedClasses = new ArrayList<>(usedClassesSet.stream().toList());
 	}
-
-	private boolean parentDependenciesResolved = false;
 
 	public ClassDependenciesResolver(String className, String text) {
 		ModelicaLexer modelicaLexer = new ModelicaLexer(CharStreams.fromString(text));
@@ -59,10 +70,6 @@ public class ClassDependenciesResolver {
 		classDefinitionsMap = listener.classDefinitionsMap;
 		classDefinitionsResolved = classDefinitionsMap.isEmpty();
 		packageName = listener.packageName;
-	}
-
-	public List<String> getAbsolutePathsClassList() {
-		return usedClasses.stream().toList();
 	}
 
 	public void resolveInternalDependencies() {
@@ -109,7 +116,7 @@ public class ClassDependenciesResolver {
 	public ClassDependencies toClassDependencies() {
 		return new ClassDependenciesBuilder()
 				.setModelicaPath(packageName + "." + className)
-				.setDependencies(getAbsolutePathsClassList())
+				.setDependencies(getClasses())
 				.setParentClasses(this.parentClasses)
 				.setConstrainingClasses(this.constrainingClassesMap)
 				.build();
