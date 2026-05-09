@@ -34,7 +34,7 @@ protected
 initial equation
   iDay = iStart;
   firstSample = ceil(time/86400)*86400;
-  // skipIDayIncrement is true if the simulation starts at midnight.
+// skipIDayIncrement is true if the simulation starts at midnight.
   skipIDayIncrement = abs(firstSample-time) < 1E-8;
 equation
   for i in 1:nout loop

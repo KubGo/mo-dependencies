@@ -17,22 +17,21 @@ public class AffectedClassesResolver {
 	public List<String> getAffectedClasses(String... className) {
 		affectedClasses.clear();
 		affectedClasses.addAll(Arrays.asList(className));
-		List<String> results = new ArrayList<>();
+		Set<String> results = new HashSet<>();
 		String currentClass = affectedClasses.poll();
 		while (currentClass != null) {
-			results.add(currentClass);
 			for (var tree : trees) {
 				String finalCurrentClass = currentClass;
 				tree.forEach((name, classDependencies) -> {
 					if (classDependencies.getClasses().contains(finalCurrentClass)) {
+						results.add(finalCurrentClass);
 						results.add(name);
 					}
 				});
 			}
 			currentClass = affectedClasses.poll();
 		}
-
-		return results;
+		return results.stream().toList();
 	}
 
 
