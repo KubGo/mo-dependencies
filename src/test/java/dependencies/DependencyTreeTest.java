@@ -34,7 +34,8 @@ class DependencyTreeTest {
 	private final List<String> simpleExampleClasses = Stream.of(
 			"BuildingsLite.HeatTransfer.Conduction.SingleLayer", "BuildingsLite.Controls.Discrete.BooleanDelay",
 			"BuildingsLite.Airflow.Multizone.MediumColumn", "BuildingsLite.Tests.BouncingBall",
-			"BuildingsLite.HeatTransfer.Data.Solids.Concrete",
+			"BuildingsLite.HeatTransfer.Data.Solids.Concrete", "Modelica.Units.SI.Length", "Modelica.Units.SI.Area",
+			"BuildingsLite.HeatTransfer.Radiosity.Constant",
 			"OtherLibrary.HeatTransfer.Conduction.DiscretizedConduction").sorted().toList();
 
 	private final List<String> reverseBuoyancy3ZonesClasses = Stream.of(

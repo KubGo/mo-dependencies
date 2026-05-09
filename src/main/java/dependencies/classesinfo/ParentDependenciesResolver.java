@@ -28,6 +28,7 @@ public class ParentDependenciesResolver<T extends IClassDependencies> {
 
     public void addTreeForParentSearching(TreeMap<String, T> tree) {
         trees.add(tree);
+        addLibraryName(tree);
     }
 
     public TreeMap<String, T> resolveParentDependencies(TreeMap<String, T> treeToResolve) {

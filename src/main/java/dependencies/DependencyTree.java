@@ -15,7 +15,7 @@ import java.util.TreeMap;
 public class DependencyTree {
 	ModelicaFilesStructure filesStructure = new ModelicaFilesStructure();
 	ModelicaFileReader modelicaFileReader = new ModelicaFileReader();
-	private final ParentDependenciesResolver parentDependenciesResolver = new ParentDependenciesResolver();
+	private final ParentDependenciesResolver<ClassDependenciesResolver> parentDependenciesResolver = new ParentDependenciesResolver<>();
 	TreeMap<String, ClassDependenciesResolver> dependenciesMap = new TreeMap<>();
 	private FileStructurePathResolver fileStructurePathResolver;
 	private String libraryName = "";
@@ -52,8 +52,9 @@ public class DependencyTree {
 							throw new RuntimeException(e);
 						}
 					});
-					parentDependenciesResolver.addTreeForParentSearching(dependenciesMap);
 				});
+		parentDependenciesResolver.addTreeForParentSearching(dependenciesMap);
+		dependenciesMap = parentDependenciesResolver.resolveParentDependencies(dependenciesMap);
 	}
 
 	public void includeParentsDependentClasses(){
