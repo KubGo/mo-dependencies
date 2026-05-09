@@ -19,11 +19,15 @@ public class DependencyTree {
 	ModelicaFilesStructure filesStructure = new ModelicaFilesStructure();
 	ModelicaFileReader modelicaFileReader = new ModelicaFileReader();
 	private final ParentDependenciesResolver<ClassDependenciesResolver> parentDependenciesResolver = new ParentDependenciesResolver<>();
-	TreeMap<String, ClassDependenciesResolver> dependenciesMap = new TreeMap<>();
+	private TreeMap<String, ClassDependenciesResolver> dependenciesMap = new TreeMap<>();
 	private FileStructurePathResolver fileStructurePathResolver;
 	private String libraryName = "";
 	private String libraryPath;
 	private final List<IFilter> filters = new ArrayList<>();
+
+	public TreeMap<String, ClassDependenciesResolver> getClassDependenciesMap() {
+		return dependenciesMap;
+	}
 
 	public DependencyTree(IFilter... filters) {
 		Arrays.stream(filters).forEach(this::addFilter);

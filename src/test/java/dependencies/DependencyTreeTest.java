@@ -57,12 +57,12 @@ class DependencyTreeTest {
 	void getDependencyTree_BuildingsLiteLibrary_correctDependenciesOfClasses() {
 		assertEquals(
 				booleanDelayExampleClasses,
-				tree.dependenciesMap.get("BuildingsLite.Controls.Discrete.Examples.BooleanDelay")
+				tree.getClassDependenciesMap().get("BuildingsLite.Controls.Discrete.Examples.BooleanDelay")
 						.getClasses().stream().sorted().toList()
 					);
 		assertEquals(
 				conductorStepResponseClasses,
-				tree.dependenciesMap.get("BuildingsLite.HeatTransfer.Examples.ConductorStepResponse")
+				tree.getClassDependenciesMap().get("BuildingsLite.HeatTransfer.Examples.ConductorStepResponse")
 						.getClasses().stream().sorted().toList()
 		            );
 	}
@@ -71,7 +71,7 @@ class DependencyTreeTest {
 	void getDependencyTree_SimpleModel_correctAbsolutePathsFromLibrary() {
 		assertEquals(
 				String.join("\n", simpleExampleClasses), String.join(
-						"\n", tree.dependenciesMap.get("BuildingsLite.Tests.SimpleModel")
+						"\n", tree.getClassDependenciesMap().get("BuildingsLite.Tests.SimpleModel")
 								.getClasses()
 								.stream()
 								.sorted()
@@ -82,7 +82,8 @@ class DependencyTreeTest {
 	void getDependencyTree_ReverseBuoyancy3Zones_correctAbsolutePathsFromLibrary() {
 		assertEquals(
 				String.join("\n", reverseBuoyancy3ZonesClasses), String.join(
-						"\n", tree.dependenciesMap.get("BuildingsLite.Airflow.Multizone.Examples.ReverseBuoyancy3Zones")
+						"\n", tree.getClassDependenciesMap()
+								.get("BuildingsLite.Airflow.Multizone.Examples.ReverseBuoyancy3Zones")
 								.getClasses()
 								.stream()
 								.sorted()

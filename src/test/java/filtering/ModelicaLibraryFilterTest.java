@@ -61,6 +61,4 @@ class ModelicaLibraryFilterTest {
 						.sorted()
 						.toList());
 	}
-
-
 }
