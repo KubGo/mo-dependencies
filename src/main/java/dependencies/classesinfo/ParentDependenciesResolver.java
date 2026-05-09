@@ -5,19 +5,19 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.TreeMap;
 
-public class ParentDependenciesResolver {
-    List<TreeMap<String, ClassDependenciesResolver>> trees = new ArrayList<>();
+public class ParentDependenciesResolver<T extends IClassDependencies> {
+    List<TreeMap<String, T>> trees = new ArrayList<>();
 
     TreeMap<String, List<String>> resolvedParents = new TreeMap<>();
     private final List<String> librariesNames = new ArrayList<>();
 
     @SafeVarargs
-    public ParentDependenciesResolver(TreeMap<String, ClassDependenciesResolver>... trees) {
+    public ParentDependenciesResolver(TreeMap<String, T>... trees) {
         this.trees.addAll(List.of(trees));
         Arrays.stream(trees).forEach(this::addLibraryName);
     }
 
-    private void addLibraryName(TreeMap<String, ClassDependenciesResolver> tree) {
+    private void addLibraryName(TreeMap<String, T> tree) {
         String libraryName = Arrays.stream(tree.keySet().stream().limit(1).toList().getFirst().split("\\."))
                 .toList()
                 .getFirst()
@@ -26,16 +26,16 @@ public class ParentDependenciesResolver {
 
     }
 
-    public void addTreeForParentSearching(TreeMap<String, ClassDependenciesResolver> tree) {
+    public void addTreeForParentSearching(TreeMap<String, T> tree) {
         trees.add(tree);
     }
 
-    public TreeMap<String, ClassDependenciesResolver> resolveParentDependencies(TreeMap<String, ClassDependenciesResolver> treeToResolve){
+    public TreeMap<String, T> resolveParentDependencies(TreeMap<String, T> treeToResolve) {
         treeToResolve.forEach(this::resolveParentDependencies);
-        return treeToResolve; // Check if this works and I do not have to reassign the values there
+        return treeToResolve;
     }
 
-    private List<String> resolveParentDependencies(String className, ClassDependenciesResolver classDependencies){
+    private List<String> resolveParentDependencies(String className, T classDependencies) {
         if (classDependencies.areParentDependenciesResolved(librariesNames)) {
             if (resolvedParents.containsKey(className)) {
                 return resolvedParents.get(className);
