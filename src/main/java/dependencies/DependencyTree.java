@@ -6,9 +6,12 @@ import dependencies.classesinfo.ParentDependenciesResolver;
 import dependencies.structureinfo.ClassInfo;
 import dependencies.writedependencies.AbstractDependenciesWriter;
 import files.ModelicaFileReader;
+import filtering.IFilter;
 import modelica.pathresolvers.FileStructurePathResolver;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -20,9 +23,18 @@ public class DependencyTree {
 	private FileStructurePathResolver fileStructurePathResolver;
 	private String libraryName = "";
 	private String libraryPath;
+	private final List<IFilter> filters = new ArrayList<>();
 
-	public DependencyTree(){
+	public DependencyTree(IFilter... filters) {
+		Arrays.stream(filters).forEach(this::addFilter);
+	}
 
+	public DependencyTree() {
+
+	}
+
+	public void addFilter(IFilter filter) {
+		filters.add(filter);
 	}
 
 	public void generateLibraryDependencies(
@@ -47,6 +59,7 @@ public class DependencyTree {
 											classInfo.path));
 							classDependenciesResolver.resolveInternalDependencies();
 							classDependenciesResolver.resolveLibraryDependencies(fileStructurePathResolver);
+							classDependenciesResolver.filter(filters);
 							dependenciesMap.put(modelicaPath, classDependenciesResolver);
 						} catch (IOException e) {
 							throw new RuntimeException(e);

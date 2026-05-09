@@ -1,6 +1,8 @@
 package dependencies.classesinfo;
 
 import dependencies.structureinfo.PackageInfo;
+import filtering.IFilter;
+import filtering.IFilterable;
 import modelica.pathresolvers.FileStructurePathResolver;
 import modelica.pathresolvers.StandardImportPathResolver;
 import org.antlr.v4.runtime.CharStreams;
@@ -12,8 +14,9 @@ import parser.ModelicaLexer;
 import parser.ModelicaParser;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
-public class ClassDependenciesResolver implements IClassDependencies {
+public class ClassDependenciesResolver implements IClassDependencies, IFilterable {
 	private final List<String> importedClasses;
 	private ArrayList<String> usedClasses = new ArrayList<>();
 	private final List<String> parentClasses;
@@ -25,6 +28,14 @@ public class ClassDependenciesResolver implements IClassDependencies {
 	private boolean standardImportsResolved;
 	private final Set<String> resolvedLibraries = new HashSet<>();
 
+	@Override
+	public void filter(List<IFilter> filters) {
+		for (IFilter filter : filters) {
+			usedClasses = usedClasses.stream()
+					.filter(filter::filterName)
+					.collect(Collectors.toCollection(ArrayList::new));
+		}
+	}
 
 	@Override
 	public List<String> getParentClasses() {
