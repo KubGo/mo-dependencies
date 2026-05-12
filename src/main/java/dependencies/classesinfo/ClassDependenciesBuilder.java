@@ -1,5 +1,7 @@
 package dependencies.classesinfo;
 
+import modelica.ModelicaClassType;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +11,7 @@ public class ClassDependenciesBuilder {
     private List<String> dependencies = List.of();
     private List<String> parentClasses = List.of();
     private Map<String, String> constrainingClasses = new HashMap<>();
+    private ModelicaClassType modelicaClassType = ModelicaClassType.PACKAGE;
 
     public ClassDependenciesBuilder setModelicaPath(String modelicaPath) {
         this.modelicaPath = modelicaPath;
@@ -31,11 +34,17 @@ public class ClassDependenciesBuilder {
         classDependencies.setUsedClasses(dependencies);
         classDependencies.setParentClasses(parentClasses);
         classDependencies.setConstrainingClasses(constrainingClasses);
+        classDependencies.setModelicaClassType(modelicaClassType);
         return classDependencies;
     }
 
     public ClassDependenciesBuilder setConstrainingClasses(Map<String, String> constrainingClasses) {
         this.constrainingClasses = constrainingClasses;
+        return this;
+    }
+
+    public ClassDependenciesBuilder setModelicaClassType(ModelicaClassType modelicaClassType) {
+        this.modelicaClassType = modelicaClassType;
         return this;
     }
 }

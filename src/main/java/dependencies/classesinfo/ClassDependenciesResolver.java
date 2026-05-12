@@ -3,6 +3,7 @@ package dependencies.classesinfo;
 import dependencies.structureinfo.PackageInfo;
 import filtering.IFilter;
 import filtering.IFilterable;
+import modelica.ModelicaClassType;
 import modelica.pathresolvers.FileStructurePathResolver;
 import modelica.pathresolvers.StandardImportPathResolver;
 import org.antlr.v4.runtime.CharStreams;
@@ -27,6 +28,27 @@ public class ClassDependenciesResolver implements IClassDependencies, IFilterabl
 	private final Map<String, String> classDefinitionsMap;
 	private boolean standardImportsResolved;
 	private final Set<String> resolvedLibraries = new HashSet<>();
+	private final ModelicaClassType modelicaClassType;
+
+	public ClassDependenciesResolver(String className, String text) {
+		ModelicaLexer modelicaLexer = new ModelicaLexer(CharStreams.fromString(text));
+		CommonTokenStream tokens = new CommonTokenStream(modelicaLexer);
+		ModelicaParser parser = new ModelicaParser(tokens);
+		ParseTree tree = parser.stored_definition();
+		ParseTreeWalker walker = new ParseTreeWalker();
+		ClassesListener listener = new ClassesListener();
+		walker.walk(listener, tree);
+		this.className = className;
+		importedClasses = listener.imports;
+		standardImportsResolved = importedClasses.isEmpty();
+		usedClasses.addAll(listener.classes);
+		parentClasses = listener.parentClasses;
+		constrainingClassesMap = listener.constrainingClassesMap;
+		classDefinitionsMap = listener.classDefinitionsMap;
+		classDefinitionsResolved = classDefinitionsMap.isEmpty();
+		packageName = listener.packageName;
+		modelicaClassType = listener.modelicaClassType;
+	}
 
 	@Override
 	public void filter(List<IFilter> filters) {
@@ -64,24 +86,6 @@ public class ClassDependenciesResolver implements IClassDependencies, IFilterabl
 		usedClasses = new ArrayList<>(usedClassesSet.stream().toList());
 	}
 
-	public ClassDependenciesResolver(String className, String text) {
-		ModelicaLexer modelicaLexer = new ModelicaLexer(CharStreams.fromString(text));
-		CommonTokenStream tokens = new CommonTokenStream(modelicaLexer);
-		ModelicaParser parser = new ModelicaParser(tokens);
-		ParseTree tree = parser.stored_definition();
-		ParseTreeWalker walker = new ParseTreeWalker();
-		ClassesListener listener = new ClassesListener();
-		walker.walk(listener, tree);
-		this.className = className;
-		importedClasses = listener.imports;
-		standardImportsResolved = importedClasses.isEmpty();
-		usedClasses.addAll(listener.classes);
-		parentClasses = listener.parentClasses;
-		constrainingClassesMap = listener.constrainingClassesMap;
-		classDefinitionsMap = listener.classDefinitionsMap;
-		classDefinitionsResolved = classDefinitionsMap.isEmpty();
-		packageName = listener.packageName;
-	}
 
 	public void resolveInternalDependencies() {
 		resolveClassDefinitions();
@@ -129,7 +133,7 @@ public class ClassDependenciesResolver implements IClassDependencies, IFilterabl
 				.setModelicaPath(packageName + "." + className)
 				.setDependencies(getClasses())
 				.setParentClasses(this.parentClasses)
-				.setConstrainingClasses(this.constrainingClassesMap)
+				.setConstrainingClasses(this.constrainingClassesMap).setModelicaClassType(this.modelicaClassType)
 				.build();
 	}
 }

@@ -1,6 +1,6 @@
 package modelica;
 
-public enum ClassType {
+public enum ModelicaClassType {
     MODEL,
     PARTIAL_MODEL,
     RECORD,

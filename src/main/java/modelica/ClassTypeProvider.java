@@ -1,64 +1,64 @@
 package modelica;
 
 public class ClassTypeProvider {
-	public static ClassType getClassType(String classPrefix) throws IllegalStateException {
+	public static ModelicaClassType getClassType(String classPrefix) throws IllegalStateException {
 		switch (classPrefix){
 			case "model" -> {
-				return ClassType.MODEL;
+				return ModelicaClassType.MODEL;
 			}
 			case "partialmodel" -> {
-				return ClassType.PARTIAL_MODEL;
+				return ModelicaClassType.PARTIAL_MODEL;
 			}
 			case "record" -> {
-				return ClassType.RECORD;
+				return ModelicaClassType.RECORD;
 			}
 			case "partialrecord" -> {
-				return ClassType.PARTIAL_RECORD;
+				return ModelicaClassType.PARTIAL_RECORD;
 			}
 			case "function" -> {
-				return ClassType.FUNCTION;
+				return ModelicaClassType.FUNCTION;
 			}
 			case "partialfunction" -> {
-				return ClassType.PARTIAL_FUNCTION;
+				return ModelicaClassType.PARTIAL_FUNCTION;
 			}
 			case "purefunction" -> {
-				return ClassType.PURE_FUNCTION;
+				return ModelicaClassType.PURE_FUNCTION;
 			}
 			case "impurefunction" -> {
-				return ClassType.IMPURE_FUNCTION;
+				return ModelicaClassType.IMPURE_FUNCTION;
 			}
 			case "connector" -> {
-				return ClassType.CONNECTOR;
+				return ModelicaClassType.CONNECTOR;
 			}
 			case "type" -> {
-				return ClassType.TYPE;
+				return ModelicaClassType.TYPE;
 			}
 			case "block" -> {
-				return ClassType.BLOCK;
+				return ModelicaClassType.BLOCK;
 			}
 			case "partialblock" -> {
-				return ClassType.PARTIAL_BLOCK;
+				return ModelicaClassType.PARTIAL_BLOCK;
 			}
 			case "package" -> {
-				return ClassType.PACKAGE;
+				return ModelicaClassType.PACKAGE;
 			}
 			case "operator" -> {
-				return ClassType.OPERATOR;
+				return ModelicaClassType.OPERATOR;
 			}
 			case "operatorrecord" -> {
-				return ClassType.OPERATOR_RECORD;
+				return ModelicaClassType.OPERATOR_RECORD;
 			}
 			case "operatorfunction" -> {
-				return ClassType.OPERATOR_FUNCTION;
+				return ModelicaClassType.OPERATOR_FUNCTION;
 			}
 			case "class" -> {
-				return ClassType.CLASS;
+				return ModelicaClassType.CLASS;
 			}
 			case "partialclass" -> {
-				return ClassType.PARTIAL_CLASS;
+				return ModelicaClassType.PARTIAL_CLASS;
 			}
 			case "expandableconnector" -> {
-				return ClassType.EXPANDABLE_CONNECTOR;
+				return ModelicaClassType.EXPANDABLE_CONNECTOR;
 			}
 			default -> throw new IllegalStateException("Unexpected value: " + classPrefix);
 		}

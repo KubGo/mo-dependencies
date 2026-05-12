@@ -59,11 +59,6 @@ class JsonDependenciesReaderTest {
                     actualDependencies.get(key).toClassDependencies().toString(),
                     dependencies.get(key).toString());
         }
-        int i = 0;
-//        while (i < actualDependencies.size()) {
-//            assertEquals(actualDependencies.get(i).toString(), dependencies.get(i).toString());
-//            i++;
-//        }
     }
 
     @Test

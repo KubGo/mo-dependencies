@@ -1,6 +1,7 @@
 package dependencies.classesinfo;
 
 import com.google.gson.annotations.SerializedName;
+import modelica.ModelicaClassType;
 
 import java.util.*;
 
@@ -16,6 +17,8 @@ public class ClassDependencies implements IClassDependencies {
     private List<String> parentClasses;
     @SerializedName("constrainingClasses")
     private Map<String, String> constrainingClasses = new HashMap<>();
+    @SerializedName("classType")
+    private ModelicaClassType modelicaClassType;
 
     @Override
     public List<String> getClasses() {
@@ -77,5 +80,13 @@ public class ClassDependencies implements IClassDependencies {
     @Override
     public String toString() {
         return "ClassDependencies{" + "modelicaPath='" + modelicaPath + '\'' + ", resolvedLibraries=" + resolvedLibraries + ", usedClasses=" + usedClasses + ", parentClasses=" + parentClasses + ", constrainingClasses=" + constrainingClasses + '}';
+    }
+
+    public ModelicaClassType getModelicaClassType() {
+        return modelicaClassType;
+    }
+
+    public void setModelicaClassType(ModelicaClassType modelicaClassType) {
+        this.modelicaClassType = modelicaClassType;
     }
 }

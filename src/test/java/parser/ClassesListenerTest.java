@@ -1,6 +1,6 @@
 package parser;
 
-import modelica.ClassType;
+import modelica.ModelicaClassType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import utils.Utils;
@@ -199,9 +199,7 @@ class ClassesListenerTest {
         String modelicaText = Utils.getModelicaTextFromResources(Utils.ComplexExample);
         ClassesListener parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
 
-        assertEquals(
-                ClassType.MODEL,
-                parsedListener.classType);
+        assertEquals(ModelicaClassType.MODEL, parsedListener.modelicaClassType);
     }
 
 }

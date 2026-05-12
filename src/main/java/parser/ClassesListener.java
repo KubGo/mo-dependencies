@@ -1,14 +1,14 @@
 package parser;
 
-import modelica.ClassType;
 import modelica.ClassTypeProvider;
+import modelica.ModelicaClassType;
 import modelica.ModelicaFileSection;
 
 import java.util.*;
 
 public class ClassesListener extends ModelicaBaseListener{
     public String packageName;
-    public ClassType classType;
+    public ModelicaClassType modelicaClassType;
     public List<String> imports = new ArrayList<>();
     public Set<String> classes = new HashSet<>();
     public Set<String> functions = new HashSet<>();
@@ -32,7 +32,8 @@ public class ClassesListener extends ModelicaBaseListener{
     @Override
     public void enterStored_definition(ModelicaParser.Stored_definitionContext ctx) {
         packageName = ctx.name().getFirst().getText();
-        classType = ClassTypeProvider.getClassType(ctx.class_definition().getFirst().class_prefixes().getText());
+        modelicaClassType = ClassTypeProvider.getClassType(
+                ctx.class_definition().getFirst().class_prefixes().getText());
 
     }
 
