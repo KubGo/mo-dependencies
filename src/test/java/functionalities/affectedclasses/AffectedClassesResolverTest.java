@@ -1,6 +1,6 @@
 package functionalities.affectedclasses;
 
-import dependencies.DependencyTree;
+import dependencies.DependencyTreeResolver;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import utils.Utils;
@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class AffectedClassesResolverTest {
 
-	static DependencyTree tree;
+	static DependencyTreeResolver tree;
 	static String buildingLibraryPath;
 	static AffectedClassesResolver affectedClassesResolver;
 
@@ -35,10 +35,10 @@ class AffectedClassesResolverTest {
 
 	@BeforeAll
 	static void setUp() {
-		tree = new DependencyTree();
+		tree = new DependencyTreeResolver();
 		buildingLibraryPath = Utils.getPathAsString("BuildingsLite");
 		tree.generateLibraryDependencies(buildingLibraryPath, "BuildingsLite");
-		affectedClassesResolver = new AffectedClassesResolver(tree.getClassDependenciesMap());
+		affectedClassesResolver = new AffectedClassesResolver(tree.getDependencyTree());
 	}
 
 	@Test
@@ -70,6 +70,11 @@ class AffectedClassesResolverTest {
 	void getAffectedClasses_ModelNotUsedInLibrary_emptyList() {
 		List<String> affectedClasses = affectedClassesResolver.getAffectedClasses("Library.Name.Model");
 		assertEquals(List.of(), affectedClasses);
+	}
+
+	@Test
+	void getAffectedClasses_DayTypeAndBouncingBall_readingFromSavedFile() {
+
 	}
 
 

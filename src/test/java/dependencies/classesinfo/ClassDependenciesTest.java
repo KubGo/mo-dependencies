@@ -25,9 +25,7 @@ class ClassDependenciesTest {
     @Test
     void toString_trivialExample_correctTextAsJson() {
         assertEquals(
-                "{modelicaPath: \"ModelicaClass\"," + " dependencies: [\"Modelica.Units.SI.Length\", \"Modelica.Sources.Ramp\", \"Library.Class\"], " +
-                        "parentClasses: [\"Modelica.Icons.Example\"], constrainingClasses: {{\"Modelica.Sources.Interfaces.SISO\": " +
-                        "\"ChoicesAllMatching\"}}}",
+                "ClassDependencies{modelicaPath='ModelicaClass', " + "resolvedLibraries=[], " + "usedClasses=[Modelica.Units.SI.Length, Modelica.Sources.Ramp, Library.Class], " + "parentClasses=[Modelica.Icons.Example], " + "constrainingClasses={Modelica.Sources.Interfaces.SISO=ChoicesAllMatching}}",
                 classDependencies.toString());
     }
 

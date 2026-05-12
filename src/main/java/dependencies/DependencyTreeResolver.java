@@ -2,6 +2,7 @@ package dependencies;
 
 import dependencies.classesinfo.ClassDependencies;
 import dependencies.classesinfo.ClassDependenciesResolver;
+import dependencies.classesinfo.IClassDependencies;
 import dependencies.classesinfo.ParentDependenciesResolver;
 import dependencies.structureinfo.ClassInfo;
 import dependencies.writedependencies.AbstractDependenciesWriter;
@@ -15,26 +16,26 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.TreeMap;
 
-public class DependencyTree {
+public class DependencyTreeResolver {
 	ModelicaFilesStructure filesStructure = new ModelicaFilesStructure();
 	ModelicaFileReader modelicaFileReader = new ModelicaFileReader();
 	private final ParentDependenciesResolver<ClassDependenciesResolver> parentDependenciesResolver = new ParentDependenciesResolver<>();
-	private TreeMap<String, ClassDependenciesResolver> dependenciesMap = new TreeMap<>();
+	private TreeMap<String, ClassDependenciesResolver> dependencyTree = new TreeMap<>();
 	private FileStructurePathResolver fileStructurePathResolver;
 	private String libraryName = "";
 	private String libraryPath;
 	private final List<IFilter> filters = new ArrayList<>();
 
-	public TreeMap<String, ClassDependenciesResolver> getClassDependenciesMap() {
-		return dependenciesMap;
-	}
-
-	public DependencyTree(IFilter... filters) {
+	public DependencyTreeResolver(IFilter... filters) {
 		Arrays.stream(filters).forEach(this::addFilter);
 	}
 
-	public DependencyTree() {
+	public DependencyTreeResolver() {
 
+	}
+
+	public TreeMap<String, ClassDependenciesResolver> getDependencyTree() {
+		return dependencyTree;
 	}
 
 	public void addFilter(IFilter filter) {
@@ -64,31 +65,35 @@ public class DependencyTree {
 							classDependenciesResolver.resolveInternalDependencies();
 							classDependenciesResolver.resolveLibraryDependencies(fileStructurePathResolver);
 							classDependenciesResolver.filter(filters);
-							dependenciesMap.put(modelicaPath, classDependenciesResolver);
+							dependencyTree.put(modelicaPath, classDependenciesResolver);
 						} catch (IOException e) {
 							throw new RuntimeException(e);
 						}
 					});
 				});
-		parentDependenciesResolver.addTreeForParentSearching(dependenciesMap);
-		dependenciesMap = parentDependenciesResolver.resolveParentDependencies(dependenciesMap);
+		parentDependenciesResolver.addTreeForParentSearching(dependencyTree);
+		dependencyTree = parentDependenciesResolver.resolveParentDependencies(dependencyTree);
 	}
 
 	public void includeParentsDependentClasses(){
-		dependenciesMap = parentDependenciesResolver.resolveParentDependencies(dependenciesMap);
+		dependencyTree = parentDependenciesResolver.resolveParentDependencies(dependencyTree);
 
 	}
 
-	public ClassDependencies getClassDependencies(String className) {
-		if (dependenciesMap.containsKey(className)) {
-			return dependenciesMap.get(className).toClassDependencies();
+	public IClassDependencies getClassDependencies(String className) {
+		if (dependencyTree.containsKey(className)) {
+			return dependencyTree.get(className).toClassDependencies();
 		} else {
 			return null;
 		}
 	}
 
-	public List<ClassDependencies> getAllClassDependencies() {
-		return dependenciesMap.values().stream().map(ClassDependenciesResolver::toClassDependencies).toList();
+	public TreeMap<String, ClassDependencies> getSimplifiedClassDependencies() {
+		TreeMap<String, ClassDependencies> dependencies = new TreeMap<>();
+		for (String key : dependencyTree.keySet()) {
+			dependencies.put(key, dependencyTree.get(key).toClassDependencies());
+		}
+		return dependencies;
 	}
 
 	public void saveDependencies(AbstractDependenciesWriter... writers) {
@@ -96,7 +101,7 @@ public class DependencyTree {
 			writer.setLibraryName(libraryName);
 			writer.setPath(libraryPath);
 			try {
-				writer.writeDependencies(this);
+				writer.writeDependencies(getSimplifiedClassDependencies());
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}

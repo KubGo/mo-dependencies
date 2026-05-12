@@ -1,6 +1,6 @@
 package dependencies.classesinfo;
 
-import dependencies.DependencyTree;
+import dependencies.DependencyTreeResolver;
 import org.junit.jupiter.api.Test;
 import utils.Utils;
 
@@ -78,7 +78,7 @@ class ParentDependenciesResolverTest {
             }
         });
 
-        ParentDependenciesResolver parentDependenciesResolver = new ParentDependenciesResolver(
+        ParentDependenciesResolver<ClassDependenciesResolver> parentDependenciesResolver = new ParentDependenciesResolver(
                 baseTree
         );
         TreeMap<String, ClassDependenciesResolver> resolvedTree = parentDependenciesResolver.resolveParentDependencies(baseTree);
@@ -100,23 +100,23 @@ class ParentDependenciesResolverTest {
 
     @Test
     void resolveParentDependencies_BuildingsLite_resolveWholeLibraryDependencies() {
-        DependencyTree tree = new DependencyTree();
+        DependencyTreeResolver tree = new DependencyTreeResolver();
         String buildingLibraryPath = Utils.getPathAsString(Utils.BuildingsLite);
         tree.generateLibraryDependencies(buildingLibraryPath, "BuildingsLite");
         tree.includeParentsDependentClasses();
         assertEquals(
                 partialSimpleModelClassesBuildingLite,
-                tree.getClassDependencies("BuildingsLite.Tests.PartialSimpleModel").getUsedClasses()
+                tree.getClassDependencies("BuildingsLite.Tests.PartialSimpleModel").getClasses()
                         .stream().sorted().toList()
         );
         assertEquals(
                 simpleModelClassesBuildingLite,
-                tree.getClassDependencies("BuildingsLite.Tests.SimpleModel").getUsedClasses()
+                tree.getClassDependencies("BuildingsLite.Tests.SimpleModel").getClasses()
                         .stream().sorted().toList()
         );
         assertEquals(
                 multipleExtendsModelClasses,
-                tree.getClassDependencies("BuildingsLite.Tests.MultipleExtendsModel").getUsedClasses()
+                tree.getClassDependencies("BuildingsLite.Tests.MultipleExtendsModel").getClasses()
                         .stream().sorted().toList()
         );
     }

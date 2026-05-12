@@ -12,4 +12,6 @@ public interface IClassDependencies {
     boolean areParentDependenciesResolved(List<String> librariesNames);
 
     void setLibrariesResolved(List<String> librariesNames);
+
+    IClassDependencies toClassDependencies();
 }

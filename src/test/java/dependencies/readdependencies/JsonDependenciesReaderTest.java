@@ -1,7 +1,8 @@
 package dependencies.readdependencies;
 
-import dependencies.DependencyTree;
+import dependencies.DependencyTreeResolver;
 import dependencies.classesinfo.ClassDependencies;
+import dependencies.classesinfo.ClassDependenciesResolver;
 import dependencies.writedependencies.JsonDependenciesWriter;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -9,26 +10,27 @@ import utils.Utils;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class JsonDependenciesReaderTest {
 
-    static DependencyTree tree;
+    static DependencyTreeResolver tree;
 
     static JsonDependenciesWriter jsonDependenciesWriter = new JsonDependenciesWriter();
     JsonDependenciesReader jsonDependenciesReader;
 
     @BeforeAll
     static void setUp(){
-        tree = new DependencyTree();
+        tree = new DependencyTreeResolver();
         String buildingLibraryPath = Utils.getPathAsString(Utils.BuildingsLite);
         tree.generateLibraryDependencies(buildingLibraryPath, Utils.BuildingsLite);
         jsonDependenciesWriter.setLibraryName("BuildingsLite");
         jsonDependenciesWriter.setPath(buildingLibraryPath);
         try {
-            jsonDependenciesWriter.writeDependencies(tree);
+            jsonDependenciesWriter.writeDependencies(tree.getSimplifiedClassDependencies());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -50,13 +52,18 @@ class JsonDependenciesReaderTest {
     @Test
     void readDependencies_BuildingsLite_verifyDependenciesMatch() {
         jsonDependenciesReader = new JsonDependenciesReader(Utils.getPathAsString(Utils.BuildingsLite));
-        List<ClassDependencies> dependencies = jsonDependenciesReader.readDependencies();
-        List<ClassDependencies> actualDependencies = tree.getAllClassDependencies();
-        int i = 0;
-        while (i < actualDependencies.size()) {
-            assertEquals(actualDependencies.get(i).toString(), dependencies.get(i).toString());
-            i++;
+        Map<String, ClassDependencies> dependencies = jsonDependenciesReader.readDependencies();
+        TreeMap<String, ClassDependenciesResolver> actualDependencies = tree.getDependencyTree();
+        for (var key : dependencies.keySet()) {
+            assertEquals(
+                    actualDependencies.get(key).toClassDependencies().toString(),
+                    dependencies.get(key).toString());
         }
+        int i = 0;
+//        while (i < actualDependencies.size()) {
+//            assertEquals(actualDependencies.get(i).toString(), dependencies.get(i).toString());
+//            i++;
+//        }
     }
 
     @Test

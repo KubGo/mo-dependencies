@@ -1,5 +1,6 @@
 package dependencies.classesinfo;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -7,8 +8,7 @@ public class ClassDependenciesBuilder {
     private String modelicaPath = "";
     private List<String> dependencies = List.of();
     private List<String> parentClasses = List.of();
-    private Map<String, String> constrainingClasses = Map.of();
-    private final boolean areAllDependenciesResolved = false;
+    private Map<String, String> constrainingClasses = new HashMap<>();
 
     public ClassDependenciesBuilder setModelicaPath(String modelicaPath) {
         this.modelicaPath = modelicaPath;

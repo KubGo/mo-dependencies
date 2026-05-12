@@ -1,15 +1,21 @@
 package dependencies.classesinfo;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.*;
 
 public class ClassDependencies implements IClassDependencies {
 
+    @SerializedName("ModelicaPath")
     private String modelicaPath;
-    private final Set<String> resolvedLibraries = new HashSet<>();
-    public boolean areAllDependenciesResolved = false;
+    @SerializedName("resolvedLibraries")
+    private Set<String> resolvedLibraries = new HashSet<>();
+    @SerializedName("usedClasses")
     private List<String> usedClasses;
+    @SerializedName("parentClasses")
     private List<String> parentClasses;
-    private Map<String, String> constrainingClasses = Map.of();
+    @SerializedName("constrainingClasses")
+    private Map<String, String> constrainingClasses = new HashMap<>();
 
     @Override
     public List<String> getClasses() {
@@ -38,6 +44,11 @@ public class ClassDependencies implements IClassDependencies {
         resolvedLibraries.addAll(librariesNames);
     }
 
+    @Override
+    public IClassDependencies toClassDependencies() {
+        return this;
+    }
+
     public void setModelicaPath(String modelicaPath) {
         this.modelicaPath = modelicaPath;
     }
@@ -59,32 +70,12 @@ public class ClassDependencies implements IClassDependencies {
         this.constrainingClasses = constrainingClasses;
     }
 
-    @Override
-    public String toString() {
-        return "{modelicaPath: \"" + modelicaPath + "\", " +
-                "dependencies: [" + String.join(
-                ", ", usedClasses.stream()
-                        .map(it -> "\"" + it + "\"")
-                        .toList()) + "]" + ", parentClasses: ["
-                + String.join(
-                        ", ",
-                parentClasses.stream()
-                        .map(it -> "\"" + it + "\"")
-                        .toList()
-        )+ "], constrainingClasses: {" +
-                String.join(
-                        ", ",
-                        constrainingClasses.keySet().stream().map( it ->
-                        "{\"" + it + "\": \"" + constrainingClasses.get(it) + "\"}")
-                                .toList()
-                ) + "}}";
-    }
-
     public boolean isAffected(String... modelicaClass) {
         return !Arrays.stream(modelicaClass).filter(it -> usedClasses.contains(it)).toList().isEmpty();
     }
 
-    public void setAreAllDependenciesResolved(boolean areResolved){
-        this.areAllDependenciesResolved = areResolved;
+    @Override
+    public String toString() {
+        return "ClassDependencies{" + "modelicaPath='" + modelicaPath + '\'' + ", resolvedLibraries=" + resolvedLibraries + ", usedClasses=" + usedClasses + ", parentClasses=" + parentClasses + ", constrainingClasses=" + constrainingClasses + '}';
     }
 }

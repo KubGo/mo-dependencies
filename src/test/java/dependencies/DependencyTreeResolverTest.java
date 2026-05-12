@@ -10,9 +10,9 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class DependencyTreeTest {
+class DependencyTreeResolverTest {
 
-	static DependencyTree tree;
+	static DependencyTreeResolver tree;
 
 	private final List<String> booleanDelayExampleClasses = Stream.of(
 			"BuildingsLite.Controls.Discrete.BooleanDelay",
@@ -48,7 +48,7 @@ class DependencyTreeTest {
 
 	@BeforeAll
 	static void setUp() {
-		tree = new DependencyTree();
+		tree = new DependencyTreeResolver();
 		String buildingLibraryPath = Utils.getPathAsString(Utils.BuildingsLite);
 		tree.generateLibraryDependencies(buildingLibraryPath, "BuildingsLite");
 	}
@@ -57,12 +57,12 @@ class DependencyTreeTest {
 	void getDependencyTree_BuildingsLiteLibrary_correctDependenciesOfClasses() {
 		assertEquals(
 				booleanDelayExampleClasses,
-				tree.getClassDependenciesMap().get("BuildingsLite.Controls.Discrete.Examples.BooleanDelay")
+				tree.getDependencyTree().get("BuildingsLite.Controls.Discrete.Examples.BooleanDelay")
 						.getClasses().stream().sorted().toList()
 					);
 		assertEquals(
 				conductorStepResponseClasses,
-				tree.getClassDependenciesMap().get("BuildingsLite.HeatTransfer.Examples.ConductorStepResponse")
+				tree.getDependencyTree().get("BuildingsLite.HeatTransfer.Examples.ConductorStepResponse")
 						.getClasses().stream().sorted().toList()
 		            );
 	}
@@ -71,7 +71,7 @@ class DependencyTreeTest {
 	void getDependencyTree_SimpleModel_correctAbsolutePathsFromLibrary() {
 		assertEquals(
 				String.join("\n", simpleExampleClasses), String.join(
-						"\n", tree.getClassDependenciesMap().get("BuildingsLite.Tests.SimpleModel")
+						"\n", tree.getDependencyTree().get("BuildingsLite.Tests.SimpleModel")
 								.getClasses()
 								.stream()
 								.sorted()
@@ -82,7 +82,7 @@ class DependencyTreeTest {
 	void getDependencyTree_ReverseBuoyancy3Zones_correctAbsolutePathsFromLibrary() {
 		assertEquals(
 				String.join("\n", reverseBuoyancy3ZonesClasses), String.join(
-						"\n", tree.getClassDependenciesMap()
+						"\n", tree.getDependencyTree()
 								.get("BuildingsLite.Airflow.Multizone.Examples.ReverseBuoyancy3Zones")
 								.getClasses()
 								.stream()

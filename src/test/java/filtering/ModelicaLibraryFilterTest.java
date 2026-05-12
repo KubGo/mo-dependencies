@@ -1,6 +1,6 @@
 package filtering;
 
-import dependencies.DependencyTree;
+import dependencies.DependencyTreeResolver;
 import org.junit.jupiter.api.Test;
 import utils.Utils;
 
@@ -43,7 +43,7 @@ class ModelicaLibraryFilterTest {
 
 	@Test
 	void filterClass_DependencyTree_returnClassesWithoutMSL() {
-		DependencyTree tree = new DependencyTree(filter);
+		DependencyTreeResolver tree = new DependencyTreeResolver(filter);
 		String buildingLibraryPath = Utils.getPathAsString(Utils.BuildingsLite);
 		tree.generateLibraryDependencies(buildingLibraryPath, "BuildingsLite");
 		assertEquals(

@@ -1,6 +1,6 @@
 package dependencies.writedependencies;
 
-import dependencies.DependencyTree;
+import dependencies.DependencyTreeResolver;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -14,16 +14,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class JsonDependenciesWriterTest {
 
-	static DependencyTree tree;
+	static DependencyTreeResolver dependencyTreeResolver;
 	static String buildingLibraryPath;
 
 	static JsonDependenciesWriter jsonDependenciesWriter = new JsonDependenciesWriter();
 
 	@BeforeAll
 	static void setUp() {
-		tree = new DependencyTree();
+		dependencyTreeResolver = new DependencyTreeResolver();
 		buildingLibraryPath = Utils.getPathAsString("BuildingsLite");
-		tree.generateLibraryDependencies(buildingLibraryPath, "BuildingsLite");
+		dependencyTreeResolver.generateLibraryDependencies(buildingLibraryPath, "BuildingsLite");
 		jsonDependenciesWriter.setLibraryName("BuildingsLite");
 		jsonDependenciesWriter.setPath(buildingLibraryPath);
 	}
@@ -53,7 +53,7 @@ class JsonDependenciesWriterTest {
 	@Test
 	void writeDependencies_BuildingsLite_dependenciesSavedCorrectly() {
 		try {
-			jsonDependenciesWriter.writeDependencies(tree);
+			jsonDependenciesWriter.writeDependencies(dependencyTreeResolver.getSimplifiedClassDependencies());
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}

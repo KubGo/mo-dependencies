@@ -33,6 +33,4 @@ public class AffectedClassesResolver {
 		}
 		return results.stream().toList();
 	}
-
-
 }

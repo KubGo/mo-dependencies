@@ -1,8 +1,9 @@
 package dependencies.writedependencies;
 
-import dependencies.DependencyTree;
+import dependencies.classesinfo.ClassDependencies;
 
 import java.io.IOException;
+import java.util.TreeMap;
 
 public abstract class AbstractDependenciesWriter {
 	protected String extension;
@@ -10,7 +11,7 @@ public abstract class AbstractDependenciesWriter {
 	protected String suffix;
 	protected String libraryName;
 
-	public abstract void writeDependencies(DependencyTree dependencies) throws IOException;
+	public abstract void writeDependencies(TreeMap<String, ClassDependencies> dependencies) throws IOException;
 
 	public String getFileName() {
 		return libraryName + suffix + extension;
