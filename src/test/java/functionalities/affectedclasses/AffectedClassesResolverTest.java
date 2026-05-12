@@ -1,12 +1,15 @@
 package functionalities.affectedclasses;
 
 import dependencies.DependencyTreeResolver;
+import dependencies.classesinfo.ClassDependencies;
+import dependencies.readdependencies.JsonDependenciesReader;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -74,7 +77,16 @@ class AffectedClassesResolverTest {
 
 	@Test
 	void getAffectedClasses_DayTypeAndBouncingBall_readingFromSavedFile() {
-
+		Map<String, ClassDependencies> dependenciesTree = new JsonDependenciesReader(
+				Utils.getPathAsString(Utils.BuildingsLite)).readDependencies();
+		AffectedClassesResolver<ClassDependencies> affectedClassesResolverFromRead = new AffectedClassesResolver<>(
+				dependenciesTree);
+		List<String> affectedClasses = affectedClassesResolver.getAffectedClasses(
+				"BuildingsLite.Controls.Sources.DayType", "BuildingsLite.Tests.BouncingBall");
+		List<String> expected = new ArrayList<>(dayTypeAffectedClasses);
+		expected.addAll(bouncingBallAffectedClasses);
+		expected = expected.stream().sorted().toList();
+		assertEquals(String.join("\n", expected), String.join("\n", affectedClasses.stream().sorted().toList()));
 	}
 
 

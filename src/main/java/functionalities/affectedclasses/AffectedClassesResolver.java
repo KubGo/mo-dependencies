@@ -1,16 +1,17 @@
 package functionalities.affectedclasses;
 
-import dependencies.classesinfo.ClassDependenciesResolver;
+import dependencies.classesinfo.IClassDependencies;
 
 import java.util.*;
 
-public class AffectedClassesResolver {
-	private final List<TreeMap<String, ClassDependenciesResolver>> trees = new ArrayList<>();
+public class AffectedClassesResolver<T extends IClassDependencies> {
+	private final List<Map<String, T>> trees = new ArrayList<>();
+	private boolean includeChildrenClasses = false;
 
 	private final Queue<String> affectedClasses = new LinkedList<>();
 
 	@SafeVarargs
-	public AffectedClassesResolver(TreeMap<String, ClassDependenciesResolver>... trees) {
+	public AffectedClassesResolver(Map<String, T>... trees) {
 		this.trees.addAll(Arrays.asList(trees));
 	}
 
@@ -27,10 +28,21 @@ public class AffectedClassesResolver {
 						results.add(finalCurrentClass);
 						results.add(name);
 					}
+					if (classDependencies.getParentClasses().contains(finalCurrentClass)) {
+						results.add(finalCurrentClass);
+						results.add(name);
+						if (includeChildrenClasses) {
+							affectedClasses.add(name);
+						}
+					}
 				});
 			}
 			currentClass = affectedClasses.poll();
 		}
 		return results.stream().toList();
+	}
+
+	public void setIncludeChildrenClasses(boolean includeChildrenClasses) {
+		this.includeChildrenClasses = includeChildrenClasses;
 	}
 }
