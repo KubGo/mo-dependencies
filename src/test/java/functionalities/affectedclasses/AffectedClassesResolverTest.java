@@ -89,6 +89,27 @@ class AffectedClassesResolverTest {
 		assertEquals(String.join("\n", expected), String.join("\n", affectedClasses.stream().sorted().toList()));
 	}
 
+	@Test
+	void getAffectedClasses_PartialSimpleModel_getAffectedClassesNoChildrenIncluded() {
+		List<String> affectedClasses = affectedClassesResolver.getAffectedClasses(
+				"BuildingsLite.Tests.PartialSimpleModel");
+		assertEquals(
+				String.join(
+						"\n", Stream.of("BuildingsLite.Tests.PartialSimpleModel", "BuildingsLite.Tests.SimpleModel")
+								.sorted()
+								.toList()), String.join("\n", affectedClasses.stream().sorted().toList()));
+	}
 
-
+	@Test
+	void getAffectedClasses_PartialSimpleModel_getAffectedClassesChildrenIncluded() {
+		affectedClassesResolver.setIncludeChildrenClasses(true);
+		List<String> affectedClasses = affectedClassesResolver.getAffectedClasses(
+				"BuildingsLite.Tests.PartialSimpleModel");
+		assertEquals(
+				String.join(
+						"\n", Stream.of(
+								"BuildingsLite.Tests.PartialSimpleModel", "BuildingsLite.Tests.SimpleModel",
+								"BuildingsLite.Tests.MultipleExtendsModel").sorted().toList()),
+				String.join("\n", affectedClasses.stream().sorted().toList()));
+	}
 }
