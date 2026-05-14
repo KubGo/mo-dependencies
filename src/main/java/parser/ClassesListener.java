@@ -6,6 +6,10 @@ import modelica.ModelicaFileSection;
 
 import java.util.*;
 
+/**
+ * Parser listener for getting classes, imports, functions and other Modelica
+ * classes used inside the class.
+ */
 public class ClassesListener extends ModelicaBaseListener{
     public String packageName;
     public ModelicaClassType modelicaClassType;
@@ -17,18 +21,32 @@ public class ClassesListener extends ModelicaBaseListener{
     public Map<String, String> classDefinitionsMap = new HashMap<>();
     private String typeName = "";
 
+    /**
+     * Current section to retrieve classes, mostly used to allow
+     * correct collection of functions. (Annotations get classified as functions)
+     */
     private ModelicaFileSection currentSection = ModelicaFileSection.DECLARATIVE;
     private final Stack<ModelicaFileSection> lastSections = new Stack<>();
 
+    /**
+     * @param section - encountered section
+     */
     private void updateSection(ModelicaFileSection section){
         lastSections.push(currentSection);
         currentSection = section;
     }
 
+    /**
+     * Go back to previous section
+	 */
     private void popSection() {
         currentSection = lastSections.pop();
     }
 
+    /**
+     * Retrieves the package name and class type
+     * @param ctx the parse tree
+	 */
     @Override
     public void enterStored_definition(ModelicaParser.Stored_definitionContext ctx) {
         packageName = ctx.name().getFirst().getText();
@@ -37,12 +55,20 @@ public class ClassesListener extends ModelicaBaseListener{
 
     }
 
+    /**
+     * Retrieves class names
+     * @param ctx the parse tree
+	 */
     @Override
     public void enterType_specifier(ModelicaParser.Type_specifierContext ctx) {
         String className = ctx.getText();
         classes.add(className);
     }
 
+    /**
+     * Retrieves imported classes
+     * @param ctx the parse tree
+	 */
     @Override
     public void enterImport_clause(ModelicaParser.Import_clauseContext ctx) {
         String importClause = ctx.name().getText();
@@ -79,6 +105,10 @@ public class ClassesListener extends ModelicaBaseListener{
         popSection();
     }
 
+    /**
+     * Retrieve function calls
+     * @param ctx the parse tree
+	 */
     @Override
     public void enterPrimary(ModelicaParser.PrimaryContext ctx) {
         if (currentSection != ModelicaFileSection.ANNOTATION) {
@@ -90,12 +120,20 @@ public class ClassesListener extends ModelicaBaseListener{
         }
     }
 
+    /**
+     * Retrieve extending classes
+     * @param ctx the parse tree
+	 */
     @Override
     public void enterExtends_clause(ModelicaParser.Extends_clauseContext ctx) {
         String extendingClass = ctx.name().getText();
         parentClasses.add(extendingClass);
     }
 
+    /**
+     * Get replaceable classes definitions in map
+     * @param ctx the parse tree
+	 */
     @Override
     public void enterElement(ModelicaParser.ElementContext ctx) {
         if (ctx.constraining_clause() != null) {
@@ -112,6 +150,10 @@ public class ClassesListener extends ModelicaBaseListener{
         }
     }
 
+    /**
+     * Get class definitions inside of the class
+     * @param ctx the parse tree
+	 */
     @Override
     public void enterClass_definition(ModelicaParser.Class_definitionContext ctx) {
         if (ctx.class_specifier().short_class_specifier() != null) {
@@ -130,6 +172,10 @@ public class ClassesListener extends ModelicaBaseListener{
     }
 
 
+    /**
+     * Class redecorations inside the class
+     * @param ctx the parse tree
+	 */
     @Override
     public void enterEnumeration_literal(ModelicaParser.Enumeration_literalContext ctx) {
         classDefinitionsMap.put(
