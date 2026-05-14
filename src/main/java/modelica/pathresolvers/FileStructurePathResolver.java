@@ -5,6 +5,9 @@ import dependencies.structureinfo.PackageInfo;
 
 import java.util.*;
 
+/**
+ * Resolves paths from file structure tree (relative Modelica paths)
+ */
 public class FileStructurePathResolver implements IPathResolver {
 	private final TreeMap<String, PackageInfo> filesTree;
 	private List<String> pathsToResolve = List.of();
@@ -33,7 +36,7 @@ public class FileStructurePathResolver implements IPathResolver {
 	 * @return - absolute path or current used path if absolute one wasn't found.
 	 */
 	public String getAbsolutePath(String pathToResolve) {
-		resetCurrentPackage();
+		reset();
 		setPathsToResolve(pathToResolve);
 		while (continueSearch()) {
 			ModelicaFileInfo file = getFile(pathsToResolve.get(pathIndex));
@@ -54,11 +57,19 @@ public class FileStructurePathResolver implements IPathResolver {
 		return pathToResolve;
 	}
 
+	/**
+	 * @param path - current class name to search in current package
+	 *
+	 * @return If name was found in package return its ModelicaFileInfo,
+	 * else return null.
+	 */
 	private ModelicaFileInfo getFile(String path) {
 		ModelicaFileInfo file = currentPackage.matchPath(path);
 		if (file == null) {
 			return null;
 		}
+		/* Continue if path was already searched and doesn't match,
+		 to prevent infinite loop */
 		if (visitedPaths.contains(file.getModelicaPath())) {
 			return null;
 		}
@@ -77,6 +88,12 @@ public class FileStructurePathResolver implements IPathResolver {
 		return file.isFinal();
 	}
 
+	/**
+	 * @param file - Modelica file found in package or null if file wasn't found.
+	 *             If null, search in parent package.
+	 *
+	 * @return - true if file was found, false otherwise
+	 */
 	private boolean checkIfThePathMatches(ModelicaFileInfo file) {
 		if (file == null) {
 			if (pathIndex != 0) {
@@ -88,22 +105,36 @@ public class FileStructurePathResolver implements IPathResolver {
 		return true;
 	}
 
+	/**
+	 * @return Check if top all packages up to top package were checked
+	 */
 	private boolean continueSearch() {
 		return currentPackage != null;
 	}
 
-	public void setCurrentPackage(PackageInfo packageInfo) {
+	/**
+	 * @param key - Current package name that contains class definition
+	 */
+	public void setCurrentPackage(String key) {
+		PackageInfo packageInfo = getPackageInfoByKey(key);
 		currentPackage = packageInfo;
 		packageToSearch = packageInfo;
 	}
 
-	private void resetCurrentPackage() {
+	/**
+	 * Rest paths resolver to check for new absolute path from file structure
+	 */
+	private void reset() {
 		currentPackage = packageToSearch;
 		pathIndex = 0;
 		visitedPaths.clear();
 	}
 
 
+	/**
+	 * Splits modelica path to packages and model to resolve in file structure
+	 * @param pathsToResolve - Modelica path used in declaration
+	 */
 	public void setPathsToResolve(String pathsToResolve) {
 		this.pathsToResolve = Arrays.stream(pathsToResolve.split("\\.")).toList();
 	}

@@ -97,7 +97,7 @@ public class ClassDependenciesResolver implements IClassDependencies, IFilterabl
 		if (currentPackage == null) {
 			return;
 		}
-		pathResolver.setCurrentPackage(currentPackage);
+		pathResolver.setCurrentPackage(packageName);
 		usedClasses.replaceAll(pathResolver::getAbsolutePath);
 		parentClasses.replaceAll(pathResolver::getAbsolutePath);
 	}

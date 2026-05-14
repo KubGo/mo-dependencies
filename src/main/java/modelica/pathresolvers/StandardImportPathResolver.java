@@ -4,10 +4,16 @@ import modelica.PathJoiner;
 
 import java.util.Arrays;
 
+/**
+ * Resolves absolute paths from imports
+ */
 public class StandardImportPathResolver implements IPathResolver{
 	private String importPath;
 
 
+	/**
+	 * @param importPath - imported path in Modelica to check
+	 */
 	public void setImportPath(String importPath) {
 		this.importPath = importPath;
 	}

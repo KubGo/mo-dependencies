@@ -55,7 +55,7 @@ public class DependencyTreeResolver {
 				(packageName, packageInfo) -> {
 					List<ClassInfo> classInfoList = packageInfo.getClassDefinitions();
 					classInfoList.forEach(classInfo -> {
-						fileStructurePathResolver.setCurrentPackage(packageInfo);
+						fileStructurePathResolver.setCurrentPackage(packageInfo.getModelicaPath());
 						String modelicaPath = classInfo.getModelicaPath();
 						String className = classInfo.getClassName();
 						try {

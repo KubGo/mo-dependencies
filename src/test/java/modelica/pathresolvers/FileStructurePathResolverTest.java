@@ -16,7 +16,7 @@ class FileStructurePathResolverTest {
 		String buildingsLitePath = Utils.getPathAsString(Utils.BuildingsLite);
 		modelicaFilesStructure = new ModelicaFilesStructure(buildingsLitePath, "BuildingsLite");
 		fileStructurePathResolver = new FileStructurePathResolver(modelicaFilesStructure.getTree());
-		fileStructurePathResolver.setCurrentPackage(modelicaFilesStructure.getTree().get("BuildingsLite.Tests"));
+		fileStructurePathResolver.setCurrentPackage("BuildingsLite.Tests");
 	}
 
 	@Test
