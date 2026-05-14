@@ -14,4 +14,8 @@ public interface IClassDependencies {
     void setLibrariesResolved(List<String> librariesNames);
 
     IClassDependencies toClassDependencies();
+
+    boolean isModel();
+
+    String getModelicaPath();
 }

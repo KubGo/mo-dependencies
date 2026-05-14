@@ -60,7 +60,7 @@ class ParentDependenciesResolverTest {
             "BuildingsLite.Controls.Predictors.ElectricalLoad"
     ).sorted().toList();
 
-    TreeMap<String, ClassDependenciesResolver> baseTree = new TreeMap<>();
+    Map<String, ClassDependenciesResolver> baseTree = new TreeMap<>();
     Map<String, String> modelPaths = Map.of(
             "SimpleModel", Utils.SimpleModel,
             "PartialSimpleModel", Utils.PartialSimpleModel
@@ -78,10 +78,10 @@ class ParentDependenciesResolverTest {
             }
         });
 
-        ParentDependenciesResolver<ClassDependenciesResolver> parentDependenciesResolver = new ParentDependenciesResolver(
-                baseTree
-        );
-        TreeMap<String, ClassDependenciesResolver> resolvedTree = parentDependenciesResolver.resolveParentDependencies(baseTree);
+        ParentDependenciesResolver<ClassDependenciesResolver> parentDependenciesResolver = new ParentDependenciesResolver<>(
+                baseTree);
+        Map<String, ClassDependenciesResolver> resolvedTree = parentDependenciesResolver.resolveParentDependencies(
+                baseTree);
         assertEquals(
                 partialSimpleModelClassesTrivialExample,
                 resolvedTree.get("PartialSimpleModel")

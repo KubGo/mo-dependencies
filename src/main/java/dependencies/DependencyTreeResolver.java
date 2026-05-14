@@ -11,16 +11,13 @@ import filtering.IFilter;
 import modelica.pathresolvers.FileStructurePathResolver;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.TreeMap;
+import java.util.*;
 
 public class DependencyTreeResolver {
 	ModelicaFilesStructure filesStructure = new ModelicaFilesStructure();
 	ModelicaFileReader modelicaFileReader = new ModelicaFileReader();
 	private final ParentDependenciesResolver<ClassDependenciesResolver> parentDependenciesResolver = new ParentDependenciesResolver<>();
-	private TreeMap<String, ClassDependenciesResolver> dependencyTree = new TreeMap<>();
+	private Map<String, ClassDependenciesResolver> dependencyTree = new TreeMap<>();
 	private FileStructurePathResolver fileStructurePathResolver;
 	private String libraryName = "";
 	private String libraryPath;
@@ -31,15 +28,19 @@ public class DependencyTreeResolver {
 	}
 
 	public DependencyTreeResolver() {
-
 	}
 
-	public TreeMap<String, ClassDependenciesResolver> getDependencyTree() {
+
+	public Map<String, ClassDependenciesResolver> getDependencyTree() {
 		return dependencyTree;
 	}
 
 	public void addFilter(IFilter filter) {
 		filters.add(filter);
+	}
+
+	public void addLibraryDependencies(Map<String, ? extends IClassDependencies> dependencies) {
+		parentDependenciesResolver.addTreeForParentSearching(dependencies);
 	}
 
 	public void generateLibraryDependencies(

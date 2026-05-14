@@ -129,11 +129,20 @@ public class ClassDependenciesResolver implements IClassDependencies, IFilterabl
 	}
 
 	public ClassDependencies toClassDependencies() {
-		return new ClassDependenciesBuilder()
-				.setModelicaPath(packageName + "." + className)
+		return new ClassDependenciesBuilder().setModelicaPath(getModelicaPath())
 				.setDependencies(getClasses())
 				.setParentClasses(this.parentClasses)
 				.setConstrainingClasses(this.constrainingClassesMap).setModelicaClassType(this.modelicaClassType)
 				.build();
+	}
+
+	@Override
+	public boolean isModel() {
+		return modelicaClassType == ModelicaClassType.MODEL;
+	}
+
+	@Override
+	public String getModelicaPath() {
+		return packageName + "." + className;
 	}
 }

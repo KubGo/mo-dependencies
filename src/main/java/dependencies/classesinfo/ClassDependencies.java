@@ -21,6 +21,11 @@ public class ClassDependencies implements IClassDependencies {
     private ModelicaClassType modelicaClassType;
 
     @Override
+    public String getModelicaPath() {
+        return modelicaPath;
+    }
+
+    @Override
     public List<String> getClasses() {
         return usedClasses;
     }
@@ -84,6 +89,11 @@ public class ClassDependencies implements IClassDependencies {
 
     public ModelicaClassType getModelicaClassType() {
         return modelicaClassType;
+    }
+
+    @Override
+    public boolean isModel() {
+        return modelicaClassType == ModelicaClassType.MODEL;
     }
 
     public void setModelicaClassType(ModelicaClassType modelicaClassType) {

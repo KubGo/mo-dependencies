@@ -11,7 +11,6 @@ import utils.Utils;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Map;
-import java.util.TreeMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -53,7 +52,7 @@ class JsonDependenciesReaderTest {
     void readDependencies_BuildingsLite_verifyDependenciesMatch() {
         jsonDependenciesReader = new JsonDependenciesReader(Utils.getPathAsString(Utils.BuildingsLite));
         Map<String, ClassDependencies> dependencies = jsonDependenciesReader.readDependencies();
-        TreeMap<String, ClassDependenciesResolver> actualDependencies = tree.getDependencyTree();
+        Map<String, ClassDependenciesResolver> actualDependencies = tree.getDependencyTree();
         for (var key : dependencies.keySet()) {
             assertEquals(
                     actualDependencies.get(key).toClassDependencies().toString(),
