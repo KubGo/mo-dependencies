@@ -2,8 +2,23 @@ package modelica;
 
 import java.util.Arrays;
 
-public class PathJoiner {
+/**
+ * Joins Modelica paths together
+ */
+public class ModelicaPathJoiner {
 
+	/**
+	 * @param rootPath  absolute path to the package
+	 * @param childPath path of the child class from the package to join
+	 *
+	 * @return joined path from the root through the package and to the child path,
+	 * e.g.:
+	 * //	 * rootPath = Library.Package.Subpackage.OtherPackage
+	 * childPath = Subpackage.ChildModel
+	 * returns Library.Package.Subpackage.ChildModel
+	 *
+	 * @throws PathsNotJoinableException when the paths cannot be joint together
+	 */
 	public static String joinPaths(String rootPath, String childPath) throws PathsNotJoinableException{
 		String splitCharacter = "\\.";
 		String[] rootPathSplit = rootPath.split(splitCharacter);

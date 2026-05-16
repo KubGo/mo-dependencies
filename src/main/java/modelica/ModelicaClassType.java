@@ -1,5 +1,8 @@
 package modelica;
 
+/**
+ * Enumeration that holds possible class types in Modelica
+ */
 public enum ModelicaClassType {
     MODEL,
     PARTIAL_MODEL,

@@ -1,6 +1,6 @@
 package modelica.pathresolvers;
 
-import modelica.PathJoiner;
+import modelica.ModelicaPathJoiner;
 
 import java.util.Arrays;
 
@@ -29,6 +29,6 @@ public class StandardImportPathResolver implements IPathResolver{
 
 	@Override
 	public String getAbsolutePath(String path) {
-		return PathJoiner.joinPaths(importPath, path);
+		return ModelicaPathJoiner.joinPaths(importPath, path);
 	}
 }

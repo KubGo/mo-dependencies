@@ -1,6 +1,16 @@
 package modelica;
 
+/**
+ * Provides ModelicaClassType enumeration values based on the class declaration
+ */
 public class ClassTypeProvider {
+	/**
+	 * @param classPrefix - class keywork from Modelica definition
+	 *
+	 * @return Enumeration to given class type
+	 *
+	 * @throws IllegalStateException on unexpected class definition
+	 */
 	public static ModelicaClassType getClassType(String classPrefix) throws IllegalStateException {
 		switch (classPrefix){
 			case "model" -> {
