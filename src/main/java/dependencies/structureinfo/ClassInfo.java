@@ -1,8 +1,16 @@
 package dependencies.structureinfo;
 
+/**
+ * Contains the information about the class
+ */
 public class ClassInfo extends ModelicaFileInfo {
 	public String path;
 
+	/**
+	 * @param systemPath path to the file
+	 * @param parent     parent of this class. This is {@link PackageInfo} package that
+	 *                   contains this class definition.
+	 */
 	public ClassInfo(String systemPath, PackageInfo parent){
 		this.path = systemPath;
 		this.parent = parent;
