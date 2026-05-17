@@ -2,9 +2,16 @@ package files;
 
 import java.nio.file.Path;
 
+/**
+ * Checker for Modelica file types
+ */
 public class FileTypeChecker {
 
 
+    /**
+     * @param path path to file
+     * @return file type
+     */
     public FileType getFileType(Path path){
         String extension = getExtension(path);
         String orderExtension = "order";
