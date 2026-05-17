@@ -9,6 +9,9 @@ import java.io.File;
 import java.util.Stack;
 import java.util.TreeMap;
 
+/**
+ * Resolves file structure of Modelica library
+ */
 public class ModelicaFilesStructure {
 	private PackageInfo currentPackage;
 	private final Stack<PackageInfo> packagesStack = new Stack<>();
@@ -19,6 +22,9 @@ public class ModelicaFilesStructure {
 
 	}
 
+	/**
+	 * @return Modelica files tree
+	 */
 	public TreeMap<String, PackageInfo> getTree() {
 		return tree;
 	}
@@ -26,6 +32,10 @@ public class ModelicaFilesStructure {
 		resolveFileStructure(path, libraryName);
 	}
 
+	/**
+	 * @param path        path to the library top package
+	 * @param libraryName name of the library
+	 */
 	public void resolveFileStructure(String path, String libraryName){
 		this.libraryName = libraryName;
 		currentPackage = new PackageInfo(path, libraryName);
@@ -34,6 +44,14 @@ public class ModelicaFilesStructure {
 		getModelicaPaths(path, libraryName);
 	}
 
+	/**
+	 * Iterates over files tree and create tree map from classes extending
+	 * {@link ModelicaFileInfo}. Starts from top level package and goes down into
+	 * file tree depth first. This method iteratively calls itself when reaches another
+	 * Modelica package.
+	 * @param path path to file
+	 * @param packageName name of the package containing the file
+	 */
 	private void getModelicaPaths(String path, String packageName){
 		File[] files = new File(path).listFiles();
 		if (files == null){
@@ -44,10 +62,10 @@ public class ModelicaFilesStructure {
 				if (modelicaDirectoryFilter.filterName(file.getPath())) {
 					PackageInfo packageInfo = new PackageInfo(file.getPath(), currentPackage);
 					updateCurrentPackage(packageInfo);
-					String directoryPath = getSubpackagePath(packageName, file.getName());
+					String packagePath = getSubpackagePath(packageName, file.getName());
 					tree.get(packageName).addChild(packageInfo);
-					tree.put(directoryPath, packageInfo);
-					getModelicaPaths(file.getPath(), directoryPath);
+					tree.put(packagePath, packageInfo);
+					getModelicaPaths(file.getPath(), packagePath);
 				}
 			}
 			else if (file.getName().endsWith(".mo") && !file.getName().equals("package.mo")){
