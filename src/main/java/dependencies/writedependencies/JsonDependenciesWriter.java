@@ -11,6 +11,9 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.TreeMap;
 
+/**
+ * Writes dependencies in json file
+ */
 public class JsonDependenciesWriter extends AbstractDependenciesWriter {
 	public JsonDependenciesWriter(String suffix) {
 		extension = ".json";
@@ -21,6 +24,10 @@ public class JsonDependenciesWriter extends AbstractDependenciesWriter {
 		this("_dependencies");
 	}
 
+	/**
+	 * @param dependencies map of {@link ClassDependencies} to write to json file
+	 * @throws IOException when any error happens during saving
+	 */
 	@Override
 	public void writeDependencies(TreeMap<String, ClassDependencies> dependencies) throws IOException {
 		FileWriter fileWriter;
