@@ -1,5 +1,6 @@
 package dependencies;
 
+import config.Config;
 import dependencies.classesinfo.ClassDependencies;
 import dependencies.classesinfo.ClassDependenciesResolver;
 import dependencies.classesinfo.IClassDependencies;
@@ -11,6 +12,7 @@ import filtering.IFilter;
 import modelica.pathresolvers.FileStructurePathResolver;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.*;
 
 /**
@@ -55,11 +57,21 @@ public class DependencyTreeResolver {
 
 	/**
 	 * @param path path to library top package
+	 */
+	public void generateLibraryDependencies(
+			String path) {
+		String libraryName = Path.of(path).getFileName().toString();
+		generateLibraryDependencies(path, libraryName);
+	}
+
+	/**
+	 * @param path path to library top package
 	 * @param libraryName library name
 	 */
 	public void generateLibraryDependencies(
 			String path,
 			String libraryName){
+		if (Config.DEBUG) System.out.println("Creating dependencies for " + libraryName + "...");
 		this.libraryPath = path;
 		this.libraryName = libraryName;
 		filesStructure.resolveFileStructure(path, libraryName);
@@ -135,6 +147,7 @@ public class DependencyTreeResolver {
 	 *                {@link ClassDependencies} to file.
 	 */
 	public void saveDependencies(AbstractDependenciesWriter... writers) {
+		if (Config.DEBUG) System.out.println("Saving dependencies...");
 		for (AbstractDependenciesWriter writer : writers) {
 			writer.setLibraryName(libraryName);
 			writer.setPath(libraryPath);
@@ -143,6 +156,7 @@ public class DependencyTreeResolver {
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
+			if (Config.DEBUG) System.out.println("Dependencies saved to: " + libraryPath + writer.getFileName());
 		}
 	}
 }

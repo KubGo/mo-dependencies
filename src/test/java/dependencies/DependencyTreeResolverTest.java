@@ -50,7 +50,7 @@ class DependencyTreeResolverTest {
 	static void setUp() {
 		tree = new DependencyTreeResolver();
 		String buildingLibraryPath = Utils.getPathAsString(Utils.BuildingsLite);
-		tree.generateLibraryDependencies(buildingLibraryPath, "BuildingsLite");
+		tree.generateLibraryDependencies(buildingLibraryPath);
 	}
 
 	@Test
