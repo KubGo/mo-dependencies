@@ -83,7 +83,7 @@ public class DependencyTreeResolver {
 
 	public IClassDependencies getClassDependencies(String className) {
 		if (dependencyTree.containsKey(className)) {
-			return dependencyTree.get(className).toClassDependencies();
+			return dependencyTree.get(className).toSavableClassDependencies();
 		} else {
 			return null;
 		}
@@ -92,7 +92,7 @@ public class DependencyTreeResolver {
 	public TreeMap<String, ClassDependencies> getSimplifiedClassDependencies() {
 		TreeMap<String, ClassDependencies> dependencies = new TreeMap<>();
 		for (String key : dependencyTree.keySet()) {
-			dependencies.put(key, dependencyTree.get(key).toClassDependencies());
+			dependencies.put(key, dependencyTree.get(key).toSavableClassDependencies());
 		}
 		return dependencies;
 	}

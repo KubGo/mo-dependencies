@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Builder for {@link ClassDependencies}
+ */
 public class ClassDependenciesBuilder {
     private String modelicaPath = "";
     private List<String> dependencies = List.of();

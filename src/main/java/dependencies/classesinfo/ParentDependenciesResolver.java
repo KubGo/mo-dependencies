@@ -2,12 +2,22 @@ package dependencies.classesinfo;
 
 import java.util.*;
 
+/**
+ * Resolves parent dependencies from whole dependencies tree of library or multiple libraries.
+ * Updates not finalized paths to absolute paths that might come from other
+ * libraries and include their parent classes
+ *
+ * @param <T> {@link IClassDependencies} interface to use in this resolver
+ */
 public class ParentDependenciesResolver<T extends IClassDependencies> {
     List<Map<String, ? extends IClassDependencies>> trees = new ArrayList<>();
 
     Map<String, List<String>> resolvedParents = new TreeMap<>();
     private final List<String> librariesNames = new ArrayList<>();
 
+    /**
+     * @param trees libraries trees to resolve for dependencies.
+     */
     @SafeVarargs
     public ParentDependenciesResolver(Map<String, ? extends IClassDependencies>... trees) {
         this.trees.addAll(List.of(trees));
@@ -28,12 +38,25 @@ public class ParentDependenciesResolver<T extends IClassDependencies> {
         addLibraryName(tree);
     }
 
+    /**
+     * @param treeToResolve tree to resolve the dependencies from other libraries specified
+     *                      in this class
+     * @return updated tree with included dependencies from parent classes
+     */
     public Map<String, T> resolveParentDependencies(
             Map<String, T> treeToResolve) {
         treeToResolve.forEach(this::resolveParentDependencies);
         return treeToResolve;
     }
 
+    /**
+     * This class recursively adds classes that are used in parent classes to this class.
+     * Results are saved in this instance so there's no need to resolve the same parent class
+     * second time.
+     * @param className name of the class
+     * @param classDependencies classes dependencies instance for resolving used classes and parents
+     * @return list of classes that are used in parents of this class
+     */
     private List<String> resolveParentDependencies(String className, IClassDependencies classDependencies) {
         if (classDependencies.areParentDependenciesResolved(librariesNames)) {
             if (resolvedParents.containsKey(className)) {
@@ -54,7 +77,7 @@ public class ParentDependenciesResolver<T extends IClassDependencies> {
                 }
             }
         }
-        classDependencies.addClassesUsedByParents(classesUsedByParents);
+        classDependencies.addClasses(classesUsedByParents);
         resolvedParents.put(className, classDependencies.getClasses());
         classDependencies.setLibrariesResolved(librariesNames);
         return classDependencies.getClasses();

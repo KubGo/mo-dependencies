@@ -55,7 +55,7 @@ class JsonDependenciesReaderTest {
         Map<String, ClassDependenciesResolver> actualDependencies = tree.getDependencyTree();
         for (var key : dependencies.keySet()) {
             assertEquals(
-                    actualDependencies.get(key).toClassDependencies().toString(),
+                    actualDependencies.get(key).toSavableClassDependencies().toString(),
                     dependencies.get(key).toString());
         }
     }

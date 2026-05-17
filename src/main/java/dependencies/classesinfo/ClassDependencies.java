@@ -5,6 +5,10 @@ import modelica.ModelicaClassType;
 
 import java.util.*;
 
+/**
+ * Simplified ClassDependencies that contains the class information, but doesn't resolve it from
+ * Modelica file and can be serialized to save to file.
+ */
 public class ClassDependencies implements IClassDependencies {
 
     @SerializedName("ModelicaPath")
@@ -36,9 +40,9 @@ public class ClassDependencies implements IClassDependencies {
     }
 
     @Override
-    public void addClassesUsedByParents(List<String> parentClasses) {
+    public void addClasses(List<String> classes) {
         Set<String> updatedClasses = new HashSet<>(usedClasses);
-        updatedClasses.addAll(parentClasses);
+        updatedClasses.addAll(classes);
         setUsedClasses(updatedClasses.stream().toList());
     }
 
@@ -53,7 +57,7 @@ public class ClassDependencies implements IClassDependencies {
     }
 
     @Override
-    public IClassDependencies toClassDependencies() {
+    public IClassDependencies toSavableClassDependencies() {
         return this;
     }
 
@@ -61,14 +65,9 @@ public class ClassDependencies implements IClassDependencies {
         this.modelicaPath = modelicaPath;
     }
 
-    public List<String> getUsedClasses() {
-        return usedClasses;
-    }
-
     public void setUsedClasses(List<String> usedClasses) {
         this.usedClasses = usedClasses;
     }
-
 
     public void setParentClasses(List<String> parentClasses) {
         this.parentClasses = parentClasses;

@@ -17,6 +17,9 @@ import parser.ModelicaParser;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Class dependencies resolver from class text
+ */
 public class ClassDependenciesResolver implements IClassDependencies, IFilterable {
 	private final List<String> importedClasses;
 	private ArrayList<String> usedClasses = new ArrayList<>();
@@ -30,6 +33,12 @@ public class ClassDependenciesResolver implements IClassDependencies, IFilterabl
 	private final Set<String> resolvedLibraries = new HashSet<>();
 	private final ModelicaClassType modelicaClassType;
 
+	/**
+	 * Resolves the class definitions based on the class text
+	 *
+	 * @param className absolute name of Modelica class
+	 * @param text      class definition
+	 */
 	public ClassDependenciesResolver(String className, String text) {
 		ModelicaLexer modelicaLexer = new ModelicaLexer(CharStreams.fromString(text));
 		CommonTokenStream tokens = new CommonTokenStream(modelicaLexer);
@@ -50,6 +59,10 @@ public class ClassDependenciesResolver implements IClassDependencies, IFilterabl
 		modelicaClassType = listener.modelicaClassType;
 	}
 
+	/**
+	 * Filter classes used in the definitions based on the applied filters
+	 * @param filters - filters that extends the {@link IFilter} interface
+     */
 	@Override
 	public void filter(List<IFilter> filters) {
 		for (IFilter filter : filters) {
@@ -80,13 +93,17 @@ public class ClassDependenciesResolver implements IClassDependencies, IFilterabl
 	}
 
 	@Override
-	public void addClassesUsedByParents(List<String> parentClasses) {
+	public void addClasses(List<String> classes) {
 		Set<String> usedClassesSet = new HashSet<>(usedClasses);
-		usedClassesSet.addAll(parentClasses);
+		usedClassesSet.addAll(classes);
 		usedClasses = new ArrayList<>(usedClassesSet.stream().toList());
 	}
 
 
+	/**
+	 * Resolves internal dependencies from the class. This includes
+	 * class definitions inside this model and imports.
+     */
 	public void resolveInternalDependencies() {
 		resolveClassDefinitions();
 		resolverStandardImports();
@@ -102,6 +119,10 @@ public class ClassDependenciesResolver implements IClassDependencies, IFilterabl
 		parentClasses.replaceAll(pathResolver::getAbsolutePath);
 	}
 
+	/**
+	 * Resolve imported classes. It adds imported path to the class types, e.g.:
+	 * SI.Length -> Modelica.Units.SI.Length
+     */
 	private void resolverStandardImports() {
 		if (!standardImportsResolved) {
 			StandardImportPathResolver pathResolver = new StandardImportPathResolver();
@@ -117,6 +138,9 @@ public class ClassDependenciesResolver implements IClassDependencies, IFilterabl
 		}
 	}
 
+	/**
+	 * Change name of internal declared class to the class path
+     */
 	private void resolveClassDefinitions() {
 		if (!classDefinitionsResolved) {
 			classDefinitionsMap.forEach((name, classPath) -> {
@@ -128,7 +152,10 @@ public class ClassDependenciesResolver implements IClassDependencies, IFilterabl
 		}
 	}
 
-	public ClassDependencies toClassDependencies() {
+	/**
+	 * @return {@link ClassDependencies} that can be serialized and saved/read.
+	 */
+	public ClassDependencies toSavableClassDependencies() {
 		return new ClassDependenciesBuilder().setModelicaPath(getModelicaPath())
 				.setDependencies(getClasses())
 				.setParentClasses(this.parentClasses)
