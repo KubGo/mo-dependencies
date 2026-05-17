@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import utils.Utils;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -19,14 +20,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class TestCasesResolverTest {
 
 	static Map<String, ClassDependencies> buildingsLiteDependencies;
-	Map<String, ClassDependencies> testLibraryDependencies;
 	DependencyTreeResolver tree;
 	ModelicaLibraryFilter filter = new ModelicaLibraryFilter("Modelica");
 
 	@BeforeAll
 	static void readBuildingsLiteDependencies() {
 		JsonDependenciesReader reader = new JsonDependenciesReader(Utils.getPathAsString(Utils.BuildingsLite));
-		buildingsLiteDependencies = reader.readDependencies();
+		try {
+			buildingsLiteDependencies = reader.readDependencies();
+		} catch (FileNotFoundException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@BeforeEach

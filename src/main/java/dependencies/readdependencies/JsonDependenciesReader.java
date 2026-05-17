@@ -15,6 +15,9 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.TreeMap;
 
+/**
+ * Reads dependencies from json file
+ */
 public class JsonDependenciesReader extends AbstractDependenciesReader{
     public JsonDependenciesReader(String path, String suffix){
         this.path = path;
@@ -25,10 +28,16 @@ public class JsonDependenciesReader extends AbstractDependenciesReader{
         this(path, "_dependencies");
     }
 
-    public Map<String, ClassDependencies> readDependencies() {
+    /**
+     * Reads dependencies from json file
+     *
+     * @return dependencies tree saved in file
+     */
+    @Override
+    public Map<String, ClassDependencies> readDependencies() throws FileNotFoundException {
         Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
         if (!checkExtension()) {
-            throw new RuntimeException("Couldn't find the dependencies file at " + path);
+            throw new FileNotFoundException("Couldn't find the dependencies file at " + path);
         }
         try {
             FileReader fileReader = new FileReader(path);
@@ -42,6 +51,10 @@ public class JsonDependenciesReader extends AbstractDependenciesReader{
         }
     }
 
+    /**
+     * @return true if extension matches and file exists
+     */
+    @Override
     public boolean checkExtension(){
         File file = new File(path);
         if (file.isFile()){

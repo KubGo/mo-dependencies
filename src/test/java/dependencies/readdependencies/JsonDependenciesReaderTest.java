@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import utils.Utils;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Map;
@@ -51,19 +52,23 @@ class JsonDependenciesReaderTest {
     @Test
     void readDependencies_BuildingsLite_verifyDependenciesMatch() {
         jsonDependenciesReader = new JsonDependenciesReader(Utils.getPathAsString(Utils.BuildingsLite));
-        Map<String, ClassDependencies> dependencies = jsonDependenciesReader.readDependencies();
-        Map<String, ClassDependenciesResolver> actualDependencies = tree.getDependencyTree();
-        for (var key : dependencies.keySet()) {
-            assertEquals(
-                    actualDependencies.get(key).toSavableClassDependencies().toString(),
-                    dependencies.get(key).toString());
+        try {
+            Map<String, ClassDependencies> dependencies = jsonDependenciesReader.readDependencies();
+            Map<String, ClassDependenciesResolver> actualDependencies = tree.getDependencyTree();
+            for (var key : dependencies.keySet()) {
+                assertEquals(
+                        actualDependencies.get(key).toSavableClassDependencies().toString(),
+                        dependencies.get(key).toString());
+            }
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
     @Test
-    void readDependencies_BuildingsLite_throwsExceptionWhenPathNotFound() throws RuntimeException {
+    void readDependencies_BuildingsLite_throwsExceptionWhenPathNotFound() {
         jsonDependenciesReader = new JsonDependenciesReader(Utils.getPathAsString(Utils.BuildingsLite), "_dep");
-        assertThrows(RuntimeException.class, () -> jsonDependenciesReader.readDependencies());
+        assertThrows(FileNotFoundException.class, () -> jsonDependenciesReader.readDependencies());
     }
 
 }
