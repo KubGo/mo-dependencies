@@ -35,7 +35,7 @@ class TestCasesResolverTest {
 
 	@BeforeEach
 	void setup() {
-		tree = new DependencyTreeResolver(filter);
+		tree = new DependencyTreeResolver(List.of(filter));
 	}
 
 	@Test

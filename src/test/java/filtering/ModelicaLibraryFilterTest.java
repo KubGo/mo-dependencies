@@ -43,7 +43,7 @@ class ModelicaLibraryFilterTest {
 
 	@Test
 	void filterClass_DependencyTree_returnClassesWithoutMSL() {
-		DependencyTreeResolver tree = new DependencyTreeResolver(filter);
+		DependencyTreeResolver tree = new DependencyTreeResolver(List.of(filter));
 		String buildingLibraryPath = Utils.getPathAsString(Utils.BuildingsLite);
 		tree.generateLibraryDependencies(buildingLibraryPath, "BuildingsLite");
 		assertEquals(

@@ -13,7 +13,10 @@ import modelica.pathresolvers.FileStructurePathResolver;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Resolves dependency tree for the library
@@ -31,8 +34,8 @@ public class DependencyTreeResolver {
 	/**
 	 * @param filters filters to use on dependencies of each class
 	 */
-	public DependencyTreeResolver(IFilter... filters) {
-		Arrays.stream(filters).forEach(this::addFilter);
+	public DependencyTreeResolver(List<? extends IFilter> filters) {
+		filters.forEach(this::addFilter);
 	}
 
 	public DependencyTreeResolver() {
