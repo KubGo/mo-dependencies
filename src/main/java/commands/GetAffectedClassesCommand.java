@@ -35,13 +35,27 @@ public class GetAffectedClassesCommand implements Runnable {
 		if (debug) {
 			Config.DEBUG = true;
 		}
+		if (Config.DEBUG) System.out.println("Retrieving affected classes...");
 
 		String lib = libraries.getFirst();
+		AffectedClassesResolver<ClassDependencies> affectedClassesResolver = getAffectedClassesResolver(lib);
+		List<String> affectedClasses = affectedClassesResolver.getAffectedClasses(classes);
+		if (Config.DEBUG) {
+			affectedClasses.forEach(System.out::println);
+			System.out.println("Affected classes retrieved.");
+		}
+	}
+
+	private AffectedClassesResolver<ClassDependencies> getAffectedClassesResolver(String lib) {
 		AbstractDependenciesReader reader = new JsonDependenciesReader(lib, suffix);
 		AffectedClassesResolver<ClassDependencies> affectedClassesResolver = new AffectedClassesResolver<>();
 		affectedClassesResolver.setIncludeChildrenClasses(!noChildrenClasses);
 		if (readerName.equals("json")) {
 			reader = new JsonDependenciesReader(lib, suffix);
+		}
+		else {
+			throw new RuntimeException(
+					"Unknown file reader: \"" + readerName + "\"." + "For now available options are: " + Config.getAvailableExtensionsList() + ".");
 		}
 		try {
 			Map<String, ClassDependencies> tree = reader.readDependencies();
@@ -49,9 +63,7 @@ public class GetAffectedClassesCommand implements Runnable {
 		} catch (FileNotFoundException e) {
 			throw new RuntimeException(e);
 		}
-		List<String> affectedClasses = affectedClassesResolver.getAffectedClasses(classes);
-		if (Config.DEBUG) {
-			affectedClasses.forEach(System.out::println);
-		}
+
+		return affectedClassesResolver;
 	}
 }

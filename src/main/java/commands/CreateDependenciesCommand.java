@@ -56,7 +56,8 @@ public class CreateDependenciesCommand implements Runnable {
 				dependenciesWriters.add(new JsonDependenciesWriter());
 			}
 			else {
-				System.out.println("Unknown writer \"" + writer + "\", " + "for now available options are: \"json\"");
+				System.out.println(
+						"Unknown writer \"" + writer + "\", " + "for now available options are: " + Config.getAvailableExtensionsList() + ".");
 			}
 		}
 		dependenciesWriters.forEach(dependencyResolver::saveDependencies);
