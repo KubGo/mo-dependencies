@@ -1,5 +1,6 @@
 package dependencies;
 
+import config.Config;
 import dependencies.structureinfo.ClassInfo;
 import dependencies.structureinfo.ModelicaFileInfo;
 import dependencies.structureinfo.PackageInfo;
@@ -37,11 +38,13 @@ public class ModelicaFilesStructure {
 	 * @param libraryName name of the library
 	 */
 	public void resolveFileStructure(String path, String libraryName){
+		if (Config.DEBUG) System.out.println("Resolving file structure for " + libraryName + "...");
 		this.libraryName = libraryName;
 		currentPackage = new PackageInfo(path, libraryName);
 		packagesStack.push(currentPackage);
 		tree.put(libraryName, currentPackage);
 		getModelicaPaths(path, libraryName);
+		if (Config.DEBUG) System.out.println("File structure resolved.");
 	}
 
 	/**

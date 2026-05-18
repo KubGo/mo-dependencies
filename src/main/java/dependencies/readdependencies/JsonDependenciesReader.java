@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
+import config.Config;
 import dependencies.classesinfo.ClassDependencies;
 
 import java.io.File;
@@ -40,11 +41,13 @@ public class JsonDependenciesReader extends AbstractDependenciesReader{
             throw new FileNotFoundException("Couldn't find the dependencies file at " + path);
         }
         try {
+            if (Config.DEBUG) System.out.println("Reading dependencies from " + path + "...");
             FileReader fileReader = new FileReader(path);
             JsonReader jsonReader = new JsonReader(fileReader);
             Type type = new TypeToken<TreeMap<String, ClassDependencies>>() {
             }.getType();
             Map<String, ClassDependencies> dependencies = gson.fromJson(jsonReader, type);
+            if (Config.DEBUG) System.out.println("Dependencies read.");
             return dependencies;
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);

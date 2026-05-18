@@ -14,6 +14,11 @@ public class ModelicaDirectoryFilter implements IFilter {
 
 	}
 
+	@Override
+	public String getFilterDescription() {
+		return "Filtering for directories with package.mo and package.order...";
+	}
+
 	/**
 	 * @param path - path to directory with files
 	 *

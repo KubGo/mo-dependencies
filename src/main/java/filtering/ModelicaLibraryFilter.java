@@ -27,4 +27,9 @@ public class ModelicaLibraryFilter implements IFilter {
 		String[] paths = classPath.split("\\.");
 		return !Objects.equals(paths[0], libraryName);
 	}
+
+	@Override
+	public String getFilterDescription() {
+		return "Filtering classes that aren't from " + libraryName + "...";
+	}
 }

@@ -10,7 +10,7 @@ import picocli.CommandLine;
 )
 public class CreateDependenciesCommand implements Runnable {
 	@CommandLine.Option(names = {"--library", "-l"})
-	private final String libraryPath = "src/test/resources/TestLibrary";
+	private String libraryPath;
 	@CommandLine.Option(names = {"--debug", "-d"})
 	private boolean debug;
 
@@ -30,6 +30,6 @@ public class CreateDependenciesCommand implements Runnable {
 		dependencyResolver.generateLibraryDependencies(libraryPath);
 		JsonDependenciesWriter writer = new JsonDependenciesWriter();
 		dependencyResolver.saveDependencies(writer);
-		System.out.println("Dependencies created.");
+		if (Config.DEBUG) System.out.println("Dependencies created.");
 	}
 }

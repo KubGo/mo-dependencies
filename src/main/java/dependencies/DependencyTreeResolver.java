@@ -76,7 +76,12 @@ public class DependencyTreeResolver {
 		this.libraryName = libraryName;
 		filesStructure.resolveFileStructure(path, libraryName);
 		fileStructurePathResolver = new FileStructurePathResolver(filesStructure.tree);
-
+		if (Config.DEBUG) {
+			if (!filters.isEmpty()) {
+				System.out.println("Filters to apply:");
+				filters.forEach(it -> System.out.println(it.getFilterDescription()));
+			}
+		}
 		filesStructure.tree.forEach(
 				(packageName, packageInfo) -> {
 					List<ClassInfo> classInfoList = packageInfo.getClassDefinitions();
@@ -100,9 +105,7 @@ public class DependencyTreeResolver {
 	 */
 	private void resolveClassDependencies(ClassInfo classInfo) throws IOException {
 		ClassDependenciesResolver classDependenciesResolver = new ClassDependenciesResolver(
-				classInfo.getClassName(),
-		                                                                                    modelicaFileReader.readFile(
-																									classInfo.path));
+				classInfo.getClassName(), modelicaFileReader.readFile(classInfo.path));
 		classDependenciesResolver.resolveInternalDependencies();
 		classDependenciesResolver.resolveLibraryDependencies(fileStructurePathResolver);
 		classDependenciesResolver.filter(filters);
@@ -114,7 +117,9 @@ public class DependencyTreeResolver {
 	 * To add other dependencies see {@link #addLibraryDependencies(Map) addLibraryDependencies}
 	 */
 	public void includeParentsDependentClasses(){
+		if (Config.DEBUG) System.out.println("Resolving parent dependencies for " + libraryName + "...");
 		dependencyTree = parentDependenciesResolver.resolveParentDependencies(dependencyTree);
+		if (Config.DEBUG) System.out.println("Resolved parent dependencies.");
 
 	}
 
