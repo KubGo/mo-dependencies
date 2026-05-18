@@ -88,7 +88,7 @@ class TestCasesResolverTest {
 		TestCasesResolver testCasesResolver = new TestCasesResolver(tree.getDependencyTree());
 		AffectedClassesResolver<ClassDependencies> resolver = new AffectedClassesResolver<>(buildingsLiteDependencies);
 		resolver.setIncludeChildrenClasses(true);
-		List<String> affectedClasses = resolver.getAffectedClasses("BuildingsLite.Tests.PartialSimpleModel");
+		List<String> affectedClasses = resolver.getAffectedClasses(List.of("BuildingsLite.Tests.PartialSimpleModel"));
 		List<String> results = testCasesResolver.getTestCasesToRun(affectedClasses);
 
 		assertEquals(

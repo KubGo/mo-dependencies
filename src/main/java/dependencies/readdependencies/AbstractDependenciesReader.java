@@ -35,7 +35,7 @@ public abstract class AbstractDependenciesReader {
      *
      * @return map of class dependencies
      */
-    abstract Map<String, ClassDependencies> readDependencies() throws FileNotFoundException;
+    public abstract Map<String, ClassDependencies> readDependencies() throws FileNotFoundException;
 
     /**
      * Check if extension matches

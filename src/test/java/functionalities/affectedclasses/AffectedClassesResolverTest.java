@@ -47,14 +47,15 @@ class AffectedClassesResolverTest {
 
 	@Test
 	void getAffectedClasses_BouncingBall_classesMatch() {
-		List<String> affectedClasses = affectedClassesResolver.getAffectedClasses("BuildingsLite.Tests.BouncingBall");
+		List<String> affectedClasses = affectedClassesResolver.getAffectedClasses(
+				List.of("BuildingsLite.Tests.BouncingBall"));
 		assertEquals(bouncingBallAffectedClasses, affectedClasses.stream().sorted().toList());
 	}
 
 	@Test
 	void getAffectedClasses_DayType_classesMatch() {
 		List<String> affectedClasses = affectedClassesResolver.getAffectedClasses(
-				"BuildingsLite.Controls.Sources.DayType");
+				List.of("BuildingsLite.Controls.Sources.DayType"));
 		assertEquals(
 				String.join("\n", dayTypeAffectedClasses),
 				String.join("\n", affectedClasses.stream().sorted().toList()));
@@ -63,7 +64,7 @@ class AffectedClassesResolverTest {
 	@Test
 	void getAffectedClasses_DayTypeAndBouncingBall_classesMatch() {
 		List<String> affectedClasses = affectedClassesResolver.getAffectedClasses(
-				"BuildingsLite.Controls.Sources.DayType", "BuildingsLite.Tests.BouncingBall");
+				List.of("BuildingsLite.Controls.Sources.DayType", "BuildingsLite.Tests.BouncingBall"));
 		List<String> expected = new ArrayList<>(dayTypeAffectedClasses);
 		expected.addAll(bouncingBallAffectedClasses);
 		expected = expected.stream().sorted().toList();
@@ -72,7 +73,7 @@ class AffectedClassesResolverTest {
 
 	@Test
 	void getAffectedClasses_ModelNotUsedInLibrary_emptyList() {
-		List<String> affectedClasses = affectedClassesResolver.getAffectedClasses("Library.Name.Model");
+		List<String> affectedClasses = affectedClassesResolver.getAffectedClasses(List.of("Library.Name.Model"));
 		assertEquals(List.of(), affectedClasses);
 	}
 
@@ -84,7 +85,7 @@ class AffectedClassesResolverTest {
 			AffectedClassesResolver<ClassDependencies> affectedClassesResolverFromRead = new AffectedClassesResolver<>(
 					dependenciesTree);
 			List<String> affectedClasses = affectedClassesResolver.getAffectedClasses(
-					"BuildingsLite.Controls.Sources.DayType", "BuildingsLite.Tests.BouncingBall");
+					List.of("BuildingsLite.Controls.Sources.DayType", "BuildingsLite.Tests.BouncingBall"));
 			List<String> expected = new ArrayList<>(dayTypeAffectedClasses);
 			expected.addAll(bouncingBallAffectedClasses);
 			expected = expected.stream().sorted().toList();
@@ -97,7 +98,7 @@ class AffectedClassesResolverTest {
 	@Test
 	void getAffectedClasses_PartialSimpleModel_getAffectedClassesNoChildrenIncluded() {
 		List<String> affectedClasses = affectedClassesResolver.getAffectedClasses(
-				"BuildingsLite.Tests.PartialSimpleModel");
+				List.of("BuildingsLite.Tests.PartialSimpleModel"));
 		assertEquals(
 				String.join(
 						"\n", Stream.of("BuildingsLite.Tests.PartialSimpleModel", "BuildingsLite.Tests.SimpleModel")
@@ -109,7 +110,7 @@ class AffectedClassesResolverTest {
 	void getAffectedClasses_PartialSimpleModel_getAffectedClassesChildrenIncluded() {
 		affectedClassesResolver.setIncludeChildrenClasses(true);
 		List<String> affectedClasses = affectedClassesResolver.getAffectedClasses(
-				"BuildingsLite.Tests.PartialSimpleModel");
+				List.of("BuildingsLite.Tests.PartialSimpleModel"));
 		assertEquals(
 				String.join(
 						"\n", Stream.of(

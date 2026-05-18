@@ -10,14 +10,23 @@ public class AffectedClassesResolver<T extends IClassDependencies> {
 
 	private final Queue<String> affectedClasses = new LinkedList<>();
 
+	public AffectedClassesResolver() {
+
+	}
+
 	@SafeVarargs
 	public AffectedClassesResolver(Map<String, T>... trees) {
 		this.trees.addAll(Arrays.asList(trees));
 	}
 
-	public List<String> getAffectedClasses(String... className) {
+	public void addDependencyTree(Map<String, T> tree) {
+		trees.add(tree);
+	}
+
+
+	public List<String> getAffectedClasses(List<String> classes) {
 		affectedClasses.clear();
-		affectedClasses.addAll(Arrays.asList(className));
+		affectedClasses.addAll(classes);
 		Set<String> results = new HashSet<>();
 		String currentClass = affectedClasses.poll();
 		while (currentClass != null) {
