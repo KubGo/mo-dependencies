@@ -11,7 +11,7 @@ public class TestCasesResolver {
 		this.testingLibraryTree = testingLibraryTree;
 	}
 
-	List<String> getTestCasesToRun(List<String> affectedClasses) {
+	public List<String> getTestCasesToRun(List<String> affectedClasses) {
 		Queue<String> modelsToTest = new LinkedList<>(affectedClasses);
 		Set<String> results = new HashSet<>();
 		String currentClass = modelsToTest.poll();

@@ -44,10 +44,11 @@ public class GetAffectedClassesCommand implements Runnable {
 			affectedClasses.forEach(System.out::println);
 			System.out.println("Affected classes retrieved.");
 		}
+		System.out.println(String.join("\n", affectedClasses));
 	}
 
 	private AffectedClassesResolver<ClassDependencies> getAffectedClassesResolver(String lib) {
-		AbstractDependenciesReader reader = new JsonDependenciesReader(lib, suffix);
+		AbstractDependenciesReader reader;
 		AffectedClassesResolver<ClassDependencies> affectedClassesResolver = new AffectedClassesResolver<>();
 		affectedClassesResolver.setIncludeChildrenClasses(!noChildrenClasses);
 		if (readerName.equals("json")) {

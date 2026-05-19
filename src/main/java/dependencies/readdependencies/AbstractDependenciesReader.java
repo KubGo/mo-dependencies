@@ -30,6 +30,10 @@ public abstract class AbstractDependenciesReader {
         return String.join("", lines);
     }
 
+    public void setPath(String path) {
+        this.path = path;
+    }
+
     /**
      * Reads dependencies from file
      *
