@@ -1,0 +1,15 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="test_configuration" type="JUnit" factoryName="JUnit">
+    <module name="mo-dependencies" />
+    <option name="MAIN_CLASS_NAME" value="" />
+    <option name="METHOD_NAME" value="" />
+    <option name="TEST_OBJECT" value="directory" />
+    <envs>
+      <env name="BuildingsLibraryPath" value="$USER_HOME$/Documents/repositories/modelica-buildings/Buildings" />
+    </envs>
+    <dir value="$PROJECT_DIR$/src/test/java" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
