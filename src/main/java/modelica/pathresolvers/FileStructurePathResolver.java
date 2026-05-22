@@ -109,7 +109,7 @@ public class FileStructurePathResolver implements IPathResolver {
 	 * @return Check if top all packages up to top package were checked
 	 */
 	private boolean continueSearch() {
-		return currentPackage != null;
+		return currentPackage != null && pathIndex < pathsToResolve.size();
 	}
 
 	/**
