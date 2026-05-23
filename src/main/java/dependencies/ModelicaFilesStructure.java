@@ -1,6 +1,7 @@
 package dependencies;
 
 import config.Config;
+import dependencies.exceptions.NoFilesToCreateDependencies;
 import dependencies.structureinfo.ClassInfo;
 import dependencies.structureinfo.ModelicaFileInfo;
 import dependencies.structureinfo.PackageInfo;
@@ -37,13 +38,17 @@ public class ModelicaFilesStructure {
 	 * @param path        path to the library top package
 	 * @param libraryName name of the library
 	 */
-	public void resolveFileStructure(String path, String libraryName){
+	public void resolveFileStructure(String path, String libraryName) throws NoFilesToCreateDependencies {
 		if (Config.DEBUG) System.out.println("Resolving file structure for " + libraryName + "...");
 		this.libraryName = libraryName;
 		currentPackage = new PackageInfo(path, libraryName);
 		packagesStack.push(currentPackage);
 		tree.put(libraryName, currentPackage);
-		getModelicaPaths(path, libraryName);
+		try {
+			getModelicaPaths(path, libraryName);
+		} catch (NoFilesToCreateDependencies e) {
+			throw new RuntimeException(e);
+		}
 		if (Config.DEBUG) System.out.println("File structure resolved.");
 	}
 
@@ -55,10 +60,10 @@ public class ModelicaFilesStructure {
 	 * @param path path to file
 	 * @param packageName name of the package containing the file
 	 */
-	private void getModelicaPaths(String path, String packageName){
+	private void getModelicaPaths(String path, String packageName) throws NoFilesToCreateDependencies {
 		File[] files = new File(path).listFiles();
 		if (files == null){
-			return;
+			throw new NoFilesToCreateDependencies(path);
 		}
 		for (File file: files){
 			if (file.isDirectory()){
