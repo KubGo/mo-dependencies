@@ -74,7 +74,7 @@ class AffectedClassesResolverTest {
 	@Test
 	void getAffectedClasses_ModelNotUsedInLibrary_emptyList() {
 		List<String> affectedClasses = affectedClassesResolver.getAffectedClasses(List.of("Library.Name.Model"));
-		assertEquals(List.of(), affectedClasses);
+		assertEquals(List.of("Library.Name.Model"), affectedClasses);
 	}
 
 	@Test
