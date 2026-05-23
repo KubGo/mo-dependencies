@@ -27,7 +27,7 @@ public class AffectedClassesResolver<T extends IClassDependencies> {
 	public List<String> getAffectedClasses(List<String> classes) {
 		affectedClasses.clear();
 		affectedClasses.addAll(classes);
-		Set<String> results = new HashSet<>();
+		Set<String> results = new HashSet<>(classes);
 		String currentClass = affectedClasses.poll();
 		while (currentClass != null) {
 			for (var tree : trees) {

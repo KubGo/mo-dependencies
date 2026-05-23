@@ -41,7 +41,6 @@ public class GetAffectedClassesCommand implements Runnable {
 		AffectedClassesResolver<ClassDependencies> affectedClassesResolver = getAffectedClassesResolver(lib);
 		List<String> affectedClasses = affectedClassesResolver.getAffectedClasses(classes);
 		if (Config.DEBUG) {
-			affectedClasses.forEach(System.out::println);
 			System.out.println("Affected classes retrieved.");
 		}
 		System.out.println(String.join("\n", affectedClasses));
