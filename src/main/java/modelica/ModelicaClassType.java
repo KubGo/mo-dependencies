@@ -19,7 +19,7 @@ public enum ModelicaClassType {
     TYPE,
     BLOCK,
     PARTIAL_BLOCK,
-    PACKAGE,
+    PACKAGE, PARTIAL_PACKAGE,
     OPERATOR,
     OPERATOR_RECORD,
     OPERATOR_FUNCTION,

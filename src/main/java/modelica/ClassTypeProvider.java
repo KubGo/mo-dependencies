@@ -52,6 +52,9 @@ public class ClassTypeProvider {
 			case "package" -> {
 				return ModelicaClassType.PACKAGE;
 			}
+			case "partialpackage" -> {
+				return ModelicaClassType.PARTIAL_PACKAGE;
+			}
 			case "operator" -> {
 				return ModelicaClassType.OPERATOR;
 			}
