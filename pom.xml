@@ -6,7 +6,7 @@
 
     <groupId>org.kubago</groupId>
     <artifactId>mo-dependencies</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0-beta.1</version>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -15,6 +15,7 @@
     </properties>
 
     <build>
+        <finalName>mo-dep</finalName>
         <plugins>
             <plugin>
                 <!-- Build an executable JAR -->
@@ -41,6 +42,7 @@
                             <mainClass>Main</mainClass>
                         </manifest>
                     </archive>
+                    <appendAssemblyId>false</appendAssemblyId>
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
