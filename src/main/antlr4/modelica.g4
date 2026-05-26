@@ -176,6 +176,16 @@ argument_list
 argument
     : element_modification_or_replaceable
     | element_redeclaration
+    | break_element
+    | break_connection
+    ;
+
+break_element
+    : 'break' name
+    ;
+
+break_connection
+    : 'break' connect_clause
     ;
 
 element_modification_or_replaceable

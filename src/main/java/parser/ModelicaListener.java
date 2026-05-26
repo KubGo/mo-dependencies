@@ -307,6 +307,33 @@ public interface ModelicaListener extends ParseTreeListener {
 	 */
 	void exitArgument(ModelicaParser.ArgumentContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ModelicaParser#break_element}.
+	 * @param ctx the parse tree
+	 */
+	void enterBreak_element(ModelicaParser.Break_elementContext ctx);
+
+	/**
+	 * Exit a parse tree produced by {@link ModelicaParser#break_element}.
+	 *
+	 * @param ctx the parse tree
+	 */
+	void exitBreak_element(ModelicaParser.Break_elementContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link ModelicaParser#break_connection}.
+	 *
+	 * @param ctx the parse tree
+	 */
+	void enterBreak_connection(ModelicaParser.Break_connectionContext ctx);
+
+	/**
+	 * Exit a parse tree produced by {@link ModelicaParser#break_connection}.
+	 *
+	 * @param ctx the parse tree
+	 */
+	void exitBreak_connection(ModelicaParser.Break_connectionContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link ModelicaParser#element_modification_or_replaceable}.
 	 * @param ctx the parse tree
 	 */

@@ -376,13 +376,54 @@ public class ModelicaBaseListener implements ModelicaListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterElement_modification_or_replaceable(ModelicaParser.Element_modification_or_replaceableContext ctx) { }
+	@Override
+	public void enterBreak_element(ModelicaParser.Break_elementContext ctx) {
+	}
+
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitElement_modification_or_replaceable(ModelicaParser.Element_modification_or_replaceableContext ctx) { }
+	@Override
+	public void exitBreak_element(ModelicaParser.Break_elementContext ctx) {
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override
+	public void enterBreak_connection(ModelicaParser.Break_connectionContext ctx) {
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override
+	public void exitBreak_connection(ModelicaParser.Break_connectionContext ctx) {
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override
+	public void enterElement_modification_or_replaceable(
+			ModelicaParser.Element_modification_or_replaceableContext ctx) {
+	}
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override
+	public void exitElement_modification_or_replaceable(
+			ModelicaParser.Element_modification_or_replaceableContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

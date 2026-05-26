@@ -139,11 +139,11 @@ LINE_COMMENT=94
 'output'=45
 'if'=46
 ':='=47
-'each'=48
-'initial'=49
-'equation'=50
-'algorithm'=51
-'break'=52
+'break'=48
+'each'=49
+'initial'=50
+'equation'=51
+'algorithm'=52
 'return'=53
 'then'=54
 'elseif'=55

@@ -1,8 +1,10 @@
 package parser;// Generated from modelica.g4 by ANTLR 4.13.2
-import org.antlr.v4.runtime.Lexer;
-import org.antlr.v4.runtime.CharStream;
+
 import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.atn.*;
+import org.antlr.v4.runtime.atn.ATN;
+import org.antlr.v4.runtime.atn.ATNDeserializer;
+import org.antlr.v4.runtime.atn.LexerATNSimulator;
+import org.antlr.v4.runtime.atn.PredictionContextCache;
 import org.antlr.v4.runtime.dfa.DFA;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast", "CheckReturnValue", "this-escape"})
@@ -53,95 +55,6 @@ public class ModelicaLexer extends Lexer {
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
-
-	private static String[] makeLiteralNames() {
-		return new String[] {
-			null, "'within'", "';'", "'final'", "'encapsulated'", "'partial'", "'class'", 
-			"'model'", "'operator'", "'record'", "'block'", "'expandable'", "'connector'", 
-			"'type'", "'package'", "'pure'", "'impure'", "'function'", "'end'", "'extends'", 
-			"'='", "'enumeration'", "'('", "':'", "')'", "'der'", "','", "'public'", 
-			"'protected'", "'external'", "'redeclare'", "'inner'", "'outer'", "'replaceable'", 
-			"'import'", "'.*'", "'.{'", "'}'", "'constrainedby'", "'flow'", "'stream'", 
-			"'discrete'", "'parameter'", "'constant'", "'input'", "'output'", "'if'", 
-			"':='", "'each'", "'initial'", "'equation'", "'algorithm'", "'break'", 
-			"'return'", "'then'", "'elseif'", "'else'", "'for'", "'loop'", "'in'", 
-			"'while'", "'when'", "'elsewhen'", "'connect'", "'or'", "'and'", "'not'", 
-			"'<'", "'<='", "'>'", "'>='", "'=='", "'<>'", "'+'", "'-'", "'.+'", "'.-'", 
-			"'*'", "'/'", "'./'", "'^'", "'.^'", "'false'", "'true'", "'['", "']'", 
-			"'{'", "'.'", "'annotation'"
-		};
-	}
-	private static final String[] _LITERAL_NAMES = makeLiteralNames();
-	private static String[] makeSymbolicNames() {
-		return new String[] {
-			null, null, null, null, null, null, null, null, null, null, null, null, 
-			null, null, null, null, null, null, null, null, null, null, null, null, 
-			null, null, null, null, null, null, null, null, null, null, null, null, 
-			null, null, null, null, null, null, null, null, null, null, null, null, 
-			null, null, null, null, null, null, null, null, null, null, null, null, 
-			null, null, null, null, null, null, null, null, null, null, null, null, 
-			null, null, null, null, null, null, null, null, null, null, null, null, 
-			null, null, null, null, null, "IDENT", "STRING", "UNSIGNED_NUMBER", "WS", 
-			"COMMENT", "LINE_COMMENT"
-		};
-	}
-	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
-	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
-
-	/**
-	 * @deprecated Use {@link #VOCABULARY} instead.
-	 */
-	@Deprecated
-	public static final String[] tokenNames;
-	static {
-		tokenNames = new String[_SYMBOLIC_NAMES.length];
-		for (int i = 0; i < tokenNames.length; i++) {
-			tokenNames[i] = VOCABULARY.getLiteralName(i);
-			if (tokenNames[i] == null) {
-				tokenNames[i] = VOCABULARY.getSymbolicName(i);
-			}
-
-			if (tokenNames[i] == null) {
-				tokenNames[i] = "<INVALID>";
-			}
-		}
-	}
-
-	@Override
-	@Deprecated
-	public String[] getTokenNames() {
-		return tokenNames;
-	}
-
-	@Override
-
-	public Vocabulary getVocabulary() {
-		return VOCABULARY;
-	}
-
-
-	public ModelicaLexer(CharStream input) {
-		super(input);
-		_interp = new LexerATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
-	}
-
-	@Override
-	public String getGrammarFileName() { return "modelica.g4"; }
-
-	@Override
-	public String[] getRuleNames() { return ruleNames; }
-
-	@Override
-	public String getSerializedATN() { return _serializedATN; }
-
-	@Override
-	public String[] getChannelNames() { return channelNames; }
-
-	@Override
-	public String[] getModeNames() { return modeNames; }
-
-	@Override
-	public ATN getATN() { return _ATN; }
 
 	public static final String _serializedATN =
 		"\u0004\u0000^\u031d\u0006\uffff\uffff\u0002\u0000\u0007\u0000\u0002\u0001"+
@@ -211,10 +124,7 @@ public class ModelicaLexer extends Lexer {
 		")\u0001)\u0001)\u0001)\u0001)\u0001)\u0001)\u0001)\u0001)\u0001*\u0001"+
 		"*\u0001*\u0001*\u0001*\u0001*\u0001*\u0001*\u0001*\u0001+\u0001+\u0001"+
 		"+\u0001+\u0001+\u0001+\u0001,\u0001,\u0001,\u0001,\u0001,\u0001,\u0001"+
-		",\u0001-\u0001-\u0001-\u0001.\u0001.\u0001.\u0001/\u0001/\u0001/\u0001"+
-		"/\u0001/\u00010\u00010\u00010\u00010\u00010\u00010\u00010\u00010\u0001"+
-		"1\u00011\u00011\u00011\u00011\u00011\u00011\u00011\u00011\u00012\u0001"+
-		"2\u00012\u00012\u00012\u00012\u00012\u00012\u00012\u00012\u00013\u0001"+
+		",\u0001-\u0001-\u0001-\u0001.\u0001.\u0001.\u0001/\u0001/\u0001/\u0001"+ "/\u0001/\u0001/\u00010\u00010\u00010\u00010\u00010\u00011\u00011\u0001" + "1\u00011\u00011\u00011\u00011\u00011\u00012\u00012\u00012\u00012\u0001" + "2\u00012\u00012\u00012\u00012\u00013\u00013\u00013\u00013\u00013\u0001" +
 		"3\u00013\u00013\u00013\u00013\u00014\u00014\u00014\u00014\u00014\u0001"+
 		"4\u00014\u00015\u00015\u00015\u00015\u00015\u00016\u00016\u00016\u0001"+
 		"6\u00016\u00016\u00016\u00017\u00017\u00017\u00017\u00017\u00018\u0001"+
@@ -316,9 +226,7 @@ public class ModelicaLexer extends Lexer {
 		"\u0000\u0000\u0000O\u01cc\u0001\u0000\u0000\u0000Q\u01d3\u0001\u0000\u0000"+
 		"\u0000S\u01dc\u0001\u0000\u0000\u0000U\u01e6\u0001\u0000\u0000\u0000W"+
 		"\u01ef\u0001\u0000\u0000\u0000Y\u01f5\u0001\u0000\u0000\u0000[\u01fc\u0001"+
-		"\u0000\u0000\u0000]\u01ff\u0001\u0000\u0000\u0000_\u0202\u0001\u0000\u0000"+
-		"\u0000a\u0207\u0001\u0000\u0000\u0000c\u020f\u0001\u0000\u0000\u0000e"+
-		"\u0218\u0001\u0000\u0000\u0000g\u0222\u0001\u0000\u0000\u0000i\u0228\u0001"+
+		"\u0000\u0000\u0000]\u01ff\u0001\u0000\u0000\u0000_\u0202\u0001\u0000\u0000"+ "\u0000a\u0208\u0001\u0000\u0000\u0000c\u020d\u0001\u0000\u0000\u0000e" + "\u0215\u0001\u0000\u0000\u0000g\u021e\u0001\u0000\u0000\u0000i\u0228\u0001" +
 		"\u0000\u0000\u0000k\u022f\u0001\u0000\u0000\u0000m\u0234\u0001\u0000\u0000"+
 		"\u0000o\u023b\u0001\u0000\u0000\u0000q\u0240\u0001\u0000\u0000\u0000s"+
 		"\u0244\u0001\u0000\u0000\u0000u\u0249\u0001\u0000\u0000\u0000w\u024c\u0001"+
@@ -475,24 +383,7 @@ public class ModelicaLexer extends Lexer {
 		"\u0000\u01f8\u01f9\u0005p\u0000\u0000\u01f9\u01fa\u0005u\u0000\u0000\u01fa"+
 		"\u01fb\u0005t\u0000\u0000\u01fbZ\u0001\u0000\u0000\u0000\u01fc\u01fd\u0005"+
 		"i\u0000\u0000\u01fd\u01fe\u0005f\u0000\u0000\u01fe\\\u0001\u0000\u0000"+
-		"\u0000\u01ff\u0200\u0005:\u0000\u0000\u0200\u0201\u0005=\u0000\u0000\u0201"+
-		"^\u0001\u0000\u0000\u0000\u0202\u0203\u0005e\u0000\u0000\u0203\u0204\u0005"+
-		"a\u0000\u0000\u0204\u0205\u0005c\u0000\u0000\u0205\u0206\u0005h\u0000"+
-		"\u0000\u0206`\u0001\u0000\u0000\u0000\u0207\u0208\u0005i\u0000\u0000\u0208"+
-		"\u0209\u0005n\u0000\u0000\u0209\u020a\u0005i\u0000\u0000\u020a\u020b\u0005"+
-		"t\u0000\u0000\u020b\u020c\u0005i\u0000\u0000\u020c\u020d\u0005a\u0000"+
-		"\u0000\u020d\u020e\u0005l\u0000\u0000\u020eb\u0001\u0000\u0000\u0000\u020f"+
-		"\u0210\u0005e\u0000\u0000\u0210\u0211\u0005q\u0000\u0000\u0211\u0212\u0005"+
-		"u\u0000\u0000\u0212\u0213\u0005a\u0000\u0000\u0213\u0214\u0005t\u0000"+
-		"\u0000\u0214\u0215\u0005i\u0000\u0000\u0215\u0216\u0005o\u0000\u0000\u0216"+
-		"\u0217\u0005n\u0000\u0000\u0217d\u0001\u0000\u0000\u0000\u0218\u0219\u0005"+
-		"a\u0000\u0000\u0219\u021a\u0005l\u0000\u0000\u021a\u021b\u0005g\u0000"+
-		"\u0000\u021b\u021c\u0005o\u0000\u0000\u021c\u021d\u0005r\u0000\u0000\u021d"+
-		"\u021e\u0005i\u0000\u0000\u021e\u021f\u0005t\u0000\u0000\u021f\u0220\u0005"+
-		"h\u0000\u0000\u0220\u0221\u0005m\u0000\u0000\u0221f\u0001\u0000\u0000"+
-		"\u0000\u0222\u0223\u0005b\u0000\u0000\u0223\u0224\u0005r\u0000\u0000\u0224"+
-		"\u0225\u0005e\u0000\u0000\u0225\u0226\u0005a\u0000\u0000\u0226\u0227\u0005"+
-		"k\u0000\u0000\u0227h\u0001\u0000\u0000\u0000\u0228\u0229\u0005r\u0000"+
+		"\u0000\u01ff\u0200\u0005:\u0000\u0000\u0200\u0201\u0005=\u0000\u0000\u0201"+ "^\u0001\u0000\u0000\u0000\u0202\u0203\u0005b\u0000\u0000\u0203\u0204\u0005" + "r\u0000\u0000\u0204\u0205\u0005e\u0000\u0000\u0205\u0206\u0005a\u0000" + "\u0000\u0206\u0207\u0005k\u0000\u0000\u0207`\u0001\u0000\u0000\u0000\u0208" + "\u0209\u0005e\u0000\u0000\u0209\u020a\u0005a\u0000\u0000\u020a\u020b\u0005" + "c\u0000\u0000\u020b\u020c\u0005h\u0000\u0000\u020cb\u0001\u0000\u0000" + "\u0000\u020d\u020e\u0005i\u0000\u0000\u020e\u020f\u0005n\u0000\u0000\u020f" + "\u0210\u0005i\u0000\u0000\u0210\u0211\u0005t\u0000\u0000\u0211\u0212\u0005" + "i\u0000\u0000\u0212\u0213\u0005a\u0000\u0000\u0213\u0214\u0005l\u0000" + "\u0000\u0214d\u0001\u0000\u0000\u0000\u0215\u0216\u0005e\u0000\u0000\u0216" + "\u0217\u0005q\u0000\u0000\u0217\u0218\u0005u\u0000\u0000\u0218\u0219\u0005" + "a\u0000\u0000\u0219\u021a\u0005t\u0000\u0000\u021a\u021b\u0005i\u0000" + "\u0000\u021b\u021c\u0005o\u0000\u0000\u021c\u021d\u0005n\u0000\u0000\u021d" + "f\u0001\u0000\u0000\u0000\u021e\u021f\u0005a\u0000\u0000\u021f\u0220\u0005" + "l\u0000\u0000\u0220\u0221\u0005g\u0000\u0000\u0221\u0222\u0005o\u0000" + "\u0000\u0222\u0223\u0005r\u0000\u0000\u0223\u0224\u0005i\u0000\u0000\u0224" + "\u0225\u0005t\u0000\u0000\u0225\u0226\u0005h\u0000\u0000\u0226\u0227\u0005" + "m\u0000\u0000\u0227h\u0001\u0000\u0000\u0000\u0228\u0229\u0005r\u0000" +
 		"\u0000\u0229\u022a\u0005e\u0000\u0000\u022a\u022b\u0005t\u0000\u0000\u022b"+
 		"\u022c\u0005u\u0000\u0000\u022c\u022d\u0005r\u0000\u0000\u022d\u022e\u0005"+
 		"n\u0000\u0000\u022ej\u0001\u0000\u0000\u0000\u022f\u0230\u0005t\u0000"+
@@ -615,6 +506,94 @@ public class ModelicaLexer extends Lexer {
 		"\u0001\u0000\u0000\u0000\u0012\u0000\u02ba\u02bc\u02c0\u02c5\u02c9\u02cb"+
 		"\u02d7\u02d9\u02e1\u02ec\u02f2\u02f4\u02f8\u02fb\u0300\u030a\u0318\u0001"+
 		"\u0000\u0001\u0000";
+	private static final String[] _LITERAL_NAMES = makeLiteralNames();
+	private static String[] makeSymbolicNames() {
+		return new String[] {
+			null, null, null, null, null, null, null, null, null, null, null, null, 
+			null, null, null, null, null, null, null, null, null, null, null, null, 
+			null, null, null, null, null, null, null, null, null, null, null, null, 
+			null, null, null, null, null, null, null, null, null, null, null, null, 
+			null, null, null, null, null, null, null, null, null, null, null, null, 
+			null, null, null, null, null, null, null, null, null, null, null, null, 
+			null, null, null, null, null, null, null, null, null, null, null, null, 
+			null, null, null, null, null, "IDENT", "STRING", "UNSIGNED_NUMBER", "WS", 
+			"COMMENT", "LINE_COMMENT"
+		};
+	}
+	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
+	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
+
+	/**
+	 * @deprecated Use {@link #VOCABULARY} instead.
+	 */
+	@Deprecated
+	public static final String[] tokenNames;
+	static {
+		tokenNames = new String[_SYMBOLIC_NAMES.length];
+		for (int i = 0; i < tokenNames.length; i++) {
+			tokenNames[i] = VOCABULARY.getLiteralName(i);
+			if (tokenNames[i] == null) {
+				tokenNames[i] = VOCABULARY.getSymbolicName(i);
+			}
+
+			if (tokenNames[i] == null) {
+				tokenNames[i] = "<INVALID>";
+			}
+		}
+	}
+
+	@Override
+	@Deprecated
+	public String[] getTokenNames() {
+		return tokenNames;
+	}
+
+	@Override
+
+	public Vocabulary getVocabulary() {
+		return VOCABULARY;
+	}
+
+
+	public ModelicaLexer(CharStream input) {
+		super(input);
+		_interp = new LexerATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
+	}
+
+	@Override
+	public String getGrammarFileName() { return "modelica.g4"; }
+
+	@Override
+	public String[] getRuleNames() { return ruleNames; }
+
+	@Override
+	public String getSerializedATN() { return _serializedATN; }
+
+	@Override
+	public String[] getChannelNames() { return channelNames; }
+
+	@Override
+	public String[] getModeNames() { return modeNames; }
+
+	@Override
+	public ATN getATN() { return _ATN; }
+
+	private static String[] makeLiteralNames() {
+		return new String[] {
+			null, "'within'", "';'", "'final'", "'encapsulated'", "'partial'", "'class'",
+			"'model'", "'operator'", "'record'", "'block'", "'expandable'", "'connector'",
+			"'type'", "'package'", "'pure'", "'impure'", "'function'", "'end'", "'extends'",
+			"'='", "'enumeration'", "'('", "':'", "')'", "'der'", "','", "'public'",
+			"'protected'", "'external'", "'redeclare'", "'inner'", "'outer'", "'replaceable'",
+			"'import'", "'.*'", "'.{'", "'}'", "'constrainedby'", "'flow'", "'stream'",
+			"'discrete'", "'parameter'", "'constant'", "'input'", "'output'", "'if'", "':='", "'break'", "'each'", "'initial'", "'equation'", "'algorithm'",
+			"'return'", "'then'", "'elseif'", "'else'", "'for'", "'loop'", "'in'",
+			"'while'", "'when'", "'elsewhen'", "'connect'", "'or'", "'and'", "'not'",
+			"'<'", "'<='", "'>'", "'>='", "'=='", "'<>'", "'+'", "'-'", "'.+'", "'.-'",
+			"'*'", "'/'", "'./'", "'^'", "'.^'", "'false'", "'true'", "'['", "']'",
+			"'{'", "'.'", "'annotation'"
+		};
+	}
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
