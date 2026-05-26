@@ -4,6 +4,7 @@ import java.util.List;
 
 public final class Config {
 	public static boolean DEBUG = false;
+	public static boolean VERBOSE = false;
 
 	private Config() {
 	}

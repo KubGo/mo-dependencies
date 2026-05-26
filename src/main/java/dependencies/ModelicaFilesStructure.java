@@ -61,6 +61,7 @@ public class ModelicaFilesStructure {
 	 * @param packageName name of the package containing the file
 	 */
 	private void getModelicaPaths(String path, String packageName) throws NoFilesToCreateDependencies {
+		if (Config.VERBOSE) System.out.println("Resolving file structure for " + path + "...");
 		File[] files = new File(path).listFiles();
 		if (files == null){
 			throw new NoFilesToCreateDependencies(path);
@@ -82,6 +83,8 @@ public class ModelicaFilesStructure {
 			}
 		}
 		returnToPreviousPackage();
+		if (Config.VERBOSE) System.out.println("Resolved file structure for " + path + ".");
+
 	}
 
 	private void returnToPreviousPackage(){

@@ -1,5 +1,7 @@
 package dependencies.classesinfo;
 
+import config.Config;
+
 import java.util.*;
 
 /**
@@ -63,6 +65,7 @@ public class ParentDependenciesResolver<T extends IClassDependencies> {
                 return resolvedParents.get(className);
             }
         }
+        if (Config.VERBOSE) System.out.println("Resolving parent dependencies for " + className + "...");
         List<String> classesUsedByParents = new ArrayList<>();
 
         for (String parentName: classDependencies.getParentClasses()){
@@ -80,6 +83,7 @@ public class ParentDependenciesResolver<T extends IClassDependencies> {
         classDependencies.addClasses(classesUsedByParents);
         resolvedParents.put(className, classDependencies.getClasses());
         classDependencies.setLibrariesResolved(librariesNames);
+        if (Config.VERBOSE) System.out.println("Resoled parent dependencies for" + className + ".");
         return classDependencies.getClasses();
     }
 

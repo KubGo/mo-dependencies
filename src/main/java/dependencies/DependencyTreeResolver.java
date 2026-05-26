@@ -89,9 +89,12 @@ public class DependencyTreeResolver {
 				(packageName, packageInfo) -> {
 					List<ClassInfo> classInfoList = packageInfo.getClassDefinitions();
 					classInfoList.forEach(classInfo -> {
+						if (Config.VERBOSE) System.out.println("Resolving " + packageInfo.getModelicaPath() + "...");
 						fileStructurePathResolver.setCurrentPackage(packageInfo.getModelicaPath());
 						try {
+							if (Config.VERBOSE) System.out.println("Resolving " + classInfo.getModelicaPath() + "...");
 							resolveClassDependencies(classInfo);
+							System.out.println(classInfo.getModelicaPath() + " resolved.");
 						} catch (IOException e) {
 							throw new RuntimeException(e);
 						}

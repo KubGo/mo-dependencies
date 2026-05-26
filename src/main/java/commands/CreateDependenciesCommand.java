@@ -18,6 +18,8 @@ public class CreateDependenciesCommand implements Runnable {
 	private String libraryPath;
 	@CommandLine.Option(names = {"--debug", "-d"})
 	private boolean debug;
+	@CommandLine.Option(names = {"--verbose", "-v"})
+	private boolean verbose;
 	@CommandLine.Option(names = {"--filter", "-f"}, arity = "1..*", defaultValue = CommandLine.Option.NULL_VALUE)
 	private List<String> librariesToFilter;
 	@CommandLine.Option(names = {"--libraries", "-l"}, arity = "1..*", defaultValue = CommandLine.Option.NULL_VALUE)
@@ -33,6 +35,14 @@ public class CreateDependenciesCommand implements Runnable {
 	public void run() {
 		if (debug) {
 			Config.DEBUG = true;
+		}
+		if (verbose) {
+			if (debug) {
+				Config.VERBOSE = true;
+			}
+			else {
+				System.out.println("Set also flag -d for debug to get verbose output.");
+			}
 		}
 		if (Config.DEBUG) {
 			System.out.println("Creating dependencies...");
