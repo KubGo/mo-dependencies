@@ -94,7 +94,7 @@ public class DependencyTreeResolver {
 						try {
 							if (Config.VERBOSE) System.out.println("Resolving " + classInfo.getModelicaPath() + "...");
 							resolveClassDependencies(classInfo);
-							System.out.println(classInfo.getModelicaPath() + " resolved.");
+							if (Config.VERBOSE) System.out.println(classInfo.getModelicaPath() + " resolved.");
 						} catch (IOException e) {
 							throw new RuntimeException(e);
 						}
