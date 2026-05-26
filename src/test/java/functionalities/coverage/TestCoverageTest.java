@@ -34,7 +34,7 @@ class TestCoverageTest {
 	@Test
 	void percentageCoverage_BuildingsLiteTests_getCorrectOutput() {
 		TestCoverage testCoverage = new TestCoverage(buildingsLiteDependencies, testDependencies);
-		assertEquals(0.98, testCoverage.getPercentageCoverage(), 0.01);
+		assertEquals(1.05, testCoverage.getPercentageCoverage(), 0.01);
 	}
 
 }

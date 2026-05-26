@@ -1,25 +1,36 @@
 package functionalities.coverage;
 
+import dependencies.classesinfo.ClassDependencies;
 import dependencies.classesinfo.IClassDependencies;
+import modelica.ModelicaClassType;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class TestCoverage {
 	private int totalClasses = 0;
 	private int testedClasses = 0;
 	private final String libraryName;
-	private final List<String> modelsToTest;
+	private final List<String> modelsToTest = new ArrayList<>();
 	private final List<String> testedModels = new ArrayList<>();
 	private List<String> modelsWithoutTest;
+
+	private final List<ModelicaClassType> ignoredClassTypes = List.of(
+			ModelicaClassType.TYPE, ModelicaClassType.PACKAGE, ModelicaClassType.PARTIAL_PACKAGE,
+			ModelicaClassType.PARTIAL_CLASS, ModelicaClassType.PARTIAL_MODEL, ModelicaClassType.PARTIAL_BLOCK,
+			ModelicaClassType.PARTIAL_FUNCTION, ModelicaClassType.PARTIAL_RECORD, ModelicaClassType.PARTIAL_CONNECTOR,
+			ModelicaClassType.RECORD);
 
 
 	public TestCoverage(
 			Map<String, ? extends IClassDependencies> library,
 			Map<String, ? extends IClassDependencies> testLibrary) {
-		modelsToTest = library.keySet().stream().toList();
+		Set<String> modelNames = library.keySet();
+		for (String modelName : modelNames) {
+			ClassDependencies cls = (ClassDependencies) library.get(modelName);
+			if (!ignoredClassTypes.contains(cls.getModelicaClassType())) {
+				modelsToTest.add(modelName);
+			}
+		}
 		libraryName = Arrays.stream(modelsToTest.getFirst().split("\\.")).toList().getFirst();
 		totalClasses = modelsToTest.size();
 		testLibrary.forEach((test, classDependencies) -> {
