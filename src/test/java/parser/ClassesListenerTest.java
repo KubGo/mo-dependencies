@@ -202,4 +202,12 @@ class ClassesListenerTest {
         assertEquals(ModelicaClassType.MODEL, parsedListener.modelicaClassType);
     }
 
+    @Test
+    void getClassDefinitionsMap_ConductorStepResponse_correctMapping() throws IOException {
+        String modelicaText = Utils.getModelicaTextFromResources(Utils.ConductorStepResponse);
+        ClassesListener parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
+
+        assertEquals(Map.of(), parsedListener.getClassDefinitionsMap());
+    }
+
 }

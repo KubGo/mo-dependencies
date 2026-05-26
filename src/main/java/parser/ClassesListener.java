@@ -20,6 +20,23 @@ public class ClassesListener extends ModelicaBaseListener{
     public Map<String, String> constrainingClassesMap = new HashMap<>();
     public Map<String, String> classDefinitionsMap = new HashMap<>();
     private String typeName = "";
+    private final Set<String> classModifications = new HashSet<>();
+    private final Map<String, String> componentDeclarationsMap = new HashMap<>();
+    private boolean classModification = false;
+    private boolean componentDeclaration = false;
+    private String currentComponentModelicaPath = "";
+
+    public void resolveInternalClassModifications() {
+        for (String classModification : classModifications) {
+            if (classDefinitionsMap.containsKey(classModification)) {
+                classes.add(classDefinitionsMap.get(classModification));
+            } else classes.add(componentDeclarationsMap.getOrDefault(classModification, classModification));
+        }
+    }
+
+    public Map<String, String> getClassDefinitionsMap() {
+        return classDefinitionsMap;
+    }
 
     /**
      * Current section to retrieve classes, mostly used to allow
@@ -120,6 +137,27 @@ public class ClassesListener extends ModelicaBaseListener{
         }
     }
 
+    @Override
+    public void enterComponent_clause(ModelicaParser.Component_clauseContext ctx) {
+        componentDeclaration = true;
+        currentComponentModelicaPath = ctx.type_specifier().name().getText();
+
+    }
+
+
+    @Override
+    public void exitComponent_clause(ModelicaParser.Component_clauseContext ctx) {
+        componentDeclaration = false;
+    }
+
+    @Override
+    public void enterDeclaration(ModelicaParser.DeclarationContext ctx) {
+        componentDeclarationsMap.putIfAbsent(
+                ctx.getText(),
+                currentComponentModelicaPath
+        );
+    }
+
     /**
      * Retrieve extending classes
      * @param ctx the parse tree
@@ -171,6 +209,14 @@ public class ClassesListener extends ModelicaBaseListener{
         }
     }
 
+    @Override
+    public void enterComponent_reference(ModelicaParser.Component_referenceContext ctx) {
+        if (classModification) {
+            classModifications.add(ctx.getText());
+        }
+    }
+
+
 
     /**
      * Class redecorations inside the class
@@ -181,5 +227,39 @@ public class ClassesListener extends ModelicaBaseListener{
         classDefinitionsMap.put(
                 ctx.getText().split("\"")[0].trim(),
                 typeName);
+    }
+
+    @Override
+    public void enterClass_modification(ModelicaParser.Class_modificationContext ctx) {
+        classModification = true;
+    }
+
+    @Override
+    public void exitClass_modification(ModelicaParser.Class_modificationContext ctx) {
+        classModification = false;
+    }
+
+    @Override
+    public void enterElement_redeclaration(ModelicaParser.Element_redeclarationContext ctx) {
+        if (!classModification) {
+            return;
+        }
+        if (ctx.component_clause1() != null) {
+            classModifications.add(ctx.component_clause1().type_specifier().name().getText());
+        }
+
+        if (ctx.isEmpty())
+            return;
+        if (ctx.short_class_definition() == null) {
+            return;
+        }
+        if (ctx.short_class_definition().short_class_specifier() == null) {
+            return;
+        }
+        var name = ctx.short_class_definition().short_class_specifier().name();
+        if (name.isEmpty()) {
+            classModifications.add(name.getText());
+        }
+
     }
 }

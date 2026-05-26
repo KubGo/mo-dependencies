@@ -20,6 +20,7 @@ public class Utils {
     public final static String SimpleModel = "BuildingsLite/Tests/SimpleModel.mo";
     public final static String PartialSimpleModel = "BuildingsLite/Tests/PartialSimpleModel.mo";
     public final static String TestLibrary = "TestLibrary";
+    public final static String ConductorStepResponse = "BuildingsLite/HeatTransfer/Examples/ConductorStepResponse.mo";
     public static String getPathAsString(String resourceName){
         File file = new File("src/test/resources/" + resourceName);
         return file.getAbsolutePath();

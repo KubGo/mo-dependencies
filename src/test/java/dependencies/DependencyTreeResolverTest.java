@@ -61,9 +61,9 @@ class DependencyTreeResolverTest {
 						.getClasses().stream().sorted().toList()
 					);
 		assertEquals(
-				conductorStepResponseClasses,
-				tree.getDependencyTree().get("BuildingsLite.HeatTransfer.Examples.ConductorStepResponse")
-						.getClasses().stream().sorted().toList()
+				String.join("\n", conductorStepResponseClasses),
+				String.join("\n", tree.getDependencyTree().get("BuildingsLite.HeatTransfer.Examples.ConductorStepResponse")
+						.getClasses().stream().sorted().toList())
 		            );
 	}
 

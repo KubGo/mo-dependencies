@@ -47,6 +47,7 @@ public class ClassDependenciesResolver implements IClassDependencies, IFilterabl
 		ParseTreeWalker walker = new ParseTreeWalker();
 		ClassesListener listener = new ClassesListener();
 		walker.walk(listener, tree);
+		listener.resolveInternalClassModifications();
 		this.className = className;
 		importedClasses = listener.imports;
 		standardImportsResolved = importedClasses.isEmpty();
