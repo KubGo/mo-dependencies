@@ -27,7 +27,7 @@ class ParentDependenciesResolverTest {
             "Controls.Discrete.BooleanDelay",
             "BuildingsLite.HeatTransfer.Data.Solids.Concrete",
             "Airflow.Multizone.MediumColumn",
-            "BouncingBall",
+            "BouncingBall", "BuildingsLite.Airflow.Multizone.Types.densitySelection.fromTop",
             "OtherLibrary.HeatTransfer.Conduction.DiscretizedConduction"
     ).sorted().toList();
     static final List<String> partialSimpleModelClassesBuildingLite = Stream.of(
@@ -43,7 +43,7 @@ class ParentDependenciesResolverTest {
             "BuildingsLite.Controls.Discrete.BooleanDelay",
             "BuildingsLite.HeatTransfer.Data.Solids.Concrete",
             "BuildingsLite.Airflow.Multizone.MediumColumn",
-            "BuildingsLite.Tests.BouncingBall",
+            "BuildingsLite.Tests.BouncingBall", "BuildingsLite.Airflow.Multizone.Types.densitySelection.fromTop",
             "OtherLibrary.HeatTransfer.Conduction.DiscretizedConduction"
     ).sorted().toList();
 
@@ -57,7 +57,8 @@ class ParentDependenciesResolverTest {
             "BuildingsLite.Airflow.Multizone.MediumColumn",
             "BuildingsLite.Tests.BouncingBall",
             "OtherLibrary.HeatTransfer.Conduction.DiscretizedConduction",
-            "BuildingsLite.Controls.Predictors.ElectricalLoad"
+            "BuildingsLite.Controls.Predictors.ElectricalLoad",
+            "BuildingsLite.Airflow.Multizone.Types.densitySelection.fromTop"
     ).sorted().toList();
 
     Map<String, ClassDependenciesResolver> baseTree = new TreeMap<>();

@@ -21,6 +21,8 @@ public class Utils {
     public final static String PartialSimpleModel = "BuildingsLite/Tests/PartialSimpleModel.mo";
     public final static String TestLibrary = "TestLibrary";
     public final static String ConductorStepResponse = "BuildingsLite/HeatTransfer/Examples/ConductorStepResponse.mo";
+    public final static String ReverseBuoyancy3Zone = "BuildingsLite/Airflow/Multizone/Examples/ReverseBuoyancy3Zones.mo";
+
     public static String getPathAsString(String resourceName){
         File file = new File("src/test/resources/" + resourceName);
         return file.getAbsolutePath();

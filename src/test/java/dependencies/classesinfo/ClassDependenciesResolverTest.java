@@ -40,11 +40,12 @@ class ClassDependenciesResolverTest {
 		classDependenciesResolver.resolveInternalDependencies();
 		assertEquals(7, classDependenciesResolver.getClasses().size());
 		assertEquals(
-				List.of(
+				String.join(
+						"\n", List.of(
 						"Modelica.Blocks.Sources.Ramp", "Modelica.Fluid.Pipes.DynamicPipe",
 						"Modelica.Fluid.Sources.Boundary_pT", "Modelica.Fluid.Sources.MassFlowSource_T",
-						"Modelica.Units.SI.CrossSection", "Package.OtherPackage.Component", "Real"),
-				classDependenciesResolver.getClasses().stream().sorted().toList());
+						"Modelica.Units.SI.CrossSection", "Package.OtherPackage.Component", "Real")),
+				String.join("\n", classDependenciesResolver.getClasses().stream().sorted().toList()));
 	}
 
 }

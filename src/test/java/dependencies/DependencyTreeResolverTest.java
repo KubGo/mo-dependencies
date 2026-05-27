@@ -28,23 +28,24 @@ class DependencyTreeResolverTest {
 					"BuildingsLite.HeatTransfer.Sources.PrescribedTemperature",
 					"Modelica.Blocks.Sources.Step",
 					"Modelica.Thermal.HeatTransfer.Sensors.HeatFlowSensor",
-					"Modelica.Blocks.Math.Add",
-					"BuildingsLite.HeatTransfer.Convection.Interior")
+					"Modelica.Blocks.Math.Add", "BuildingsLite.HeatTransfer.Convection.Interior",
+					"BuildingsLite.Types.Tilt.Wall")
 			.sorted().toList();
 	private final List<String> simpleExampleClasses = Stream.of(
 			"BuildingsLite.HeatTransfer.Conduction.SingleLayer", "BuildingsLite.Controls.Discrete.BooleanDelay",
 			"BuildingsLite.Airflow.Multizone.MediumColumn", "BuildingsLite.Tests.BouncingBall",
 			"BuildingsLite.HeatTransfer.Data.Solids.Concrete", "Modelica.Units.SI.Length", "Modelica.Units.SI.Area",
 			"BuildingsLite.HeatTransfer.Radiosity.Constant",
+			"BuildingsLite.Airflow.Multizone.Types.densitySelection.fromTop",
 			"OtherLibrary.HeatTransfer.Conduction.DiscretizedConduction").sorted().toList();
 
 	private final List<String> reverseBuoyancy3ZonesClasses = Stream.of(
-//			"BuildingsLite.Media.Air", TODO(Consider definition of classes inside of class)
+			"BuildingsLite.Media.Air",
 			"BuildingsLite.Fluid.MixingVolumes.MixingVolume", "BuildingsLite.Airflow.Multizone.Orifice",
 			"BuildingsLite.Airflow.Multizone.MediumColumn", "BuildingsLite.Airflow.Multizone.DoorDiscretizedOperable",
-			"Modelica.Blocks.Sources.Constant"
-//			"Modelica.Fluid.Types.Dynamics.FixedInitial" TODO(Consider redefinitions and assignments)
-	                                                                   ).sorted().toList();
+			"Modelica.Blocks.Sources.Constant", "BuildingsLite.Airflow.Multizone.Types.densitySelection.fromTop",
+			"BuildingsLite.Airflow.Multizone.Types.densitySelection.fromBottom",
+			"Modelica.Fluid.Types.Dynamics.FixedInitial").sorted().toList();
 
 	@BeforeAll
 	static void setUp() {

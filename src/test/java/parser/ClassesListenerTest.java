@@ -8,6 +8,7 @@ import utils.Utils;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -201,13 +202,54 @@ class ClassesListenerTest {
 
         assertEquals(ModelicaClassType.MODEL, parsedListener.modelicaClassType);
     }
+    // BuildingsLite.Airflow.Multizone.Examples.ReverseBuoyancy3Zones
 
     @Test
-    void getClassDefinitionsMap_ConductorStepResponse_correctMapping() throws IOException {
-        String modelicaText = Utils.getModelicaTextFromResources(Utils.ConductorStepResponse);
+    void resolveInternalClassModifications_ReverseBuoyancy3Zones_classDeclarationInsideIncluded() throws IOException {
+        String modelicaText = Utils.getModelicaTextFromResources(Utils.ReverseBuoyancy3Zone);
         ClassesListener parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
+        parsedListener.resolveInternalClassModifications();
 
-        assertEquals(Map.of(), parsedListener.getClassDefinitionsMap());
+        assertEquals(
+                String.join(
+                        "\n", Stream.of(
+                                        "Modelica.Fluid.Types.Dynamics.FixedInitial", "BuildingsLite.Airflow.Multizone.Orifice",
+                                        "BuildingsLite.Airflow.Multizone.MediumColumn",
+                                        "BuildingsLite.Airflow.Multizone.Types.densitySelection.fromBottom",
+                                        "BuildingsLite.Airflow.Multizone.Types.densitySelection.fromTop",
+                                        "BuildingsLite.Airflow.Multizone.DoorDiscretizedOperable",
+                                        "Modelica.Blocks.Sources.Constant", "BuildingsLite.Fluid.MixingVolumes.MixingVolume")
+                                .sorted()
+                                .toList()), String.join("\n", parsedListener.classes.stream().sorted().toList()));
     }
+
+    @Test
+    void resolveClassDefinitions_ReverseBuoyancy3Zones_classDefinitionIncluded() throws IOException {
+        String modelicaText = Utils.getModelicaTextFromResources(Utils.ReverseBuoyancy3Zone);
+        ClassesListener parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
+        parsedListener.resolveInternalClassModifications();
+        parsedListener.resolveClassDefinitions();
+
+        assertEquals(
+                String.join(
+                        "\n", Stream.of(
+                                        "BuildingsLite.Media.Air", "Modelica.Fluid.Types.Dynamics.FixedInitial",
+                                        "BuildingsLite.Airflow.Multizone.Orifice",
+                                        "BuildingsLite.Airflow.Multizone.MediumColumn",
+                                        "BuildingsLite.Airflow.Multizone.Types.densitySelection.fromBottom",
+                                        "BuildingsLite.Airflow.Multizone.Types.densitySelection.fromTop",
+                                        "BuildingsLite.Airflow.Multizone.DoorDiscretizedOperable",
+                                        "Modelica.Blocks.Sources.Constant", "BuildingsLite.Fluid.MixingVolumes.MixingVolume")
+                                .sorted()
+                                .toList()), String.join("\n", parsedListener.classes.stream().sorted().toList()));
+    }
+
+//    @Test
+//    void getComponentDeclarationsMap_ConductorStepResponse_correctMapping() throws IOException {
+//        String modelicaText = Utils.getModelicaTextFromResources(Utils.ConductorStepResponse);
+//        ClassesListener parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
+//
+//        assertEquals(Map.of(), parsedListener.getComponentDeclarationsMap());
+//    }
 
 }

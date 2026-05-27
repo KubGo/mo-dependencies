@@ -48,6 +48,7 @@ public class ClassDependenciesResolver implements IClassDependencies, IFilterabl
 		ClassesListener listener = new ClassesListener();
 		walker.walk(listener, tree);
 		listener.resolveInternalClassModifications();
+		listener.resolveClassDefinitions();
 		this.className = className;
 		importedClasses = listener.imports;
 		standardImportsResolved = importedClasses.isEmpty();

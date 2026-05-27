@@ -18,7 +18,7 @@ class ModelicaLibraryFilterTest {
 			"BuildingsLite.HeatTransfer.Conduction.MultiLayer", "BuildingsLite.HeatTransfer.Conduction.SingleLayer",
 			"BuildingsLite.HeatTransfer.Sources.FixedTemperature",
 			"BuildingsLite.HeatTransfer.Sources.PrescribedTemperature",
-			"BuildingsLite.HeatTransfer.Convection.Interior").sorted().toList();
+			"BuildingsLite.HeatTransfer.Convection.Interior", "BuildingsLite.Types.Tilt.Wall").sorted().toList();
 	ModelicaLibraryFilter filter = new ModelicaLibraryFilter("Modelica");
 
 	@Test

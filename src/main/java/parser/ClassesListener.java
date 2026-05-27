@@ -28,14 +28,34 @@ public class ClassesListener extends ModelicaBaseListener{
 
     public void resolveInternalClassModifications() {
         for (String classModification : classModifications) {
-            if (classDefinitionsMap.containsKey(classModification)) {
-                classes.add(classDefinitionsMap.get(classModification));
-            } else classes.add(componentDeclarationsMap.getOrDefault(classModification, classModification));
+            classes.add(getComponentFromName(classModification));
         }
     }
 
-    public Map<String, String> getClassDefinitionsMap() {
-        return classDefinitionsMap;
+    private String getComponentFromName(String name) {
+        Stack<String> stack = new Stack<>();
+        Arrays.stream(name.split("\\.")).forEach(stack::push);
+        while (!stack.isEmpty()) {
+            String path = String.join(".", stack);
+            if (componentDeclarationsMap.containsKey(path)) {
+                return componentDeclarationsMap.get(path);
+            }
+            stack.pop();
+        }
+        return name;
+    }
+
+    public void resolveClassDefinitions() {
+        classDefinitionsMap.forEach((name, path) -> {
+            classes.add(path);
+            if (!path.equals(name)) {
+                classes.remove(name);
+            }
+        });
+    }
+
+    public Map<String, String> getComponentDeclarationsMap() {
+        return componentDeclarationsMap;
     }
 
     /**
@@ -139,9 +159,10 @@ public class ClassesListener extends ModelicaBaseListener{
 
     @Override
     public void enterComponent_clause(ModelicaParser.Component_clauseContext ctx) {
-        componentDeclaration = true;
-        currentComponentModelicaPath = ctx.type_specifier().name().getText();
-
+        if (currentSection != ModelicaFileSection.ANNOTATION) {
+            componentDeclaration = true;
+            currentComponentModelicaPath = ctx.type_specifier().name().getText();
+        }
     }
 
 
@@ -152,10 +173,11 @@ public class ClassesListener extends ModelicaBaseListener{
 
     @Override
     public void enterDeclaration(ModelicaParser.DeclarationContext ctx) {
-        componentDeclarationsMap.putIfAbsent(
-                ctx.getText(),
-                currentComponentModelicaPath
-        );
+        if (componentDeclaration) {
+            String componentName = ctx.IDENT().toString();
+            componentDeclarationsMap.putIfAbsent(componentName, currentComponentModelicaPath);
+        }
+
     }
 
     /**
@@ -202,6 +224,9 @@ public class ClassesListener extends ModelicaBaseListener{
 			}
             String className = shortClassSpecifier.name().getText();
             String name = shortClassSpecifier.getText().split("=")[0].trim();
+            if (ctx.class_prefixes().getText().equalsIgnoreCase("type")) {
+                className = name;
+            }
             classDefinitionsMap.put(
                     name,
                     className
@@ -211,12 +236,10 @@ public class ClassesListener extends ModelicaBaseListener{
 
     @Override
     public void enterComponent_reference(ModelicaParser.Component_referenceContext ctx) {
-        if (classModification) {
+        if (classModification & currentSection != ModelicaFileSection.ANNOTATION) {
             classModifications.add(ctx.getText());
         }
     }
-
-
 
     /**
      * Class redecorations inside the class
