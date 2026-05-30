@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ClassUsageResolver {
-    private final List<Map<String, ? extends IClassDependencies>> trees;
+    private final ArrayList<Map<String, ? extends IClassDependencies>> trees;
     IClassUsageSearcher classUsageSearcher;
     private List<List<String>> topLevelClassesList = new ArrayList<>();
     private List<Map<String, List<String>>> classUsageTreeList = new ArrayList<>();
@@ -21,9 +21,12 @@ public class ClassUsageResolver {
      */
     @SafeVarargs
     public ClassUsageResolver(Map<String, ? extends IClassDependencies>... trees) {
-        this.trees = List.of(trees);
+        this.trees = new ArrayList<>(List.of(trees));
         setSearchAllTrees(false);
+    }
 
+    public void addLibraryTree(Map<String, ? extends IClassDependencies> tree) {
+        trees.add(tree);
     }
 
     /**
