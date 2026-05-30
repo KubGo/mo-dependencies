@@ -40,6 +40,11 @@ public class ClassDependencies implements IClassDependencies {
     }
 
     @Override
+    public void addParentClasses(List<String> parentClasses) {
+        this.parentClasses.addAll(parentClasses);
+    }
+
+    @Override
     public void addClasses(List<String> classes) {
         Set<String> updatedClasses = new HashSet<>(usedClasses);
         updatedClasses.addAll(classes);

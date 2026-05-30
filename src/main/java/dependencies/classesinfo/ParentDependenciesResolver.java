@@ -15,6 +15,7 @@ public class ParentDependenciesResolver<T extends IClassDependencies> {
     List<Map<String, ? extends IClassDependencies>> trees = new ArrayList<>();
 
     Map<String, List<String>> resolvedParents = new TreeMap<>();
+    Map<String, List<String>> parentExtendingClasses = new TreeMap<>();
     private final List<String> librariesNames = new ArrayList<>();
 
     /**
@@ -80,7 +81,14 @@ public class ParentDependenciesResolver<T extends IClassDependencies> {
                 }
             }
         }
+        parentExtendingClasses.put(className, classDependencies.getParentClasses());
         classDependencies.addClasses(classesUsedByParents);
+
+        var currentParents = List.copyOf(classDependencies.getParentClasses());
+
+        for (var parent : currentParents) {
+            classDependencies.addParentClasses(parentExtendingClasses.getOrDefault(parent, List.of()));
+        }
         resolvedParents.put(className, classDependencies.getClasses());
         classDependencies.setLibrariesResolved(librariesNames);
         if (Config.VERBOSE) System.out.println("Resoled parent dependencies for" + className + ".");

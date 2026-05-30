@@ -17,6 +17,13 @@ public interface IClassDependencies {
     List<String> getParentClasses();
 
     /**
+     * Add parent classes of parent to have all extending classes inside
+     *
+     * @param parentClasses parent classes to add
+     */
+    void addParentClasses(List<String> parentClasses);
+
+    /**
      * Add list of classes
      *
      * @param classes to include in the model, e.g. from parent class

@@ -16,7 +16,13 @@ public class FirstTreeUsageSearcher implements IClassUsageSearcher {
 
     @Override
     public void searchForClassUsage(List<Map<String, ? extends IClassDependencies>> trees) {
-        searchTrees = trees.size() > 1 ? trees.subList(1, trees.size()) : trees;
+        if (trees.isEmpty()) {
+            throw new RuntimeException("Cannot find class usage if no tree maps are provided.");
+        }
+        searchTrees = trees;
+        for (String className : trees.getFirst().keySet()) {
+            getClassUsage(className);
+        }
 
     }
 

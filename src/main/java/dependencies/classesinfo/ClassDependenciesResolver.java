@@ -80,6 +80,11 @@ public class ClassDependenciesResolver implements IClassDependencies, IFilterabl
 	}
 
 	@Override
+	public void addParentClasses(List<String> parentClasses) {
+		this.parentClasses.addAll(parentClasses);
+	}
+
+	@Override
 	public List<String> getClasses() {
 		return usedClasses.stream().toList();
 	}

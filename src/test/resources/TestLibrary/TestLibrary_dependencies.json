@@ -1,0 +1,93 @@
+{
+  "TestLibrary.HeatTransfer.ExteriorConvectionTest": {
+    "ModelicaPath": "TestLibrary.HeatTransfer.ExteriorConvectionTest",
+    "resolvedLibraries": [],
+    "usedClasses": [
+      "BuildingsLite.HeatTransfer.Sources.PrescribedTemperature",
+      "BuildingsLite.Types.Tilt.Wall",
+      "BuildingsLite.Types.Azimuth.S",
+      "BuildingsLite.Types.Azimuth.E",
+      "BuildingsLite.HeatTransfer.Convection.Exterior",
+      "Modelica.Blocks.Sources.Ramp",
+      "BuildingsLite.Types.Azimuth.W",
+      "Modelica.Blocks.Sources.Constant",
+      "BuildingsLite.HeatTransfer.Sources.FixedTemperature",
+      "BuildingsLite.HeatTransfer.Types.ExteriorConvection.TemperatureWind",
+      "BuildingsLite.Types.Azimuth.N"
+    ],
+    "parentClasses": [
+      "BuildingsLite.HeatTransfer.Convection.Examples.Exterior",
+      "Modelica.Icons.Example"
+    ],
+    "constrainingClasses": {},
+    "classType": "MODEL"
+  },
+  "TestLibrary.HeatTransfer.InteriorConvectionTest": {
+    "ModelicaPath": "TestLibrary.HeatTransfer.InteriorConvectionTest",
+    "resolvedLibraries": [],
+    "usedClasses": [
+      "BuildingsLite.HeatTransfer.Sources.PrescribedTemperature",
+      "Modelica.Blocks.Sources.Ramp",
+      "BuildingsLite.HeatTransfer.Sources.FixedTemperature",
+      "BuildingsLite.HeatTransfer.Convection.Interior"
+    ],
+    "parentClasses": [],
+    "constrainingClasses": {},
+    "classType": "MODEL"
+  },
+  "TestLibrary.Tests.BouncingBallTest": {
+    "ModelicaPath": "TestLibrary.Tests.BouncingBallTest",
+    "resolvedLibraries": [],
+    "usedClasses": [
+      "BuildingsLite.Tests.BouncingBall"
+    ],
+    "parentClasses": [],
+    "constrainingClasses": {},
+    "classType": "MODEL"
+  },
+  "TestLibrary.Tests.MutlipleExtendModelTest": {
+    "ModelicaPath": "TestLibrary.Tests.MutlipleExtendModelTest",
+    "resolvedLibraries": [],
+    "usedClasses": [
+      "BuildingsLite.Tests.MultipleExtendsModel"
+    ],
+    "parentClasses": [],
+    "constrainingClasses": {},
+    "classType": "MODEL"
+  },
+  "TestLibrary.Tests.PartialTestCase": {
+    "ModelicaPath": "TestLibrary.Tests.PartialTestCase",
+    "resolvedLibraries": [],
+    "usedClasses": [
+      "BuildingsLite.HeatTransfer.Radiosity.OpaqueSurface",
+      "BuildingsLite.HeatTransfer.Sources.FixedTemperature"
+    ],
+    "parentClasses": [],
+    "constrainingClasses": {},
+    "classType": "PARTIAL_MODEL"
+  },
+  "TestLibrary.Tests.RadiocityTestCase": {
+    "ModelicaPath": "TestLibrary.Tests.RadiocityTestCase",
+    "resolvedLibraries": [],
+    "usedClasses": [
+      "BuildingsLite.HeatTransfer.Radiosity.OpaqueSurface",
+      "BuildingsLite.HeatTransfer.Sources.FixedTemperature"
+    ],
+    "parentClasses": [
+      "TestLibrary.Tests.PartialTestCase"
+    ],
+    "constrainingClasses": {},
+    "classType": "MODEL"
+  },
+  "TestLibrary.Tests.SimpleModelTest": {
+    "ModelicaPath": "TestLibrary.Tests.SimpleModelTest",
+    "resolvedLibraries": [],
+    "usedClasses": [
+      "BuildingsLite.Controls.Sources.DayType",
+      "BuildingsLite.Tests.SimpleModel"
+    ],
+    "parentClasses": [],
+    "constrainingClasses": {},
+    "classType": "MODEL"
+  }
+}

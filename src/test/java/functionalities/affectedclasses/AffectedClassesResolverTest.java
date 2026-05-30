@@ -101,7 +101,9 @@ class AffectedClassesResolverTest {
 				List.of("BuildingsLite.Tests.PartialSimpleModel"));
 		assertEquals(
 				String.join(
-						"\n", Stream.of("BuildingsLite.Tests.PartialSimpleModel", "BuildingsLite.Tests.SimpleModel")
+						"\n", Stream.of(
+										"BuildingsLite.Tests.PartialSimpleModel", "BuildingsLite.Tests.SimpleModel",
+										"BuildingsLite.Tests.MultipleExtendsModel")
 								.sorted()
 								.toList()), String.join("\n", affectedClasses.stream().sorted().toList()));
 	}

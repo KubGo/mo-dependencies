@@ -45,7 +45,10 @@
       "Boolean"
     ],
     "parentClasses": [
-      "BuildingsLite.Airflow.Multizone.BaseClasses.TwoWayFlowElementBuoyancy"
+      "BuildingsLite.Airflow.Multizone.BaseClasses.TwoWayFlowElementBuoyancy",
+      "BuildingsLite.Airflow.Multizone.BaseClasses.TwoWayFlowElement",
+      "BuildingsLite.Fluid.Interfaces.PartialFourPortInterface",
+      "BuildingsLite.Airflow.Multizone.BaseClasses.ErrorControl"
     ],
     "constrainingClasses": {},
     "classType": "PARTIAL_MODEL"
@@ -201,7 +204,9 @@
       "Modelica.Units.SI.Density"
     ],
     "parentClasses": [
-      "BuildingsLite.Airflow.Multizone.BaseClasses.TwoWayFlowElement"
+      "BuildingsLite.Airflow.Multizone.BaseClasses.TwoWayFlowElement",
+      "BuildingsLite.Fluid.Interfaces.PartialFourPortInterface",
+      "BuildingsLite.Airflow.Multizone.BaseClasses.ErrorControl"
     ],
     "constrainingClasses": {},
     "classType": "PARTIAL_MODEL"
@@ -316,7 +321,9 @@
     ],
     "parentClasses": [
       "BuildingsLite.Airflow.Multizone.BaseClasses.PartialOneWayFlowElement",
-      "BuildingsLite.Airflow.Multizone.BaseClasses.PowerLawResistanceParameters"
+      "BuildingsLite.Airflow.Multizone.BaseClasses.PowerLawResistanceParameters",
+      "BuildingsLite.Fluid.Interfaces.PartialTwoPortInterface",
+      "BuildingsLite.Airflow.Multizone.BaseClasses.ErrorControl"
     ],
     "constrainingClasses": {},
     "classType": "MODEL"
@@ -346,7 +353,9 @@
     ],
     "parentClasses": [
       "BuildingsLite.Airflow.Multizone.BaseClasses.PartialOneWayFlowElement",
-      "BuildingsLite.Airflow.Multizone.BaseClasses.PowerLawResistanceParameters"
+      "BuildingsLite.Airflow.Multizone.BaseClasses.PowerLawResistanceParameters",
+      "BuildingsLite.Fluid.Interfaces.PartialTwoPortInterface",
+      "BuildingsLite.Airflow.Multizone.BaseClasses.ErrorControl"
     ],
     "constrainingClasses": {},
     "classType": "MODEL"
@@ -374,7 +383,11 @@
       "Boolean"
     ],
     "parentClasses": [
-      "BuildingsLite.Airflow.Multizone.BaseClasses.DoorDiscretized"
+      "BuildingsLite.Airflow.Multizone.BaseClasses.DoorDiscretized",
+      "BuildingsLite.Airflow.Multizone.BaseClasses.TwoWayFlowElementBuoyancy",
+      "BuildingsLite.Airflow.Multizone.BaseClasses.TwoWayFlowElement",
+      "BuildingsLite.Fluid.Interfaces.PartialFourPortInterface",
+      "BuildingsLite.Airflow.Multizone.BaseClasses.ErrorControl"
     ],
     "constrainingClasses": {},
     "classType": "MODEL"
@@ -403,7 +416,11 @@
       "Boolean"
     ],
     "parentClasses": [
-      "BuildingsLite.Airflow.Multizone.BaseClasses.DoorDiscretized"
+      "BuildingsLite.Airflow.Multizone.BaseClasses.DoorDiscretized",
+      "BuildingsLite.Airflow.Multizone.BaseClasses.TwoWayFlowElementBuoyancy",
+      "BuildingsLite.Airflow.Multizone.BaseClasses.TwoWayFlowElement",
+      "BuildingsLite.Fluid.Interfaces.PartialFourPortInterface",
+      "BuildingsLite.Airflow.Multizone.BaseClasses.ErrorControl"
     ],
     "constrainingClasses": {},
     "classType": "MODEL"
@@ -429,7 +446,8 @@
       "AOpe"
     ],
     "parentClasses": [
-      "BuildingsLite.Airflow.Multizone.BaseClasses.Door"
+      "BuildingsLite.Airflow.Multizone.BaseClasses.Door",
+      "BuildingsLite.Fluid.Interfaces.PartialFourPortInterface"
     ],
     "constrainingClasses": {},
     "classType": "MODEL"
@@ -455,7 +473,8 @@
       "Real"
     ],
     "parentClasses": [
-      "BuildingsLite.Airflow.Multizone.BaseClasses.Door"
+      "BuildingsLite.Airflow.Multizone.BaseClasses.Door",
+      "BuildingsLite.Fluid.Interfaces.PartialFourPortInterface"
     ],
     "constrainingClasses": {},
     "classType": "MODEL"
@@ -488,7 +507,11 @@
       "Boolean"
     ],
     "parentClasses": [
-      "BuildingsLite.Airflow.Multizone.Coefficient_V_flow"
+      "BuildingsLite.Airflow.Multizone.Coefficient_V_flow",
+      "BuildingsLite.Airflow.Multizone.BaseClasses.PartialOneWayFlowElement",
+      "BuildingsLite.Airflow.Multizone.BaseClasses.PowerLawResistanceParameters",
+      "BuildingsLite.Fluid.Interfaces.PartialTwoPortInterface",
+      "BuildingsLite.Airflow.Multizone.BaseClasses.ErrorControl"
     ],
     "constrainingClasses": {},
     "classType": "MODEL"
@@ -513,7 +536,8 @@
       "BuildingsLite.Media.Air"
     ],
     "parentClasses": [
-      "BuildingsLite.Airflow.Multizone.Validation.ThreeRoomsContam"
+      "BuildingsLite.Airflow.Multizone.Validation.ThreeRoomsContam",
+      "Modelica.Icons.Example"
     ],
     "constrainingClasses": {},
     "classType": "MODEL"
@@ -900,7 +924,11 @@
       "Boolean"
     ],
     "parentClasses": [
-      "BuildingsLite.Airflow.Multizone.Coefficient_V_flow"
+      "BuildingsLite.Airflow.Multizone.Coefficient_V_flow",
+      "BuildingsLite.Airflow.Multizone.BaseClasses.PartialOneWayFlowElement",
+      "BuildingsLite.Airflow.Multizone.BaseClasses.PowerLawResistanceParameters",
+      "BuildingsLite.Fluid.Interfaces.PartialTwoPortInterface",
+      "BuildingsLite.Airflow.Multizone.BaseClasses.ErrorControl"
     ],
     "constrainingClasses": {},
     "classType": "MODEL"
@@ -930,7 +958,11 @@
       "Boolean"
     ],
     "parentClasses": [
-      "BuildingsLite.Airflow.Multizone.Coefficient_m_flow"
+      "BuildingsLite.Airflow.Multizone.Coefficient_m_flow",
+      "BuildingsLite.Airflow.Multizone.BaseClasses.PartialOneWayFlowElement",
+      "BuildingsLite.Airflow.Multizone.BaseClasses.PowerLawResistanceParameters",
+      "BuildingsLite.Fluid.Interfaces.PartialTwoPortInterface",
+      "BuildingsLite.Airflow.Multizone.BaseClasses.ErrorControl"
     ],
     "constrainingClasses": {},
     "classType": "MODEL"
@@ -962,7 +994,11 @@
       "Boolean"
     ],
     "parentClasses": [
-      "BuildingsLite.Airflow.Multizone.Coefficient_m_flow"
+      "BuildingsLite.Airflow.Multizone.Coefficient_m_flow",
+      "BuildingsLite.Airflow.Multizone.BaseClasses.PartialOneWayFlowElement",
+      "BuildingsLite.Airflow.Multizone.BaseClasses.PowerLawResistanceParameters",
+      "BuildingsLite.Fluid.Interfaces.PartialTwoPortInterface",
+      "BuildingsLite.Airflow.Multizone.BaseClasses.ErrorControl"
     ],
     "constrainingClasses": {},
     "classType": "MODEL"
@@ -986,7 +1022,10 @@
       "Boolean"
     ],
     "parentClasses": [
-      "BuildingsLite.Airflow.Multizone.Table_m_flow"
+      "BuildingsLite.Airflow.Multizone.Table_m_flow",
+      "BuildingsLite.Airflow.Multizone.BaseClasses.PartialOneWayFlowElement",
+      "BuildingsLite.Fluid.Interfaces.PartialTwoPortInterface",
+      "BuildingsLite.Airflow.Multizone.BaseClasses.ErrorControl"
     ],
     "constrainingClasses": {},
     "classType": "MODEL"
@@ -1009,7 +1048,9 @@
       "Modelica.Units.SI.Density"
     ],
     "parentClasses": [
-      "BuildingsLite.Airflow.Multizone.BaseClasses.PartialOneWayFlowElement"
+      "BuildingsLite.Airflow.Multizone.BaseClasses.PartialOneWayFlowElement",
+      "BuildingsLite.Fluid.Interfaces.PartialTwoPortInterface",
+      "BuildingsLite.Airflow.Multizone.BaseClasses.ErrorControl"
     ],
     "constrainingClasses": {},
     "classType": "MODEL"
@@ -1195,7 +1236,8 @@
       "BuildingsLite.Media.Air"
     ],
     "parentClasses": [
-      "BuildingsLite.Airflow.Multizone.Validation.ThreeRoomsContam"
+      "BuildingsLite.Airflow.Multizone.Validation.ThreeRoomsContam",
+      "Modelica.Icons.Example"
     ],
     "constrainingClasses": {},
     "classType": "MODEL"
@@ -1216,7 +1258,8 @@
       "Modelica.Units.SI.Density"
     ],
     "parentClasses": [
-      "BuildingsLite.Airflow.Multizone.BaseClasses.ZonalFlow"
+      "BuildingsLite.Airflow.Multizone.BaseClasses.ZonalFlow",
+      "BuildingsLite.Fluid.Interfaces.PartialFourPortInterface"
     ],
     "constrainingClasses": {},
     "classType": "MODEL"
@@ -1231,7 +1274,8 @@
       "Modelica.Blocks.Interfaces.RealInput"
     ],
     "parentClasses": [
-      "BuildingsLite.Airflow.Multizone.BaseClasses.ZonalFlow"
+      "BuildingsLite.Airflow.Multizone.BaseClasses.ZonalFlow",
+      "BuildingsLite.Fluid.Interfaces.PartialFourPortInterface"
     ],
     "constrainingClasses": {},
     "classType": "MODEL"
@@ -1451,7 +1495,8 @@
       "Modelica.Blocks.Sources.BooleanPulse"
     ],
     "parentClasses": [
-      "BuildingsLite.Controls.Continuous.Examples.OffTimer"
+      "BuildingsLite.Controls.Continuous.Examples.OffTimer",
+      "Modelica.Icons.Example"
     ],
     "constrainingClasses": {},
     "classType": "MODEL"
@@ -12409,7 +12454,9 @@
       "BuildingsLite.Controls.Predictors.Types.PredictionModel.Average"
     ],
     "parentClasses": [
-      "BuildingsLite.Controls.Predictors.Validation.BaseClasses.PartialSimpleTestCase"
+      "BuildingsLite.Controls.Predictors.Validation.BaseClasses.PartialSimpleTestCase",
+      "Modelica.Icons.Example",
+      "Modelica.Blocks.Discrete.Sampler"
     ],
     "constrainingClasses": {},
     "classType": "MODEL"
@@ -12429,7 +12476,10 @@
       "BuildingsLite.Controls.Predictors.Types.PredictionModel.Average"
     ],
     "parentClasses": [
-      "BuildingsLite.Controls.Predictors.Validation.ConstantInput"
+      "BuildingsLite.Controls.Predictors.Validation.ConstantInput",
+      "BuildingsLite.Controls.Predictors.Validation.BaseClasses.PartialSimpleTestCase",
+      "Modelica.Icons.Example",
+      "Modelica.Blocks.Discrete.Sampler"
     ],
     "constrainingClasses": {},
     "classType": "MODEL"
@@ -12456,7 +12506,9 @@
       "Modelica.Blocks.Sources.RealExpression"
     ],
     "parentClasses": [
-      "BuildingsLite.Controls.Predictors.Validation.BaseClasses.PartialSimpleTestCase"
+      "BuildingsLite.Controls.Predictors.Validation.BaseClasses.PartialSimpleTestCase",
+      "Modelica.Icons.Example",
+      "Modelica.Blocks.Discrete.Sampler"
     ],
     "constrainingClasses": {},
     "classType": "MODEL"
@@ -12483,7 +12535,10 @@
       "Modelica.Blocks.Sources.RealExpression"
     ],
     "parentClasses": [
-      "BuildingsLite.Controls.Predictors.Validation.LinearInput"
+      "BuildingsLite.Controls.Predictors.Validation.LinearInput",
+      "BuildingsLite.Controls.Predictors.Validation.BaseClasses.PartialSimpleTestCase",
+      "Modelica.Icons.Example",
+      "Modelica.Blocks.Discrete.Sampler"
     ],
     "constrainingClasses": {},
     "classType": "MODEL"
@@ -12510,7 +12565,9 @@
       "dayType.y[1]"
     ],
     "parentClasses": [
-      "BuildingsLite.Controls.Predictors.Validation.BaseClasses.PartialSimpleTestCase"
+      "BuildingsLite.Controls.Predictors.Validation.BaseClasses.PartialSimpleTestCase",
+      "Modelica.Icons.Example",
+      "Modelica.Blocks.Discrete.Sampler"
     ],
     "constrainingClasses": {},
     "classType": "MODEL"
@@ -12537,7 +12594,10 @@
       "dayType.y[1]"
     ],
     "parentClasses": [
-      "BuildingsLite.Controls.Predictors.Validation.SineInput"
+      "BuildingsLite.Controls.Predictors.Validation.SineInput",
+      "BuildingsLite.Controls.Predictors.Validation.BaseClasses.PartialSimpleTestCase",
+      "Modelica.Icons.Example",
+      "Modelica.Blocks.Discrete.Sampler"
     ],
     "constrainingClasses": {},
     "classType": "MODEL"
@@ -12655,7 +12715,8 @@
       "BuildingsLite.Controls.SetPoints.OccupancySchedule"
     ],
     "parentClasses": [
-      "BuildingsLite.Controls.SetPoints.Validation.OccupancyScheduleNegativeStartTime"
+      "BuildingsLite.Controls.SetPoints.Validation.OccupancyScheduleNegativeStartTime",
+      "Modelica.Icons.Example"
     ],
     "constrainingClasses": {},
     "classType": "MODEL"
@@ -12812,7 +12873,9 @@
     ],
     "parentClasses": [
       "BuildingsLite.HeatTransfer.Conduction.BaseClasses.PartialConductor",
-      "BuildingsLite.HeatTransfer.Conduction.BaseClasses.PartialConstruction"
+      "BuildingsLite.HeatTransfer.Conduction.BaseClasses.PartialConstruction",
+      "BuildingsLite.BaseClasses.BaseIcon",
+      "BuildingsLite.BaseClasses.BaseIcon"
     ],
     "constrainingClasses": {},
     "classType": "MODEL"
@@ -12845,7 +12908,8 @@
       "Boolean"
     ],
     "parentClasses": [
-      "BuildingsLite.HeatTransfer.Conduction.BaseClasses.PartialConductor"
+      "BuildingsLite.HeatTransfer.Conduction.BaseClasses.PartialConductor",
+      "BuildingsLite.BaseClasses.BaseIcon"
     ],
     "constrainingClasses": {},
     "classType": "MODEL"
@@ -12955,7 +13019,8 @@
       "Modelica.Units.SI.HeatFlowRate"
     ],
     "parentClasses": [
-      "BuildingsLite.HeatTransfer.Convection.BaseClasses.PartialConvection"
+      "BuildingsLite.HeatTransfer.Convection.BaseClasses.PartialConvection",
+      "BuildingsLite.BaseClasses.BaseIcon"
     ],
     "constrainingClasses": {},
     "classType": "MODEL"
@@ -12981,7 +13046,8 @@
       "Modelica.Units.SI.TemperatureDifference"
     ],
     "parentClasses": [
-      "BuildingsLite.HeatTransfer.Convection.Functions.HeatFlux.BaseClasses.PartialHeatFlux"
+      "BuildingsLite.HeatTransfer.Convection.Functions.HeatFlux.BaseClasses.PartialHeatFlux",
+      "Modelica.Icons.Function"
     ],
     "constrainingClasses": {},
     "classType": "FUNCTION"
@@ -12995,7 +13061,8 @@
       "Modelica.Units.SI.TemperatureDifference"
     ],
     "parentClasses": [
-      "BuildingsLite.HeatTransfer.Convection.Functions.HeatFlux.BaseClasses.PartialHeatFlux"
+      "BuildingsLite.HeatTransfer.Convection.Functions.HeatFlux.BaseClasses.PartialHeatFlux",
+      "Modelica.Icons.Function"
     ],
     "constrainingClasses": {},
     "classType": "FUNCTION"
@@ -13008,7 +13075,8 @@
       "Modelica.Units.SI.TemperatureDifference"
     ],
     "parentClasses": [
-      "BuildingsLite.HeatTransfer.Convection.Functions.HeatFlux.BaseClasses.PartialHeatFlux"
+      "BuildingsLite.HeatTransfer.Convection.Functions.HeatFlux.BaseClasses.PartialHeatFlux",
+      "Modelica.Icons.Function"
     ],
     "constrainingClasses": {},
     "classType": "FUNCTION"
@@ -13040,7 +13108,8 @@
       "Modelica.Units.SI.TemperatureDifference"
     ],
     "parentClasses": [
-      "BuildingsLite.HeatTransfer.Convection.Functions.HeatFlux.BaseClasses.PartialHeatFlux"
+      "BuildingsLite.HeatTransfer.Convection.Functions.HeatFlux.BaseClasses.PartialHeatFlux",
+      "Modelica.Icons.Function"
     ],
     "constrainingClasses": {},
     "classType": "FUNCTION"
@@ -13077,7 +13146,8 @@
       "Modelica.Units.SI.HeatFlowRate"
     ],
     "parentClasses": [
-      "BuildingsLite.HeatTransfer.Convection.BaseClasses.PartialConvection"
+      "BuildingsLite.HeatTransfer.Convection.BaseClasses.PartialConvection",
+      "BuildingsLite.BaseClasses.BaseIcon"
     ],
     "constrainingClasses": {},
     "classType": "MODEL"
@@ -13099,7 +13169,8 @@
       "BuildingsLite.Types.Azimuth.N"
     ],
     "parentClasses": [
-      "BuildingsLite.HeatTransfer.Convection.Examples.Exterior"
+      "BuildingsLite.HeatTransfer.Convection.Examples.Exterior",
+      "Modelica.Icons.Example"
     ],
     "constrainingClasses": {},
     "classType": "MODEL"
@@ -13354,7 +13425,8 @@
       "BuildingsLite.HeatTransfer.Convection.Interior"
     ],
     "parentClasses": [
-      "BuildingsLite.HeatTransfer.Examples.ConductorMultiLayer"
+      "BuildingsLite.HeatTransfer.Examples.ConductorMultiLayer",
+      "Modelica.Icons.Example"
     ],
     "constrainingClasses": {},
     "classType": "MODEL"
@@ -13372,7 +13444,8 @@
       "BuildingsLite.HeatTransfer.Convection.Interior"
     ],
     "parentClasses": [
-      "BuildingsLite.HeatTransfer.Examples.ConductorMultiLayer"
+      "BuildingsLite.HeatTransfer.Examples.ConductorMultiLayer",
+      "Modelica.Icons.Example"
     ],
     "constrainingClasses": {},
     "classType": "MODEL"
@@ -13412,7 +13485,8 @@
       "BuildingsLite.HeatTransfer.Convection.Interior"
     ],
     "parentClasses": [
-      "BuildingsLite.HeatTransfer.Examples.ConductorSingleLayer"
+      "BuildingsLite.HeatTransfer.Examples.ConductorSingleLayer",
+      "Modelica.Icons.Example"
     ],
     "constrainingClasses": {},
     "classType": "MODEL"
@@ -13640,7 +13714,8 @@
     ],
     "parentClasses": [
       "BuildingsLite.HeatTransfer.Radiosity.BaseClasses.RadiosityOneSurface",
-      "BuildingsLite.HeatTransfer.Radiosity.BaseClasses.ParametersOneSurface"
+      "BuildingsLite.HeatTransfer.Radiosity.BaseClasses.ParametersOneSurface",
+      "BuildingsLite.BaseClasses.BaseIcon"
     ],
     "constrainingClasses": {},
     "classType": "MODEL"
@@ -13665,7 +13740,8 @@
     ],
     "parentClasses": [
       "BuildingsLite.HeatTransfer.Radiosity.BaseClasses.RadiosityOneSurface",
-      "BuildingsLite.HeatTransfer.Radiosity.BaseClasses.ParametersOneSurface"
+      "BuildingsLite.HeatTransfer.Radiosity.BaseClasses.ParametersOneSurface",
+      "BuildingsLite.BaseClasses.BaseIcon"
     ],
     "constrainingClasses": {},
     "classType": "MODEL"
@@ -13809,7 +13885,10 @@
       "tauShaSol_b"
     ],
     "parentClasses": [
-      "BuildingsLite.HeatTransfer.Windows.BaseClasses.PartialRadiation"
+      "BuildingsLite.HeatTransfer.Windows.BaseClasses.PartialRadiation",
+      "Modelica.Blocks.Icons.Block",
+      "BuildingsLite.HeatTransfer.Windows.BaseClasses.RadiationBaseData",
+      "Modelica.Icons.Record"
     ],
     "constrainingClasses": {},
     "classType": "BLOCK"
@@ -13834,7 +13913,8 @@
       "Boolean"
     ],
     "parentClasses": [
-      "BuildingsLite.HeatTransfer.Radiosity.BaseClasses.RadiosityTwoSurfaces"
+      "BuildingsLite.HeatTransfer.Radiosity.BaseClasses.RadiosityTwoSurfaces",
+      "BuildingsLite.BaseClasses.BaseIcon"
     ],
     "constrainingClasses": {},
     "classType": "MODEL"
@@ -13875,7 +13955,8 @@
       "Data.GlazingSystems.DoubleElectrochromicAir13Clear"
     ],
     "parentClasses": [
-      "BuildingsLite.HeatTransfer.Windows.BaseClasses.Examples.AbsorbedRadiation"
+      "BuildingsLite.HeatTransfer.Windows.BaseClasses.Examples.AbsorbedRadiation",
+      "Modelica.Icons.Example"
     ],
     "constrainingClasses": {},
     "classType": "MODEL"
@@ -14080,7 +14161,8 @@
       "Data.GlazingSystems.DoubleElectrochromicAir13Clear"
     ],
     "parentClasses": [
-      "BuildingsLite.HeatTransfer.Windows.BaseClasses.Examples.WindowRadiation"
+      "BuildingsLite.HeatTransfer.Windows.BaseClasses.Examples.WindowRadiation",
+      "Modelica.Icons.Example"
     ],
     "constrainingClasses": {},
     "classType": "MODEL"
@@ -14147,7 +14229,8 @@
     ],
     "parentClasses": [
       "BuildingsLite.HeatTransfer.Radiosity.BaseClasses.RadiosityTwoSurfaces",
-      "BuildingsLite.HeatTransfer.Radiosity.BaseClasses.ParametersTwoSurfaces"
+      "BuildingsLite.HeatTransfer.Radiosity.BaseClasses.ParametersTwoSurfaces",
+      "BuildingsLite.BaseClasses.BaseIcon"
     ],
     "constrainingClasses": {},
     "classType": "MODEL"
@@ -14190,7 +14273,8 @@
       "Modelica.Units.SI.HeatFlowRate"
     ],
     "parentClasses": [
-      "BuildingsLite.HeatTransfer.Convection.BaseClasses.PartialConvection"
+      "BuildingsLite.HeatTransfer.Convection.BaseClasses.PartialConvection",
+      "BuildingsLite.BaseClasses.BaseIcon"
     ],
     "constrainingClasses": {},
     "classType": "MODEL"
@@ -14252,7 +14336,8 @@
     ],
     "parentClasses": [
       "Modelica.Blocks.Icons.Block",
-      "BuildingsLite.HeatTransfer.Windows.BaseClasses.RadiationBaseData"
+      "BuildingsLite.HeatTransfer.Windows.BaseClasses.RadiationBaseData",
+      "Modelica.Icons.Record"
     ],
     "constrainingClasses": {},
     "classType": "PARTIAL_BLOCK"
@@ -14269,7 +14354,8 @@
       "Modelica.Blocks.Interfaces.RealOutput"
     ],
     "parentClasses": [
-      "BuildingsLite.HeatTransfer.Windows.BaseClasses.ShadeInterface_weatherBus"
+      "BuildingsLite.HeatTransfer.Windows.BaseClasses.ShadeInterface_weatherBus",
+      "Modelica.Blocks.Icons.Block"
     ],
     "constrainingClasses": {},
     "classType": "PARTIAL_MODEL"
@@ -14319,7 +14405,8 @@
     ],
     "parentClasses": [
       "Modelica.Icons.Record",
-      "BuildingsLite.HeatTransfer.Windows.BaseClasses.RadiationBaseData"
+      "BuildingsLite.HeatTransfer.Windows.BaseClasses.RadiationBaseData",
+      "Modelica.Icons.Record"
     ],
     "constrainingClasses": {},
     "classType": "RECORD"
@@ -14462,7 +14549,10 @@
       "tauShaSol_b"
     ],
     "parentClasses": [
-      "BuildingsLite.HeatTransfer.Windows.BaseClasses.PartialRadiation"
+      "BuildingsLite.HeatTransfer.Windows.BaseClasses.PartialRadiation",
+      "Modelica.Blocks.Icons.Block",
+      "BuildingsLite.HeatTransfer.Windows.BaseClasses.RadiationBaseData",
+      "Modelica.Icons.Record"
     ],
     "constrainingClasses": {},
     "classType": "BLOCK"
@@ -14517,7 +14607,8 @@
       "Modelica.Blocks.Sources.RealExpression"
     ],
     "parentClasses": [
-      "BuildingsLite.HeatTransfer.Windows.BaseClasses.Validation.HeatCapacityVariableShade"
+      "BuildingsLite.HeatTransfer.Windows.BaseClasses.Validation.HeatCapacityVariableShade",
+      "Modelica.Icons.Example"
     ],
     "constrainingClasses": {},
     "classType": "MODEL"
@@ -14554,7 +14645,10 @@
       "tauShaSol_b"
     ],
     "parentClasses": [
-      "BuildingsLite.HeatTransfer.Windows.BaseClasses.PartialRadiation"
+      "BuildingsLite.HeatTransfer.Windows.BaseClasses.PartialRadiation",
+      "Modelica.Blocks.Icons.Block",
+      "BuildingsLite.HeatTransfer.Windows.BaseClasses.RadiationBaseData",
+      "Modelica.Icons.Record"
     ],
     "constrainingClasses": {},
     "classType": "BLOCK"
@@ -14734,7 +14828,8 @@
       "BuildingsLite.HeatTransfer.Sources.FixedHeatFlow"
     ],
     "parentClasses": [
-      "BuildingsLite.HeatTransfer.Windows.Examples.Window"
+      "BuildingsLite.HeatTransfer.Windows.Examples.Window",
+      "Modelica.Icons.Example"
     ],
     "constrainingClasses": {},
     "classType": "MODEL"
@@ -14885,7 +14980,8 @@
       "Modelica.Blocks.Interfaces.RealOutput"
     ],
     "parentClasses": [
-      "BuildingsLite.HeatTransfer.Windows.BaseClasses.ShadeInterface_weatherBus"
+      "BuildingsLite.HeatTransfer.Windows.BaseClasses.ShadeInterface_weatherBus",
+      "Modelica.Blocks.Icons.Block"
     ],
     "constrainingClasses": {},
     "classType": "MODEL"
@@ -14920,7 +15016,8 @@
       "Real"
     ],
     "parentClasses": [
-      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialGlassRadiation"
+      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialGlassRadiation",
+      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialSingleGlassRadiation"
     ],
     "constrainingClasses": {},
     "classType": "PARTIAL_FUNCTION"
@@ -14933,7 +15030,8 @@
       "Real"
     ],
     "parentClasses": [
-      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialGlassRadiation"
+      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialGlassRadiation",
+      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialSingleGlassRadiation"
     ],
     "constrainingClasses": {},
     "classType": "PARTIAL_FUNCTION"
@@ -14946,7 +15044,9 @@
       "Real"
     ],
     "parentClasses": [
-      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialWindowShadingRadiation"
+      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialWindowShadingRadiation",
+      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialGlassRadiation",
+      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialSingleGlassRadiation"
     ],
     "constrainingClasses": {},
     "classType": "FUNCTION"
@@ -14959,7 +15059,9 @@
       "Real"
     ],
     "parentClasses": [
-      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialWindowShadingRadiation"
+      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialWindowShadingRadiation",
+      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialGlassRadiation",
+      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialSingleGlassRadiation"
     ],
     "constrainingClasses": {},
     "classType": "FUNCTION"
@@ -14984,7 +15086,8 @@
       "Real"
     ],
     "parentClasses": [
-      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialGlassRadiation"
+      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialGlassRadiation",
+      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialSingleGlassRadiation"
     ],
     "constrainingClasses": {},
     "classType": "FUNCTION"
@@ -14997,7 +15100,9 @@
       "Real"
     ],
     "parentClasses": [
-      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialWindowShadingRadiation"
+      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialWindowShadingRadiation",
+      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialGlassRadiation",
+      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialSingleGlassRadiation"
     ],
     "constrainingClasses": {},
     "classType": "FUNCTION"
@@ -15010,7 +15115,9 @@
       "Real"
     ],
     "parentClasses": [
-      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialWindowShadingRadiation"
+      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialWindowShadingRadiation",
+      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialGlassRadiation",
+      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialSingleGlassRadiation"
     ],
     "constrainingClasses": {},
     "classType": "FUNCTION"
@@ -15023,7 +15130,9 @@
       "Real"
     ],
     "parentClasses": [
-      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialWindowRadiation"
+      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialWindowRadiation",
+      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialGlassRadiation",
+      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialSingleGlassRadiation"
     ],
     "constrainingClasses": {},
     "classType": "FUNCTION"
@@ -15036,7 +15145,9 @@
       "Real"
     ],
     "parentClasses": [
-      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialWindowShadingRadiation"
+      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialWindowShadingRadiation",
+      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialGlassRadiation",
+      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialSingleGlassRadiation"
     ],
     "constrainingClasses": {},
     "classType": "FUNCTION"
@@ -15049,7 +15160,9 @@
       "Real"
     ],
     "parentClasses": [
-      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialWindowShadingRadiation"
+      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialWindowShadingRadiation",
+      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialGlassRadiation",
+      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialSingleGlassRadiation"
     ],
     "constrainingClasses": {},
     "classType": "FUNCTION"
@@ -15062,7 +15175,9 @@
       "Real"
     ],
     "parentClasses": [
-      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialWindowRadiation"
+      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialWindowRadiation",
+      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialGlassRadiation",
+      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialSingleGlassRadiation"
     ],
     "constrainingClasses": {},
     "classType": "FUNCTION"
@@ -15076,7 +15191,8 @@
       "Modelica.Units.SI.Angle"
     ],
     "parentClasses": [
-      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialGlassRadiation"
+      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialGlassRadiation",
+      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialSingleGlassRadiation"
     ],
     "constrainingClasses": {},
     "classType": "FUNCTION"
@@ -15118,7 +15234,8 @@
       "Real"
     ],
     "parentClasses": [
-      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialGlassRadiation"
+      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialGlassRadiation",
+      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialSingleGlassRadiation"
     ],
     "constrainingClasses": {},
     "classType": "FUNCTION"
@@ -15131,7 +15248,8 @@
       "Real"
     ],
     "parentClasses": [
-      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialGlassRadiation"
+      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialGlassRadiation",
+      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialSingleGlassRadiation"
     ],
     "constrainingClasses": {},
     "classType": "FUNCTION"
@@ -15144,7 +15262,9 @@
       "Real"
     ],
     "parentClasses": [
-      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialWindowShadingRadiation"
+      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialWindowShadingRadiation",
+      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialGlassRadiation",
+      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialSingleGlassRadiation"
     ],
     "constrainingClasses": {},
     "classType": "FUNCTION"
@@ -15157,7 +15277,9 @@
       "Real"
     ],
     "parentClasses": [
-      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialWindowShadingRadiation"
+      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialWindowShadingRadiation",
+      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialGlassRadiation",
+      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialSingleGlassRadiation"
     ],
     "constrainingClasses": {},
     "classType": "FUNCTION"
@@ -15170,7 +15292,9 @@
       "Real"
     ],
     "parentClasses": [
-      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialWindowShadingRadiation"
+      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialWindowShadingRadiation",
+      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialGlassRadiation",
+      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialSingleGlassRadiation"
     ],
     "constrainingClasses": {},
     "classType": "FUNCTION"
@@ -15183,7 +15307,9 @@
       "Real"
     ],
     "parentClasses": [
-      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialWindowShadingRadiation"
+      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialWindowShadingRadiation",
+      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialGlassRadiation",
+      "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialSingleGlassRadiation"
     ],
     "constrainingClasses": {},
     "classType": "FUNCTION"
@@ -15239,7 +15365,9 @@
     ],
     "parentClasses": [
       "BuildingsLite.ThermalZones.Detailed.BaseClasses.Overhang",
-      "BuildingsLite.HeatTransfer.Windows.BaseClasses.PartialShade_weatherBus"
+      "BuildingsLite.HeatTransfer.Windows.BaseClasses.PartialShade_weatherBus",
+      "BuildingsLite.HeatTransfer.Windows.BaseClasses.ShadeInterface_weatherBus",
+      "Modelica.Blocks.Icons.Block"
     ],
     "constrainingClasses": {},
     "classType": "MODEL"
@@ -15263,7 +15391,9 @@
     ],
     "parentClasses": [
       "BuildingsLite.ThermalZones.Detailed.BaseClasses.SideFins",
-      "BuildingsLite.HeatTransfer.Windows.BaseClasses.PartialShade_weatherBus"
+      "BuildingsLite.HeatTransfer.Windows.BaseClasses.PartialShade_weatherBus",
+      "BuildingsLite.HeatTransfer.Windows.BaseClasses.ShadeInterface_weatherBus",
+      "Modelica.Blocks.Icons.Block"
     ],
     "constrainingClasses": {},
     "classType": "MODEL"
@@ -15301,7 +15431,8 @@
       "BuildingsLite.HeatTransfer.Sources.FixedHeatFlow"
     ],
     "parentClasses": [
-      "BuildingsLite.HeatTransfer.Windows.Examples.Window"
+      "BuildingsLite.HeatTransfer.Windows.Examples.Window",
+      "Modelica.Icons.Example"
     ],
     "constrainingClasses": {},
     "classType": "MODEL"
@@ -15405,7 +15536,8 @@
     ],
     "parentClasses": [
       "BuildingsLite.Tests.SimpleModel",
-      "BuildingsLite.Tests.HeatTransfer.Conduction.DummyModel"
+      "BuildingsLite.Tests.HeatTransfer.Conduction.DummyModel",
+      "BuildingsLite.Tests.PartialSimpleModel"
     ],
     "constrainingClasses": {},
     "classType": "MODEL"
