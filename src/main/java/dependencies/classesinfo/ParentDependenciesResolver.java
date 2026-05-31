@@ -13,7 +13,6 @@ import java.util.*;
  */
 public class ParentDependenciesResolver<T extends IClassDependencies> {
     List<Map<String, ? extends IClassDependencies>> trees = new ArrayList<>();
-
     Map<String, Map<String, String>> resolvedParents = new TreeMap<>();
     Map<String, List<String>> parentExtendingClasses = new TreeMap<>();
     private final List<String> librariesNames = new ArrayList<>();
@@ -111,7 +110,16 @@ public class ParentDependenciesResolver<T extends IClassDependencies> {
     }
 
     private List<String> getClassesUsedByModel(IClassDependencies classDependencies) {
-        return new HashSet<>(classDependencies.getComponentDeclarations().values()).stream().toList();
+        Set<String> classesFromComponents = new HashSet<>(classDependencies.getComponentDeclarations().values());
+        classesFromComponents.addAll(classDependencies.getClasses());
+        classDependencies.getParentClasses().forEach(parent -> {
+            for (var tree : trees) {
+                if (tree.containsKey(parent)) {
+                    classesFromComponents.addAll(tree.get(parent).getClasses());
+                }
+            }
+        });
+        return classesFromComponents.stream().toList();
     }
 
 }
