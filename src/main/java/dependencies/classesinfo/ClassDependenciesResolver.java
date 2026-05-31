@@ -53,6 +53,7 @@ public class ClassDependenciesResolver implements IClassDependencies, IFilterabl
 		importedClasses = listener.imports;
 		standardImportsResolved = importedClasses.isEmpty();
 		usedClasses.addAll(listener.classes);
+		usedClasses.addAll(listener.functions);
 		parentClasses = listener.parentClasses;
 		constrainingClassesMap = listener.constrainingClassesMap;
 		classDefinitionsMap = listener.classDefinitionsMap;

@@ -4,17 +4,23 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "Modelica.Units.SI.Area",
-      "Modelica.Units.SI.Length",
+      "Medium.density",
       "Modelica.Units.SI.VolumeFlowRate",
-      "Modelica.Units.SI.PressureDifference",
       "Medium.ThermodynamicState",
       "Modelica.Media.Interfaces.PartialMedium",
       "m1_flow_nominal",
       "m2_flow_nominal",
-      "Real",
+      "max",
+      "inStream",
       "Modelica.Units.SI.Velocity",
       "Modelica.Units.SI.MassFlowRate",
-      "Modelica.Units.SI.Density"
+      "Medium.setState_pTX",
+      "Modelica.Units.SI.Density",
+      "Modelica.Units.SI.Length",
+      "Modelica.Units.SI.PressureDifference",
+      "abs",
+      "sqrt",
+      "Real"
     ],
     "parentClasses": [
       "BuildingsLite.Fluid.Interfaces.PartialFourPortInterface"
@@ -27,22 +33,32 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "Modelica.Units.SI.Area",
+      "Medium.density",
       "Modelica.Units.SI.VolumeFlowRate",
-      "Modelica.Units.SI.Mass",
       "Medium.ThermodynamicState",
-      "Modelica.Media.Interfaces.PartialMedium",
       "m1_flow_nominal",
       "m2_flow_nominal",
-      "Modelica.Units.SI.AbsolutePressure",
-      "Modelica.Units.SI.Velocity",
+      "inStream",
+      "sum",
+      "Medium.setState_pTX",
       "Modelica.Units.SI.MassFlowRate",
       "Modelica.Units.SI.Density",
-      "Integer",
       "Modelica.Units.SI.Length",
       "Modelica.Units.SI.PressureDifference",
-      "Medium.MassFraction",
+      "sqrt",
       "Real",
-      "Boolean"
+      "Boolean",
+      "Medium1.temperature",
+      "Modelica.Units.SI.Mass",
+      "Medium2.temperature",
+      "Modelica.Media.Interfaces.PartialMedium",
+      "Modelica.Units.SI.AbsolutePressure",
+      "Modelica.Units.SI.Velocity",
+      "Integer",
+      "BuildingsLite.Utilities.Psychrometrics.Functions.density_pTX",
+      "abs",
+      "Medium.MassFraction",
+      "BuildingsLite.Utilities.Math.Functions.smoothHeaviside"
     ],
     "parentClasses": [
       "BuildingsLite.Airflow.Multizone.BaseClasses.TwoWayFlowElementBuoyancy",
@@ -69,7 +85,8 @@
     "usedClasses": [
       "Modelica.Units.SI.VolumeFlowRate",
       "Modelica.Units.SI.PressureDifference",
-      "Real"
+      "Real",
+      "BuildingsLite.Airflow.Multizone.BaseClasses.powerLaw"
     ],
     "parentClasses": [
       "Modelica.Icons.Example"
@@ -83,7 +100,11 @@
     "usedClasses": [
       "Modelica.Units.SI.VolumeFlowRate",
       "Modelica.Units.SI.PressureDifference",
-      "Real"
+      "abs",
+      "sqrt",
+      "BuildingsLite.Airflow.Multizone.BaseClasses.powerLaw05",
+      "Real",
+      "BuildingsLite.Airflow.Multizone.BaseClasses.powerLaw"
     ],
     "parentClasses": [
       "Modelica.Icons.Example"
@@ -97,7 +118,10 @@
     "usedClasses": [
       "Modelica.Units.SI.VolumeFlowRate",
       "Modelica.Units.SI.PressureDifference",
-      "Real"
+      "abs",
+      "Real",
+      "BuildingsLite.Airflow.Multizone.BaseClasses.powerLaw",
+      "BuildingsLite.Airflow.Multizone.BaseClasses.powerLawFixedM"
     ],
     "parentClasses": [
       "Modelica.Icons.Example"
@@ -109,6 +133,8 @@
     "ModelicaPath": "BuildingsLite.Airflow.Multizone.BaseClasses.Examples.WindPressureLowRise",
     "resolvedLibraries": [],
     "usedClasses": [
+      "BuildingsLite.Airflow.Multizone.BaseClasses.windPressureLowRise",
+      "Modelica.Math.log",
       "Real",
       "Modelica.Units.SI.Angle"
     ],
@@ -123,9 +149,16 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "Integer",
+      "getInstanceName",
+      "abs",
+      "size",
+      "BuildingsLite.Utilities.Math.Functions.splineDerivatives",
+      "BuildingsLite.Airflow.Multizone.BaseClasses.windPressureProfile",
       "Modelica.Blocks.Sources.Ramp",
+      "cat",
       "Real",
-      "Modelica.Units.SI.Angle"
+      "Modelica.Units.SI.Angle",
+      "String"
     ],
     "parentClasses": [
       "Modelica.Icons.Example"
@@ -138,13 +171,22 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "Modelica.Units.SI.DynamicViscosity",
+      "Medium.density",
       "Modelica.Units.SI.VolumeFlowRate",
       "Modelica.Units.SI.Mass",
-      "Modelica.Units.SI.PressureDifference",
+      "getInstanceName",
       "Medium.ThermodynamicState",
+      "inStream",
+      "Medium.setState_pTX",
+      "homotopy",
+      "Modelica.Units.SI.Density",
+      "Medium.dynamicViscosity",
+      "Modelica.Units.SI.PressureDifference",
+      "actualStream",
+      "sqrt",
       "Real",
-      "Boolean",
-      "Modelica.Units.SI.Density"
+      "Medium.setState_phX",
+      "Boolean"
     ],
     "parentClasses": [
       "BuildingsLite.Fluid.Interfaces.PartialTwoPortInterface",
@@ -170,14 +212,19 @@
       "Modelica.Units.SI.Area",
       "Modelica.Units.SI.VolumeFlowRate",
       "Modelica.Units.SI.Mass",
+      "Medium2.temperature",
       "Modelica.Media.Interfaces.PartialMedium",
       "m1_flow_nominal",
       "m2_flow_nominal",
-      "Medium.MassFraction",
+      "inStream",
       "Modelica.Units.SI.Velocity",
-      "Boolean",
       "Modelica.Units.SI.MassFlowRate",
-      "Modelica.Units.SI.Density"
+      "Modelica.Units.SI.Density",
+      "BuildingsLite.Utilities.Psychrometrics.Functions.density_pTX",
+      "abs",
+      "Medium.MassFraction",
+      "Boolean",
+      "Medium1.temperature"
     ],
     "parentClasses": [
       "BuildingsLite.Fluid.Interfaces.PartialFourPortInterface",
@@ -191,17 +238,22 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "Modelica.Units.SI.Area",
-      "Modelica.Units.SI.Length",
       "Modelica.Units.SI.VolumeFlowRate",
       "Modelica.Units.SI.Mass",
+      "Medium2.temperature",
       "Modelica.Media.Interfaces.PartialMedium",
       "m1_flow_nominal",
       "m2_flow_nominal",
-      "Medium.MassFraction",
+      "inStream",
       "Modelica.Units.SI.Velocity",
-      "Boolean",
       "Modelica.Units.SI.MassFlowRate",
-      "Modelica.Units.SI.Density"
+      "Modelica.Units.SI.Density",
+      "BuildingsLite.Utilities.Psychrometrics.Functions.density_pTX",
+      "Modelica.Units.SI.Length",
+      "abs",
+      "Medium.MassFraction",
+      "Boolean",
+      "Medium1.temperature"
     ],
     "parentClasses": [
       "BuildingsLite.Airflow.Multizone.BaseClasses.TwoWayFlowElement",
@@ -216,8 +268,10 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "Modelica.Media.Interfaces.PartialMedium",
+      "abs",
       "m1_flow_nominal",
-      "m2_flow_nominal"
+      "m2_flow_nominal",
+      "inStream"
     ],
     "parentClasses": [
       "BuildingsLite.Fluid.Interfaces.PartialFourPortInterface"
@@ -245,6 +299,7 @@
     "usedClasses": [
       "Modelica.Units.SI.VolumeFlowRate",
       "Modelica.Units.SI.PressureDifference",
+      "sqrt",
       "Real"
     ],
     "parentClasses": [
@@ -271,8 +326,13 @@
     "ModelicaPath": "BuildingsLite.Airflow.Multizone.BaseClasses.windPressureLowRise",
     "resolvedLibraries": [],
     "usedClasses": [
+      "Modelica.Math.log",
+      "BuildingsLite.Utilities.Math.Functions.regStep",
       "Real",
-      "Modelica.Units.SI.Angle"
+      "Modelica.Math.sin",
+      "Modelica.Units.SI.Angle",
+      "integer",
+      "Modelica.Math.cos"
     ],
     "parentClasses": [
       "Modelica.Icons.Function"
@@ -285,7 +345,10 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "Integer",
+      "mod",
+      "size",
       "Real",
+      "BuildingsLite.Utilities.Math.Functions.cubicHermiteLinearExtrapolation",
       "Modelica.Units.SI.Angle"
     ],
     "parentClasses": [
@@ -298,26 +361,39 @@
     "ModelicaPath": "BuildingsLite.Airflow.Multizone.Coefficient_V_flow",
     "resolvedLibraries": [],
     "usedClasses": [
+      "Medium.density",
+      "Modelica.Units.SI.VolumeFlowRate",
+      "getInstanceName",
+      "Medium.ThermodynamicState",
+      "BuildingsLite.Airflow.Multizone.BaseClasses.powerLaw05",
+      "rho_default",
+      "inStream",
+      "dp",
+      "m_flow_nominal",
+      "Medium.setState_pTX",
+      "homotopy",
+      "Modelica.Units.SI.Density",
+      "Modelica.Units.SI.PressureDifference",
+      "actualStream",
+      "sqrt",
+      "Real",
+      "Medium.setState_phX",
+      "V_flow",
+      "Boolean",
       "Modelica.Units.SI.DynamicViscosity",
       "a",
-      "Modelica.Units.SI.VolumeFlowRate",
       "Modelica.Units.SI.Mass",
       "b",
-      "Medium.ThermodynamicState",
       "c",
       "d",
       "sqrt_dp_turbulent",
-      "rho_default",
-      "dp",
-      "m_flow_nominal",
       "m",
-      "Modelica.Units.SI.Density",
-      "Modelica.Units.SI.PressureDifference",
+      "Modelica.Math.isEqual",
+      "Medium.dynamicViscosity",
+      "abs",
       "dp_turbulent",
-      "Real",
       "rho",
-      "V_flow",
-      "Boolean"
+      "BuildingsLite.Airflow.Multizone.BaseClasses.powerLawFixedM"
     ],
     "parentClasses": [
       "BuildingsLite.Airflow.Multizone.BaseClasses.PartialOneWayFlowElement",
@@ -332,24 +408,37 @@
     "ModelicaPath": "BuildingsLite.Airflow.Multizone.Coefficient_m_flow",
     "resolvedLibraries": [],
     "usedClasses": [
+      "Medium.density",
+      "Modelica.Units.SI.VolumeFlowRate",
+      "getInstanceName",
+      "Medium.ThermodynamicState",
+      "BuildingsLite.Airflow.Multizone.BaseClasses.powerLaw05",
+      "inStream",
+      "dp",
+      "m_flow_nominal",
+      "Medium.setState_pTX",
+      "homotopy",
+      "Modelica.Units.SI.Density",
+      "Modelica.Units.SI.PressureDifference",
+      "actualStream",
+      "sqrt",
+      "Real",
+      "Medium.setState_phX",
+      "Boolean",
       "Modelica.Units.SI.DynamicViscosity",
       "a",
-      "Modelica.Units.SI.VolumeFlowRate",
       "Modelica.Units.SI.Mass",
       "b",
-      "Medium.ThermodynamicState",
       "c",
       "d",
       "sqrt_dp_turbulent",
-      "dp",
-      "m_flow_nominal",
       "m",
-      "Modelica.Units.SI.Density",
-      "Modelica.Units.SI.PressureDifference",
+      "Modelica.Math.isEqual",
+      "Medium.dynamicViscosity",
+      "abs",
       "dp_turbulent",
-      "Real",
       "rho",
-      "Boolean"
+      "BuildingsLite.Airflow.Multizone.BaseClasses.powerLawFixedM"
     ],
     "parentClasses": [
       "BuildingsLite.Airflow.Multizone.BaseClasses.PartialOneWayFlowElement",
@@ -365,22 +454,33 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "Modelica.Units.SI.Area",
+      "Medium.density",
       "Modelica.Units.SI.VolumeFlowRate",
-      "Modelica.Units.SI.Mass",
       "Medium.ThermodynamicState",
-      "Modelica.Media.Interfaces.PartialMedium",
       "m1_flow_nominal",
+      "BuildingsLite.Airflow.Multizone.BaseClasses.powerLaw05",
       "m2_flow_nominal",
-      "Modelica.Units.SI.AbsolutePressure",
-      "Modelica.Units.SI.Velocity",
+      "inStream",
+      "sum",
+      "Medium.setState_pTX",
       "Modelica.Units.SI.MassFlowRate",
       "Modelica.Units.SI.Density",
-      "Integer",
       "Modelica.Units.SI.Length",
       "Modelica.Units.SI.PressureDifference",
-      "Medium.MassFraction",
+      "sqrt",
       "Real",
-      "Boolean"
+      "Boolean",
+      "Medium1.temperature",
+      "Modelica.Units.SI.Mass",
+      "Medium2.temperature",
+      "Modelica.Media.Interfaces.PartialMedium",
+      "Modelica.Units.SI.AbsolutePressure",
+      "Modelica.Units.SI.Velocity",
+      "Integer",
+      "BuildingsLite.Utilities.Psychrometrics.Functions.density_pTX",
+      "abs",
+      "Medium.MassFraction",
+      "BuildingsLite.Utilities.Math.Functions.smoothHeaviside"
     ],
     "parentClasses": [
       "BuildingsLite.Airflow.Multizone.BaseClasses.DoorDiscretized",
@@ -397,23 +497,34 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "Modelica.Units.SI.Area",
+      "Medium.density",
       "Modelica.Units.SI.VolumeFlowRate",
-      "Modelica.Units.SI.Mass",
       "Medium.ThermodynamicState",
-      "Modelica.Media.Interfaces.PartialMedium",
       "m1_flow_nominal",
       "m2_flow_nominal",
+      "inStream",
       "Modelica.Blocks.Interfaces.RealInput",
-      "Modelica.Units.SI.AbsolutePressure",
-      "Modelica.Units.SI.Velocity",
+      "sum",
+      "Medium.setState_pTX",
       "Modelica.Units.SI.MassFlowRate",
       "Modelica.Units.SI.Density",
-      "Integer",
       "Modelica.Units.SI.Length",
       "Modelica.Units.SI.PressureDifference",
-      "Medium.MassFraction",
+      "sqrt",
       "Real",
-      "Boolean"
+      "Boolean",
+      "Medium1.temperature",
+      "Modelica.Units.SI.Mass",
+      "Medium2.temperature",
+      "Modelica.Media.Interfaces.PartialMedium",
+      "Modelica.Units.SI.AbsolutePressure",
+      "Modelica.Units.SI.Velocity",
+      "Integer",
+      "BuildingsLite.Utilities.Psychrometrics.Functions.density_pTX",
+      "abs",
+      "Medium.MassFraction",
+      "BuildingsLite.Airflow.Multizone.BaseClasses.powerLaw",
+      "BuildingsLite.Utilities.Math.Functions.smoothHeaviside"
     ],
     "parentClasses": [
       "BuildingsLite.Airflow.Multizone.BaseClasses.DoorDiscretized",
@@ -430,20 +541,31 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "Modelica.Units.SI.Area",
+      "Medium.density",
       "Modelica.Units.SI.VolumeFlowRate",
       "Medium.ThermodynamicState",
-      "Modelica.Media.Interfaces.PartialMedium",
       "m1_flow_nominal",
+      "BuildingsLite.Airflow.Multizone.BaseClasses.powerLaw05",
+      "Medium.temperature",
       "m2_flow_nominal",
-      "Modelica.Units.SI.Velocity",
+      "inStream",
       "Modelica.Units.SI.MassFlowRate",
+      "Medium.setState_pTX",
       "VBA_flow",
       "Modelica.Units.SI.Density",
       "Modelica.Units.SI.Length",
       "VAB_flow",
       "Modelica.Units.SI.PressureDifference",
+      "sqrt",
       "Real",
-      "AOpe"
+      "Modelica.Media.Interfaces.PartialMedium",
+      "max",
+      "BuildingsLite.Fluid.BaseClasses.FlowModels.basicFlowFunction_dp",
+      "Modelica.Units.SI.Velocity",
+      "Modelica.Math.isEqual",
+      "abs",
+      "AOpe",
+      "BuildingsLite.Airflow.Multizone.BaseClasses.powerLawFixedM"
     ],
     "parentClasses": [
       "BuildingsLite.Airflow.Multizone.BaseClasses.Door",
@@ -457,20 +579,31 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "Modelica.Units.SI.Area",
+      "Medium.density",
       "Modelica.Units.SI.VolumeFlowRate",
       "Medium.ThermodynamicState",
-      "Modelica.Media.Interfaces.PartialMedium",
       "m1_flow_nominal",
+      "BuildingsLite.Airflow.Multizone.BaseClasses.powerLaw05",
+      "Medium.temperature",
       "m2_flow_nominal",
+      "inStream",
       "Modelica.Blocks.Interfaces.RealInput",
-      "Modelica.Units.SI.Velocity",
       "Modelica.Units.SI.MassFlowRate",
+      "Medium.setState_pTX",
       "VBA_flow",
       "Modelica.Units.SI.Density",
       "Modelica.Units.SI.Length",
       "Modelica.Units.SI.PressureDifference",
       "VAB_flow",
-      "Real"
+      "sqrt",
+      "Real",
+      "Modelica.Media.Interfaces.PartialMedium",
+      "max",
+      "BuildingsLite.Fluid.BaseClasses.FlowModels.basicFlowFunction_dp",
+      "Modelica.Units.SI.Velocity",
+      "Modelica.Math.isEqual",
+      "abs",
+      "BuildingsLite.Airflow.Multizone.BaseClasses.powerLawFixedM"
     ],
     "parentClasses": [
       "BuildingsLite.Airflow.Multizone.BaseClasses.Door",
@@ -484,27 +617,40 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "Modelica.Units.SI.Area",
+      "Medium.density",
+      "Modelica.Units.SI.VolumeFlowRate",
+      "getInstanceName",
+      "Medium.ThermodynamicState",
+      "BuildingsLite.Airflow.Multizone.BaseClasses.powerLaw05",
+      "rho_default",
+      "inStream",
+      "dp",
+      "m_flow_nominal",
+      "Medium.setState_pTX",
+      "homotopy",
+      "Modelica.Units.SI.Density",
+      "Modelica.Units.SI.PressureDifference",
+      "actualStream",
+      "sqrt",
+      "Real",
+      "Medium.setState_phX",
+      "V_flow",
+      "Boolean",
       "Modelica.Units.SI.DynamicViscosity",
       "a",
-      "Modelica.Units.SI.VolumeFlowRate",
       "Modelica.Units.SI.Mass",
       "b",
-      "Medium.ThermodynamicState",
       "c",
       "d",
       "sqrt_dp_turbulent",
-      "rho_default",
       "Modelica.Units.SI.Velocity",
-      "dp",
-      "m_flow_nominal",
       "m",
-      "Modelica.Units.SI.Density",
-      "Modelica.Units.SI.PressureDifference",
+      "Modelica.Math.isEqual",
+      "Medium.dynamicViscosity",
+      "abs",
       "dp_turbulent",
-      "Real",
       "rho",
-      "V_flow",
-      "Boolean"
+      "BuildingsLite.Airflow.Multizone.BaseClasses.powerLawFixedM"
     ],
     "parentClasses": [
       "BuildingsLite.Airflow.Multizone.Coefficient_V_flow",
@@ -749,7 +895,8 @@
       "Modelica.Fluid.Types.Dynamics.FixedInitial",
       "BuildingsLite.Airflow.Multizone.Point_m_flow",
       "BuildingsLite.Media.Air",
-      "BuildingsLite.BoundaryConditions.WeatherData.ReaderTMY3"
+      "BuildingsLite.BoundaryConditions.WeatherData.ReaderTMY3",
+      "Modelica.Utilities.Files.loadResource"
     ],
     "parentClasses": [
       "Modelica.Icons.Example"
@@ -817,7 +964,8 @@
       "BuildingsLite.Airflow.Multizone.Table_m_flow",
       "Modelica.Blocks.Types.SimpleController.P",
       "BuildingsLite.Media.Air",
-      "BuildingsLite.BoundaryConditions.WeatherData.ReaderTMY3"
+      "BuildingsLite.BoundaryConditions.WeatherData.ReaderTMY3",
+      "Modelica.Utilities.Files.loadResource"
     ],
     "parentClasses": [
       "Modelica.Icons.Example"
@@ -829,6 +977,7 @@
     "ModelicaPath": "BuildingsLite.Airflow.Multizone.Examples.ZonalFlow",
     "resolvedLibraries": [],
     "usedClasses": [
+      "min",
       "Modelica.Units.SI.Volume",
       "BuildingsLite.Fluid.MixingVolumes.MixingVolume",
       "Modelica.Blocks.Sources.Constant",
@@ -847,18 +996,24 @@
     "ModelicaPath": "BuildingsLite.Airflow.Multizone.MediumColumn",
     "resolvedLibraries": [],
     "usedClasses": [
-      "Modelica.Units.SI.Length",
+      "Medium.density",
       "Modelica.Units.SI.VolumeFlowRate",
-      "Medium.p_default",
-      "Modelica.Units.SI.PressureDifference",
       "Medium.ThermodynamicState",
       "Modelica.Media.Interfaces.PartialMedium",
+      "Medium.temperature",
+      "inStream",
       "BuildingsLite.Airflow.Multizone.Types.densitySelection",
+      "Modelica.Units.SI.MassFlowRate",
+      "Modelica.Units.SI.Density",
+      "BuildingsLite.Utilities.Psychrometrics.Functions.density_pTX",
+      "Modelica.Units.SI.Length",
+      "Medium.p_default",
+      "Modelica.Units.SI.PressureDifference",
+      "actualStream",
       "Medium.MassFraction",
       "Modelica.Fluid.Interfaces.FluidPort_b",
-      "Modelica.Fluid.Interfaces.FluidPort_a",
-      "Modelica.Units.SI.MassFlowRate",
-      "Modelica.Units.SI.Density"
+      "Medium.setState_phX",
+      "Modelica.Fluid.Interfaces.FluidPort_a"
     ],
     "parentClasses": [],
     "constrainingClasses": {},
@@ -901,27 +1056,40 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "Modelica.Units.SI.Area",
+      "Medium.density",
+      "Modelica.Units.SI.VolumeFlowRate",
+      "getInstanceName",
+      "Medium.ThermodynamicState",
+      "BuildingsLite.Airflow.Multizone.BaseClasses.powerLaw05",
+      "rho_default",
+      "inStream",
+      "dp",
+      "m_flow_nominal",
+      "Medium.setState_pTX",
+      "homotopy",
+      "Modelica.Units.SI.Density",
+      "Modelica.Units.SI.PressureDifference",
+      "actualStream",
+      "sqrt",
+      "Real",
+      "Medium.setState_phX",
+      "V_flow",
+      "Boolean",
       "Modelica.Units.SI.DynamicViscosity",
       "a",
-      "Modelica.Units.SI.VolumeFlowRate",
       "Modelica.Units.SI.Mass",
       "b",
-      "Medium.ThermodynamicState",
       "c",
       "d",
       "sqrt_dp_turbulent",
-      "rho_default",
       "Modelica.Units.SI.Velocity",
-      "dp",
-      "m_flow_nominal",
       "m",
-      "Modelica.Units.SI.Density",
-      "Modelica.Units.SI.PressureDifference",
+      "Modelica.Math.isEqual",
+      "Medium.dynamicViscosity",
+      "abs",
       "dp_turbulent",
-      "Real",
       "rho",
-      "V_flow",
-      "Boolean"
+      "BuildingsLite.Airflow.Multizone.BaseClasses.powerLawFixedM"
     ],
     "parentClasses": [
       "BuildingsLite.Airflow.Multizone.Coefficient_V_flow",
@@ -937,25 +1105,38 @@
     "ModelicaPath": "BuildingsLite.Airflow.Multizone.Point_m_flow",
     "resolvedLibraries": [],
     "usedClasses": [
-      "Modelica.Units.SI.DynamicViscosity",
-      "a",
+      "Medium.density",
       "Modelica.Units.SI.VolumeFlowRate",
-      "Modelica.Units.SI.Mass",
-      "b",
+      "getInstanceName",
       "Medium.ThermodynamicState",
-      "c",
-      "d",
-      "sqrt_dp_turbulent",
+      "BuildingsLite.Airflow.Multizone.BaseClasses.powerLaw05",
+      "inStream",
       "dp",
       "m_flow_nominal",
       "Modelica.Units.SI.MassFlowRate",
-      "m",
+      "Medium.setState_pTX",
+      "homotopy",
       "Modelica.Units.SI.Density",
       "Modelica.Units.SI.PressureDifference",
-      "dp_turbulent",
+      "actualStream",
+      "sqrt",
       "Real",
+      "Medium.setState_phX",
+      "Boolean",
+      "Modelica.Units.SI.DynamicViscosity",
+      "a",
+      "Modelica.Units.SI.Mass",
+      "b",
+      "c",
+      "d",
+      "sqrt_dp_turbulent",
+      "m",
+      "Modelica.Math.isEqual",
+      "Medium.dynamicViscosity",
+      "abs",
+      "dp_turbulent",
       "rho",
-      "Boolean"
+      "BuildingsLite.Airflow.Multizone.BaseClasses.powerLawFixedM"
     ],
     "parentClasses": [
       "BuildingsLite.Airflow.Multizone.Coefficient_m_flow",
@@ -971,27 +1152,41 @@
     "ModelicaPath": "BuildingsLite.Airflow.Multizone.Points_m_flow",
     "resolvedLibraries": [],
     "usedClasses": [
-      "Modelica.Units.SI.DynamicViscosity",
-      "a",
+      "Medium.density",
       "Modelica.Units.SI.VolumeFlowRate",
-      "Modelica.Units.SI.Mass",
-      "mMea_flow_nominal[1]",
-      "b",
+      "getInstanceName",
       "Medium.ThermodynamicState",
-      "c",
-      "d",
-      "sqrt_dp_turbulent",
+      "log",
+      "BuildingsLite.Airflow.Multizone.BaseClasses.powerLaw05",
+      "inStream",
       "dp",
       "m_flow_nominal",
       "Modelica.Units.SI.MassFlowRate",
-      "m",
+      "Medium.setState_pTX",
+      "homotopy",
       "Modelica.Units.SI.Density",
       "Modelica.Units.SI.PressureDifference",
-      "dp_turbulent",
+      "actualStream",
+      "sqrt",
       "Real",
+      "Medium.setState_phX",
+      "Boolean",
+      "Modelica.Units.SI.DynamicViscosity",
+      "a",
+      "Modelica.Units.SI.Mass",
+      "mMea_flow_nominal[1]",
+      "b",
+      "c",
+      "d",
+      "sqrt_dp_turbulent",
+      "m",
+      "Modelica.Math.isEqual",
+      "Medium.dynamicViscosity",
+      "abs",
+      "dp_turbulent",
       "dpMea_nominal[1]",
       "rho",
-      "Boolean"
+      "BuildingsLite.Airflow.Multizone.BaseClasses.powerLawFixedM"
     ],
     "parentClasses": [
       "BuildingsLite.Airflow.Multizone.Coefficient_m_flow",
@@ -1007,19 +1202,34 @@
     "ModelicaPath": "BuildingsLite.Airflow.Multizone.Table_V_flow",
     "resolvedLibraries": [],
     "usedClasses": [
-      "Modelica.Units.SI.DynamicViscosity",
+      "Medium.density",
       "Modelica.Units.SI.VolumeFlowRate",
-      "Modelica.Units.SI.Mass",
+      "getInstanceName",
       "Medium.ThermodynamicState",
       "rho_default",
+      "inStream",
+      "String",
       "dp",
       "Modelica.Units.SI.MassFlowRate",
+      "Medium.setState_pTX",
+      "homotopy",
       "Modelica.Units.SI.Density",
       "Modelica.Units.SI.PressureDifference",
-      "dpMea_nominal[end]",
+      "actualStream",
+      "sqrt",
       "Real",
-      "dpMea_nominal[1]",
-      "Boolean"
+      "Medium.setState_phX",
+      "Boolean",
+      "Modelica.Units.SI.DynamicViscosity",
+      "Modelica.Units.SI.Mass",
+      "max",
+      "BuildingsLite.Utilities.Math.Functions.interpolate",
+      "Medium.dynamicViscosity",
+      "abs",
+      "size",
+      "dpMea_nominal[end]",
+      "BuildingsLite.Utilities.Math.Functions.splineDerivatives",
+      "dpMea_nominal[1]"
     ],
     "parentClasses": [
       "BuildingsLite.Airflow.Multizone.Table_m_flow",
@@ -1034,18 +1244,33 @@
     "ModelicaPath": "BuildingsLite.Airflow.Multizone.Table_m_flow",
     "resolvedLibraries": [],
     "usedClasses": [
-      "Modelica.Units.SI.DynamicViscosity",
+      "Medium.density",
       "Modelica.Units.SI.VolumeFlowRate",
-      "Modelica.Units.SI.Mass",
-      "Modelica.Units.SI.PressureDifference",
+      "getInstanceName",
       "Medium.ThermodynamicState",
-      "dpMea_nominal[end]",
-      "Real",
-      "dpMea_nominal[1]",
+      "inStream",
+      "String",
       "dp",
-      "Boolean",
       "Modelica.Units.SI.MassFlowRate",
-      "Modelica.Units.SI.Density"
+      "Medium.setState_pTX",
+      "homotopy",
+      "Modelica.Units.SI.Density",
+      "Modelica.Units.SI.PressureDifference",
+      "actualStream",
+      "sqrt",
+      "Real",
+      "Medium.setState_phX",
+      "Boolean",
+      "Modelica.Units.SI.DynamicViscosity",
+      "Modelica.Units.SI.Mass",
+      "max",
+      "BuildingsLite.Utilities.Math.Functions.interpolate",
+      "Medium.dynamicViscosity",
+      "abs",
+      "dpMea_nominal[end]",
+      "size",
+      "BuildingsLite.Utilities.Math.Functions.splineDerivatives",
+      "dpMea_nominal[1]"
     ],
     "parentClasses": [
       "BuildingsLite.Airflow.Multizone.BaseClasses.PartialOneWayFlowElement",
@@ -1246,16 +1471,21 @@
     "ModelicaPath": "BuildingsLite.Airflow.Multizone.ZonalFlow_ACS",
     "resolvedLibraries": [],
     "usedClasses": [
+      "Medium.density",
       "Modelica.Units.SI.VolumeFlowRate",
       "Medium.ThermodynamicState",
       "Modelica.Media.Interfaces.PartialMedium",
       "m1_flow_nominal",
       "m2_flow_nominal",
-      "Modelica.Units.SI.Volume",
+      "inStream",
       "Modelica.Blocks.Interfaces.RealInput",
-      "Boolean",
       "Modelica.Units.SI.MassFlowRate",
-      "Modelica.Units.SI.Density"
+      "Medium.setState_pTX",
+      "Modelica.Units.SI.Density",
+      "abs",
+      "Medium1.setState_phX",
+      "Modelica.Units.SI.Volume",
+      "Boolean"
     ],
     "parentClasses": [
       "BuildingsLite.Airflow.Multizone.BaseClasses.ZonalFlow",
@@ -1269,8 +1499,10 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "Modelica.Media.Interfaces.PartialMedium",
+      "abs",
       "m1_flow_nominal",
       "m2_flow_nominal",
+      "inStream",
       "Modelica.Blocks.Interfaces.RealInput"
     ],
     "parentClasses": [
@@ -1392,18 +1624,17 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "Modelica.Blocks.Math.Add",
+      "noEvent",
       "Modelica.Blocks.Types.Init",
-      "BuildingsLite.Utilities.Math.IntegratorWithReset",
       "Modelica.Constants.small",
       "Modelica.Blocks.Interfaces.RealInput",
       "Modelica.Units.SI.Time",
       "Modelica.Blocks.Interfaces.BooleanInput",
       "BuildingsLite.Types.Reset.Input",
-      "Modelica.Blocks.Sources.Constant",
+      "String",
       "BuildingsLite.Types.Reset",
       "Modelica.Blocks.Continuous.Derivative",
       "Modelica.Blocks.Math.Gain",
-      "Modelica.Blocks.Types.Init.InitialOutput",
       "Modelica.Blocks.Types.SimpleController",
       "Modelica.Constants.eps",
       "BuildingsLite.Types.Reset.Disabled",
@@ -1411,10 +1642,15 @@
       "Real",
       "Modelica.Blocks.Math.Add3",
       "Modelica.Blocks.Types.Init.SteadyState",
-      "Modelica.Blocks.Types.Init.InitialState",
       "Boolean",
-      "Limiter",
-      "Modelica.Blocks.Sources.RealExpression"
+      "Modelica.Blocks.Sources.RealExpression",
+      "smooth",
+      "max",
+      "BuildingsLite.Utilities.Math.IntegratorWithReset",
+      "Modelica.Blocks.Sources.Constant",
+      "Modelica.Blocks.Types.Init.InitialOutput",
+      "Modelica.Blocks.Types.Init.InitialState",
+      "Limiter"
     ],
     "parentClasses": [
       "Modelica.Blocks.Interfaces.SVcontrol",
@@ -1442,6 +1678,7 @@
     "ModelicaPath": "BuildingsLite.Controls.Continuous.OffTimer",
     "resolvedLibraries": [],
     "usedClasses": [
+      "pre",
       "Modelica.Blocks.Interfaces.BooleanInput",
       "Modelica.Units.SI.Time",
       "Modelica.Blocks.Interfaces.RealOutput"
@@ -1456,6 +1693,7 @@
     "ModelicaPath": "BuildingsLite.Controls.Continuous.SignalRanker",
     "resolvedLibraries": [],
     "usedClasses": [
+      "Modelica.Math.Vectors.sort",
       "nin"
     ],
     "parentClasses": [
@@ -1511,6 +1749,7 @@
       "Modelica.Blocks.Interfaces.RealInput",
       "Modelica.Blocks.Interfaces.BooleanInput",
       "BuildingsLite.Controls.Predictors.ElectricalLoad",
+      "integer",
       "BuildingsLite.Controls.Predictors.Types.PredictionModel",
       "Modelica.Blocks.Interfaces.RealOutput"
     ],
@@ -1524,16 +1763,17 @@
     "ModelicaPath": "BuildingsLite.Controls.DemandResponse.Client",
     "resolvedLibraries": [],
     "usedClasses": [
-      "Integer",
       "BuildingsLite.Controls.OBC.CDL.Routing.RealExtractor",
-      "BuildingsLite.Controls.OBC.CDL.Reals.Multiply",
-      "BuildingsLite.Controls.DemandResponse.BaseClasses.BaselinePrediction",
       "Modelica.Blocks.Logical.Switch",
       "BuildingsLite.Controls.Interfaces.DayTypeInput",
       "Modelica.Blocks.Interfaces.RealInput",
-      "BuildingsLite.Controls.OBC.CDL.Integers.Sources.Constant",
       "Modelica.Units.SI.Time",
       "Modelica.Blocks.Interfaces.BooleanInput",
+      "integer",
+      "Integer",
+      "BuildingsLite.Controls.OBC.CDL.Reals.Multiply",
+      "BuildingsLite.Controls.DemandResponse.BaseClasses.BaselinePrediction",
+      "BuildingsLite.Controls.OBC.CDL.Integers.Sources.Constant",
       "BuildingsLite.Controls.Predictors.Types.PredictionModel",
       "Modelica.Blocks.Interfaces.RealOutput"
     ],
@@ -1559,7 +1799,8 @@
       "Modelica.Blocks.Types.Smoothness.ConstantSegments",
       "BuildingsLite.Controls.Predictors.Types.PredictionModel.Average",
       "BuildingsLite.Controls.Predictors.Types.PredictionModel.WeatherRegression",
-      "BuildingsLite.Controls.DemandResponse.Client"
+      "BuildingsLite.Controls.DemandResponse.Client",
+      "Modelica.Utilities.Files.loadResource"
     ],
     "parentClasses": [
       "Modelica.Icons.Example"
@@ -2092,6 +2333,7 @@
       "BuildingsLite.Controls.OBC.CDL.Reals.MultiSum",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput",
       "BuildingsLite.Controls.OBC.CDL.Reals.Min",
+      "fill",
       "Integer",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
       "BuildingsLite.Controls.OBC.CDL.Reals.Multiply",
@@ -2152,6 +2394,7 @@
       "BuildingsLite.Controls.OBC.CDL.Reals.MatrixGain",
       "BuildingsLite.Controls.OBC.CDL.Reals.MultiSum",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput",
+      "fill",
       "Integer",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
       "BuildingsLite.Controls.OBC.CDL.Reals.Multiply",
@@ -2280,6 +2523,7 @@
       "BuildingsLite.Controls.OBC.CDL.Reals.MatrixGain",
       "BuildingsLite.Controls.OBC.CDL.Types.SimpleController.P",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput",
+      "fill",
       "BuildingsLite.Controls.OBC.CDL.Logical.Or",
       "Integer",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
@@ -2497,6 +2741,7 @@
       "BuildingsLite.Controls.OBC.CDL.Integers.Sources.Constant",
       "BuildingsLite.Controls.OBC.ASHRAE.G36.AHUs.MultiZone.VAV.SetPoints.ReliefFanGroup",
       "BuildingsLite.Controls.OBC.CDL.Logical.Pre",
+      "fill",
       "BuildingsLite.Controls.OBC.CDL.Discrete.ZeroOrderHold"
     ],
     "parentClasses": [],
@@ -3088,6 +3333,7 @@
       "BuildingsLite.Controls.OBC.CDL.Reals.MatrixGain",
       "BuildingsLite.Controls.OBC.CDL.Types.SimpleController.P",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput",
+      "fill",
       "BuildingsLite.Controls.OBC.CDL.Logical.Or",
       "Integer",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
@@ -3301,6 +3547,7 @@
       "BuildingsLite.Controls.OBC.CDL.Integers.Sources.Pulse",
       "BuildingsLite.Controls.OBC.CDL.Integers.Sources.Constant",
       "BuildingsLite.Controls.OBC.CDL.Logical.Pre",
+      "fill",
       "BuildingsLite.Controls.OBC.CDL.Discrete.ZeroOrderHold"
     ],
     "parentClasses": [],
@@ -6741,6 +6988,7 @@
       "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanOutput",
       "BuildingsLite.Controls.OBC.CDL.Reals.Hysteresis",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput",
+      "fill",
       "BuildingsLite.Controls.OBC.CDL.Logical.Or",
       "Integer",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
@@ -6805,6 +7053,7 @@
       "BuildingsLite.Controls.OBC.CDL.Reals.Sources.Ramp",
       "BuildingsLite.Controls.OBC.CDL.Reals.Sin",
       "BuildingsLite.Controls.OBC.CDL.Logical.Sources.Constant",
+      "fill",
       "BuildingsLite.Controls.OBC.ASHRAE.G36.ZoneGroups.GroupStatus",
       "BuildingsLite.Controls.OBC.CDL.Logical.And",
       "BuildingsLite.Controls.OBC.CDL.Logical.Timer",
@@ -6874,7 +7123,8 @@
     "usedClasses": [
       "BuildingsLite.Controls.OBC.ASHRAE.G36.ZoneGroups.ZoneStatusDuplicator",
       "BuildingsLite.Controls.OBC.CDL.Reals.Sources.Constant",
-      "BuildingsLite.Controls.OBC.CDL.Logical.Sources.Constant"
+      "BuildingsLite.Controls.OBC.CDL.Logical.Sources.Constant",
+      "fill"
     ],
     "parentClasses": [],
     "constrainingClasses": {},
@@ -6927,6 +7177,7 @@
       "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanOutput",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput",
       "BuildingsLite.Controls.OBC.CDL.Routing.RealVectorReplicator",
+      "fill",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanInput",
       "BuildingsLite.Controls.OBC.CDL.Routing.BooleanVectorReplicator"
     ],
@@ -6938,7 +7189,8 @@
     "ModelicaPath": "BuildingsLite.Controls.OBC.CDL.Constants",
     "resolvedLibraries": [],
     "usedClasses": [
-      "Real"
+      "Real",
+      "Modelica.Math.asin"
     ],
     "parentClasses": [],
     "constrainingClasses": {},
@@ -6984,7 +7236,10 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
-      "BuildingsLite.Controls.OBC.CDL.Interfaces.IntegerOutput"
+      "BuildingsLite.Controls.OBC.CDL.Interfaces.IntegerOutput",
+      "integer",
+      "ceil",
+      "floor"
     ],
     "parentClasses": [],
     "constrainingClasses": {},
@@ -7041,9 +7296,13 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
+      "pre",
       "Real",
+      "BuildingsLite.Utilities.Math.Functions.round",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput",
-      "Boolean"
+      "integer",
+      "Boolean",
+      "sample"
     ],
     "parentClasses": [],
     "constrainingClasses": {},
@@ -7055,8 +7314,11 @@
     "usedClasses": [
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
       "Real",
+      "BuildingsLite.Utilities.Math.Functions.round",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput",
-      "Boolean"
+      "integer",
+      "Boolean",
+      "sample"
     ],
     "parentClasses": [],
     "constrainingClasses": {},
@@ -7067,6 +7329,9 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
+      "pre",
+      "abs",
+      "max",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanInput"
     ],
@@ -7080,8 +7345,12 @@
     "usedClasses": [
       "Integer",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
+      "pre",
+      "mod",
       "Real",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput",
+      "sum",
+      "zeros",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanInput"
     ],
     "parentClasses": [],
@@ -7106,9 +7375,13 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
+      "pre",
       "Real",
+      "BuildingsLite.Utilities.Math.Functions.round",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput",
-      "Boolean"
+      "integer",
+      "Boolean",
+      "sample"
     ],
     "parentClasses": [],
     "constrainingClasses": {},
@@ -7205,9 +7478,13 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
+      "pre",
       "Real",
+      "BuildingsLite.Utilities.Math.Functions.round",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput",
-      "Boolean"
+      "integer",
+      "Boolean",
+      "sample"
     ],
     "parentClasses": [],
     "constrainingClasses": {},
@@ -7252,6 +7529,8 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "Integer",
+      "pre",
+      "change",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanOutput",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.IntegerInput"
     ],
@@ -7366,6 +7645,7 @@
     "ModelicaPath": "BuildingsLite.Controls.OBC.CDL.Integers.Max",
     "resolvedLibraries": [],
     "usedClasses": [
+      "max",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.IntegerOutput",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.IntegerInput"
     ],
@@ -7377,6 +7657,7 @@
     "ModelicaPath": "BuildingsLite.Controls.OBC.CDL.Integers.Min",
     "resolvedLibraries": [],
     "usedClasses": [
+      "min",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.IntegerOutput",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.IntegerInput"
     ],
@@ -7389,7 +7670,9 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "Integer",
+      "size",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.IntegerOutput",
+      "fill",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.IntegerInput"
     ],
     "parentClasses": [],
@@ -7412,6 +7695,7 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "Integer",
+      "pre",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.IntegerOutput",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanInput"
     ],
@@ -7449,9 +7733,19 @@
     "ModelicaPath": "BuildingsLite.Controls.OBC.CDL.Integers.Sources.TimeTable",
     "resolvedLibraries": [],
     "usedClasses": [
-      "Integer",
+      "getInstanceName",
+      "mod",
+      "getIndex",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.IntegerOutput",
-      "Real"
+      "BuildingsLite.Utilities.Math.Functions.round",
+      "integer",
+      "String",
+      "sample",
+      "Integer",
+      "abs",
+      "size",
+      "Real",
+      "ones"
     ],
     "parentClasses": [],
     "constrainingClasses": {},
@@ -7503,8 +7797,10 @@
     "usedClasses": [
       "Integer",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
+      "pre",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.IntegerOutput",
       "Real",
+      "sum",
       "Boolean"
     ],
     "parentClasses": [],
@@ -7882,6 +8178,8 @@
     "ModelicaPath": "BuildingsLite.Controls.OBC.CDL.Logical.Change",
     "resolvedLibraries": [],
     "usedClasses": [
+      "pre",
+      "change",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanOutput",
       "Boolean",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanInput"
@@ -7894,6 +8192,8 @@
     "ModelicaPath": "BuildingsLite.Controls.OBC.CDL.Logical.Edge",
     "resolvedLibraries": [],
     "usedClasses": [
+      "pre",
+      "edge",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanOutput",
       "Boolean",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanInput"
@@ -7906,6 +8206,8 @@
     "ModelicaPath": "BuildingsLite.Controls.OBC.CDL.Logical.FallingEdge",
     "resolvedLibraries": [],
     "usedClasses": [
+      "pre",
+      "edge",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanOutput",
       "Boolean",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanInput"
@@ -7930,6 +8232,7 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "Integer",
+      "size",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanOutput",
       "Boolean",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanInput"
@@ -7943,6 +8246,7 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "Integer",
+      "size",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanOutput",
       "Boolean",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanInput"
@@ -7999,6 +8303,7 @@
     "ModelicaPath": "BuildingsLite.Controls.OBC.CDL.Logical.Pre",
     "resolvedLibraries": [],
     "usedClasses": [
+      "pre",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanOutput",
       "Boolean",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanInput"
@@ -8012,6 +8317,7 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "BuildingsLite.Controls.OBC.CDL.Logical.Latch",
+      "getInstanceName",
       "BuildingsLite.Controls.OBC.CDL.Conversions.BooleanToInteger",
       "BuildingsLite.Controls.OBC.CDL.Logical.Edge",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanOutput",
@@ -8046,8 +8352,14 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "Constants.small",
+      "getInstanceName",
+      "mod",
       "Real",
-      "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanOutput"
+      "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanOutput",
+      "BuildingsLite.Utilities.Math.Functions.round",
+      "integer",
+      "String",
+      "sample"
     ],
     "parentClasses": [],
     "constrainingClasses": {},
@@ -8058,8 +8370,12 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "Constants.small",
+      "mod",
       "Real",
-      "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanOutput"
+      "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanOutput",
+      "BuildingsLite.Utilities.Math.Functions.round",
+      "integer",
+      "sample"
     ],
     "parentClasses": [],
     "constrainingClasses": {},
@@ -8071,9 +8387,12 @@
     "usedClasses": [
       "Integer",
       "BuildingsLite.Controls.OBC.CDL.Integers.Sources.TimeTable",
+      "abs",
       "BuildingsLite.Controls.OBC.CDL.Integers.GreaterThreshold",
+      "size",
       "Real",
-      "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanOutput"
+      "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanOutput",
+      "String"
     ],
     "parentClasses": [],
     "constrainingClasses": {},
@@ -8190,6 +8509,7 @@
     "ModelicaPath": "BuildingsLite.Controls.OBC.CDL.Logical.Timer",
     "resolvedLibraries": [],
     "usedClasses": [
+      "pre",
       "Real",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanOutput",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput",
@@ -8203,6 +8523,7 @@
     "ModelicaPath": "BuildingsLite.Controls.OBC.CDL.Logical.TimerAccumulating",
     "resolvedLibraries": [],
     "usedClasses": [
+      "pre",
       "Real",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanOutput",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput",
@@ -8216,6 +8537,8 @@
     "ModelicaPath": "BuildingsLite.Controls.OBC.CDL.Logical.Toggle",
     "resolvedLibraries": [],
     "usedClasses": [
+      "pre",
+      "change",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanOutput",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanInput"
     ],
@@ -8227,6 +8550,7 @@
     "ModelicaPath": "BuildingsLite.Controls.OBC.CDL.Logical.TrueDelay",
     "resolvedLibraries": [],
     "usedClasses": [
+      "pre",
       "Real",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanOutput",
       "Boolean",
@@ -8240,6 +8564,8 @@
     "ModelicaPath": "BuildingsLite.Controls.OBC.CDL.Logical.TrueFalseHold",
     "resolvedLibraries": [],
     "usedClasses": [
+      "pre",
+      "edge",
       "Real",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanOutput",
       "Boolean",
@@ -8525,8 +8851,14 @@
     "usedClasses": [
       "BuildingsLite.Controls.OBC.CDL.Reals.GreaterThreshold",
       "Constants.small",
+      "getInstanceName",
+      "pre",
       "BuildingsLite.Controls.OBC.CDL.Logical.Edge",
+      "max",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanOutput",
+      "BuildingsLite.Utilities.Math.Functions.round",
+      "integer",
+      "String",
       "BuildingsLite.Controls.OBC.CDL.Logical.Pre",
       "BuildingsLite.Controls.OBC.CDL.Reals.Abs",
       "Cycle",
@@ -8557,8 +8889,10 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
+      "Modelica.Math.log",
       "Real",
-      "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput"
+      "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput",
+      "BuildingsLite.Utilities.Psychrometrics.Functions.saturationPressure"
     ],
     "parentClasses": [],
     "constrainingClasses": {},
@@ -8570,7 +8904,8 @@
     "usedClasses": [
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
       "Real",
-      "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput"
+      "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput",
+      "BuildingsLite.Utilities.Psychrometrics.Functions.saturationPressure"
     ],
     "parentClasses": [],
     "constrainingClasses": {},
@@ -8617,6 +8952,8 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
+      "Modelica.Math.atan",
+      "sqrt",
       "Real",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput"
     ],
@@ -8629,6 +8966,7 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
+      "abs",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput"
     ],
     "parentClasses": [],
@@ -8640,7 +8978,8 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
-      "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput"
+      "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput",
+      "Modelica.Math.acos"
     ],
     "parentClasses": [],
     "constrainingClasses": {},
@@ -8674,7 +9013,8 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
-      "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput"
+      "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput",
+      "Modelica.Math.asin"
     ],
     "parentClasses": [],
     "constrainingClasses": {},
@@ -8685,6 +9025,7 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
+      "Modelica.Math.atan",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput"
     ],
     "parentClasses": [],
@@ -8696,7 +9037,8 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
-      "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput"
+      "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput",
+      "Modelica.Math.atan2"
     ],
     "parentClasses": [],
     "constrainingClasses": {},
@@ -8718,7 +9060,8 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
-      "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput"
+      "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput",
+      "Modelica.Math.cos"
     ],
     "parentClasses": [],
     "constrainingClasses": {},
@@ -8730,6 +9073,8 @@
     "usedClasses": [
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
       "BuildingsLite.Controls.OBC.CDL.Constants.eps",
+      "abs",
+      "max",
       "Real",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput"
     ],
@@ -8753,7 +9098,8 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
-      "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput"
+      "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput",
+      "Modelica.Math.exp"
     ],
     "parentClasses": [],
     "constrainingClasses": {},
@@ -8765,6 +9111,7 @@
     "usedClasses": [
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
       "GreaterWithHysteresis",
+      "pre",
       "Real",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanOutput",
       "GreaterNoHysteresis",
@@ -8780,6 +9127,7 @@
     "usedClasses": [
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
       "GreaterWithHysteresis",
+      "pre",
       "Real",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanOutput",
       "GreaterNoHysteresis",
@@ -8794,6 +9142,7 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
+      "pre",
       "Real",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanOutput",
       "Boolean"
@@ -8821,6 +9170,7 @@
     "usedClasses": [
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
       "LessNoHysteresis",
+      "pre",
       "Real",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanOutput",
       "Boolean",
@@ -8836,6 +9186,7 @@
     "usedClasses": [
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
       "LessNoHysteresis",
+      "pre",
       "Real",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanOutput",
       "Boolean",
@@ -8851,10 +9202,12 @@
     "usedClasses": [
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
       "Constants.small",
+      "noEvent",
       "Real",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput",
       "Constants.eps",
-      "Boolean"
+      "Boolean",
+      "smooth"
     ],
     "parentClasses": [],
     "constrainingClasses": {},
@@ -8865,8 +9218,11 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
+      "noEvent",
       "Real",
-      "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput"
+      "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput",
+      "homotopy",
+      "smooth"
     ],
     "parentClasses": [],
     "constrainingClasses": {},
@@ -8877,6 +9233,9 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
+      "getInstanceName",
+      "min",
+      "max",
       "Real",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput",
       "Boolean"
@@ -8890,6 +9249,7 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
+      "Modelica.Math.log",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput"
     ],
     "parentClasses": [],
@@ -8901,6 +9261,7 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
+      "Modelica.Math.log10",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput"
     ],
     "parentClasses": [],
@@ -8913,6 +9274,7 @@
     "usedClasses": [
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
       "Integer",
+      "size",
       "Real",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput"
     ],
@@ -8926,6 +9288,8 @@
     "usedClasses": [
       "Integer",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
+      "size",
+      "max",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput",
       "Boolean"
     ],
@@ -8939,6 +9303,8 @@
     "usedClasses": [
       "Integer",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
+      "min",
+      "size",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput",
       "Boolean"
     ],
@@ -8951,6 +9317,7 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
+      "max",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput"
     ],
     "parentClasses": [],
@@ -8962,6 +9329,7 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
+      "min",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput"
     ],
     "parentClasses": [],
@@ -8973,6 +9341,7 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
+      "mod",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput"
     ],
     "parentClasses": [],
@@ -8984,6 +9353,7 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
+      "delay",
       "Real",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput",
       "Boolean"
@@ -8998,6 +9368,7 @@
     "usedClasses": [
       "Integer",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
+      "max",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput"
     ],
     "parentClasses": [],
@@ -9010,6 +9381,7 @@
     "usedClasses": [
       "Integer",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
+      "min",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput"
     ],
     "parentClasses": [],
@@ -9022,8 +9394,10 @@
     "usedClasses": [
       "Integer",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
+      "size",
       "Real",
-      "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput"
+      "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput",
+      "fill"
     ],
     "parentClasses": [],
     "constrainingClasses": {},
@@ -9107,10 +9481,12 @@
     "usedClasses": [
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
       "Constants.small",
+      "noEvent",
       "Real",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput",
       "Constants.eps",
-      "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanInput"
+      "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanInput",
+      "smooth"
     ],
     "parentClasses": [],
     "constrainingClasses": {},
@@ -9123,7 +9499,9 @@
       "Integer",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
       "Real",
-      "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput"
+      "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput",
+      "ceil",
+      "floor"
     ],
     "parentClasses": [],
     "constrainingClasses": {},
@@ -9134,6 +9512,7 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
+      "Modelica.Math.sin",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput"
     ],
     "parentClasses": [],
@@ -9146,6 +9525,7 @@
     "usedClasses": [
       "Integer",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
+      "Modelica.Math.Vectors.sort",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.IntegerOutput",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput",
       "Boolean"
@@ -9221,6 +9601,7 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "Real",
+      "Modelica.Math.sin",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput"
     ],
     "parentClasses": [],
@@ -9236,11 +9617,15 @@
       "Types.Extrapolation.Periodic",
       "Modelica.Blocks.Sources.CombiTimeTable",
       "Modelica.Blocks.Types.Extrapolation.Periodic",
+      "BuildingsLite.Utilities.Math.Functions.round",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput",
       "Modelica.Blocks.Types.Extrapolation.LastTwoPoints",
+      "integer",
+      "fill",
       "Modelica.Blocks.Types.Smoothness.LinearSegments",
       "Integer",
       "CDL.Types.Smoothness.LinearSegments",
+      "size",
       "Modelica.Blocks.Types.Smoothness.ConstantSegments",
       "CDL.Types.Extrapolation.HoldLastPoint",
       "Real",
@@ -9371,6 +9756,7 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
+      "sqrt",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput"
     ],
     "parentClasses": [],
@@ -9394,7 +9780,8 @@
     "usedClasses": [
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput",
-      "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanInput"
+      "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanInput",
+      "smooth"
     ],
     "parentClasses": [],
     "constrainingClasses": {},
@@ -9405,6 +9792,7 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
+      "Modelica.Math.tan",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput"
     ],
     "parentClasses": [],
@@ -10018,7 +10406,9 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "Integer",
+      "getInstanceName",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanOutput",
+      "Modelica.Math.BooleanVectors.andTrue",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanInput"
     ],
     "parentClasses": [],
@@ -10030,6 +10420,9 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "Integer",
+      "getInstanceName",
+      "min",
+      "max",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanOutput",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.IntegerInput",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanInput"
@@ -10044,6 +10437,7 @@
     "usedClasses": [
       "Integer",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanOutput",
+      "fill",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanInput"
     ],
     "parentClasses": [],
@@ -10055,8 +10449,12 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "Integer",
+      "Modelica.Math.BooleanVectors.index",
+      "getInstanceName",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanOutput",
+      "sum",
       "Boolean",
+      "fill",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanInput"
     ],
     "parentClasses": [],
@@ -10069,6 +10467,7 @@
     "usedClasses": [
       "Integer",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanOutput",
+      "fill",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanInput"
     ],
     "parentClasses": [],
@@ -10080,7 +10479,9 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "Integer",
+      "getInstanceName",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.IntegerOutput",
+      "Modelica.Math.BooleanVectors.andTrue",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.IntegerInput"
     ],
     "parentClasses": [],
@@ -10092,6 +10493,9 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "Integer",
+      "getInstanceName",
+      "min",
+      "max",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.IntegerOutput",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.IntegerInput"
     ],
@@ -10105,6 +10509,7 @@
     "usedClasses": [
       "Integer",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.IntegerOutput",
+      "fill",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.IntegerInput"
     ],
     "parentClasses": [],
@@ -10116,8 +10521,12 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "Integer",
+      "Modelica.Math.BooleanVectors.index",
+      "getInstanceName",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.IntegerOutput",
+      "sum",
       "Boolean",
+      "fill",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.IntegerInput"
     ],
     "parentClasses": [],
@@ -10130,6 +10539,7 @@
     "usedClasses": [
       "Integer",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.IntegerOutput",
+      "fill",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.IntegerInput"
     ],
     "parentClasses": [],
@@ -10142,6 +10552,8 @@
     "usedClasses": [
       "Integer",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
+      "getInstanceName",
+      "Modelica.Math.BooleanVectors.andTrue",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput"
     ],
     "parentClasses": [],
@@ -10154,6 +10566,9 @@
     "usedClasses": [
       "Integer",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
+      "getInstanceName",
+      "min",
+      "max",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.IntegerInput"
     ],
@@ -10167,7 +10582,8 @@
     "usedClasses": [
       "Integer",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
-      "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput"
+      "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput",
+      "fill"
     ],
     "parentClasses": [],
     "constrainingClasses": {},
@@ -10179,8 +10595,12 @@
     "usedClasses": [
       "Integer",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
+      "Modelica.Math.BooleanVectors.index",
+      "getInstanceName",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput",
-      "Boolean"
+      "sum",
+      "Boolean",
+      "fill"
     ],
     "parentClasses": [],
     "constrainingClasses": {},
@@ -10192,7 +10612,8 @@
     "usedClasses": [
       "Integer",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealInput",
-      "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput"
+      "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput",
+      "fill"
     ],
     "parentClasses": [],
     "constrainingClasses": {},
@@ -10251,6 +10672,7 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "BuildingsLite.Controls.OBC.CDL.Logical.Sources.Pulse",
+      "fill",
       "BuildingsLite.Controls.OBC.CDL.Routing.BooleanVectorReplicator"
     ],
     "parentClasses": [],
@@ -10310,6 +10732,7 @@
     "usedClasses": [
       "BuildingsLite.Controls.OBC.CDL.Reals.Sources.Ramp",
       "BuildingsLite.Controls.OBC.CDL.Conversions.RealToInteger",
+      "fill",
       "BuildingsLite.Controls.OBC.CDL.Routing.IntegerVectorReplicator"
     ],
     "parentClasses": [],
@@ -10369,7 +10792,8 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "BuildingsLite.Controls.OBC.CDL.Reals.Sources.Ramp",
-      "BuildingsLite.Controls.OBC.CDL.Routing.RealVectorReplicator"
+      "BuildingsLite.Controls.OBC.CDL.Routing.RealVectorReplicator",
+      "fill"
     ],
     "parentClasses": [],
     "constrainingClasses": {},
@@ -10430,11 +10854,22 @@
     "ModelicaPath": "BuildingsLite.Controls.OBC.CDL.Utilities.SunRiseSet",
     "resolvedLibraries": [],
     "usedClasses": [
-      "Integer",
-      "Real",
+      "pre",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanOutput",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput",
-      "Boolean"
+      "Modelica.Math.cos",
+      "Modelica.Math.acos",
+      "computeSunRise",
+      "Integer",
+      "Modelica.Math.tan",
+      "abs",
+      "computeSunSet",
+      "Real",
+      "Modelica.Math.sin",
+      "sin",
+      "Modelica.Math.asin",
+      "Boolean",
+      "floor"
     ],
     "parentClasses": [],
     "constrainingClasses": {},
@@ -11835,8 +12270,10 @@
       "BuildingsLite.Controls.OBC.Utilities.PIDWithAutotuning.Relay.BaseClasses.OnOffPeriod",
       "BuildingsLite.Controls.OBC.Utilities.PIDWithAutotuning.Relay.BaseClasses.TuningMonitor",
       "BuildingsLite.Controls.OBC.CDL.Constants.eps",
+      "min",
       "BuildingsLite.Controls.OBC.Utilities.PIDWithAutotuning.Relay.BaseClasses.HalfPeriodRatio",
       "BuildingsLite.Controls.OBC.Utilities.PIDWithAutotuning.Relay.BaseClasses.NormalizedTimeDelay",
+      "max",
       "Real",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.BooleanOutput",
       "BuildingsLite.Controls.OBC.CDL.Interfaces.RealOutput",
@@ -12309,6 +12746,7 @@
     "ModelicaPath": "BuildingsLite.Controls.Predictors.BaseClasses.Examples.SampleStart",
     "resolvedLibraries": [],
     "usedClasses": [
+      "BuildingsLite.Controls.Predictors.BaseClasses.sampleStart",
       "Modelica.Units.SI.Time"
     ],
     "parentClasses": [
@@ -12322,7 +12760,8 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "Integer",
-      "Modelica.Units.SI.Power"
+      "Modelica.Units.SI.Power",
+      "sum"
     ],
     "parentClasses": [
       "BuildingsLite.Controls.Predictors.BaseClasses.partialBaselinePrediction"
@@ -12345,7 +12784,8 @@
     "ModelicaPath": "BuildingsLite.Controls.Predictors.BaseClasses.sampleStart",
     "resolvedLibraries": [],
     "usedClasses": [
-      "Modelica.Units.SI.Time"
+      "Modelica.Units.SI.Time",
+      "ceil"
     ],
     "parentClasses": [
       "Modelica.Icons.Function"
@@ -12360,7 +12800,8 @@
       "Integer",
       "Modelica.Units.SI.Temperature",
       "Real",
-      "Modelica.Units.SI.Power"
+      "Modelica.Units.SI.Power",
+      "sum"
     ],
     "parentClasses": [
       "BuildingsLite.Controls.Predictors.BaseClasses.partialBaselinePrediction"
@@ -12372,20 +12813,38 @@
     "ModelicaPath": "BuildingsLite.Controls.Predictors.ElectricalLoad",
     "resolvedLibraries": [],
     "usedClasses": [
-      "Modelica.Units.SI.Temperature",
-      "Types.PredictionModel.WeatherRegression",
+      "mod",
+      "getIndex",
       "BuildingsLite.Controls.Interfaces.DayTypeInput",
+      "BuildingsLite.Controls.Predictors.BaseClasses.sampleStart",
       "Modelica.Blocks.Interfaces.RealInput",
       "Modelica.Units.SI.Time",
       "Modelica.Blocks.Interfaces.BooleanInput",
       "Modelica.Units.SI.Power",
-      "Integer",
+      "integer",
+      "String",
       "BuildingsLite.Controls.Types.Day",
+      "min",
       "Modelica.Units.SI.Energy",
       "Real",
+      "getTypeOfDays",
+      "rem",
+      "Modelica.Math.BooleanVectors.allTrue",
       "BuildingsLite.Controls.Predictors.Types.PredictionModel",
       "Boolean",
-      "Modelica.Blocks.Interfaces.RealOutput"
+      "isMidNight",
+      "Modelica.Blocks.Interfaces.RealOutput",
+      "pre",
+      "Modelica.Units.SI.Temperature",
+      "Types.PredictionModel.WeatherRegression",
+      "max",
+      "BuildingsLite.Controls.Predictors.BaseClasses.weatherRegression",
+      "zeros",
+      "sample",
+      "Integer",
+      "BuildingsLite.Controls.Predictors.BaseClasses.average",
+      "size",
+      "incrementIndex"
     ],
     "parentClasses": [
       "Modelica.Blocks.Icons.DiscreteBlock"
@@ -12646,12 +13105,19 @@
     "ModelicaPath": "BuildingsLite.Controls.SetPoints.OccupancySchedule",
     "resolvedLibraries": [],
     "usedClasses": [
-      "Integer",
-      "Real",
+      "pre",
+      "mod",
       "Modelica.Units.SI.Time",
+      "integer",
+      "String",
+      "Integer",
+      "min",
+      "size",
+      "Real",
       "Boolean",
       "Modelica.Blocks.Interfaces.RealOutput",
-      "Modelica.Blocks.Interfaces.BooleanOutput"
+      "Modelica.Blocks.Interfaces.BooleanOutput",
+      "getOutput"
     ],
     "parentClasses": [
       "Modelica.Blocks.Icons.Block",
@@ -12665,6 +13131,7 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "Modelica.Units.SI.Temperature",
+      "max",
       "Modelica.Units.SI.TemperatureDifference",
       "Real",
       "Modelica.Blocks.Interfaces.RealInput",
@@ -12681,14 +13148,19 @@
     "ModelicaPath": "BuildingsLite.Controls.SetPoints.Table",
     "resolvedLibraries": [],
     "usedClasses": [
+      "table[1,1]",
+      "table[end,1]",
+      "fill",
+      "zeros",
+      "table[1,2]",
+      "table[end,2]",
       "Integer",
       "Modelica.Blocks.Tables.CombiTable1Dv",
+      "size",
+      "cat",
       "Real",
-      "table[1,1]",
-      "Boolean",
-      "table[end,1]",
-      "table[1,2]",
-      "table[end,2]"
+      "ones",
+      "Boolean"
     ],
     "parentClasses": [
       "Modelica.Blocks.Interfaces.SISO"
@@ -12727,9 +13199,15 @@
     "usedClasses": [
       "Integer",
       "BuildingsLite.Controls.Types.Day",
+      "pre",
+      "abs",
+      "mod",
+      "size",
       "Modelica.Units.SI.Time",
       "BuildingsLite.Controls.Interfaces.DayTypeOutput",
-      "Boolean"
+      "ceil",
+      "Boolean",
+      "sample"
     ],
     "parentClasses": [
       "Modelica.Blocks.Icons.DiscreteBlock"
@@ -12769,10 +13247,13 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "Modelica.Units.SI.Temperature",
+      "BuildingsLite.HeatTransfer.Conduction.BaseClasses.temperature_u",
       "Modelica.Units.SI.TemperatureDifference",
       "Modelica.Units.SI.SpecificInternalEnergy",
+      "BuildingsLite.HeatTransfer.Conduction.BaseClasses.der_temperature_u",
       "BuildingsLite.HeatTransfer.Data.SolidsPCM.Generic",
-      "Real"
+      "Real",
+      "relativeError"
     ],
     "parentClasses": [
       "Modelica.Icons.Example"
@@ -12804,6 +13285,7 @@
     "usedClasses": [
       "Integer",
       "Modelica.Units.SI.Temperature",
+      "size",
       "BuildingsLite.HeatTransfer.Data.OpaqueConstructions.Generic",
       "Boolean"
     ],
@@ -12819,6 +13301,7 @@
     "usedClasses": [
       "Modelica.Units.SI.SpecificHeatCapacity",
       "Modelica.Units.SI.Temperature",
+      "BuildingsLite.Utilities.Math.Functions.splineDerivatives",
       "Modelica.Units.SI.SpecificInternalEnergy",
       "Real",
       "Boolean"
@@ -12833,8 +13316,10 @@
     "usedClasses": [
       "Integer",
       "Modelica.Units.SI.Temperature",
+      "size",
       "Modelica.Units.SI.SpecificInternalEnergy",
-      "Real"
+      "Real",
+      "BuildingsLite.Utilities.Math.Functions.cubicHermiteLinearExtrapolation"
     ],
     "parentClasses": [],
     "constrainingClasses": {},
@@ -12851,6 +13336,7 @@
       "A",
       "lay[i].R",
       "BuildingsLite.HeatTransfer.Conduction.SingleLayer",
+      "sum",
       "R",
       "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b",
       "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a",
@@ -12867,6 +13353,7 @@
       "k",
       "layers.material[k].R",
       "Integer",
+      "size",
       "Modelica.Units.SI.HeatFlowRate",
       "layers.material[i]",
       "T_a_start"
@@ -12887,25 +13374,31 @@
       "Data.BaseClasses.Material",
       "Modelica.Units.SI.Area",
       "Modelica.Units.SI.CoefficientOfHeatTransfer",
-      "Modelica.Units.SI.Mass",
       "A",
+      "sum",
+      "UA",
+      "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b",
+      "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a",
+      "Modelica.Constants.eps",
+      "cat",
+      "Real",
+      "RNod[k]",
+      "Boolean",
+      "Modelica.Units.SI.Mass",
       "Modelica.Units.SI.Temperature",
+      "BuildingsLite.HeatTransfer.Conduction.BaseClasses.temperature_u",
       "Modelica.Units.SI.ThermalResistance",
+      "max",
       "Modelica.Units.SI.TemperatureDifference",
       "Modelica.Units.SI.SpecificInternalEnergy",
       "Modelica.Units.SI.ThermalConductance",
       "Modelica.Units.SI.HeatCapacity",
       "i",
       "k",
-      "UA",
+      "zeros",
       "Integer",
-      "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b",
-      "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a",
-      "Modelica.Constants.eps",
-      "Real",
-      "RNod[k]",
-      "Modelica.Units.SI.HeatFlowRate",
-      "Boolean"
+      "BuildingsLite.HeatTransfer.Conduction.BaseClasses.der_temperature_u",
+      "Modelica.Units.SI.HeatFlowRate"
     ],
     "parentClasses": [
       "BuildingsLite.HeatTransfer.Conduction.BaseClasses.PartialConductor",
@@ -12925,11 +13418,13 @@
       "Modelica.Units.SI.HeatCapacity",
       "i",
       "BuildingsLite.HeatTransfer.Data.Soil.Generic",
+      "zeros",
       "Modelica.Units.SI.Density",
       "Integer",
       "Modelica.Units.SI.SpecificHeatCapacity",
       "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b",
       "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a",
+      "Modelica.Math.log",
       "Real",
       "Modelica.Units.SI.Height",
       "Boolean",
@@ -13003,20 +13498,29 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "Modelica.Units.SI.CoefficientOfHeatTransfer",
+      "BuildingsLite.Utilities.Math.Functions.regNonZeroPower",
       "Modelica.Units.SI.Area",
+      "BuildingsLite.HeatTransfer.Convection.Functions.HeatFlux.ceiling",
       "BuildingsLite.HeatTransfer.Types.ExteriorConvection",
       "Modelica.Units.SI.TemperatureDifference",
       "Modelica.Blocks.Interfaces.RealInput",
       "Modelica.Units.SI.Angle",
       "Modelica.Units.SI.Velocity",
+      "Modelica.Math.cos",
+      "BuildingsLite.HeatTransfer.Convection.Functions.HeatFlux.floor",
       "Modelica.Units.SI.HeatFlux",
+      "abs",
       "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b",
       "Modelica.Constants.pi",
       "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a",
+      "BuildingsLite.HeatTransfer.Convection.Functions.windDirectionModifier",
+      "BuildingsLite.Utilities.Math.Functions.regStep",
       "Real",
+      "Modelica.Math.sin",
       "BuildingsLite.HeatTransfer.Types.SurfaceRoughness",
       "Boolean",
-      "Modelica.Units.SI.HeatFlowRate"
+      "Modelica.Units.SI.HeatFlowRate",
+      "BuildingsLite.HeatTransfer.Convection.Functions.HeatFlux.wall"
     ],
     "parentClasses": [
       "BuildingsLite.HeatTransfer.Convection.BaseClasses.PartialConvection",
@@ -13043,7 +13547,9 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "Modelica.Units.SI.HeatFlux",
-      "Modelica.Units.SI.TemperatureDifference"
+      "noEvent",
+      "Modelica.Units.SI.TemperatureDifference",
+      "smooth"
     ],
     "parentClasses": [
       "BuildingsLite.HeatTransfer.Convection.Functions.HeatFlux.BaseClasses.PartialHeatFlux",
@@ -13072,7 +13578,9 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "Modelica.Units.SI.HeatFlux",
-      "Modelica.Units.SI.TemperatureDifference"
+      "noEvent",
+      "Modelica.Units.SI.TemperatureDifference",
+      "smooth"
     ],
     "parentClasses": [
       "BuildingsLite.HeatTransfer.Convection.Functions.HeatFlux.BaseClasses.PartialHeatFlux",
@@ -13088,7 +13596,9 @@
       "Modelica.Units.SI.SpecificHeatCapacity",
       "Modelica.Units.SI.DynamicViscosity",
       "Modelica.Units.SI.Length",
+      "BuildingsLite.Utilities.Math.Functions.smoothMax",
       "Modelica.Units.SI.Temperature",
+      "abs",
       "Modelica.Units.SI.TemperatureDifference",
       "Real",
       "Modelica.Units.SI.ThermalConductivity",
@@ -13105,7 +13615,9 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "Modelica.Units.SI.HeatFlux",
-      "Modelica.Units.SI.TemperatureDifference"
+      "noEvent",
+      "Modelica.Units.SI.TemperatureDifference",
+      "smooth"
     ],
     "parentClasses": [
       "BuildingsLite.HeatTransfer.Convection.Functions.HeatFlux.BaseClasses.PartialHeatFlux",
@@ -13119,8 +13631,11 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "Modelica.Constants.pi",
+      "BuildingsLite.Utilities.Math.Functions.spliceFunction",
       "Real",
-      "Modelica.Units.SI.Angle"
+      "Modelica.Units.SI.Angle",
+      "Modelica.Math.cos",
+      "Modelica.Units.Conversions.from_deg"
     ],
     "parentClasses": [
       "Modelica.Icons.Function"
@@ -13132,18 +13647,26 @@
     "ModelicaPath": "BuildingsLite.HeatTransfer.Convection.Interior",
     "resolvedLibraries": [],
     "usedClasses": [
-      "BuildingsLite.HeatTransfer.Types.InteriorConvection",
       "Modelica.Units.SI.CoefficientOfHeatTransfer",
       "Modelica.Units.SI.Area",
-      "Modelica.Units.SI.HeatFlux",
+      "getInstanceName",
+      "BuildingsLite.HeatTransfer.Convection.Functions.HeatFlux.ceiling",
       "Modelica.Units.SI.Temperature",
+      "Modelica.Units.SI.TemperatureDifference",
+      "Modelica.Units.SI.Angle",
+      "Modelica.Math.cos",
+      "homotopy",
+      "BuildingsLite.HeatTransfer.Convection.Functions.HeatFlux.floor",
+      "BuildingsLite.HeatTransfer.Types.InteriorConvection",
+      "Modelica.Units.SI.HeatFlux",
+      "abs",
       "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b",
       "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a",
-      "Modelica.Units.SI.TemperatureDifference",
       "Real",
-      "Modelica.Units.SI.Angle",
+      "Modelica.Math.sin",
       "Boolean",
-      "Modelica.Units.SI.HeatFlowRate"
+      "Modelica.Units.SI.HeatFlowRate",
+      "BuildingsLite.HeatTransfer.Convection.Functions.HeatFlux.wall"
     ],
     "parentClasses": [
       "BuildingsLite.HeatTransfer.Convection.BaseClasses.PartialConvection",
@@ -13179,15 +13702,19 @@
     "ModelicaPath": "BuildingsLite.HeatTransfer.Data.BaseClasses",
     "resolvedLibraries": [],
     "usedClasses": [
+      "Modelica.Units.SI.Temperature",
+      "max",
+      "Modelica.Units.SI.SpecificInternalEnergy",
+      "integer",
+      "ceil",
+      "Modelica.Units.SI.Density",
       "Modelica.Units.SI.SpecificHeatCapacity",
       "Integer",
       "Modelica.Units.SI.Length",
-      "Modelica.Units.SI.Temperature",
-      "Modelica.Units.SI.SpecificInternalEnergy",
+      "sqrt",
       "Real",
       "Boolean",
-      "Modelica.Units.SI.ThermalConductivity",
-      "Modelica.Units.SI.Density"
+      "Modelica.Units.SI.ThermalConductivity"
     ],
     "parentClasses": [
       "Modelica.Icons.BasesPackage",
@@ -13256,12 +13783,19 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "Modelica.Units.SI.CoefficientOfHeatTransfer",
-      "Gases.Generic",
-      "Modelica.Units.SI.Emissivity",
+      "Glasses.ID102",
       "Shades.Generic",
       "Glasses.Generic",
+      "BuildingsLite.HeatTransfer.Data.GlazingSystems.Generic",
+      "BuildingsLite.HeatTransfer.Data.Gases.Air",
+      "Modelica.Math.BooleanVectors.anyTrue",
+      "Gases.Generic",
+      "Modelica.Units.SI.Emissivity",
+      "Glasses.Electrochromic",
+      "size",
+      "BuildingsLite.HeatTransfer.Data.Glasses.Generic",
       "Boolean",
-      "BuildingsLite.HeatTransfer.Data.GlazingSystems.Generic"
+      "Gases.Air"
     ],
     "parentClasses": [
       "Modelica.Icons.MaterialPropertiesPackage",
@@ -13278,8 +13812,12 @@
       "BuildingsLite.HeatTransfer.Data.BaseClasses.Material",
       "Modelica.Units.SI.Emissivity",
       "Real",
+      "sum",
       "BuildingsLite.HeatTransfer.Data.OpaqueConstructions.Generic",
-      "BuildingsLite.HeatTransfer.Types.SurfaceRoughness"
+      "Solids.Concrete",
+      "BuildingsLite.HeatTransfer.Types.SurfaceRoughness",
+      "Solids.Brick",
+      "Solids.InsulationBoard"
     ],
     "parentClasses": [
       "Modelica.Icons.MaterialPropertiesPackage"
@@ -13601,6 +14139,7 @@
       "Modelica.Units.SI.TransmissionCoefficient",
       "Modelica.Units.SI.Emissivity",
       "Modelica.Units.SI.Temperature",
+      "abs",
       "Real",
       "Boolean",
       "Modelica.Units.SI.ReflectionCoefficient"
@@ -13616,6 +14155,7 @@
       "Modelica.Units.SI.TransmissionCoefficient",
       "Modelica.Units.SI.Emissivity",
       "Modelica.Units.SI.Temperature",
+      "abs",
       "Real",
       "Boolean",
       "Modelica.Units.SI.ReflectionCoefficient"
@@ -13705,6 +14245,7 @@
       "Modelica.Units.SI.Emissivity",
       "BuildingsLite.HeatTransfer.Interfaces.RadiosityOutflow",
       "Modelica.Units.SI.Temperature",
+      "abs",
       "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a",
       "Real",
       "Modelica.Constants.sigma",
@@ -13732,6 +14273,7 @@
       "Modelica.Units.SI.TransmissionCoefficient",
       "Modelica.Units.SI.Emissivity",
       "BuildingsLite.HeatTransfer.Interfaces.RadiosityOutflow",
+      "abs",
       "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a",
       "rhoIR",
       "Real",
@@ -13868,20 +14410,25 @@
       "tauGlaSol",
       "Modelica.Units.SI.Power",
       "BuildingsLite.HeatTransfer.Windows.BaseClasses.RadiationData",
-      "rhoGlaSol_b",
       "N",
-      "rhoShaSol_b",
       "Modelica.Units.SI.ReflectionCoefficient",
-      "Integer",
       "rhoShaSol_a",
       "Modelica.Units.SI.TransmissionCoefficient",
       "Modelica.Units.SI.Length",
-      "xGla",
-      "rhoGlaSol_a",
+      "min",
       "Real",
       "Boolean",
-      "tauShaSol_a",
       "Modelica.Blocks.Interfaces.RealOutput",
+      "rhoGlaSol_b",
+      "zeros",
+      "rhoShaSol_b",
+      "Integer",
+      "abs",
+      "xGla",
+      "size",
+      "rhoGlaSol_a",
+      "tauShaSol_a",
+      "BuildingsLite.HeatTransfer.Windows.BaseClasses.smoothInterpolation",
       "tauShaSol_b"
     ],
     "parentClasses": [
@@ -13899,6 +14446,7 @@
     "usedClasses": [
       "Modelica.Units.SI.Area",
       "A",
+      "getInstanceName",
       "BuildingsLite.HeatTransfer.Windows.BaseClasses.GasConvection",
       "Modelica.Blocks.Interfaces.RealInput",
       "Modelica.Constants.sigma",
@@ -13910,6 +14458,7 @@
       "BuildingsLite.HeatTransfer.Interfaces.RadiosityOutflow",
       "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b",
       "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a",
+      "size",
       "Boolean"
     ],
     "parentClasses": [
@@ -13924,13 +14473,16 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "BuildingsLite.BoundaryConditions.SolarIrradiation.DirectTiltedSurface",
+      "BuildingsLite.HeatTransfer.Data.Shades.Gray",
+      "size",
       "BuildingsLite.HeatTransfer.Windows.BaseClasses.AbsorbedRadiation",
       "BuildingsLite.BoundaryConditions.WeatherData.Bus",
       "BuildingsLite.BoundaryConditions.SolarIrradiation.DiffuseIsotropic",
       "BuildingsLite.HeatTransfer.Data.GlazingSystems.DoubleClearAir13Clear",
       "Modelica.Blocks.Sources.Constant",
       "Modelica.Units.SI.Angle",
-      "BuildingsLite.BoundaryConditions.WeatherData.ReaderTMY3"
+      "BuildingsLite.BoundaryConditions.WeatherData.ReaderTMY3",
+      "Modelica.Utilities.Files.loadResource"
     ],
     "parentClasses": [
       "Modelica.Icons.Example"
@@ -13945,6 +14497,8 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "BuildingsLite.BoundaryConditions.SolarIrradiation.DirectTiltedSurface",
+      "BuildingsLite.HeatTransfer.Data.Shades.Gray",
+      "size",
       "BuildingsLite.HeatTransfer.Windows.BaseClasses.AbsorbedRadiation",
       "BuildingsLite.BoundaryConditions.WeatherData.Bus",
       "BuildingsLite.BoundaryConditions.SolarIrradiation.DiffuseIsotropic",
@@ -13952,7 +14506,8 @@
       "Modelica.Blocks.Sources.Constant",
       "Modelica.Units.SI.Angle",
       "BuildingsLite.BoundaryConditions.WeatherData.ReaderTMY3",
-      "Data.GlazingSystems.DoubleElectrochromicAir13Clear"
+      "Data.GlazingSystems.DoubleElectrochromicAir13Clear",
+      "Modelica.Utilities.Files.loadResource"
     ],
     "parentClasses": [
       "BuildingsLite.HeatTransfer.Windows.BaseClasses.Examples.AbsorbedRadiation",
@@ -13976,8 +14531,10 @@
       "BuildingsLite.HeatTransfer.Data.GlazingSystems.DoubleClearAir13Clear",
       "Modelica.Blocks.Math.Product",
       "BuildingsLite.HeatTransfer.Radiosity.OutdoorRadiosity",
+      "BuildingsLite.HeatTransfer.Data.Shades.Gray",
       "BuildingsLite.HeatTransfer.Windows.BaseClasses.CenterOfGlass",
       "BuildingsLite.HeatTransfer.Windows.BaseClasses.ShadingSignal",
+      "size",
       "Boolean"
     ],
     "parentClasses": [
@@ -13997,7 +14554,8 @@
       "Modelica.Blocks.Sources.Ramp",
       "BuildingsLite.Types.Tilt.Floor",
       "Modelica.Blocks.Sources.Constant",
-      "BuildingsLite.HeatTransfer.Sources.FixedTemperature"
+      "BuildingsLite.HeatTransfer.Sources.FixedTemperature",
+      "BuildingsLite.HeatTransfer.Data.Gases.Air"
     ],
     "parentClasses": [
       "Modelica.Icons.Example"
@@ -14055,7 +14613,8 @@
       "BuildingsLite.BoundaryConditions.SolarGeometry.BaseClasses.WallSolarAzimuth",
       "BuildingsLite.BoundaryConditions.WeatherData.Bus",
       "BuildingsLite.BoundaryConditions.SolarGeometry.IncidenceAngle",
-      "BuildingsLite.BoundaryConditions.WeatherData.ReaderTMY3"
+      "BuildingsLite.BoundaryConditions.WeatherData.ReaderTMY3",
+      "Modelica.Utilities.Files.loadResource"
     ],
     "parentClasses": [
       "Modelica.Icons.Example"
@@ -14095,7 +14654,8 @@
       "BuildingsLite.BoundaryConditions.SolarGeometry.BaseClasses.WallSolarAzimuth",
       "BuildingsLite.BoundaryConditions.SolarGeometry.IncidenceAngle",
       "BuildingsLite.BoundaryConditions.WeatherData.ReaderTMY3",
-      "BuildingsLite.HeatTransfer.Windows.BaseClasses.SideFins"
+      "BuildingsLite.HeatTransfer.Windows.BaseClasses.SideFins",
+      "Modelica.Utilities.Files.loadResource"
     ],
     "parentClasses": [
       "Modelica.Icons.Example"
@@ -14108,13 +14668,16 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "BuildingsLite.BoundaryConditions.SolarIrradiation.DirectTiltedSurface",
+      "BuildingsLite.HeatTransfer.Data.Shades.Gray",
+      "size",
       "BuildingsLite.BoundaryConditions.WeatherData.Bus",
       "BuildingsLite.BoundaryConditions.SolarIrradiation.DiffuseIsotropic",
       "BuildingsLite.HeatTransfer.Data.GlazingSystems.DoubleClearAir13Clear",
       "Modelica.Blocks.Sources.Constant",
       "BuildingsLite.HeatTransfer.Windows.BaseClasses.TransmittedRadiation",
       "Modelica.Units.SI.Angle",
-      "BuildingsLite.BoundaryConditions.WeatherData.ReaderTMY3"
+      "BuildingsLite.BoundaryConditions.WeatherData.ReaderTMY3",
+      "Modelica.Utilities.Files.loadResource"
     ],
     "parentClasses": [
       "Modelica.Icons.Example"
@@ -14127,14 +14690,17 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "BuildingsLite.BoundaryConditions.SolarIrradiation.DirectTiltedSurface",
+      "BuildingsLite.HeatTransfer.Data.Shades.Gray",
       "Modelica.Blocks.Math.Gain",
       "BuildingsLite.HeatTransfer.Windows.BaseClasses.WindowRadiation",
+      "size",
       "BuildingsLite.BoundaryConditions.WeatherData.Bus",
       "BuildingsLite.BoundaryConditions.SolarIrradiation.DiffuseIsotropic",
       "BuildingsLite.HeatTransfer.Data.GlazingSystems.DoubleClearAir13Clear",
       "Modelica.Blocks.Sources.Constant",
       "Modelica.Units.SI.Angle",
-      "BuildingsLite.BoundaryConditions.WeatherData.ReaderTMY3"
+      "BuildingsLite.BoundaryConditions.WeatherData.ReaderTMY3",
+      "Modelica.Utilities.Files.loadResource"
     ],
     "parentClasses": [
       "Modelica.Icons.Example"
@@ -14148,17 +14714,20 @@
     "ModelicaPath": "BuildingsLite.HeatTransfer.Windows.BaseClasses.Examples.WindowRadiationElectrochromic",
     "resolvedLibraries": [],
     "usedClasses": [
-      "BuildingsLite.BoundaryConditions.SolarIrradiation.DirectTiltedSurface",
-      "Modelica.Blocks.Math.Gain",
-      "BuildingsLite.HeatTransfer.Windows.BaseClasses.WindowRadiation",
       "Modelica.Blocks.Sources.Ramp",
-      "BuildingsLite.BoundaryConditions.WeatherData.Bus",
       "BuildingsLite.BoundaryConditions.SolarIrradiation.DiffuseIsotropic",
       "BuildingsLite.HeatTransfer.Data.GlazingSystems.DoubleClearAir13Clear",
       "Modelica.Blocks.Sources.Constant",
       "Modelica.Units.SI.Angle",
+      "Data.GlazingSystems.DoubleElectrochromicAir13Clear",
+      "BuildingsLite.BoundaryConditions.SolarIrradiation.DirectTiltedSurface",
+      "BuildingsLite.HeatTransfer.Data.Shades.Gray",
+      "Modelica.Blocks.Math.Gain",
+      "BuildingsLite.HeatTransfer.Windows.BaseClasses.WindowRadiation",
+      "size",
+      "BuildingsLite.BoundaryConditions.WeatherData.Bus",
       "BuildingsLite.BoundaryConditions.WeatherData.ReaderTMY3",
-      "Data.GlazingSystems.DoubleElectrochromicAir13Clear"
+      "Modelica.Utilities.Files.loadResource"
     ],
     "parentClasses": [
       "BuildingsLite.HeatTransfer.Windows.BaseClasses.Examples.WindowRadiation",
@@ -14172,6 +14741,7 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "Modelica.Units.SI.Area",
+      "BuildingsLite.Utilities.Math.Functions.smoothMax",
       "Modelica.Blocks.Interfaces.RealInput",
       "Modelica.Blocks.Interfaces.RealOutput"
     ],
@@ -14187,12 +14757,26 @@
     "usedClasses": [
       "Modelica.Units.SI.Area",
       "Modelica.Units.SI.CoefficientOfHeatTransfer",
+      "BuildingsLite.HeatTransfer.Data.Gases.thermalConductivity",
       "BuildingsLite.HeatTransfer.Data.Gases.Generic",
-      "Modelica.Units.SI.HeatFlux",
+      "getInstanceName",
+      "BuildingsLite.HeatTransfer.Data.Gases.dynamicViscosity",
+      "BuildingsLite.HeatTransfer.Convection.Functions.HeatFlux.rayleigh",
       "Modelica.Units.SI.Temperature",
       "Modelica.Blocks.Interfaces.RealInput",
-      "Real",
       "Modelica.Units.SI.Angle",
+      "Modelica.Math.cos",
+      "String",
+      "BuildingsLite.HeatTransfer.Data.Gases.specificHeatCapacity",
+      "BuildingsLite.HeatTransfer.Windows.BaseClasses.convectionHorizontalCavity",
+      "homotopy",
+      "Modelica.Units.SI.HeatFlux",
+      "abs",
+      "sqrt",
+      "BuildingsLite.HeatTransfer.Data.Gases.density",
+      "Real",
+      "Modelica.Math.sin",
+      "BuildingsLite.HeatTransfer.Windows.BaseClasses.convectionVerticalCavity",
       "Boolean"
     ],
     "parentClasses": [
@@ -14208,10 +14792,12 @@
     "usedClasses": [
       "Modelica.Units.SI.Area",
       "tauIR",
+      "getInstanceName",
       "Modelica.Units.SI.Temperature",
       "Modelica.Units.SI.ThermalResistance",
       "Modelica.Blocks.Interfaces.RealInput",
       "Modelica.Constants.sigma",
+      "homotopy",
       "BuildingsLite.HeatTransfer.Interfaces.RadiosityInflow",
       "Modelica.Units.SI.ReflectionCoefficient",
       "absIR_b",
@@ -14221,6 +14807,7 @@
       "BuildingsLite.HeatTransfer.Interfaces.RadiosityOutflow",
       "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b",
       "absIR_a",
+      "abs",
       "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a",
       "Real",
       "Boolean",
@@ -14260,17 +14847,25 @@
     "usedClasses": [
       "Modelica.Units.SI.CoefficientOfHeatTransfer",
       "Modelica.Units.SI.Area",
+      "getInstanceName",
+      "BuildingsLite.HeatTransfer.Convection.Functions.HeatFlux.ceiling",
       "Modelica.Units.SI.Temperature",
       "Modelica.Units.SI.TemperatureDifference",
       "Modelica.Blocks.Interfaces.RealInput",
       "Modelica.Units.SI.Angle",
+      "Modelica.Math.cos",
+      "homotopy",
+      "BuildingsLite.HeatTransfer.Convection.Functions.HeatFlux.floor",
       "BuildingsLite.HeatTransfer.Types.InteriorConvection",
       "Modelica.Units.SI.HeatFlux",
+      "abs",
       "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b",
       "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a",
       "Real",
+      "Modelica.Math.sin",
       "Boolean",
-      "Modelica.Units.SI.HeatFlowRate"
+      "Modelica.Units.SI.HeatFlowRate",
+      "BuildingsLite.HeatTransfer.Convection.Functions.HeatFlux.wall"
     ],
     "parentClasses": [
       "BuildingsLite.HeatTransfer.Convection.BaseClasses.PartialConvection",
@@ -14298,11 +14893,19 @@
     "usedClasses": [
       "Modelica.Units.SI.Area",
       "BuildingsLite.BoundaryConditions.SolarGeometry.BaseClasses.SolarAzimuth",
-      "Modelica.Units.SI.Length",
+      "mod",
+      "BuildingsLite.Utilities.Math.Functions.smoothMin",
       "Modelica.Blocks.Interfaces.RealInput",
+      "Modelica.Units.SI.Angle",
+      "String",
+      "Modelica.Math.cos",
+      "fill",
+      "Modelica.Units.SI.Length",
+      "Modelica.Math.tan",
+      "BuildingsLite.Utilities.Math.Functions.smoothMax",
+      "BuildingsLite.Utilities.Math.Functions.spliceFunction",
       "BuildingsLite.BoundaryConditions.WeatherData.Bus",
       "Real",
-      "Modelica.Units.SI.Angle",
       "Modelica.Blocks.Interfaces.RealOutput"
     ],
     "parentClasses": [
@@ -14329,6 +14932,7 @@
       "Modelica.Units.SI.TransmissionCoefficient",
       "Modelica.Units.SI.Length",
       "xGla",
+      "size",
       "rhoGlaSol_a",
       "Boolean",
       "tauShaSol_a",
@@ -14384,6 +14988,7 @@
       "Integer",
       "Modelica.Units.SI.TransmissionCoefficient",
       "Modelica.Units.SI.Length",
+      "size",
       "Modelica.Units.SI.ReflectionCoefficient"
     ],
     "parentClasses": [
@@ -14396,12 +15001,28 @@
     "ModelicaPath": "BuildingsLite.HeatTransfer.Windows.BaseClasses.RadiationData",
     "resolvedLibraries": [],
     "usedClasses": [
+      "BuildingsLite.HeatTransfer.Windows.Functions.glassAbsExteriorIrradiationExteriorShading",
+      "BuildingsLite.HeatTransfer.Windows.Functions.winTRInteriorIrradiationExteriorShading",
+      "BuildingsLite.HeatTransfer.Windows.Functions.glassAbsInteriorIrradiationExteriorShading",
+      "BuildingsLite.HeatTransfer.Windows.Functions.glassAbsInteriorIrradiationNoShading",
+      "BuildingsLite.HeatTransfer.Windows.Functions.getGlassTR",
+      "Modelica.Units.SI.Angle",
+      "BuildingsLite.HeatTransfer.Windows.Functions.getAngle",
+      "BuildingsLite.HeatTransfer.Windows.Functions.glassProperty",
+      "BuildingsLite.HeatTransfer.Windows.Functions.winTRInteriorIrradiationInteriorShading",
+      "Modelica.Units.SI.ReflectionCoefficient",
       "Integer",
       "Modelica.Units.SI.TransmissionCoefficient",
       "Modelica.Units.SI.Length",
+      "size",
+      "BuildingsLite.HeatTransfer.Windows.Functions.devAbsExteriorIrradiationInteriorShading",
+      "BuildingsLite.HeatTransfer.Windows.Functions.glassAbsInteriorIrradiationInteriorShading",
+      "BuildingsLite.HeatTransfer.Windows.Functions.devAbsInteriorIrradiationInteriorShading",
       "Real",
-      "Modelica.Units.SI.Angle",
-      "Modelica.Units.SI.ReflectionCoefficient"
+      "BuildingsLite.HeatTransfer.Windows.Functions.glassAbsExteriorIrradiationNoShading",
+      "BuildingsLite.HeatTransfer.Windows.Functions.winTExteriorIrradiatrionExteriorShading",
+      "BuildingsLite.HeatTransfer.Windows.Functions.winTExteriorIrradiationInteriorShading",
+      "BuildingsLite.HeatTransfer.Windows.Functions.glassAbsExteriorIrradiationInteriorShading"
     ],
     "parentClasses": [
       "Modelica.Icons.Record",
@@ -14446,9 +15067,11 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "Modelica.Units.SI.Area",
+      "getInstanceName",
       "Modelica.Units.SI.Temperature",
       "Modelica.Blocks.Interfaces.RealInput",
       "Modelica.Constants.sigma",
+      "homotopy",
       "BuildingsLite.HeatTransfer.Interfaces.RadiosityInflow",
       "Modelica.Units.SI.ReflectionCoefficient",
       "Modelica.Units.SI.TransmissionCoefficient",
@@ -14484,8 +15107,15 @@
     "usedClasses": [
       "Modelica.Units.SI.Area",
       "Modelica.Units.SI.Length",
+      "BuildingsLite.Utilities.Math.Functions.smoothMax",
+      "Modelica.Math.tan",
+      "BuildingsLite.Utilities.Math.Functions.smoothMin",
+      "BuildingsLite.Utilities.Math.Functions.spliceFunction",
       "Modelica.Blocks.Interfaces.RealInput",
       "Real",
+      "String",
+      "Modelica.Math.cos",
+      "fill",
       "Modelica.Blocks.Interfaces.RealOutput"
     ],
     "parentClasses": [
@@ -14500,6 +15130,7 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "Integer",
+      "max",
       "Modelica.Blocks.Interfaces.RealInput",
       "Real",
       "Modelica.Blocks.Interfaces.RealOutput"
@@ -14532,20 +15163,25 @@
       "tauGlaSol",
       "Modelica.Units.SI.Power",
       "BuildingsLite.HeatTransfer.Windows.BaseClasses.RadiationData",
-      "rhoGlaSol_b",
       "N",
-      "rhoShaSol_b",
       "Modelica.Units.SI.ReflectionCoefficient",
-      "Integer",
       "rhoShaSol_a",
       "Modelica.Units.SI.TransmissionCoefficient",
       "Modelica.Units.SI.Length",
-      "xGla",
-      "rhoGlaSol_a",
+      "min",
       "Real",
       "Boolean",
-      "tauShaSol_a",
       "Modelica.Blocks.Interfaces.RealOutput",
+      "rhoGlaSol_b",
+      "zeros",
+      "rhoShaSol_b",
+      "Integer",
+      "abs",
+      "xGla",
+      "size",
+      "rhoGlaSol_a",
+      "tauShaSol_a",
+      "BuildingsLite.HeatTransfer.Windows.BaseClasses.smoothInterpolation",
       "tauShaSol_b"
     ],
     "parentClasses": [
@@ -14625,6 +15261,7 @@
       "haveExteriorShade",
       "BuildingsLite.HeatTransfer.Windows.BaseClasses.RadiationData",
       "BuildingsLite.HeatTransfer.Windows.BaseClasses.TransmittedRadiation",
+      "String",
       "N",
       "Modelica.Units.SI.ReflectionCoefficient",
       "rhoShaSol_a",
@@ -14638,6 +15275,7 @@
       "rhoShaSol_b",
       "Integer",
       "xGla",
+      "size",
       "rhoGlaSol_a",
       "BuildingsLite.HeatTransfer.Windows.BaseClasses.StateInterpolator",
       "tauShaSol_a",
@@ -14659,12 +15297,17 @@
     "usedClasses": [
       "Modelica.Units.SI.Area",
       "Modelica.Units.SI.CoefficientOfHeatTransfer",
+      "BuildingsLite.HeatTransfer.Data.Gases.thermalConductivity",
       "BuildingsLite.HeatTransfer.Data.Gases.Generic",
-      "Modelica.Units.SI.HeatFlux",
       "Modelica.Units.SI.Temperature",
       "Modelica.Units.SI.TemperatureDifference",
-      "Real",
-      "Modelica.Units.SI.Angle"
+      "Modelica.Units.SI.Angle",
+      "Modelica.Units.SI.HeatFlux",
+      "abs",
+      "BuildingsLite.HeatTransfer.Windows.BaseClasses.nusseltHorizontalCavityEnhanced",
+      "BuildingsLite.Utilities.Math.Functions.spliceFunction",
+      "BuildingsLite.HeatTransfer.Windows.BaseClasses.nusseltHorizontalCavityReduced",
+      "Real"
     ],
     "parentClasses": [
       "Modelica.Icons.Function"
@@ -14678,9 +15321,12 @@
     "usedClasses": [
       "Modelica.Units.SI.Area",
       "Modelica.Units.SI.CoefficientOfHeatTransfer",
+      "BuildingsLite.HeatTransfer.Data.Gases.thermalConductivity",
       "BuildingsLite.HeatTransfer.Data.Gases.Generic",
+      "BuildingsLite.Utilities.Math.Functions.smoothMax",
       "Modelica.Units.SI.HeatFlux",
       "Modelica.Units.SI.Temperature",
+      "BuildingsLite.Utilities.Math.Functions.spliceFunction",
       "Modelica.Units.SI.TemperatureDifference",
       "Real"
     ],
@@ -14695,9 +15341,12 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "BuildingsLite.HeatTransfer.Data.Gases.Generic",
+      "BuildingsLite.Utilities.Math.Functions.smoothMax",
       "Modelica.Units.SI.Temperature",
+      "abs",
       "Modelica.Units.SI.TemperatureDifference",
       "Real",
+      "Modelica.Math.sin",
       "Modelica.Units.SI.Angle"
     ],
     "parentClasses": [
@@ -14714,7 +15363,8 @@
       "BuildingsLite.HeatTransfer.Data.Gases.Generic",
       "Modelica.Units.SI.Temperature",
       "Modelica.Units.SI.TemperatureDifference",
-      "Real"
+      "Real",
+      "BuildingsLite.HeatTransfer.Windows.BaseClasses.convectionVerticalCavity"
     ],
     "parentClasses": [
       "Modelica.Icons.Function"
@@ -14727,7 +15377,9 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "Integer",
-      "Real"
+      "Real",
+      "integer",
+      "Modelica.Fluid.Utilities.cubicHermite"
     ],
     "parentClasses": [
       "Modelica.Icons.Function"
@@ -14740,13 +15392,17 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "Modelica.Blocks.Math.Add",
-      "Modelica.Units.SI.Length",
       "Modelica.Blocks.Math.Max",
       "BuildingsLite.BoundaryConditions.SolarGeometry.ProjectedShadowLength",
       "Modelica.Units.SI.Time",
       "Modelica.Blocks.Sources.Constant",
       "String",
       "Modelica.Units.SI.Angle",
+      "BuildingsLite.BoundaryConditions.WeatherData.BaseClasses.getLatitudeTMY3",
+      "Modelica.Units.SI.Length",
+      "BuildingsLite.BoundaryConditions.WeatherData.BaseClasses.getLongitudeTMY3",
+      "BuildingsLite.BoundaryConditions.WeatherData.BaseClasses.getTimeZoneTMY3",
+      "BuildingsLite.BoundaryConditions.WeatherData.BaseClasses.getAbsolutePath",
       "Modelica.Blocks.Interfaces.RealOutput"
     ],
     "parentClasses": [
@@ -14764,7 +15420,8 @@
       "BuildingsLite.HeatTransfer.Windows.BeamDepthInRoom",
       "BuildingsLite.Types.Azimuth.E",
       "BuildingsLite.Types.Azimuth.W",
-      "BuildingsLite.Types.Azimuth.N"
+      "BuildingsLite.Types.Azimuth.N",
+      "Modelica.Utilities.Files.loadResource"
     ],
     "parentClasses": [
       "Modelica.Icons.Example"
@@ -14784,6 +15441,7 @@
       "Modelica.Blocks.Math.MultiSum",
       "BuildingsLite.HeatTransfer.Data.GlazingSystems.DoubleClearAir13Clear",
       "Modelica.Blocks.Sources.Constant",
+      "BuildingsLite.HeatTransfer.Data.Shades.Gray",
       "BuildingsLite.HeatTransfer.Windows.ExteriorHeatTransfer",
       "BuildingsLite.HeatTransfer.Windows.BaseClasses.ShadingSignal",
       "Real",
@@ -14807,6 +15465,7 @@
       "BuildingsLite.HeatTransfer.Data.GlazingSystems.DoubleClearAir13Clear",
       "BuildingsLite.HeatTransfer.Sources.FixedTemperature",
       "BuildingsLite.BoundaryConditions.SolarIrradiation.DirectTiltedSurface",
+      "BuildingsLite.HeatTransfer.Data.Shades.Gray",
       "Modelica.Blocks.Math.Gain",
       "BuildingsLite.HeatTransfer.Windows.BaseClasses.WindowRadiation",
       "BuildingsLite.HeatTransfer.Windows.Window",
@@ -14818,6 +15477,7 @@
       "Boolean",
       "BuildingsLite.HeatTransfer.Radiosity.IndoorRadiosity",
       "BuildingsLite.BoundaryConditions.WeatherData.ReaderTMY3",
+      "Modelica.Utilities.Files.loadResource",
       "BuildingsLite.HeatTransfer.Sources.PrescribedTemperature",
       "BuildingsLite.Types.Tilt.Wall",
       "BuildingsLite.HeatTransfer.Radiosity.RadiositySplitter",
@@ -14825,6 +15485,7 @@
       "Data.GlazingSystems.DoubleElectrochromicAir13Clear",
       "Modelica.Blocks.Math.Sum",
       "BuildingsLite.HeatTransfer.Windows.InteriorHeatTransferConvective",
+      "size",
       "BuildingsLite.HeatTransfer.Sources.FixedHeatFlow"
     ],
     "parentClasses": [
@@ -14846,6 +15507,7 @@
       "Modelica.Blocks.Routing.Replicator",
       "BuildingsLite.HeatTransfer.Data.GlazingSystems.DoubleClearAir13Clear",
       "BuildingsLite.BoundaryConditions.WeatherData.ReaderTMY3",
+      "Modelica.Utilities.Files.loadResource",
       "BuildingsLite.ThermalZones.Detailed.BaseClasses.ParameterConstructionWithWindow"
     ],
     "parentClasses": [
@@ -14862,7 +15524,8 @@
       "BuildingsLite.HeatTransfer.Windows.Overhang",
       "BuildingsLite.Types.Tilt.Wall",
       "BuildingsLite.Types.Azimuth.S",
-      "BuildingsLite.BoundaryConditions.WeatherData.ReaderTMY3"
+      "BuildingsLite.BoundaryConditions.WeatherData.ReaderTMY3",
+      "Modelica.Utilities.Files.loadResource"
     ],
     "parentClasses": [
       "Modelica.Icons.Example"
@@ -14878,7 +15541,8 @@
       "BuildingsLite.Types.Tilt.Wall",
       "BuildingsLite.Types.Azimuth.S",
       "BuildingsLite.HeatTransfer.Windows.SideFins",
-      "BuildingsLite.BoundaryConditions.WeatherData.ReaderTMY3"
+      "BuildingsLite.BoundaryConditions.WeatherData.ReaderTMY3",
+      "Modelica.Utilities.Files.loadResource"
     ],
     "parentClasses": [
       "Modelica.Icons.Example"
@@ -14891,28 +15555,31 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "Modelica.Units.SI.Area",
-      "BuildingsLite.HeatTransfer.Sources.PrescribedTemperature",
-      "BuildingsLite.Types.Tilt.Wall",
       "Modelica.Blocks.Sources.Ramp",
-      "BuildingsLite.HeatTransfer.Radiosity.RadiositySplitter",
       "BuildingsLite.BoundaryConditions.SolarIrradiation.DiffuseIsotropic",
       "BuildingsLite.HeatTransfer.Data.GlazingSystems.DoubleClearAir13Clear",
-      "Modelica.Units.SI.Angle",
       "BuildingsLite.HeatTransfer.Sources.FixedTemperature",
-      "Modelica.Blocks.Math.Sum",
       "BuildingsLite.BoundaryConditions.SolarIrradiation.DirectTiltedSurface",
+      "BuildingsLite.HeatTransfer.Data.Shades.Gray",
       "Modelica.Blocks.Math.Gain",
       "BuildingsLite.HeatTransfer.Windows.BaseClasses.WindowRadiation",
       "BuildingsLite.HeatTransfer.Windows.Window",
       "BuildingsLite.HeatTransfer.Windows.ExteriorHeatTransfer",
       "BuildingsLite.HeatTransfer.Windows.BaseClasses.ShadingSignal",
-      "BuildingsLite.HeatTransfer.Windows.InteriorHeatTransferConvective",
       "BuildingsLite.HeatTransfer.Windows.BaseClasses.ShadeRadiation",
       "Real",
       "BuildingsLite.BoundaryConditions.WeatherData.Bus",
       "Boolean",
       "BuildingsLite.HeatTransfer.Radiosity.IndoorRadiosity",
       "BuildingsLite.BoundaryConditions.WeatherData.ReaderTMY3",
+      "Modelica.Utilities.Files.loadResource",
+      "BuildingsLite.HeatTransfer.Sources.PrescribedTemperature",
+      "BuildingsLite.Types.Tilt.Wall",
+      "BuildingsLite.HeatTransfer.Radiosity.RadiositySplitter",
+      "Modelica.Units.SI.Angle",
+      "Modelica.Blocks.Math.Sum",
+      "BuildingsLite.HeatTransfer.Windows.InteriorHeatTransferConvective",
+      "size",
       "BuildingsLite.HeatTransfer.Sources.FixedHeatFlow"
     ],
     "parentClasses": [
@@ -14936,6 +15603,7 @@
       "haveExteriorShade",
       "Modelica.Blocks.Math.Product",
       "AFra",
+      "String",
       "BuildingsLite.HeatTransfer.Radiosity.OutdoorRadiosity",
       "BuildingsLite.HeatTransfer.Interfaces.RadiosityInflow",
       "Modelica.Units.SI.TransmissionCoefficient",
@@ -15083,7 +15751,9 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "Integer",
-      "Real"
+      "BuildingsLite.HeatTransfer.Windows.Functions.glassTRExteriorIrradiationNoShading",
+      "Real",
+      "BuildingsLite.HeatTransfer.Windows.Functions.glassTRInteriorIrradiationNoShading"
     ],
     "parentClasses": [
       "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialGlassRadiation",
@@ -15172,7 +15842,8 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "Integer",
-      "Real"
+      "Real",
+      "BuildingsLite.HeatTransfer.Windows.Functions.glassAbsExteriorIrradiationNoShading"
     ],
     "parentClasses": [
       "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialWindowRadiation",
@@ -15187,6 +15858,9 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "Integer",
+      "abs",
+      "BuildingsLite.HeatTransfer.Windows.Functions.glassPropertyUncoated",
+      "BuildingsLite.HeatTransfer.Windows.Functions.glassPropertyCoated",
       "Real",
       "Modelica.Units.SI.Angle"
     ],
@@ -15203,7 +15877,10 @@
     "usedClasses": [
       "Integer",
       "Real",
-      "Modelica.Units.SI.Angle"
+      "Modelica.Math.sin",
+      "BuildingsLite.Utilities.Math.Functions.trapezoidalIntegration",
+      "Modelica.Units.SI.Angle",
+      "Modelica.Math.cos"
     ],
     "parentClasses": [
       "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialSingleGlassRadiation"
@@ -15215,10 +15892,19 @@
     "ModelicaPath": "BuildingsLite.HeatTransfer.Windows.Functions.glassPropertyUncoated",
     "resolvedLibraries": [],
     "usedClasses": [
+      "log",
+      "cos",
+      "Modelica.Units.SI.Angle",
+      "Modelica.Math.cos",
       "Integer",
       "Modelica.Units.SI.Length",
+      "sqrt",
       "Real",
-      "Modelica.Units.SI.Angle"
+      "Modelica.Math.sin",
+      "BuildingsLite.Utilities.Math.Functions.trapezoidalIntegration",
+      "sin",
+      "asin",
+      "exp"
     ],
     "parentClasses": [
       "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialSingleGlassRadiation"
@@ -15231,7 +15917,8 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "Integer",
-      "Real"
+      "Real",
+      "fill"
     ],
     "parentClasses": [
       "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialGlassRadiation",
@@ -15245,7 +15932,9 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "Integer",
-      "Real"
+      "BuildingsLite.HeatTransfer.Windows.Functions.glassTRExteriorIrradiationNoShading",
+      "Real",
+      "fill"
     ],
     "parentClasses": [
       "BuildingsLite.HeatTransfer.Windows.Functions.BaseClasses.partialGlassRadiation",
@@ -15408,6 +16097,7 @@
       "BuildingsLite.HeatTransfer.Data.GlazingSystems.DoubleClearAir13Clear",
       "BuildingsLite.HeatTransfer.Sources.FixedTemperature",
       "BuildingsLite.BoundaryConditions.SolarIrradiation.DirectTiltedSurface",
+      "BuildingsLite.HeatTransfer.Data.Shades.Gray",
       "Modelica.Blocks.Math.Gain",
       "BuildingsLite.HeatTransfer.Windows.BaseClasses.WindowRadiation",
       "BuildingsLite.HeatTransfer.Windows.Window",
@@ -15419,6 +16109,7 @@
       "Boolean",
       "BuildingsLite.HeatTransfer.Radiosity.IndoorRadiosity",
       "BuildingsLite.BoundaryConditions.WeatherData.ReaderTMY3",
+      "Modelica.Utilities.Files.loadResource",
       "BuildingsLite.BoundaryConditions.Types.DataSource.Parameter",
       "BuildingsLite.HeatTransfer.Sources.PrescribedTemperature",
       "BuildingsLite.Types.Tilt.Wall",
@@ -15428,6 +16119,7 @@
       "Modelica.Units.SI.Angle",
       "Modelica.Blocks.Math.Sum",
       "BuildingsLite.HeatTransfer.Windows.InteriorHeatTransferConvective",
+      "size",
       "BuildingsLite.HeatTransfer.Sources.FixedHeatFlow"
     ],
     "parentClasses": [
@@ -15442,6 +16134,7 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "Modelica.Units.SI.Area",
+      "getInstanceName",
       "Data.Solids.Plywood",
       "Modelica.Blocks.Interfaces.RealInput",
       "Modelica.Thermal.HeatTransfer.Components.ThermalConductor",
@@ -15455,6 +16148,7 @@
       "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b",
       "BuildingsLite.HeatTransfer.Windows.BaseClasses.ShadingSignal",
       "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a",
+      "size",
       "Real",
       "Boolean",
       "Modelica.Thermal.HeatTransfer.Components.HeatCapacitor"
@@ -15467,6 +16161,7 @@
     "ModelicaPath": "BuildingsLite.Tests.BouncingBall",
     "resolvedLibraries": [],
     "usedClasses": [
+      "pre",
       "Real",
       "Height",
       "Velocity"
@@ -15482,6 +16177,7 @@
       "Modelica.Units.SI.CrossSection",
       "Package.OtherPackage.Component",
       "Modelica.Blocks.Sources.Ramp",
+      "Modelica.Units.Conversions.to_degF",
       "Modelica.Fluid.Sources.Boundary_pT",
       "Real",
       "Modelica.Fluid.Sources.MassFlowSource_T",

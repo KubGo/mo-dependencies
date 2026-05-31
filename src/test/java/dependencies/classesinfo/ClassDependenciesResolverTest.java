@@ -5,6 +5,7 @@ import utils.Utils;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -16,7 +17,10 @@ class ClassDependenciesResolverTest {
 		String classText = Utils.getModelicaTextFromResources(Utils.BouncingBall);
 
 		ClassDependenciesResolver classDependenciesResolver = new ClassDependenciesResolver("BouncingBall", classText);
-		assertEquals(3, classDependenciesResolver.getClasses().size());
+		assertEquals(4, classDependenciesResolver.getClasses().size());
+		assertEquals(
+				Stream.of("Height", "Velocity", "Real", "pre").sorted().toList(),
+				classDependenciesResolver.getClasses().stream().sorted().toList());
 	}
 
 	@Test
@@ -38,13 +42,14 @@ class ClassDependenciesResolverTest {
 		ClassDependenciesResolver classDependenciesResolver = new ClassDependenciesResolver(
 				"ComplexExample", classText);
 		classDependenciesResolver.resolveInternalDependencies();
-		assertEquals(7, classDependenciesResolver.getClasses().size());
+		assertEquals(8, classDependenciesResolver.getClasses().size());
 		assertEquals(
 				String.join(
-						"\n", List.of(
+						"\n", Stream.of(
 						"Modelica.Blocks.Sources.Ramp", "Modelica.Fluid.Pipes.DynamicPipe",
 						"Modelica.Fluid.Sources.Boundary_pT", "Modelica.Fluid.Sources.MassFlowSource_T",
-						"Modelica.Units.SI.CrossSection", "Package.OtherPackage.Component", "Real")),
+						"Modelica.Units.SI.CrossSection", "Package.OtherPackage.Component", "Real",
+						"Modelica.Units.Conversions.to_degF").sorted().toList()),
 				String.join("\n", classDependenciesResolver.getClasses().stream().sorted().toList()));
 	}
 
