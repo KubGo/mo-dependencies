@@ -19,15 +19,24 @@ public class ClassDependencies implements IClassDependencies {
     private List<String> usedClasses;
     @SerializedName("parentClasses")
     private List<String> parentClasses;
+    @SerializedName("modifiedClasses")
+    List<String> modifiedClasses = new ArrayList<>();
+    @SerializedName("componentDeclarations")
+    private Map<String, String> componentDeclarations;
 
     @Override
     public Map<String, String> getComponentDeclarations() {
-        return Map.of();
+        return componentDeclarations;
+    }
+
+    @Override
+    public void setComponentDeclarations(Map<String, String> componentDeclarations) {
+        this.componentDeclarations = componentDeclarations;
     }
 
     @Override
     public List<String> getModifiedClasses() {
-        return List.of();
+        return modifiedClasses;
     }
 
     @SerializedName("constrainingClasses")
@@ -50,13 +59,12 @@ public class ClassDependencies implements IClassDependencies {
         return parentClasses;
     }
 
-    @Override
-    public void addParentClasses(List<String> parentClasses) {
-        this.parentClasses.addAll(parentClasses);
+    public void setModifiedClasses(List<String> modifiedClasses) {
+        this.modifiedClasses = modifiedClasses;
     }
 
     @Override
-    public void addClasses(List<String> classes) {
+    public void setClasses(List<String> classes) {
         Set<String> updatedClasses = new HashSet<>(usedClasses);
         updatedClasses.addAll(classes);
         setUsedClasses(updatedClasses.stream().toList());
@@ -65,6 +73,11 @@ public class ClassDependencies implements IClassDependencies {
     @Override
     public boolean areParentDependenciesResolved(List<String> librariesNames) {
         return resolvedLibraries.containsAll(librariesNames);
+    }
+
+    @Override
+    public void addParentClasses(List<String> parentClasses) {
+        this.parentClasses.addAll(parentClasses);
     }
 
     @Override

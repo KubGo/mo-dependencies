@@ -42,14 +42,16 @@ class ClassDependenciesResolverTest {
 		ClassDependenciesResolver classDependenciesResolver = new ClassDependenciesResolver(
 				"ComplexExample", classText);
 		classDependenciesResolver.resolveInternalDependencies();
-		assertEquals(8, classDependenciesResolver.getClasses().size());
+		assertEquals(10, classDependenciesResolver.getClasses().size());
 		assertEquals(
 				String.join(
 						"\n", Stream.of(
 						"Modelica.Blocks.Sources.Ramp", "Modelica.Fluid.Pipes.DynamicPipe",
 						"Modelica.Fluid.Sources.Boundary_pT", "Modelica.Fluid.Sources.MassFlowSource_T",
 						"Modelica.Units.SI.CrossSection", "Package.OtherPackage.Component", "Real",
-						"Modelica.Units.Conversions.to_degF").sorted().toList()),
+						"Modelica.Units.Conversions.to_degF",
+						"Modelica.Fluid.Pipes.BaseClasses.FlowModels.NominalLaminarFlow",
+						"Modelica.Media.Examples.TwoPhaseWater").sorted().toList()),
 				String.join("\n", classDependenciesResolver.getClasses().stream().sorted().toList()));
 	}
 

@@ -217,7 +217,7 @@ class ClassesListenerTest {
                                         "BuildingsLite.Airflow.Multizone.MediumColumn",
                                         "BuildingsLite.Airflow.Multizone.Types.densitySelection.fromBottom",
                                         "BuildingsLite.Airflow.Multizone.Types.densitySelection.fromTop",
-                                        "BuildingsLite.Airflow.Multizone.DoorDiscretizedOperable",
+                                        "BuildingsLite.Airflow.Multizone.DoorDiscretizedOperable", "Medium",
                                         "Modelica.Blocks.Sources.Constant", "BuildingsLite.Fluid.MixingVolumes.MixingVolume")
                                 .sorted()
                                 .toList()), String.join("\n", parsedListener.classes.stream().sorted().toList()));

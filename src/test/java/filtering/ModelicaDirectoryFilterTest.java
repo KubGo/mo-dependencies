@@ -12,13 +12,13 @@ class ModelicaDirectoryFilterTest {
 	 @Test
 	 void filterPackage_BuildingsLibrary_modelicaPackageDiscovered(){
 		 String buildingsPath = Utils.getPathAsString("BuildingsLite");
-		 assertTrue(modelicaDirectoryFilter.filterName(buildingsPath));
+		 assertTrue(modelicaDirectoryFilter.shouldBeUsed(buildingsPath));
 	 }
 
 	@Test
 	void filterPackage_BuildingsLibrary_nonModelicaPackageDiscovered(){
 		String resourcesPath = Utils.getPathAsString("BuildingsLite/Resources");
-		assertFalse(modelicaDirectoryFilter.filterName(resourcesPath));
+		assertFalse(modelicaDirectoryFilter.shouldBeUsed(resourcesPath));
 	}
 
 }

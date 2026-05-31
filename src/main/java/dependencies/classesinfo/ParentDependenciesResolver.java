@@ -14,7 +14,7 @@ import java.util.*;
 public class ParentDependenciesResolver<T extends IClassDependencies> {
     List<Map<String, ? extends IClassDependencies>> trees = new ArrayList<>();
 
-    Map<String, List<String>> resolvedParents = new TreeMap<>();
+    Map<String, Map<String, String>> resolvedParents = new TreeMap<>();
     Map<String, List<String>> parentExtendingClasses = new TreeMap<>();
     private final List<String> librariesNames = new ArrayList<>();
 
@@ -46,9 +46,9 @@ public class ParentDependenciesResolver<T extends IClassDependencies> {
      *                      in this class
      * @return updated tree with included dependencies from parent classes
      */
-    public Map<String, T> resolveParentDependencies(
+    public Map<String, T> resolveParentComponents(
             Map<String, T> treeToResolve) {
-        treeToResolve.forEach(this::resolveParentDependencies);
+        treeToResolve.forEach(this::resolveParentComponents);
         return treeToResolve;
     }
 
@@ -58,41 +58,60 @@ public class ParentDependenciesResolver<T extends IClassDependencies> {
      * second time.
      * @param className name of the class
      * @param classDependencies classes dependencies instance for resolving used classes and parents
-     * @return list of classes that are used in parents of this class
+     * @return map of classes that are used in parents of this class
      */
-    private List<String> resolveParentDependencies(String className, IClassDependencies classDependencies) {
+    private Map<String, String> resolveParentComponents(String className, IClassDependencies classDependencies) {
         if (classDependencies.areParentDependenciesResolved(librariesNames)) {
             if (resolvedParents.containsKey(className)) {
                 return resolvedParents.get(className);
             }
         }
         if (Config.VERBOSE) System.out.println("Resolving parent dependencies for " + className + "...");
-        List<String> classesUsedByParents = new ArrayList<>();
+        Map<String, String> componentsUsedByParents = new HashMap<>();
 
         for (String parentName: classDependencies.getParentClasses()){
             if (resolvedParents.containsKey(parentName)) {
-                classesUsedByParents.addAll(resolvedParents.get(parentName));
+                componentsUsedByParents.putAll(resolvedParents.get(parentName));
             } else {
                 for (var tree : trees) {
                     if (tree.containsKey(parentName)) {
-                        List<String> parentDependencies = resolveParentDependencies(parentName, tree.get(parentName));
-                        classesUsedByParents.addAll(parentDependencies);
+                        Map<String, String> parentDependencies = resolveParentComponents(
+                                parentName,
+                                tree.get(parentName));
+                        componentsUsedByParents.putAll(parentDependencies);
                     }
                 }
             }
         }
         parentExtendingClasses.put(className, classDependencies.getParentClasses());
-        classDependencies.addClasses(classesUsedByParents);
+        classDependencies.setComponentDeclarations(
+                getUpdatedComponentDeclarations(classDependencies, componentsUsedByParents));
+        classDependencies.setClasses(getClassesUsedByModel(classDependencies));
 
         var currentParents = List.copyOf(classDependencies.getParentClasses());
 
         for (var parent : currentParents) {
             classDependencies.addParentClasses(parentExtendingClasses.getOrDefault(parent, List.of()));
         }
-        resolvedParents.put(className, classDependencies.getClasses());
+        resolvedParents.put(className, classDependencies.getComponentDeclarations());
         classDependencies.setLibrariesResolved(librariesNames);
         if (Config.VERBOSE) System.out.println("Resoled parent dependencies for" + className + ".");
-        return classDependencies.getClasses();
+        return classDependencies.getComponentDeclarations();
+    }
+
+    private Map<String, String> getUpdatedComponentDeclarations(
+            IClassDependencies classDependencies,
+            Map<String, String> parentComponentDeclarations) {
+        classDependencies.getComponentDeclarations().keySet().forEach(parentComponentDeclarations::remove);
+
+        Map<String, String> updatedComponentDeclarations = new HashMap<>(Map.copyOf(parentComponentDeclarations));
+        updatedComponentDeclarations.putAll(classDependencies.getComponentDeclarations());
+
+        return updatedComponentDeclarations;
+    }
+
+    private List<String> getClassesUsedByModel(IClassDependencies classDependencies) {
+        return new HashSet<>(classDependencies.getComponentDeclarations().values()).stream().toList();
     }
 
 }

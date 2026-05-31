@@ -25,11 +25,18 @@ public interface IClassDependencies {
     void addParentClasses(List<String> parentClasses);
 
     /**
-     * Add list of classes
+     * Sets component declarations for this class
      *
-     * @param classes to include in the model, e.g. from parent class
+     * @param componentDeclarations parent component declarations
      */
-    void addClasses(List<String> classes);
+    void setComponentDeclarations(Map<String, String> componentDeclarations);
+
+    /**
+     * Set classes
+     *
+     * @param classes that are used in this model
+     */
+    void setClasses(List<String> classes);
 
     /**
      * @param librariesNames name of libraries that are tested if they are resolved

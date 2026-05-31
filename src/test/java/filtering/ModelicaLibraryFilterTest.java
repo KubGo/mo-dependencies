@@ -23,22 +23,22 @@ class ModelicaLibraryFilterTest {
 
 	@Test
 	void filterClass_classShouldBeUsed_returnsTrue() {
-		assertTrue(filter.filterName("Library.package.model"));
+		assertTrue(filter.shouldBeUsed("Library.package.model"));
 	}
 
 	@Test
 	void filterClass_pathSplittingEdgeCase_returnsTrue() {
-		assertTrue(filter.filterName("Library"));
+		assertTrue(filter.shouldBeUsed("Library"));
 	}
 
 	@Test
 	void filterClass_classShouldNotBeUsed_returnsFalse() {
-		assertFalse(filter.filterName("Modelica.package.model"));
+		assertFalse(filter.shouldBeUsed("Modelica.package.model"));
 	}
 
 	@Test
 	void filterClass_pathSplittingEdgeCase_returnsFalse() {
-		assertFalse(filter.filterName("Modelica"));
+		assertFalse(filter.shouldBeUsed("Modelica"));
 	}
 
 	@Test

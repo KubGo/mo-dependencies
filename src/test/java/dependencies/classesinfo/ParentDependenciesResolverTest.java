@@ -68,7 +68,7 @@ class ParentDependenciesResolverTest {
     );
 
     @Test
-    void resolveParentDependencies_twoElementsTree_extendingDependenciesResolved() {
+    void resolveParentDependencies_twoElementsTree_extendingComponentsResolved() {
         modelPaths.forEach((name, path) -> {
             try {
                 ClassDependenciesResolver classDependenciesResolver = new ClassDependenciesResolver(name, Utils.getModelicaTextFromResources(path));
@@ -81,7 +81,7 @@ class ParentDependenciesResolverTest {
 
         ParentDependenciesResolver<ClassDependenciesResolver> parentDependenciesResolver = new ParentDependenciesResolver<>(
                 baseTree);
-        Map<String, ClassDependenciesResolver> resolvedTree = parentDependenciesResolver.resolveParentDependencies(
+        Map<String, ClassDependenciesResolver> resolvedTree = parentDependenciesResolver.resolveParentComponents(
                 baseTree);
         assertEquals(
                 partialSimpleModelClassesTrivialExample,
@@ -100,7 +100,7 @@ class ParentDependenciesResolverTest {
     }
 
     @Test
-    void resolveParentDependencies_BuildingsLite_resolveWholeLibraryDependencies() {
+    void resolveParentDependencies_BuildingsLite_resolveWholeLibraryComponents() {
         DependencyTreeResolver tree = new DependencyTreeResolver();
         String buildingLibraryPath = Utils.getPathAsString(Utils.BuildingsLite);
         tree.generateLibraryDependencies(buildingLibraryPath, "BuildingsLite");

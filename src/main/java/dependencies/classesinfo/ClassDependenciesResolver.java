@@ -72,11 +72,17 @@ public class ClassDependenciesResolver implements IClassDependencies, IFilterabl
      */
 	@Override
 	public void filter(List<IFilter> filters) {
+		Set<String> componentsToRemove = new HashSet<>();
 		for (IFilter filter : filters) {
-			usedClasses = usedClasses.stream()
-					.filter(filter::filterName)
+			usedClasses = usedClasses.stream().filter(filter::shouldBeUsed)
 					.collect(Collectors.toCollection(ArrayList::new));
+			componentDeclarations.forEach((component, path) -> {
+				if (!filter.shouldBeUsed(path)) {
+					componentsToRemove.add(component);
+				}
+			});
 		}
+		componentsToRemove.forEach(componentDeclarations::remove);
 	}
 
 	@Override
@@ -87,6 +93,11 @@ public class ClassDependenciesResolver implements IClassDependencies, IFilterabl
 	@Override
 	public void addParentClasses(List<String> parentClasses) {
 		this.parentClasses.addAll(parentClasses);
+	}
+
+	@Override
+	public void setComponentDeclarations(Map<String, String> componentDeclarations) {
+		this.componentDeclarations.putAll(componentDeclarations);
 	}
 
 	@Override
@@ -105,7 +116,7 @@ public class ClassDependenciesResolver implements IClassDependencies, IFilterabl
 	}
 
 	@Override
-	public void addClasses(List<String> classes) {
+	public void setClasses(List<String> classes) {
 		Set<String> usedClassesSet = new HashSet<>(usedClasses);
 		usedClassesSet.addAll(classes);
 		usedClasses = new ArrayList<>(usedClassesSet.stream().toList());
@@ -129,6 +140,9 @@ public class ClassDependenciesResolver implements IClassDependencies, IFilterabl
 		pathResolver.setCurrentPackage(packageName);
 		usedClasses.replaceAll(pathResolver::getAbsolutePath);
 		parentClasses.replaceAll(pathResolver::getAbsolutePath);
+		for (String key : componentDeclarations.keySet()) {
+			componentDeclarations.replace(key, pathResolver.getAbsolutePath(componentDeclarations.get(key)));
+		}
 	}
 
 	/**
@@ -146,6 +160,14 @@ public class ClassDependenciesResolver implements IClassDependencies, IFilterabl
 					}
 				}
 			}
+			componentDeclarations.forEach((component, path) -> {
+				for (String importedClass : importedClasses) {
+					pathResolver.setImportPath(importedClass);
+					if (pathResolver.isSubPath(path)) {
+						componentDeclarations.replace(component, pathResolver.getAbsolutePath(path));
+					}
+				}
+			});
 			standardImportsResolved = true;
 		}
 	}
@@ -161,6 +183,11 @@ public class ClassDependenciesResolver implements IClassDependencies, IFilterabl
 					usedClasses.set(index, classPath);
 				}
 			});
+			componentDeclarations.forEach((key, path) -> {
+				if (classDefinitionsMap.containsKey(path)) {
+					componentDeclarations.replace(key, classDefinitionsMap.get(path));
+				}
+			});
 		}
 	}
 
@@ -172,6 +199,8 @@ public class ClassDependenciesResolver implements IClassDependencies, IFilterabl
 				.setDependencies(getClasses())
 				.setParentClasses(this.parentClasses)
 				.setConstrainingClasses(this.constrainingClassesMap).setModelicaClassType(this.modelicaClassType)
+				.setComponentDeclarations(this.componentDeclarations)
+				.setModifiedClasses(this.modifiedClasses)
 				.build();
 	}
 

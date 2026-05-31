@@ -68,7 +68,7 @@ public class ModelicaFilesStructure {
 		}
 		for (File file: files){
 			if (file.isDirectory()){
-				if (modelicaDirectoryFilter.filterName(file.getPath())) {
+				if (modelicaDirectoryFilter.shouldBeUsed(file.getPath())) {
 					PackageInfo packageInfo = new PackageInfo(file.getPath(), currentPackage);
 					updateCurrentPackage(packageInfo);
 					String packagePath = getSubpackagePath(packageName, file.getName());

@@ -26,7 +26,7 @@ public class ModelicaDirectoryFilter implements IFilter {
 	 * false otherwise
 	 */
 	@Override
-	public boolean filterName(String path) {
+	public boolean shouldBeUsed(String path) {
 		if (path == null){
 			return false;
 		}

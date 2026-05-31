@@ -6,7 +6,7 @@ public interface IFilter {
 	 *
 	 * @return true if it should be used, false otherwise
 	 */
-	boolean filterName(String text);
+	boolean shouldBeUsed(String text);
 
 	/**
 	 * @return description of filter. Mostly for debugging of the app

@@ -101,7 +101,7 @@ public class DependencyTreeResolver {
 					});
 				});
 		parentDependenciesResolver.addTreeForParentSearching(dependencyTree);
-		dependencyTree = parentDependenciesResolver.resolveParentDependencies(dependencyTree);
+		dependencyTree = parentDependenciesResolver.resolveParentComponents(dependencyTree);
 	}
 
 	/**
@@ -124,7 +124,7 @@ public class DependencyTreeResolver {
 	 */
 	public void includeParentsDependentClasses(){
 		if (Config.DEBUG) System.out.println("Resolving parent dependencies for " + libraryName + "...");
-		dependencyTree = parentDependenciesResolver.resolveParentDependencies(dependencyTree);
+		dependencyTree = parentDependenciesResolver.resolveParentComponents(dependencyTree);
 		if (Config.DEBUG) System.out.println("Resolved parent dependencies.");
 
 	}
