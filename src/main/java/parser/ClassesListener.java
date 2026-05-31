@@ -58,6 +58,10 @@ public class ClassesListener extends ModelicaBaseListener{
         return componentDeclarationsMap;
     }
 
+    public List<String> getModifiedClasses() {
+        return classModifications.stream().toList();
+    }
+
     /**
      * Current section to retrieve classes, mostly used to allow
      * correct collection of functions. (Annotations get classified as functions)
@@ -210,6 +214,7 @@ public class ClassesListener extends ModelicaBaseListener{
         }
     }
 
+
     /**
      * Get class definitions inside of the class
      * @param ctx the parse tree
@@ -280,7 +285,7 @@ public class ClassesListener extends ModelicaBaseListener{
             return;
         }
         var name = ctx.short_class_definition().short_class_specifier().name();
-        if (name.isEmpty()) {
+        if (!name.isEmpty()) {
             classModifications.add(name.getText());
         }
 

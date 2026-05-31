@@ -1,6 +1,7 @@
 package dependencies.classesinfo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Class dependencies interface for resolving the dependencies and searching through the tree
@@ -55,4 +56,11 @@ public interface IClassDependencies {
      * @return Modelica path as String
      */
     String getModelicaPath();
+
+    /**
+     * @return return map with component declarations mapping
+     */
+    Map<String, String> getComponentDeclarations();
+
+    List<String> getModifiedClasses();
 }

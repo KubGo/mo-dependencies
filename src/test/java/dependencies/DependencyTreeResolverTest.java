@@ -92,6 +92,52 @@ class DependencyTreeResolverTest {
 	}
 
 	@Test
+	void getDependencyTree_FunctionsRedeclaration_correctRedeclarationOfFunction() {
+		assertEquals(
+				Stream.of("Modelica.Blocks.Interfaces.RealInput", "Modelica.Blocks.Interfaces.RealOutput", "sum")
+						.sorted()
+						.toList(), tree.getClassDependencies("BuildingsLite.Bugfixes.PartialCalculation")
+						.getClasses()
+						.stream()
+						.sorted()
+						.toList());
+
+//		assertEquals(
+//				Stream.of(
+//						"Modelica.Blocks.Interfaces.RealInput",
+//						"Modelica.Blocks.Interfaces.RealOutput",
+//						"sum"
+//				         ).sorted().toList(),
+//				tree.getClassDependencies("BuildingsLite.Bugfixes.Sum")
+//						.getClasses()
+//						.stream()
+//						.sorted()
+//						.toList());
+
+//		assertEquals(
+//				Stream.of(
+//						"Modelica.Blocks.Interfaces.RealInput",
+//						"Modelica.Blocks.Interfaces.RealOutput",
+//						"sum"
+//				         ).sorted().toList(),
+//				tree.getClassDependencies("BuildingsLite.Bugfixes.PartialCalculation")
+//						.getComponentDeclarations());
+//
+//		assertEquals(
+//				Stream.of(
+//						"Modelica.Blocks.Interfaces.RealInput",
+//						"Modelica.Blocks.Interfaces.RealOutput",
+//						"difference"
+//				         ).sorted().toList(),
+//				tree.getClassDependencies("BuildingsLite.Bugfixes.Difference")
+//						.getClasses()
+//						.stream()
+//						.sorted()
+//						.toList());
+
+	}
+
+	@Test
 	void saveDependencyTree_BuildingsLite_allWritersWork() {
 		JsonDependenciesWriter jsonDependenciesWriter = new JsonDependenciesWriter();
 		tree.saveDependencies(jsonDependenciesWriter);

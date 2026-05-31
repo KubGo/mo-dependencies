@@ -19,6 +19,17 @@ public class ClassDependencies implements IClassDependencies {
     private List<String> usedClasses;
     @SerializedName("parentClasses")
     private List<String> parentClasses;
+
+    @Override
+    public Map<String, String> getComponentDeclarations() {
+        return Map.of();
+    }
+
+    @Override
+    public List<String> getModifiedClasses() {
+        return List.of();
+    }
+
     @SerializedName("constrainingClasses")
     private Map<String, String> constrainingClasses = new HashMap<>();
     @SerializedName("classType")

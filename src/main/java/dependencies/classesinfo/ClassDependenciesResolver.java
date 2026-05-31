@@ -27,6 +27,8 @@ public class ClassDependenciesResolver implements IClassDependencies, IFilterabl
 	private final boolean classDefinitionsResolved;
 	private final String packageName;
 	String className;
+	private final Map<String, String> componentDeclarations;
+	private final List<String> modifiedClasses;
 	private final Map<String, String> constrainingClassesMap;
 	private final Map<String, String> classDefinitionsMap;
 	private boolean standardImportsResolved;
@@ -55,6 +57,8 @@ public class ClassDependenciesResolver implements IClassDependencies, IFilterabl
 		usedClasses.addAll(listener.classes);
 		usedClasses.addAll(listener.functions);
 		parentClasses = listener.parentClasses;
+		componentDeclarations = listener.getComponentDeclarationsMap();
+		modifiedClasses = listener.getModifiedClasses();
 		constrainingClassesMap = listener.constrainingClassesMap;
 		classDefinitionsMap = listener.classDefinitionsMap;
 		classDefinitionsResolved = classDefinitionsMap.isEmpty();
@@ -179,5 +183,15 @@ public class ClassDependenciesResolver implements IClassDependencies, IFilterabl
 	@Override
 	public String getModelicaPath() {
 		return packageName + "." + className;
+	}
+
+	@Override
+	public List<String> getModifiedClasses() {
+		return List.of();
+	}
+
+	@Override
+	public Map<String, String> getComponentDeclarations() {
+		return componentDeclarations;
 	}
 }
