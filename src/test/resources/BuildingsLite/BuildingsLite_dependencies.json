@@ -20,7 +20,8 @@
       "Modelica.Units.SI.PressureDifference",
       "abs",
       "sqrt",
-      "Real"
+      "Real",
+      "BuildingsLite.Media.Air"
     ],
     "parentClasses": [
       "BuildingsLite.Fluid.Interfaces.PartialFourPortInterface"
@@ -58,6 +59,7 @@
       "BuildingsLite.Utilities.Psychrometrics.Functions.density_pTX",
       "abs",
       "Medium.MassFraction",
+      "BuildingsLite.Media.Air",
       "BuildingsLite.Utilities.Math.Functions.smoothHeaviside"
     ],
     "parentClasses": [
@@ -223,6 +225,7 @@
       "BuildingsLite.Utilities.Psychrometrics.Functions.density_pTX",
       "abs",
       "Medium.MassFraction",
+      "BuildingsLite.Media.Air",
       "Boolean",
       "Medium1.temperature"
     ],
@@ -252,6 +255,7 @@
       "Modelica.Units.SI.Length",
       "abs",
       "Medium.MassFraction",
+      "BuildingsLite.Media.Air",
       "Boolean",
       "Medium1.temperature"
     ],
@@ -271,7 +275,8 @@
       "abs",
       "m1_flow_nominal",
       "m2_flow_nominal",
-      "inStream"
+      "inStream",
+      "BuildingsLite.Media.Air"
     ],
     "parentClasses": [
       "BuildingsLite.Fluid.Interfaces.PartialFourPortInterface"
@@ -480,6 +485,7 @@
       "BuildingsLite.Utilities.Psychrometrics.Functions.density_pTX",
       "abs",
       "Medium.MassFraction",
+      "BuildingsLite.Media.Air",
       "BuildingsLite.Utilities.Math.Functions.smoothHeaviside"
     ],
     "parentClasses": [
@@ -524,6 +530,7 @@
       "abs",
       "Medium.MassFraction",
       "BuildingsLite.Airflow.Multizone.BaseClasses.powerLaw",
+      "BuildingsLite.Media.Air",
       "BuildingsLite.Utilities.Math.Functions.smoothHeaviside"
     ],
     "parentClasses": [
@@ -564,6 +571,7 @@
       "Modelica.Units.SI.Velocity",
       "Modelica.Math.isEqual",
       "abs",
+      "BuildingsLite.Media.Air",
       "AOpe",
       "BuildingsLite.Airflow.Multizone.BaseClasses.powerLawFixedM"
     ],
@@ -603,6 +611,7 @@
       "Modelica.Units.SI.Velocity",
       "Modelica.Math.isEqual",
       "abs",
+      "BuildingsLite.Media.Air",
       "BuildingsLite.Airflow.Multizone.BaseClasses.powerLawFixedM"
     ],
     "parentClasses": [
@@ -676,6 +685,7 @@
       "BuildingsLite.Airflow.Multizone.Orifice",
       "Modelica.Fluid.Types.Dynamics.FixedInitial",
       "BuildingsLite.HeatTransfer.Sources.FixedTemperature",
+      "Medium",
       "BuildingsLite.Airflow.Multizone.DoorOpen",
       "BuildingsLite.Fluid.MixingVolumes.MixingVolume",
       "BuildingsLite.Fluid.Sources.Boundary_pT",
@@ -912,9 +922,9 @@
       "BuildingsLite.Airflow.Multizone.Types.densitySelection.fromBottom",
       "BuildingsLite.Airflow.Multizone.DoorDiscretizedOperable",
       "BuildingsLite.Airflow.Multizone.Types.densitySelection.fromTop",
-      "BuildingsLite.Fluid.MixingVolumes.MixingVolume",
       "BuildingsLite.Airflow.Multizone.Orifice",
       "Modelica.Blocks.Sources.Constant",
+      "BuildingsLite.Fluid.MixingVolumes.MixingVolume",
       "BuildingsLite.Fluid.Sources.Boundary_pT",
       "Modelica.Fluid.Types.Dynamics.FixedInitial",
       "BuildingsLite.Media.Air",
@@ -1013,7 +1023,8 @@
       "Medium.MassFraction",
       "Modelica.Fluid.Interfaces.FluidPort_b",
       "Medium.setState_phX",
-      "Modelica.Fluid.Interfaces.FluidPort_a"
+      "Modelica.Fluid.Interfaces.FluidPort_a",
+      "BuildingsLite.Media.Air"
     ],
     "parentClasses": [],
     "constrainingClasses": {},
@@ -1041,6 +1052,7 @@
       "BuildingsLite.Fluid.MixingVolumes.MixingVolume",
       "Modelica.Fluid.Interfaces.FluidPort_a",
       "Boolean",
+      "BuildingsLite.Media.Air",
       "energyDynamics"
     ],
     "parentClasses": [
@@ -1455,6 +1467,7 @@
       "Modelica.Fluid.Types.Dynamics.FixedInitial",
       "BuildingsLite.HeatTransfer.Sources.FixedTemperature",
       "BuildingsLite.Airflow.Multizone.DoorDiscretizedOperable",
+      "Medium",
       "BuildingsLite.Airflow.Multizone.DoorOpen",
       "BuildingsLite.Fluid.MixingVolumes.MixingVolume",
       "BuildingsLite.Fluid.Sources.Boundary_pT",
@@ -1485,7 +1498,8 @@
       "abs",
       "Medium1.setState_phX",
       "Modelica.Units.SI.Volume",
-      "Boolean"
+      "Boolean",
+      "BuildingsLite.Media.Air"
     ],
     "parentClasses": [
       "BuildingsLite.Airflow.Multizone.BaseClasses.ZonalFlow",
@@ -1503,7 +1517,8 @@
       "m1_flow_nominal",
       "m2_flow_nominal",
       "inStream",
-      "Modelica.Blocks.Interfaces.RealInput"
+      "Modelica.Blocks.Interfaces.RealInput",
+      "BuildingsLite.Media.Air"
     ],
     "parentClasses": [
       "BuildingsLite.Airflow.Multizone.BaseClasses.ZonalFlow",
@@ -1527,6 +1542,60 @@
     "parentClasses": [],
     "constrainingClasses": {},
     "classType": "BLOCK"
+  },
+  "BuildingsLite.Bugfixes.Difference": {
+    "ModelicaPath": "BuildingsLite.Bugfixes.Difference",
+    "resolvedLibraries": [],
+    "usedClasses": [
+      "BuildingsLite.Bugfixes.difference",
+      "Modelica.Blocks.Interfaces.RealInput",
+      "sum",
+      "Modelica.Blocks.Interfaces.RealOutput"
+    ],
+    "parentClasses": [
+      "BuildingsLite.Bugfixes.PartialCalculation"
+    ],
+    "constrainingClasses": {},
+    "classType": "MODEL"
+  },
+  "BuildingsLite.Bugfixes.PartialCalculation": {
+    "ModelicaPath": "BuildingsLite.Bugfixes.PartialCalculation",
+    "resolvedLibraries": [],
+    "usedClasses": [
+      "Modelica.Blocks.Interfaces.RealInput",
+      "sum",
+      "Modelica.Blocks.Interfaces.RealOutput"
+    ],
+    "parentClasses": [],
+    "constrainingClasses": {
+      "partialFunc": "choicesAllMatching"
+    },
+    "classType": "PARTIAL_MODEL"
+  },
+  "BuildingsLite.Bugfixes.Sum": {
+    "ModelicaPath": "BuildingsLite.Bugfixes.Sum",
+    "resolvedLibraries": [],
+    "usedClasses": [
+      "BuildingsLite.Bugfixes.sum",
+      "Modelica.Blocks.Interfaces.RealInput",
+      "sum",
+      "Modelica.Blocks.Interfaces.RealOutput"
+    ],
+    "parentClasses": [
+      "BuildingsLite.Bugfixes.PartialCalculation"
+    ],
+    "constrainingClasses": {},
+    "classType": "MODEL"
+  },
+  "BuildingsLite.Bugfixes.partialFunc": {
+    "ModelicaPath": "BuildingsLite.Bugfixes.partialFunc",
+    "resolvedLibraries": [],
+    "usedClasses": [
+      "Real"
+    ],
+    "parentClasses": [],
+    "constrainingClasses": {},
+    "classType": "PARTIAL_FUNCTION"
   },
   "BuildingsLite.Controls.Continuous.Examples.LimPID": {
     "ModelicaPath": "BuildingsLite.Controls.Continuous.Examples.LimPID",
@@ -16175,10 +16244,12 @@
     "resolvedLibraries": [],
     "usedClasses": [
       "Modelica.Units.SI.CrossSection",
+      "Modelica.Media.Examples.TwoPhaseWater",
       "Package.OtherPackage.Component",
       "Modelica.Blocks.Sources.Ramp",
       "Modelica.Units.Conversions.to_degF",
       "Modelica.Fluid.Sources.Boundary_pT",
+      "Modelica.Fluid.Pipes.BaseClasses.FlowModels.NominalLaminarFlow",
       "Real",
       "Modelica.Fluid.Sources.MassFlowSource_T",
       "Modelica.Fluid.Pipes.DynamicPipe"
