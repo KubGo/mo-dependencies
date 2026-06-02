@@ -94,7 +94,9 @@ class DependencyTreeResolverTest {
 	@Test
 	void getDependencyTree_FunctionsRedeclaration_correctRedeclarationOfFunction() {
 		assertEquals(
-				Stream.of("Modelica.Blocks.Interfaces.RealInput", "Modelica.Blocks.Interfaces.RealOutput", "sum")
+				Stream.of(
+								"Modelica.Blocks.Interfaces.RealInput", "Modelica.Blocks.Interfaces.RealOutput",
+								"BuildingsLite.Bugfixes.Functions.sum")
 						.sorted()
 						.toList(), tree.getClassDependencies("BuildingsLite.Bugfixes.PartialCalculation")
 						.getClasses()
@@ -102,38 +104,20 @@ class DependencyTreeResolverTest {
 						.sorted()
 						.toList());
 
-//		assertEquals(
-//				Stream.of(
-//						"Modelica.Blocks.Interfaces.RealInput",
-//						"Modelica.Blocks.Interfaces.RealOutput",
-//						"sum"
-//				         ).sorted().toList(),
-//				tree.getClassDependencies("BuildingsLite.Bugfixes.Sum")
-//						.getClasses()
-//						.stream()
-//						.sorted()
-//						.toList());
 
-//		assertEquals(
-//				Stream.of(
-//						"Modelica.Blocks.Interfaces.RealInput",
-//						"Modelica.Blocks.Interfaces.RealOutput",
-//						"sum"
-//				         ).sorted().toList(),
-//				tree.getClassDependencies("BuildingsLite.Bugfixes.PartialCalculation")
-//						.getComponentDeclarations());
-//
-//		assertEquals(
-//				Stream.of(
-//						"Modelica.Blocks.Interfaces.RealInput",
-//						"Modelica.Blocks.Interfaces.RealOutput",
-//						"difference"
-//				         ).sorted().toList(),
-//				tree.getClassDependencies("BuildingsLite.Bugfixes.Difference")
-//						.getClasses()
-//						.stream()
-//						.sorted()
-//						.toList());
+		assertEquals(
+				Stream.of(
+						"Modelica.Blocks.Interfaces.RealInput", "Modelica.Blocks.Interfaces.RealOutput",
+						"BuildingsLite.Bugfixes.Functions.sum").sorted().toList(),
+				tree.getClassDependencies("BuildingsLite.Bugfixes.Sum").getClasses().stream().sorted().toList());
+
+		assertEquals(
+				Stream.of(
+						"Modelica.Blocks.Interfaces.RealInput", "Modelica.Blocks.Interfaces.RealOutput",
+						"BuildingsLite.Bugfixes.Functions.difference",
+						"BuildingsLite.Bugfixes.Functions.sum" // TODO("Clean redefined class names")
+				         ).sorted().toList(),
+				tree.getClassDependencies("BuildingsLite.Bugfixes.Difference").getClasses().stream().sorted().toList());
 
 	}
 

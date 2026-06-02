@@ -188,6 +188,8 @@ class ClassesListenerTest {
 
         assertEquals(
                 Map.of(
+                        "FlowModel", "Modelica.Fluid.Pipes.BaseClasses.FlowModels.NominalLaminarFlow", "Medium",
+                        "Modelica.Media.Examples.TwoPhaseWater",
                         "Pipe",
                         "Modelica.Fluid.Pipes.DynamicPipe"
                 ),

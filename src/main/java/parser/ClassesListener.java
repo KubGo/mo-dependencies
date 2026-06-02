@@ -47,9 +47,13 @@ public class ClassesListener extends ModelicaBaseListener{
 
     public void resolveClassDefinitions() {
         classDefinitionsMap.forEach((name, path) -> {
-            classes.add(path);
-            if (!path.equals(name)) {
+            if (classes.contains(name)) {
                 classes.remove(name);
+                classes.add(path);
+            }
+            if (functions.contains(name)) {
+                functions.remove(name);
+                functions.add(path);
             }
         });
     }
@@ -269,6 +273,8 @@ public class ClassesListener extends ModelicaBaseListener{
 
     @Override
     public void enterElement_redeclaration(ModelicaParser.Element_redeclarationContext ctx) {
+        var text = ctx.getText();
+
         if (!classModification) {
             return;
         }
@@ -286,7 +292,15 @@ public class ClassesListener extends ModelicaBaseListener{
         }
         var name = ctx.short_class_definition().short_class_specifier().name();
         if (!name.isEmpty()) {
+            var classPath = name.getText();
+            if (classDefinitionsMap.containsKey(classPath)) {
+                classPath = classDefinitionsMap.get(classPath);
+            }
             classModifications.add(name.getText());
+            if (ctx.short_class_definition().short_class_specifier().IDENT() != null) {
+                var declarationName = ctx.short_class_definition().short_class_specifier().IDENT().getText();
+                classDefinitionsMap.put(declarationName, classPath);
+            }
         }
 
     }

@@ -1,4 +1,4 @@
-within BuildingsLite.Bugfixes;
+within BuildingsLite.Bugfixes.Functions;
 
 partial function partialFunc
   input Real x;
