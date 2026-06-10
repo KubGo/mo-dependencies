@@ -102,6 +102,8 @@ public class DependencyTreeResolver {
 				});
 		parentDependenciesResolver.addTreeForParentSearching(dependencyTree);
 		dependencyTree = parentDependenciesResolver.resolveParentComponents(dependencyTree);
+		simplifyDependencies();
+
 	}
 
 	/**
@@ -115,6 +117,7 @@ public class DependencyTreeResolver {
 		classDependenciesResolver.resolveInternalDependencies();
 		classDependenciesResolver.resolveLibraryDependencies(fileStructurePathResolver);
 		classDependenciesResolver.filter(filters);
+		classDependenciesResolver.simplifyInternalClasses();
 		dependencyTree.put(classInfo.getModelicaPath(), classDependenciesResolver);
 	}
 
@@ -125,6 +128,7 @@ public class DependencyTreeResolver {
 	public void includeParentsDependentClasses(){
 		if (Config.DEBUG) System.out.println("Resolving parent dependencies for " + libraryName + "...");
 		dependencyTree = parentDependenciesResolver.resolveParentComponents(dependencyTree);
+		simplifyDependencies();
 		if (Config.DEBUG) System.out.println("Resolved parent dependencies.");
 
 	}
@@ -169,5 +173,16 @@ public class DependencyTreeResolver {
 			}
 			if (Config.DEBUG) System.out.println("Dependencies saved to: " + libraryPath + writer.getFileName());
 		}
+	}
+
+
+	/**
+	 * Simplifies the dependencies and removes e.g. parameters from classes that might have been declared in parent
+	 * class
+	 */
+	private void simplifyDependencies() {
+		dependencyTree.keySet().forEach(key -> {
+			dependencyTree.get(key).simplifyInternalClasses();
+		});
 	}
 }

@@ -223,4 +223,13 @@ public class ClassDependenciesResolver implements IClassDependencies, IFilterabl
 	public Map<String, String> getComponentDeclarations() {
 		return componentDeclarations;
 	}
+
+
+	public void simplifyInternalClasses() {
+		List<String> classesToRemove = componentDeclarations.keySet()
+				.stream()
+				.filter(it -> usedClasses.contains(it))
+				.toList();
+		usedClasses.removeAll(classesToRemove);
+	}
 }

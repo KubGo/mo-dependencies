@@ -212,7 +212,6 @@ class ClassesListenerTest {
         String modelicaText = Utils.getModelicaTextFromResources(Utils.ReverseBuoyancy3Zone);
         ClassesListener parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
         parsedListener.resolveInternalClassModifications();
-
         assertEquals(
                 String.join(
                         "\n", Stream.of(
@@ -221,6 +220,7 @@ class ClassesListenerTest {
                                         "BuildingsLite.Airflow.Multizone.Types.densitySelection.fromBottom",
                                         "BuildingsLite.Airflow.Multizone.Types.densitySelection.fromTop",
                                         "BuildingsLite.Airflow.Multizone.DoorDiscretizedOperable", "Medium",
+                                        "BuildingsLite.Media.Air",
                                         "Modelica.Blocks.Sources.Constant", "BuildingsLite.Fluid.MixingVolumes.MixingVolume")
                                 .sorted()
                                 .toList()), String.join("\n", parsedListener.classes.stream().sorted().toList()));
@@ -246,13 +246,5 @@ class ClassesListenerTest {
                                 .sorted()
                                 .toList()), String.join("\n", parsedListener.classes.stream().sorted().toList()));
     }
-
-//    @Test
-//    void getComponentDeclarationsMap_ConductorStepResponse_correctMapping() throws IOException {
-//        String modelicaText = Utils.getModelicaTextFromResources(Utils.ConductorStepResponse);
-//        ClassesListener parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
-//
-//        assertEquals(Map.of(), parsedListener.getComponentDeclarationsMap());
-//    }
 
 }

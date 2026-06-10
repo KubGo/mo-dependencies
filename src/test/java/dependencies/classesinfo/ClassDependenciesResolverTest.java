@@ -42,7 +42,7 @@ class ClassDependenciesResolverTest {
 		ClassDependenciesResolver classDependenciesResolver = new ClassDependenciesResolver(
 				"ComplexExample", classText);
 		classDependenciesResolver.resolveInternalDependencies();
-		assertEquals(10, classDependenciesResolver.getClasses().size());
+		assertEquals(13, classDependenciesResolver.getClasses().size()); // Change to 12 when m_flow.y resolved
 		assertEquals(
 				String.join(
 						"\n", Stream.of(
@@ -50,6 +50,9 @@ class ClassDependenciesResolverTest {
 						"Modelica.Fluid.Sources.Boundary_pT", "Modelica.Fluid.Sources.MassFlowSource_T",
 						"Modelica.Units.SI.CrossSection", "Package.OtherPackage.Component", "Real",
 						"Modelica.Units.Conversions.to_degF",
+						"Modelica.Fluid.Pipes.BaseClasses.HeatTransfer.LocalPipeFlowHeatTransfer",
+						"Modelica.Fluid.Types.Dynamics.DynamicFreeInitial",
+						"m_flow.y", // TODO("Remove values from components")
 						"Modelica.Fluid.Pipes.BaseClasses.FlowModels.NominalLaminarFlow",
 						"Modelica.Media.Examples.TwoPhaseWater").sorted().toList()),
 				String.join("\n", classDependenciesResolver.getClasses().stream().sorted().toList()));

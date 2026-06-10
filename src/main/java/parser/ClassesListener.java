@@ -50,7 +50,8 @@ public class ClassesListener extends ModelicaBaseListener{
 
     public void resolveInternalClassModifications() {
         for (String modifiedComponent : modifiedComponents) {
-            classes.add(getComponentFromName(modifiedComponent));
+            String component = getComponentFromName(modifiedComponent);
+            classes.add(component);
         }
     }
 
@@ -77,6 +78,9 @@ public class ClassesListener extends ModelicaBaseListener{
                 functions.remove(name);
                 functions.add(path);
             }
+            componentDeclarationsMap.keySet().forEach(key -> {
+                componentDeclarationsMap.replace(key, name, path);
+            });
         });
     }
 
@@ -301,7 +305,7 @@ public class ClassesListener extends ModelicaBaseListener{
             return;
         }
         String componentPath = getCurrentComponentReferencePath(componentName);
-        modifiedComponents.add(componentName);
+        modifiedComponents.add(componentPath);
         componentDeclarationsMap.put(componentPath, type);
     }
 
