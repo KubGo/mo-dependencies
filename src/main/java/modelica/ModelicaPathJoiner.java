@@ -3,7 +3,7 @@ package modelica;
 import java.util.Arrays;
 
 /**
- * Joins Modelica paths together
+ * Joins parser.Modelica paths together
  */
 public class ModelicaPathJoiner {
 

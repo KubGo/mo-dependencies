@@ -21,7 +21,7 @@ class TestCasesResolverTest {
 
 	static Map<String, ClassDependencies> buildingsLiteDependencies;
 	DependencyTreeResolver tree;
-	ModelicaLibraryFilter filter = new ModelicaLibraryFilter("Modelica");
+	ModelicaLibraryFilter filter = new ModelicaLibraryFilter("parser.Modelica");
 
 	@BeforeAll
 	static void readBuildingsLiteDependencies() {

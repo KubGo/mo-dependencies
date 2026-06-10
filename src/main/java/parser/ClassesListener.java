@@ -3,11 +3,13 @@ package parser;
 import modelica.ClassTypeProvider;
 import modelica.ModelicaClassType;
 import modelica.ModelicaFileSection;
+import org.antlr.v4.runtime.RuleContext;
+import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.util.*;
 
 /**
- * Parser listener for getting classes, imports, functions and other Modelica
+ * Parser listener for getting classes, imports, functions and other parser.Modelica
  * classes used inside the class.
  */
 public class ClassesListener extends ModelicaBaseListener{
@@ -19,16 +21,36 @@ public class ClassesListener extends ModelicaBaseListener{
     public List<String> parentClasses = new ArrayList<>();
     public Map<String, String> constrainingClassesMap = new HashMap<>();
     public Map<String, String> classDefinitionsMap = new HashMap<>();
-    private String typeName = "";
-    private final Set<String> classModifications = new HashSet<>();
+    private final String typeName = "";
+    private final Set<String> modifiedComponents = new HashSet<>();
     private final Map<String, String> componentDeclarationsMap = new HashMap<>();
     private boolean classModification = false;
     private boolean componentDeclaration = false;
+    private final Stack<ModelicaFileSection> lastSections = new Stack<>();
+    private final Stack<String> currentComponentReferences = new Stack<>();
     private String currentComponentModelicaPath = "";
+    private boolean extendsClause = false;
+    private boolean constrainingClassDefinition = false;
+    private String lastModifiedComponent = "";
+    /**
+     * Current section to retrieve classes, mostly used to allow
+     * correct collection of functions. (Annotations get classified as functions)
+     */
+    private ModelicaFileSection currentSection = ModelicaFileSection.DECLARATIVE;
+
+    @Override
+    public void enterComponent_declaration(Modelica.Component_declarationContext ctx) {
+        currentComponentReferences.add(ctx.declaration().IDENT().getText());
+    }
+
+    @Override
+    public void exitComponent_declaration(Modelica.Component_declarationContext ctx) {
+        currentComponentReferences.pop();
+    }
 
     public void resolveInternalClassModifications() {
-        for (String classModification : classModifications) {
-            classes.add(getComponentFromName(classModification));
+        for (String modifiedComponent : modifiedComponents) {
+            classes.add(getComponentFromName(modifiedComponent));
         }
     }
 
@@ -63,15 +85,8 @@ public class ClassesListener extends ModelicaBaseListener{
     }
 
     public List<String> getModifiedClasses() {
-        return classModifications.stream().toList();
+        return modifiedComponents.stream().toList();
     }
-
-    /**
-     * Current section to retrieve classes, mostly used to allow
-     * correct collection of functions. (Annotations get classified as functions)
-     */
-    private ModelicaFileSection currentSection = ModelicaFileSection.DECLARATIVE;
-    private final Stack<ModelicaFileSection> lastSections = new Stack<>();
 
     /**
      * @param section - encountered section
@@ -93,11 +108,10 @@ public class ClassesListener extends ModelicaBaseListener{
      * @param ctx the parse tree
 	 */
     @Override
-    public void enterStored_definition(ModelicaParser.Stored_definitionContext ctx) {
-        packageName = ctx.name().getFirst().getText();
+    public void enterStored_definition(Modelica.Stored_definitionContext ctx) {
+        packageName = ctx.name().getText();
         modelicaClassType = ClassTypeProvider.getClassType(
                 ctx.class_definition().getFirst().class_prefixes().getText());
-
     }
 
     /**
@@ -105,9 +119,11 @@ public class ClassesListener extends ModelicaBaseListener{
      * @param ctx the parse tree
 	 */
     @Override
-    public void enterType_specifier(ModelicaParser.Type_specifierContext ctx) {
-        String className = ctx.getText();
-        classes.add(className);
+    public void enterType_specifier(Modelica.Type_specifierContext ctx) {
+        if (!extendsClause && !constrainingClassDefinition) {
+            String className = ctx.getText();
+            classes.add(className);
+        }
     }
 
     /**
@@ -115,38 +131,48 @@ public class ClassesListener extends ModelicaBaseListener{
      * @param ctx the parse tree
 	 */
     @Override
-    public void enterImport_clause(ModelicaParser.Import_clauseContext ctx) {
+    public void enterImport_clause(Modelica.Import_clauseContext ctx) {
         String importClause = ctx.name().getText();
         imports.add(importClause);
     }
 
     @Override
-    public void enterAnnotation(ModelicaParser.AnnotationContext ctx) {
+    public void enterClass_annotation(Modelica.Class_annotationContext ctx) {
         updateSection(ModelicaFileSection.ANNOTATION);
     }
 
     @Override
-    public void exitAnnotation(ModelicaParser.AnnotationContext ctx) {
+    public void exitClass_annotation(Modelica.Class_annotationContext ctx) {
         popSection();
     }
 
     @Override
-    public void enterEquation_section(ModelicaParser.Equation_sectionContext ctx) {
+    public void enterAnnotation(Modelica.AnnotationContext ctx) {
+        updateSection(ModelicaFileSection.ANNOTATION);
+    }
+
+    @Override
+    public void exitAnnotation(Modelica.AnnotationContext ctx) {
+        popSection();
+    }
+
+    @Override
+    public void enterEquation_section(Modelica.Equation_sectionContext ctx) {
         updateSection(ModelicaFileSection.EQUATION);
     }
 
     @Override
-    public void exitEquation_section(ModelicaParser.Equation_sectionContext ctx) {
+    public void exitEquation_section(Modelica.Equation_sectionContext ctx) {
         popSection();
     }
 
     @Override
-    public void enterAlgorithm_section(ModelicaParser.Algorithm_sectionContext ctx) {
+    public void enterAlgorithm_section(Modelica.Algorithm_sectionContext ctx) {
         updateSection(ModelicaFileSection.ALGORITHM);
     }
 
     @Override
-    public void exitAlgorithm_section(ModelicaParser.Algorithm_sectionContext ctx) {
+    public void exitAlgorithm_section(Modelica.Algorithm_sectionContext ctx) {
         popSection();
     }
 
@@ -155,9 +181,9 @@ public class ClassesListener extends ModelicaBaseListener{
      * @param ctx the parse tree
 	 */
     @Override
-    public void enterPrimary(ModelicaParser.PrimaryContext ctx) {
+    public void enterPrimary(Modelica.PrimaryContext ctx) {
         if (currentSection != ModelicaFileSection.ANNOTATION) {
-            var name = ctx.name();
+            var name = ctx.component_reference();
             var call = ctx.function_call_args();
             if (name != null && call != null) {
                 functions.add(name.getText());
@@ -166,21 +192,26 @@ public class ClassesListener extends ModelicaBaseListener{
     }
 
     @Override
-    public void enterComponent_clause(ModelicaParser.Component_clauseContext ctx) {
-        if (currentSection != ModelicaFileSection.ANNOTATION) {
+    public void enterComponent_clause(Modelica.Component_clauseContext ctx) {
+        if (currentSection != ModelicaFileSection.ANNOTATION && !extendsClause) {
             componentDeclaration = true;
-            currentComponentModelicaPath = ctx.type_specifier().name().getText();
+            currentComponentModelicaPath = String.join(
+                    ".", ctx.type_specifier()
+                            .IDENT()
+                            .stream()
+                            .map(ParseTree::getText)
+                            .toList());
         }
     }
 
 
     @Override
-    public void exitComponent_clause(ModelicaParser.Component_clauseContext ctx) {
+    public void exitComponent_clause(Modelica.Component_clauseContext ctx) {
         componentDeclaration = false;
     }
 
     @Override
-    public void enterDeclaration(ModelicaParser.DeclarationContext ctx) {
+    public void enterDeclaration(Modelica.DeclarationContext ctx) {
         if (componentDeclaration) {
             String componentName = ctx.IDENT().toString();
             componentDeclarationsMap.putIfAbsent(componentName, currentComponentModelicaPath);
@@ -193,9 +224,15 @@ public class ClassesListener extends ModelicaBaseListener{
      * @param ctx the parse tree
 	 */
     @Override
-    public void enterExtends_clause(ModelicaParser.Extends_clauseContext ctx) {
-        String extendingClass = ctx.name().getText();
+    public void enterExtends_clause(Modelica.Extends_clauseContext ctx) {
+        extendsClause = true;
+        String extendingClass = ctx.type_specifier().getText();
         parentClasses.add(extendingClass);
+    }
+
+    @Override
+    public void exitExtends_clause(Modelica.Extends_clauseContext ctx) {
+        extendsClause = false;
     }
 
     /**
@@ -203,51 +240,107 @@ public class ClassesListener extends ModelicaBaseListener{
      * @param ctx the parse tree
 	 */
     @Override
-    public void enterElement(ModelicaParser.ElementContext ctx) {
-        if (ctx.constraining_clause() != null) {
-            String constrainingClause;
-            if (ctx.component_clause() == null){
-                constrainingClause = "choicesAllMatching";
-			} else {
-                constrainingClause = ctx.component_clause().type_specifier().name().getText();
+    public void enterDeclaration_clause(Modelica.Declaration_clauseContext ctx) {
+        if (ctx.component_prefix() != null && !extendsClause) {
+            List<String> prefixes = ctx.component_prefix().stream().map(RuleContext::getText).toList();
+            if (prefixes.contains("replaceable") || prefixes.contains("redeclare")) {
+                String constrainingClause;
+                String restrictedClass;
+                if (ctx.constraining_clause() != null) {
+                    constrainingClassDefinition = true;
+                    constrainingClause = ctx.constraining_clause().type_specifier().getText();
+                }
+                else {
+                    constrainingClause = "choicesAllMatching";
+                }
+                if (ctx.component_clause() != null) {
+                    restrictedClass = ctx.component_clause().type_specifier().getText();
+                    constrainingClassesMap.put(constrainingClause, restrictedClass);
+                    classes.add(restrictedClass);
+
+                }
+                else {
+                    restrictedClass = ctx.class_definition()
+                            .class_specifier()
+                            .short_class_specifier()
+                            .IDENT()
+                            .getText();
+                    constrainingClassesMap.put(constrainingClause, restrictedClass);
+                }
             }
-            constrainingClassesMap.put(
-                    ctx.constraining_clause().name().getText(),
-                    constrainingClause
-            );
         }
     }
 
+    @Override
+    public void exitDeclaration_clause(Modelica.Declaration_clauseContext ctx) {
+        constrainingClassDefinition = false;
+    }
+
+
+    @Override
+    public void enterElement_redeclaration(Modelica.Element_redeclarationContext ctx) {
+        if (currentSection == ModelicaFileSection.ANNOTATION) {
+            return;
+        }
+        if (!classModification) {
+            return;
+        }
+        String componentName;
+        String type;
+        if (ctx.short_definition() != null) {
+            componentName = ctx.short_definition().short_class_specifier().IDENT().getText();
+            type = ctx.short_definition().short_class_specifier().type_specifier().getText();
+
+        }
+        else if (ctx.short_component_clause() != null) {
+            componentName = ctx.short_component_clause().short_component_declaration().declaration().IDENT().getText();
+            type = ctx.short_component_clause().type_specifier().getText();
+
+        }
+        else {
+            return;
+        }
+        String componentPath = getCurrentComponentReferencePath(componentName);
+        modifiedComponents.add(componentName);
+        componentDeclarationsMap.put(componentPath, type);
+    }
+
+    private String getCurrentComponentReferencePath(String componentName) {
+        return String.join(".", currentComponentReferences) + "." + componentName;
+    }
 
     /**
-     * Get class definitions inside of the class
+     * Get class definitions inside the class
      * @param ctx the parse tree
 	 */
     @Override
-    public void enterClass_definition(ModelicaParser.Class_definitionContext ctx) {
+    public void enterClass_definition(Modelica.Class_definitionContext ctx) {
         if (ctx.class_specifier().short_class_specifier() != null) {
             var shortClassSpecifier = ctx.class_specifier().short_class_specifier();
-            if (shortClassSpecifier.name() == null){
-                typeName = shortClassSpecifier.getText().split("=")[0].trim();
+            if (ctx.class_prefixes().getText().equals("type")) {
                 return;
-			}
-            String className = shortClassSpecifier.name().getText();
-            String name = shortClassSpecifier.getText().split("=")[0].trim();
-            if (ctx.class_prefixes().getText().equalsIgnoreCase("type")) {
-                className = name;
             }
+
+            String classType = shortClassSpecifier.type_specifier().getText();
+            String name = shortClassSpecifier.IDENT().toString();
             classDefinitionsMap.put(
-                    name,
-                    className
+                    name, classType
             );
         }
     }
 
     @Override
-    public void enterComponent_reference(ModelicaParser.Component_referenceContext ctx) {
+    public void enterComponent_reference(Modelica.Component_referenceContext ctx) {
         if (classModification & currentSection != ModelicaFileSection.ANNOTATION) {
-            classModifications.add(ctx.getText());
+            String componentPath = getCurrentComponentReferencePath(lastModifiedComponent);
+            modifiedComponents.add(componentPath);
+            componentDeclarationsMap.put(componentPath, ctx.getText());
         }
+    }
+
+    @Override
+    public void enterElement_modification(Modelica.Element_modificationContext ctx) {
+        lastModifiedComponent = ctx.name().IDENT().getFirst().getText();
     }
 
     /**
@@ -255,53 +348,39 @@ public class ClassesListener extends ModelicaBaseListener{
      * @param ctx the parse tree
 	 */
     @Override
-    public void enterEnumeration_literal(ModelicaParser.Enumeration_literalContext ctx) {
+    public void enterEnumeration_literal(Modelica.Enumeration_literalContext ctx) {
         classDefinitionsMap.put(
-                ctx.getText().split("\"")[0].trim(),
+                ctx.IDENT().getText(),
                 typeName);
     }
 
     @Override
-    public void enterClass_modification(ModelicaParser.Class_modificationContext ctx) {
+    public void enterClass_or_inheritance_modification(Modelica.Class_or_inheritance_modificationContext ctx) {
         classModification = true;
     }
 
     @Override
-    public void exitClass_modification(ModelicaParser.Class_modificationContext ctx) {
+    public void exitClass_or_inheritance_modification(Modelica.Class_or_inheritance_modificationContext ctx) {
         classModification = false;
     }
 
     @Override
-    public void enterElement_redeclaration(ModelicaParser.Element_redeclarationContext ctx) {
-        var text = ctx.getText();
+    public void enterClass_modification(Modelica.Class_modificationContext ctx) {
+        classModification = true;
+    }
 
-        if (!classModification) {
-            return;
-        }
-        if (ctx.component_clause1() != null) {
-            classModifications.add(ctx.component_clause1().type_specifier().name().getText());
-        }
+    @Override
+    public void exitClass_modification(Modelica.Class_modificationContext ctx) {
+        classModification = false;
+    }
 
-        if (ctx.isEmpty())
-            return;
-        if (ctx.short_class_definition() == null) {
-            return;
-        }
-        if (ctx.short_class_definition().short_class_specifier() == null) {
-            return;
-        }
-        var name = ctx.short_class_definition().short_class_specifier().name();
-        if (!name.isEmpty()) {
-            var classPath = name.getText();
-            if (classDefinitionsMap.containsKey(classPath)) {
-                classPath = classDefinitionsMap.get(classPath);
-            }
-            classModifications.add(name.getText());
-            if (ctx.short_class_definition().short_class_specifier().IDENT() != null) {
-                var declarationName = ctx.short_class_definition().short_class_specifier().IDENT().getText();
-                classDefinitionsMap.put(declarationName, classPath);
-            }
-        }
+    @Override
+    public void enterElement_modification_or_replaceable(Modelica.Element_modification_or_replaceableContext ctx) {
+        classModification = true;
+    }
 
+    @Override
+    public void exitElement_modification_or_replaceable(Modelica.Element_modification_or_replaceableContext ctx) {
+        classModification = false;
     }
 }

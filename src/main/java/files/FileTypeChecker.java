@@ -3,7 +3,7 @@ package files;
 import java.nio.file.Path;
 
 /**
- * Checker for Modelica file types
+ * Checker for parser.Modelica file types
  */
 public class FileTypeChecker {
 

@@ -7,7 +7,7 @@ model InteriorConvectionTest
     Placement(transformation(origin = {-20, -60}, extent = {{-60, 40}, {-40, 60}})));
   BuildingsLite.HeatTransfer.Sources.FixedTemperature TB2(T = 293.15) annotation(
     Placement(transformation(origin = {100, 20}, extent = {{-20, -40}, {-40, -20}}, rotation = -0)));
-  Modelica.Blocks.Sources.Ramp ramp(height = 50, duration = 5, offset = 320, startTime = 100)  annotation(
+  parser.Modelica.Blocks.Sources.Ramp ramp(height = 50, duration = 5, offset = 320, startTime = 100)  annotation(
     Placement(transformation(origin = {-110, -10}, extent = {{-10, -10}, {10, 10}})));
 equation
   connect(TA1.port, con.solid) annotation(

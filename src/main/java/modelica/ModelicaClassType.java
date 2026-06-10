@@ -1,7 +1,7 @@
 package modelica;
 
 /**
- * Enumeration that holds possible class types in Modelica
+ * Enumeration that holds possible class types in parser.Modelica
  */
 public enum ModelicaClassType {
     MODEL,

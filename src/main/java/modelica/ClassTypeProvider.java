@@ -5,7 +5,7 @@ package modelica;
  */
 public class ClassTypeProvider {
 	/**
-	 * @param classPrefix - class keywork from Modelica definition
+	 * @param classPrefix - class keywork from parser.Modelica definition
 	 *
 	 * @return Enumeration to given class type
 	 *

@@ -60,7 +60,7 @@ public interface IClassDependencies {
     boolean isModel();
 
     /**
-     * @return Modelica path as String
+	 * @return parser.Modelica path as String
      */
     String getModelicaPath();
 

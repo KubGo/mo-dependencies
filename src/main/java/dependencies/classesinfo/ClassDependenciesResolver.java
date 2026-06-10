@@ -11,8 +11,8 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import parser.ClassesListener;
+import parser.Modelica;
 import parser.ModelicaLexer;
-import parser.ModelicaParser;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -38,13 +38,13 @@ public class ClassDependenciesResolver implements IClassDependencies, IFilterabl
 	/**
 	 * Resolves the class definitions based on the class text
 	 *
-	 * @param className absolute name of Modelica class
+	 * @param className absolute name of parser.Modelica class
 	 * @param text      class definition
 	 */
 	public ClassDependenciesResolver(String className, String text) {
 		ModelicaLexer modelicaLexer = new ModelicaLexer(CharStreams.fromString(text));
 		CommonTokenStream tokens = new CommonTokenStream(modelicaLexer);
-		ModelicaParser parser = new ModelicaParser(tokens);
+		Modelica parser = new Modelica(tokens);
 		ParseTree tree = parser.stored_definition();
 		ParseTreeWalker walker = new ParseTreeWalker();
 		ClassesListener listener = new ClassesListener();
@@ -147,7 +147,7 @@ public class ClassDependenciesResolver implements IClassDependencies, IFilterabl
 
 	/**
 	 * Resolve imported classes. It adds imported path to the class types, e.g.:
-	 * SI.Length -> Modelica.Units.SI.Length
+	 * SI.Length -> parser.Modelica.Units.SI.Length
      */
 	private void resolverStandardImports() {
 		if (!standardImportsResolved) {

@@ -6,12 +6,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * Reads Modelica files
+ * Reads parser.Modelica files
  */
 public class ModelicaFileReader {
     /**
-     * @param path path to Modelica file
-     * @return content of Modelica file
+	 * @param path path to parser.Modelica file
+	 * @return content of parser.Modelica file
      * @throws IOException if any problem with reading the file occurs
      */
     public String readFile(String path) throws IOException {

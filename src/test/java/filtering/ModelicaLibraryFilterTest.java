@@ -47,18 +47,16 @@ class ModelicaLibraryFilterTest {
 		String buildingLibraryPath = Utils.getPathAsString(Utils.BuildingsLite);
 		tree.generateLibraryDependencies(buildingLibraryPath, "BuildingsLite");
 		assertEquals(
-				booleanDelayExampleClasses,
-				tree.getClassDependencies("BuildingsLite.Controls.Discrete.Examples.BooleanDelay")
+				String.join("\n", booleanDelayExampleClasses), String.join(
+						"\n", tree.getClassDependencies("BuildingsLite.Controls.Discrete.Examples.BooleanDelay")
 						.getClasses()
 						.stream()
-						.sorted()
-						.toList());
+						.sorted().toList()));
 		assertEquals(
-				conductorStepResponseClasses,
-				tree.getClassDependencies("BuildingsLite.HeatTransfer.Examples.ConductorStepResponse")
+				String.join("\n", conductorStepResponseClasses), String.join(
+						"\n", tree.getClassDependencies("BuildingsLite.HeatTransfer.Examples.ConductorStepResponse")
 						.getClasses()
 						.stream()
-						.sorted()
-						.toList());
+						.sorted().toList()));
 	}
 }
