@@ -277,11 +277,16 @@ algorithm_section
 // not present in spec
 equation_list
     : (equation SEMICOLON)*
+    | (assertion SEMICOLON)*
     ;
 
 // not present in spec
 statement_list
     : (statement SEMICOLON)*
+    ;
+
+assertion
+    : (ASSERT) LPAREN function_arguments RPAREN
     ;
 
 equation
@@ -563,7 +568,7 @@ function_call_args
 
 function_arguments
     : expression FOR for_indices
-    | function_argument (COMMA function_argument)* named_arguments?
+    | function_argument (COMMA function_argument)*  (COMMA named_arguments)*
     | named_arguments
     ;
 
