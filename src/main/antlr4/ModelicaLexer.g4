@@ -114,7 +114,6 @@ CONSTANT : 'constant' ;
 EACH : 'each' ;
 ANNOTATION : 'annotation' ;
 EXTERNAL : 'external' ;
-ASSERT: 'assert';
 
 // Comment tokens
 BLOCK_COMMENT : '/*' .*? '*/' -> channel (COMMENTS) ;

@@ -277,16 +277,11 @@ algorithm_section
 // not present in spec
 equation_list
     : (equation SEMICOLON)*
-    | (assertion SEMICOLON)*
     ;
 
 // not present in spec
 statement_list
     : (statement SEMICOLON)*
-    ;
-
-assertion
-    : (ASSERT) LPAREN function_arguments RPAREN
     ;
 
 equation

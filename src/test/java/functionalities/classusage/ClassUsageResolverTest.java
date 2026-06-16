@@ -36,7 +36,7 @@ class ClassUsageResolverTest {
     void getTopLevelClassesList_BuildingsLibrary_findAllTopLevelClassesInSingleLibrary() {
         classUsageResolver = new ClassUsageResolver(buildingsLibraryLite);
         classUsageResolver.search();
-        assertEquals(441, classUsageResolver.getTopLevelClassesList().getFirst().size());
+        assertEquals(437, classUsageResolver.getTopLevelClassesList().getFirst().size());
     }
 
     @Test
