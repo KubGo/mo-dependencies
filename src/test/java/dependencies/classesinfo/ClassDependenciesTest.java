@@ -16,16 +16,17 @@ class ClassDependenciesTest {
     static void setUp() {
         classDependencies = new ClassDependenciesBuilder()
                 .setModelicaPath("ModelicaClass")
-                .setDependencies(List.of("Modelica.Units.SI.Length", "Modelica.Sources.Ramp", "Library.Class"))
-                .setParentClasses(List.of("Modelica.Icons.Example"))
-                .setConstrainingClasses(Map.of("Modelica.Sources.Interfaces.SISO", "ChoicesAllMatching"))
+				.setDependencies(
+				        List.of("parser.Modelica.Units.SI.Length", "parser.Modelica.Sources.Ramp", "Library.Class"))
+				.setParentClasses(List.of("parser.Modelica.Icons.Example"))
+				.setConstrainingClasses(Map.of("parser.Modelica.Sources.Interfaces.SISO", "ChoicesAllMatching"))
                 .build();
     }
 
     @Test
     void toString_trivialExample_correctTextAsJson() {
         assertEquals(
-                "ClassDependencies{modelicaPath='ModelicaClass', " + "resolvedLibraries=[], " + "usedClasses=[Modelica.Units.SI.Length, Modelica.Sources.Ramp, Library.Class], " + "parentClasses=[Modelica.Icons.Example], " + "constrainingClasses={Modelica.Sources.Interfaces.SISO=ChoicesAllMatching}}",
+				"ClassDependencies{modelicaPath='ModelicaClass', " + "resolvedLibraries=[], " + "usedClasses=[parser.Modelica.Units.SI.Length, parser.Modelica.Sources.Ramp, Library.Class], " + "parentClasses=[parser.Modelica.Icons.Example], " + "constrainingClasses={parser.Modelica.Sources.Interfaces.SISO=ChoicesAllMatching}}",
                 classDependencies.toString());
     }
 

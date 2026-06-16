@@ -12,7 +12,7 @@ import java.util.Stack;
 import java.util.TreeMap;
 
 /**
- * Resolves file structure of Modelica library
+ * Resolves file structure of parser.Modelica library
  */
 public class ModelicaFilesStructure {
 	private PackageInfo currentPackage;
@@ -25,7 +25,7 @@ public class ModelicaFilesStructure {
 	}
 
 	/**
-	 * @return Modelica files tree
+	 * @return parser.Modelica files tree
 	 */
 	public TreeMap<String, PackageInfo> getTree() {
 		return tree;
@@ -56,7 +56,7 @@ public class ModelicaFilesStructure {
 	 * Iterates over files tree and create tree map from classes extending
 	 * {@link ModelicaFileInfo}. Starts from top level package and goes down into
 	 * file tree depth first. This method iteratively calls itself when reaches another
-	 * Modelica package.
+	 * parser.Modelica package.
 	 * @param path path to file
 	 * @param packageName name of the package containing the file
 	 */

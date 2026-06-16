@@ -17,7 +17,7 @@ class StandardImportPathResolverTest {
 
 	@Test
 	void isSubPath_importPackage_importedClassDiscovered() {
-		pathResolver.setImportPath("Modelica.Units.SI");
+		pathResolver.setImportPath("parser.Modelica.Units.SI");
 		assertTrue(
 				pathResolver.isSubPath(
 						"SI.Length")
@@ -26,7 +26,7 @@ class StandardImportPathResolverTest {
 
 	@Test
 	void isSubPath_differentName_importedClassNotDiscovered() {
-		pathResolver.setImportPath("Modelica.Units.SI");
+		pathResolver.setImportPath("parser.Modelica.Units.SI");
 		assertFalse(
 				pathResolver.isSubPath(
 						"SIUnits.Length")
@@ -35,14 +35,14 @@ class StandardImportPathResolverTest {
 
 	@Test
 	void isSubPath_differentTopPackage_importedClassNotDiscovered() {
-		pathResolver.setImportPath("Modelica.Units.SI");
+		pathResolver.setImportPath("parser.Modelica.Units.SI");
 		assertFalse(
 				pathResolver.isSubPath("Package.SI.Length"));
 	}
 
 	@Test
 	void getAbsolutePath_importedClass_AbsolutePathMatch() {
-		pathResolver.setImportPath("Modelica.Units.SI");
-		assertEquals("Modelica.Units.SI.Length", pathResolver.getAbsolutePath("SI.Length"));
+		pathResolver.setImportPath("parser.Modelica.Units.SI");
+		assertEquals("parser.Modelica.Units.SI.Length", pathResolver.getAbsolutePath("SI.Length"));
 	}
 }

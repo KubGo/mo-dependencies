@@ -1,7 +1,7 @@
 package files;
 
 /**
- * Modelica path converter from file path
+ * parser.Modelica path converter from file path
  */
 public class ModelicaPathConverter {
 	private String libraryName;
@@ -23,7 +23,7 @@ public class ModelicaPathConverter {
 
 	/**
 	 * @param systemPath system path to the model
-	 * @return Info regarding the Modelica path
+	 * @return Info regarding the parser.Modelica path
 	 * @see ModelicaPathInfo
 	 */
 	public ModelicaPathInfo convertToModelicaPath(String systemPath){

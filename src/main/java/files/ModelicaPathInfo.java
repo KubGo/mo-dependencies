@@ -5,8 +5,8 @@ import java.nio.file.Path;
 
 
 /**
- * Class containing information about the Modelica class like its name,
- * full path in Modelica and file system
+ * Class containing information about the parser.Modelica class like its name,
+ * full path in parser.Modelica and file system
  */
 public class ModelicaPathInfo {
     public String filePath;
@@ -15,7 +15,7 @@ public class ModelicaPathInfo {
     public String libraryName;
 
     /**
-     * @param filePath Relative path to the Modelica file that starts with
+	 * @param filePath Relative path to the parser.Modelica file that starts with
      *                 top level library directory
      */
     public ModelicaPathInfo(String filePath) {
@@ -24,7 +24,7 @@ public class ModelicaPathInfo {
 
 
     /**
-     * @param filePath    path to the Modelica file, can be absolute path
+	 * @param filePath    path to the parser.Modelica file, can be absolute path
      * @param libraryName name of the library and its top level directory
      */
     public ModelicaPathInfo(String filePath, String libraryName){
@@ -43,7 +43,7 @@ public class ModelicaPathInfo {
 
     /**
      * @param path file path to the files
-     * @return Modelica path to this file
+	 * @return parser.Modelica path to this file
      */
     private String convertToModelicaPath(Path path){
         StringBuilder sb = new StringBuilder();
@@ -70,7 +70,7 @@ public class ModelicaPathInfo {
     }
 
     /**
-     * @param modelicaPath Modelica path to the class
+	 * @param modelicaPath parser.Modelica path to the class
      * @return class name of that file
      */
     private String getClassName(String modelicaPath){
@@ -78,7 +78,7 @@ public class ModelicaPathInfo {
     }
 
     /**
-     * @param modelicaPath absolute Modelica path to the class
+	 * @param modelicaPath absolute parser.Modelica path to the class
      * @return library name
      */
     private String getLibraryName(String modelicaPath){

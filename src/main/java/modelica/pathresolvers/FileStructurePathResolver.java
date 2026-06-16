@@ -6,7 +6,7 @@ import dependencies.structureinfo.PackageInfo;
 import java.util.*;
 
 /**
- * Resolves paths from file structure tree (relative Modelica paths)
+ * Resolves paths from file structure tree (relative parser.Modelica paths)
  */
 public class FileStructurePathResolver implements IPathResolver {
 	private final TreeMap<String, PackageInfo> filesTree;
@@ -89,7 +89,7 @@ public class FileStructurePathResolver implements IPathResolver {
 	}
 
 	/**
-	 * @param file - Modelica file found in package or null if file wasn't found.
+	 * @param file - parser.Modelica file found in package or null if file wasn't found.
 	 *             If null, search in parent package.
 	 *
 	 * @return - true if file was found, false otherwise
@@ -133,7 +133,7 @@ public class FileStructurePathResolver implements IPathResolver {
 
 	/**
 	 * Splits modelica path to packages and model to resolve in file structure
-	 * @param pathsToResolve - Modelica path used in declaration
+	 * @param pathsToResolve - parser.Modelica path used in declaration
 	 */
 	public void setPathsToResolve(String pathsToResolve) {
 		this.pathsToResolve = Arrays.stream(pathsToResolve.split("\\.")).toList();

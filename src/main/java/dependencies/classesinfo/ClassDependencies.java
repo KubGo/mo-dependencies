@@ -7,7 +7,7 @@ import java.util.*;
 
 /**
  * Simplified ClassDependencies that contains the class information, but doesn't resolve it from
- * Modelica file and can be serialized to save to file.
+ * parser.Modelica file and can be serialized to save to file.
  */
 public class ClassDependencies implements IClassDependencies {
 

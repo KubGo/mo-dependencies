@@ -3,7 +3,7 @@ package filtering;
 import java.util.Objects;
 
 /**
- * Filters absolute paths from specified Modelica library name
+ * Filters absolute paths from specified parser.Modelica library name
  */
 public class ModelicaLibraryFilter implements IFilter {
 	private final String libraryName;
@@ -16,11 +16,11 @@ public class ModelicaLibraryFilter implements IFilter {
 	}
 
 	/**
-	 * @param classPath - absolute path to Modelica model
+	 * @param classPath - absolute path to parser.Modelica model
 	 *
 	 * @return true if class path should be used, false otherwise, e.g.:
-	 * {@code ModelicaLibraryFilter filter = new ModelicaLibraryFilter("Modelica");
-	 * filter.filterName("Modelica.Units.SI.Length") // returns false}
+	 * {@code ModelicaLibraryFilter filter = new ModelicaLibraryFilter("parser.Modelica");
+	 * filter.filterName("parser.Modelica.Units.SI.Length") // returns false}
 	 */
 	@Override
 	public boolean shouldBeUsed(String classPath) {

@@ -17,7 +17,7 @@ class TestCoverageTest {
 	static Map<String, ClassDependencies> buildingsLiteDependencies;
 	static Map<String, ClassDependencies> testDependencies;
 	DependencyTreeResolver tree;
-	ModelicaLibraryFilter filter = new ModelicaLibraryFilter("Modelica");
+	ModelicaLibraryFilter filter = new ModelicaLibraryFilter("parser.Modelica");
 
 	@BeforeAll
 	static void readBuildingsLiteDependencies() {

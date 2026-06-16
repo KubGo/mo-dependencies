@@ -1,7 +1,7 @@
 package files;
 
 /**
- * Enumeration for holding Modelica file types
+ * Enumeration for holding parser.Modelica file types
  */
 public enum FileType {
     MODEL,

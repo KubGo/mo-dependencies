@@ -12,7 +12,7 @@ public class StandardImportPathResolver implements IPathResolver{
 
 
 	/**
-	 * @param importPath - imported path in Modelica to check
+	 * @param importPath - imported path in parser.Modelica to check
 	 */
 	public void setImportPath(String importPath) {
 		this.importPath = importPath;

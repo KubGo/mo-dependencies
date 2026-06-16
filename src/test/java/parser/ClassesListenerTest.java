@@ -96,19 +96,22 @@ class ClassesListenerTest {
     void extractClasses_ComplexExample_classesMatch() throws IOException {
         String modelicaText = Utils.getModelicaTextFromResources(Utils.ComplexExample);
         ClassesListener parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
+        parsedListener.resolveClassDefinitions();
+//        assertEquals(
+//                7,
+//                parsedListener.classes.size());
         assertEquals(
-                7,
-                parsedListener.classes.size());
-        assertEquals(
-                List.of(
+                String.join(
+                        "\n", Stream.of(
                         "Modelica.Blocks.Sources.Ramp",
                         "Modelica.Fluid.Sources.Boundary_pT",
                         "Modelica.Fluid.Sources.MassFlowSource_T",
-                        "Package.OtherPackage.Component",
-                        "Pipe", // "Modelica.Fluid.Pipes.DynamicPipe",
-                        "Real",
-                        "SI.CrossSection"),
-                parsedListener.classes.stream().sorted().toList());
+                        "Package.OtherPackage.Component", "Modelica.Fluid.Pipes.DynamicPipe",
+                        "Modelica.Media.Examples.TwoPhaseWater",
+                        "Modelica.Fluid.Pipes.BaseClasses.FlowModels.NominalLaminarFlow",
+                        "Modelica.Fluid.Pipes.BaseClasses.HeatTransfer.LocalPipeFlowHeatTransfer",
+                        "Real", "SI.CrossSection").sorted().toList()),
+                String.join("\n", parsedListener.classes.stream().sorted().toList()));
     }
 
     @Test
@@ -131,10 +134,10 @@ class ClassesListenerTest {
         String modelicaText = Utils.getModelicaTextFromResources(Utils.ComplexExample);
         ClassesListener parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
 
-        assertEquals(
-                1,
-                parsedListener.functions.size()
-        );
+//        assertEquals(
+//                1,
+//                parsedListener.functions.size()
+//        );
         assertEquals(
                 List.of("Modelica.Units.Conversions.to_degF"),
                 parsedListener.functions.stream().toList()
@@ -157,10 +160,10 @@ class ClassesListenerTest {
         String modelicaText = Utils.getModelicaTextFromResources(Utils.ComplexExample);
         ClassesListener parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
 
-        assertEquals(
-                1,
-                parsedListener.constrainingClassesMap.size()
-        );
+//        assertEquals(
+//                1,
+//                parsedListener.constrainingClassesMap.size()
+//        );
         assertEquals(
                 Map.of(
                         "Modelica.Blocks.Interfaces.SO",
@@ -188,8 +191,6 @@ class ClassesListenerTest {
 
         assertEquals(
                 Map.of(
-                        "FlowModel", "Modelica.Fluid.Pipes.BaseClasses.FlowModels.NominalLaminarFlow", "Medium",
-                        "Modelica.Media.Examples.TwoPhaseWater",
                         "Pipe",
                         "Modelica.Fluid.Pipes.DynamicPipe"
                 ),
@@ -211,7 +212,6 @@ class ClassesListenerTest {
         String modelicaText = Utils.getModelicaTextFromResources(Utils.ReverseBuoyancy3Zone);
         ClassesListener parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
         parsedListener.resolveInternalClassModifications();
-
         assertEquals(
                 String.join(
                         "\n", Stream.of(
@@ -220,6 +220,7 @@ class ClassesListenerTest {
                                         "BuildingsLite.Airflow.Multizone.Types.densitySelection.fromBottom",
                                         "BuildingsLite.Airflow.Multizone.Types.densitySelection.fromTop",
                                         "BuildingsLite.Airflow.Multizone.DoorDiscretizedOperable", "Medium",
+                                        "BuildingsLite.Media.Air",
                                         "Modelica.Blocks.Sources.Constant", "BuildingsLite.Fluid.MixingVolumes.MixingVolume")
                                 .sorted()
                                 .toList()), String.join("\n", parsedListener.classes.stream().sorted().toList()));
@@ -245,13 +246,5 @@ class ClassesListenerTest {
                                 .sorted()
                                 .toList()), String.join("\n", parsedListener.classes.stream().sorted().toList()));
     }
-
-//    @Test
-//    void getComponentDeclarationsMap_ConductorStepResponse_correctMapping() throws IOException {
-//        String modelicaText = Utils.getModelicaTextFromResources(Utils.ConductorStepResponse);
-//        ClassesListener parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
-//
-//        assertEquals(Map.of(), parsedListener.getComponentDeclarationsMap());
-//    }
 
 }

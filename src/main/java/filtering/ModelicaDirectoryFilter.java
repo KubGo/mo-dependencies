@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Check if directory contains Modelica files stored separately
+ * Check if directory contains parser.Modelica files stored separately
  * (with package.mo and package.order files)
  */
 public class ModelicaDirectoryFilter implements IFilter {
@@ -22,7 +22,7 @@ public class ModelicaDirectoryFilter implements IFilter {
 	/**
 	 * @param path - path to directory with files
 	 *
-	 * @return true if it is directory with Modelica files definitions in separate files,
+	 * @return true if it is directory with parser.Modelica files definitions in separate files,
 	 * false otherwise
 	 */
 	@Override

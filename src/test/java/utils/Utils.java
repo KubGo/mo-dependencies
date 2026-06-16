@@ -5,9 +5,9 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
+import parser.Modelica;
 import parser.ModelicaLexer;
 import parser.ModelicaListener;
-import parser.ModelicaParser;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,7 +38,7 @@ public class Utils {
         ModelicaLexer modelicaLexer = new ModelicaLexer(CharStreams.fromString(text));
 
         CommonTokenStream tokens = new CommonTokenStream(modelicaLexer);
-        ModelicaParser modelicaParser = new ModelicaParser(tokens);
+        Modelica modelicaParser = new Modelica(tokens);
         ParseTree tree = modelicaParser.stored_definition();
         ParseTreeWalker walker = new ParseTreeWalker();
         walker.walk(listener, tree);
