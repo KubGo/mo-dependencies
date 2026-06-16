@@ -20,11 +20,17 @@ public class StandardImportPathResolver implements IPathResolver{
 
 	@Override
 	public boolean isSubPath(String pathToTest) {
+		String[] listToTest = pathToTest.split("\\.");
+		String name;
+		if (listToTest.length < 1) {
+			name = pathToTest;
+		}
+		else {
+			name = Arrays.stream(listToTest).toList().getFirst();
+		}
 		return Arrays.stream(importPath.split("\\."))
 				.toList()
-				.getLast()
-				.equals(Arrays.stream(pathToTest.split("\\."))
-								.toList().getFirst());
+				.getLast().equals(name);
 	}
 
 	@Override
