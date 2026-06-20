@@ -89,8 +89,13 @@ composition
 
 // not present in spec
 class_annotation
-    : ANNOTATION class_modification SEMICOLON
+    : ANNOTATION LPAREN annotation_text (COMMA annotation_text)* RPAREN SEMICOLON
     ;
+
+// For now not interested what is in annotation so no collecting
+annotation_text
+ : IDENT modification (annotation_text)*
+ ;
 
 // not present in spec
 external_element

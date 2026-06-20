@@ -204,6 +204,20 @@ public interface ModelicaListener extends ParseTreeListener {
 	void exitClass_annotation(Modelica.Class_annotationContext ctx);
 
 	/**
+	 * Enter a parse tree produced by {@link Modelica#annotation_text}.
+	 *
+	 * @param ctx the parse tree
+	 */
+	void enterAnnotation_text(Modelica.Annotation_textContext ctx);
+
+	/**
+	 * Exit a parse tree produced by {@link Modelica#annotation_text}.
+	 *
+	 * @param ctx the parse tree
+	 */
+	void exitAnnotation_text(Modelica.Annotation_textContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link Modelica#external_element}.
 	 *
 	 * @param ctx the parse tree

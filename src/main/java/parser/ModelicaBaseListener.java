@@ -269,6 +269,24 @@ public class ModelicaBaseListener implements ModelicaListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override
+	public void enterAnnotation_text(Modelica.Annotation_textContext ctx) {
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override
+	public void exitAnnotation_text(Modelica.Annotation_textContext ctx) {
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override
 	public void enterExternal_element(Modelica.External_elementContext ctx) {
 	}
 
