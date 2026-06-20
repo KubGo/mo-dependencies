@@ -19,7 +19,7 @@ public class ModelicaPathJoiner {
 	 *
 	 * @throws PathsNotJoinableException when the paths cannot be joint together
 	 */
-	public static String joinPaths(String rootPath, String childPath) throws PathsNotJoinableException{
+	public static String joinSubPaths(String rootPath, String childPath) throws PathsNotJoinableException {
 		String splitCharacter = "\\.";
 		String[] rootPathSplit = rootPath.split(splitCharacter);
 		String[] childPathSplit = childPath.split(splitCharacter);
@@ -36,5 +36,9 @@ public class ModelicaPathJoiner {
 		}
 
 		return String.join(".", Arrays.stream(rootPathSplit).limit(rootPathIndex).toList()) + "." + childPath;
+	}
+
+	public static String joinPaths(String rootPath, String childPath) {
+		return rootPath + "." + childPath;
 	}
 }

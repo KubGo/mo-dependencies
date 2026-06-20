@@ -1,0 +1,52 @@
+package objects.modelica;
+
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class ModelicaClassTest {
+
+	private final ModelicaClass modelicaClass = new ModelicaClass("Height");
+	private final ModelicaPackage modelicaPackage = new ModelicaPackage("Units");
+	private final ModelicaClass modelicaClassInPackage = new ModelicaClass("Height", modelicaPackage);
+
+	@Test
+	void getName_ModelicaClass_nameMatches() {
+		assertEquals("Height", modelicaClass.getName());
+		assertEquals("Height", modelicaClassInPackage.getName());
+	}
+
+	@Test
+	void getPath_ModelicaClass_pathMatches() {
+		assertEquals("Height", modelicaClass.getPath());
+		assertEquals("Units.Height", modelicaClassInPackage.getPath());
+	}
+
+	@Test
+	void pathMatches_modelicaClass_returnsTrue() {
+		assertTrue(modelicaClass.pathMatches("Height"));
+		assertTrue(modelicaClassInPackage.pathMatches("Height"));
+	}
+
+	@Test
+	void getParent_modelicaClass_correctParentReturned() {
+		var parent = modelicaClassInPackage.getParent();
+		assertEquals("Units", parent.getName());
+		assertNull(modelicaClass.getParent());
+	}
+
+	@Test
+	void hasParent_modelicaClass_correctBooleanOutput() {
+		assertFalse(modelicaClass.hasParent());
+		assertTrue(modelicaClassInPackage.hasParent());
+	}
+
+	@Test
+	void iterator_modelicaClass_worksCorrectly() {
+		assertTrue(modelicaClass.hasNext());
+		assertEquals("Height", modelicaClass.getNext().getName());
+		assertFalse(modelicaClass.hasNext());
+		modelicaClass.reset();
+		assertTrue(modelicaClass.hasNext());
+	}
+}

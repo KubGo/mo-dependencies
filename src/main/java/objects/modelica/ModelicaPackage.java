@@ -11,6 +11,7 @@ public class ModelicaPackage implements IModelicaClass {
     private final String path;
     private ModelicaClass parent = null;
     private final ArrayList<IModelicaClass> children = new ArrayList<>();
+    private int currentPosition = -1;
 
     public ModelicaPackage(String name, ModelicaClass parent) {
         this.name = name;
@@ -43,24 +44,52 @@ public class ModelicaPackage implements IModelicaClass {
 
     @Override
     public boolean pathMatches(String path) {
-        if (!PathMatcher.isSubPath(this.path, path)) {
-            return false;
-        }
         for (IModelicaClass child : children) {
             if (child.pathMatches(path)) {
                 return true;
             }
         }
-        return false;
+        return PathMatcher.isSubPath(this.path, path);
     }
+
 
     @Override
     public IModelicaClass getParent() {
-        return null;
+        return parent;
     }
 
     @Override
     public boolean hasParent() {
-        return false;
+        return parent != null;
+    }
+
+    @Override
+    public boolean hasNext() {
+        if (currentPosition < 0) {
+            return true;
+        }
+        if (!children.get(currentPosition).hasNext()) {
+            currentPosition++;
+        }
+        return currentPosition <= children.size();
+    }
+
+    @Override
+    public IModelicaClass getNext() {
+        IModelicaClass nextModelicaClass;
+        if (currentPosition < 0) {
+            nextModelicaClass = this;
+            currentPosition++;
+            return nextModelicaClass;
+        }
+        return children.get(currentPosition).getNext();
+    }
+
+    @Override
+    public void reset() {
+        for (var child : children) {
+            child.reset();
+        }
+        currentPosition = -1;
     }
 }

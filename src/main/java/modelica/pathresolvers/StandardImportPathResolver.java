@@ -35,6 +35,6 @@ public class StandardImportPathResolver implements IPathResolver{
 
 	@Override
 	public String getAbsolutePath(String path) {
-		return ModelicaPathJoiner.joinPaths(importPath, path);
+		return ModelicaPathJoiner.joinSubPaths(importPath, path);
 	}
 }

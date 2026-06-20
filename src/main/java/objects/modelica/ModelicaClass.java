@@ -7,9 +7,10 @@ public class ModelicaClass implements IModelicaClass {
 
     private final String name;
     private final String path;
-    private ModelicaClass parent = null;
+    private ModelicaPackage parent = null;
+    private boolean read = false;
 
-    public ModelicaClass(String name, ModelicaClass parent) {
+    public ModelicaClass(String name, ModelicaPackage parent) {
         this.name = name;
         if (parent == null) {
             this.path = name;
@@ -38,7 +39,6 @@ public class ModelicaClass implements IModelicaClass {
         return PathMatcher.isSubPath(this.path, path);
     }
 
-
     @Override
     public IModelicaClass getParent() {
         return parent;
@@ -47,5 +47,21 @@ public class ModelicaClass implements IModelicaClass {
     @Override
     public boolean hasParent() {
         return parent != null;
+    }
+
+    @Override
+    public boolean hasNext() {
+        return !read;
+    }
+
+    @Override
+    public IModelicaClass getNext() {
+        read = true;
+        return this;
+    }
+
+    @Override
+    public void reset() {
+        read = false;
     }
 }
