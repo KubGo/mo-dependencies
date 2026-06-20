@@ -9,16 +9,17 @@ public class ModelicaPackage implements IModelicaClass {
 
     private final String name;
     private final String path;
-    private ModelicaClass parent = null;
+    private ModelicaPackage parent = null;
     private final ArrayList<IModelicaClass> children = new ArrayList<>();
     private int currentPosition = -1;
 
-    public ModelicaPackage(String name, ModelicaClass parent) {
+    public ModelicaPackage(String name, ModelicaPackage parent) {
         this.name = name;
         if (parent == null) {
             this.path = name;
         } else {
             this.parent = parent;
+            parent.addChildren(this);
             this.path = ModelicaPathJoiner.joinPaths(parent.getPath(), name);
         }
     }
@@ -69,9 +70,14 @@ public class ModelicaPackage implements IModelicaClass {
             return true;
         }
         if (!children.get(currentPosition).hasNext()) {
-            currentPosition++;
+            if (currentPosition + 1 >= children.size()) {
+                return false;
+            }
+            else {
+                return children.get(currentPosition + 1).hasNext();
+            }
         }
-        return currentPosition <= children.size();
+        return true;
     }
 
     @Override
@@ -81,6 +87,9 @@ public class ModelicaPackage implements IModelicaClass {
             nextModelicaClass = this;
             currentPosition++;
             return nextModelicaClass;
+        }
+        if (!children.get(currentPosition).hasNext()) {
+            currentPosition++;
         }
         return children.get(currentPosition).getNext();
     }

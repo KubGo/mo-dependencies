@@ -16,6 +16,7 @@ public class ModelicaClass implements IModelicaClass {
             this.path = name;
         } else {
             this.parent = parent;
+            parent.addChildren(this);
             this.path = ModelicaPathJoiner.joinPaths(parent.getPath(), name);
         }
     }
