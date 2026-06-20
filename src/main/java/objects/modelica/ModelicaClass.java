@@ -1,6 +1,6 @@
 package objects.modelica;
 
-import modelica.ModelicaPathJoiner;
+import modelica.ModelicaPath;
 import modelica.PathMatcher;
 
 public class ModelicaClass implements IModelicaClass {
@@ -17,7 +17,7 @@ public class ModelicaClass implements IModelicaClass {
         } else {
             this.parent = parent;
             parent.addChildren(this);
-            this.path = ModelicaPathJoiner.joinPaths(parent.getPath(), name);
+            this.path = ModelicaPath.joinPaths(parent.getPath(), name);
         }
     }
 

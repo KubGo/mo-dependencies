@@ -1,5 +1,6 @@
 package objects.modelica;
 
+import exceptions.ModelicaClassNotFoundException;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -71,8 +72,21 @@ class ModelicaPackageTest {
 		assertTrue(modelicaPackageUnits.hasNext());
 		assertTrue(modelicaPackageSI.hasNext());
 		assertTrue(modelicaClassInPackage.hasNext());
-
 	}
 
+	@Test
+	void getModelicaClassByName_ModelicaPackage_returnCorrectClass() {
+		var height = modelicaPackageUnits.getByName("Units.SI.Height");
+		assertEquals("Units.SI.Height", height.getPath());
+		assertEquals("Height", height.getName());
+	}
+
+	@Test
+	void getModelicaClassByName_ModelicaPackage_throwsModelicaClassNotFoundException() throws RuntimeException {
+		assertThrows(
+				ModelicaClassNotFoundException.class, () -> {
+					modelicaPackageUnits.getByName("Modelica.Units.SI.Height");
+				});
+	}
 
 }

@@ -1,6 +1,7 @@
 package objects.modelica;
 
-import modelica.ModelicaPathJoiner;
+import exceptions.ModelicaClassNotFoundException;
+import modelica.ModelicaPath;
 import modelica.PathMatcher;
 
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ public class ModelicaPackage implements IModelicaClass {
         } else {
             this.parent = parent;
             parent.addChildren(this);
-            this.path = ModelicaPathJoiner.joinPaths(parent.getPath(), name);
+            this.path = ModelicaPath.joinPaths(parent.getPath(), name);
         }
     }
 
@@ -53,9 +54,34 @@ public class ModelicaPackage implements IModelicaClass {
         return PathMatcher.isSubPath(this.path, path);
     }
 
+    public IModelicaClass getByName(String name) {
+        if (!pathMatches(name)) {
+            throw new ModelicaClassNotFoundException(name);
+        }
+        IModelicaClass searchedClass;
+        for (var child : children) {
+            if (child.pathMatches(name)) {
+                return getModelicaClassByName(child, name);
+            }
+        }
+        throw new ModelicaClassNotFoundException(name);
+    }
+
+    private IModelicaClass getModelicaClassByName(IModelicaClass modelicaClass, String name) {
+        IModelicaClass searchedClass;
+        while (modelicaClass.hasNext()) {
+            searchedClass = modelicaClass.getNext();
+            if (searchedClass.getPath().equals(name)) {
+                modelicaClass.reset();
+                return searchedClass;
+            }
+        }
+        throw new ModelicaClassNotFoundException(name);
+    }
+
 
     @Override
-    public IModelicaClass getParent() {
+    public ModelicaPackage getParent() {
         return parent;
     }
 

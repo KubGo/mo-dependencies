@@ -1,11 +1,12 @@
 package modelica;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Joins parser.Modelica paths together
  */
-public class ModelicaPathJoiner {
+public class ModelicaPath {
 
 	/**
 	 * @param rootPath  absolute path to the package
@@ -40,5 +41,16 @@ public class ModelicaPathJoiner {
 
 	public static String joinPaths(String rootPath, String childPath) {
 		return rootPath + "." + childPath;
+	}
+
+	public static List<String> modelicaPathToSubPaths(String path) {
+		List<String> pathParts;
+		if (path.split("\\.").length < 2) {
+			pathParts = List.of(path);
+		}
+		else {
+			pathParts = Arrays.stream(path.split("\\.")).toList();
+		}
+		return pathParts;
 	}
 }
