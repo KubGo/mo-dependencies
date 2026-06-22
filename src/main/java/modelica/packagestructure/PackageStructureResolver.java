@@ -36,9 +36,15 @@ public class PackageStructureResolver {
 		else {
 			subfolders = List.of(modelicaPackage.getPath().split("\\."));
 		}
-		Path path = Path.of(pathToLibrary, subfolders.toArray(new String[0]));
+		Path path = Path.of(pathToLibrary);
+		for (var folder : subfolders) {
+			path = Path.of(path.toString(), folder);
+		}
 
 		File[] files = new File(path.toString()).listFiles();
+		if (files == null || files.length < 1) {
+			return;
+		}
 		for (File file : files) {
 			String fileName = file.getName();
 			if (file.isDirectory()) {
@@ -46,7 +52,7 @@ public class PackageStructureResolver {
 				resolvePackageStructure(newPackage);
 			}
 			else if (fileName.endsWith(".mo") && !fileName.equals("package.mo")) {
-				ModelicaClass modelicaClass = new ModelicaClass(fileName.split("\\.")[0], modelicaPackage);
+				new ModelicaClass(fileName.split("\\.")[0], modelicaPackage);
 			}
 		}
 		if (modelicaPackage.hasParent()) {

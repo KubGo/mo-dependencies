@@ -100,7 +100,8 @@ public class ModelicaPackage implements IModelicaClass {
                 return false;
             }
             else {
-                return children.get(currentPosition + 1).hasNext();
+                currentPosition++;
+                return hasNext();
             }
         }
         return true;
@@ -113,9 +114,6 @@ public class ModelicaPackage implements IModelicaClass {
             nextModelicaClass = this;
             currentPosition++;
             return nextModelicaClass;
-        }
-        if (!children.get(currentPosition).hasNext()) {
-            currentPosition++;
         }
         return children.get(currentPosition).getNext();
     }
