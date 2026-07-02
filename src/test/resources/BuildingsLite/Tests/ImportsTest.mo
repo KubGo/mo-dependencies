@@ -7,7 +7,7 @@ model ImportsTest
   SI.Height h;
   Sources.Ramp ramp(duration = 10)  annotation(
     Placement(transformation(origin = {-70, 70}, extent = {{-10, -10}, {10, 10}})));
-  Sources.Sine sine(f = 0.5)  annotation(
+  Sources.Sine sine(f = 0.5, amplitude = 20)  annotation(
     Placement(transformation(origin = {-70, 10}, extent = {{-10, -10}, {10, 10}})));
 equation
   T = sine.y;

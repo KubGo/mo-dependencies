@@ -1,6 +1,7 @@
 package parser;
 
 import objects.definitions.Declaration;
+import objects.definitions.Modification;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import utils.Utils;
@@ -72,6 +73,16 @@ class DefinitionsListenerTest {
 								.distinct()
 								.sorted()
 								.toList()));
+		assertEquals("ramp.duration, sine.amplitude, sine.f",
+				String.join(
+						", ", parsedListener.getModifications()
+								.stream()
+								.map(Modification::getComponent)
+								.distinct()
+								.sorted()
+								.toList()));
+		assertEquals(3,
+				parsedListener.getModifications().size());
 
 	}
 

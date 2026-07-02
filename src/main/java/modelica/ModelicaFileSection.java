@@ -8,4 +8,6 @@ public enum ModelicaFileSection {
     EQUATION,
     ANNOTATION,
     ALGORITHM,
+    COMPONENT_DECLARATION,
+    COMPONENT_MODIFICATION,
 }

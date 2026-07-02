@@ -3,12 +3,14 @@ package parser;
 import lombok.Getter;
 import modelica.ClassTypeProvider;
 import modelica.ModelicaClassType;
+import modelica.ModelicaFileSection;
 import modelica.ModelicaVariability;
 import objects.definitions.Declaration;
 import objects.definitions.DeclarationBuilder;
 import objects.definitions.Modification;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 public class DefinitionsListener extends ModelicaBaseListener {
 
@@ -28,7 +30,9 @@ public class DefinitionsListener extends ModelicaBaseListener {
 	@Getter
 	String packageName;
 	private String currentClassName;
-	private boolean modification = false;
+
+	private final Stack<ModelicaFileSection> sectionsStack = new Stack<>();
+	private final Stack<String> componentNames = new Stack<>();
 
 	/**
 	 * Retrieves the package name and class type
@@ -37,6 +41,7 @@ public class DefinitionsListener extends ModelicaBaseListener {
 	 */
 	@Override
 	public void enterStored_definition(Modelica.Stored_definitionContext ctx) {
+		sectionsStack.add(ModelicaFileSection.DECLARATIVE);
 		packageName = ctx.name().getText();
 		modelicaClassType = ClassTypeProvider.getClassType(
 				ctx.class_definition().getFirst().class_prefixes().getText());
@@ -74,40 +79,58 @@ public class DefinitionsListener extends ModelicaBaseListener {
 
 	@Override
 	public void enterModification_expression(Modelica.Modification_expressionContext ctx) {
-		if (!modification) {
+		if (sectionsStack.peek() == ModelicaFileSection.COMPONENT_DECLARATION) {
 			declarationBuilder.setValue(ctx.getText());
 		}
 	}
 
 	@Override
 	public void enterComponent_declaration(Modelica.Component_declarationContext ctx) {
+		sectionsStack.add(ModelicaFileSection.COMPONENT_DECLARATION);
+		componentNames.add(ctx.declaration().IDENT().getText());
 		declarationBuilder.setComponentName(ctx.declaration().IDENT().getText());
 	}
 
 	@Override
 	public void exitComponent_declaration(Modelica.Component_declarationContext ctx) {
+		componentNames.pop();
+		sectionsStack.pop();
 		definitions.add(declarationBuilder.createDeclaration());
 	}
 
 	@Override
 	public void enterElement_modification(Modelica.Element_modificationContext ctx) {
-		modification = true;
+		if (isNotAnnotation()) {
+			sectionsStack.add(ModelicaFileSection.COMPONENT_MODIFICATION);
+			componentNames.add(ctx.name().getText());
+		}
+	}
 
+	@Override
+	public void enterModification(Modelica.ModificationContext ctx) {
+		if (sectionsStack.peek() == ModelicaFileSection.COMPONENT_MODIFICATION) {
+			Modification modification = new Modification(String.join(".", componentNames), ctx.getText(), "");
+			modifications.add(modification);
+		}
 	}
 
 	@Override
 	public void exitElement_modification(Modelica.Element_modificationContext ctx) {
-		modification = false;
+		if (isNotAnnotation()) componentNames.pop();
 	}
 
 	@Override
 	public void enterElement_modification_or_replaceable(Modelica.Element_modification_or_replaceableContext ctx) {
-		modification = true;
+		if (isNotAnnotation()) {
+			sectionsStack.add(ModelicaFileSection.COMPONENT_MODIFICATION);
+		}
 	}
 
 	@Override
 	public void exitElement_modification_or_replaceable(Modelica.Element_modification_or_replaceableContext ctx) {
-		modification = false;
+		if (isNotAnnotation()) {
+			sectionsStack.pop();
+		}
 	}
 
 	@Override
@@ -115,5 +138,17 @@ public class DefinitionsListener extends ModelicaBaseListener {
 		importedClasses.add(ctx.name().getText());
 	}
 
+	@Override
+	public void enterAnnotation(Modelica.AnnotationContext ctx) {
+		sectionsStack.add(ModelicaFileSection.ANNOTATION);
+	}
 
+	@Override
+	public void exitAnnotation(Modelica.AnnotationContext ctx) {
+		sectionsStack.pop();
+	}
+
+	private boolean isNotAnnotation() {
+		return sectionsStack.peek() != ModelicaFileSection.ANNOTATION;
+	}
 }
