@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static utils.Utils.checkStringStream;
 
 class DefinitionsListenerTest {
 
@@ -27,33 +28,18 @@ class DefinitionsListenerTest {
 		DefinitionsListener parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
 
 		assertEquals(4, parsedListener.getDefinitions().size());
-		assertEquals(
-				"Height, Real, Velocity", String.join(
-						", ", parsedListener.getDefinitions()
-								.stream()
-								.map(Declaration::getClassName)
-								.distinct()
-								.sorted()
-								.toList()));
+		checkStringStream("Height, Real, Velocity", parsedListener.getDefinitions()
+				.stream()
+				.map(Declaration::getClassName));
 
-		assertEquals(
-				"e, h, h0, v", String.join(
-						", ", parsedListener.getDefinitions()
-								.stream()
-								.map(Declaration::getComponentName)
-								.distinct()
-								.sorted()
-								.toList()));
+		checkStringStream("e, h, h0, v", parsedListener.getDefinitions()
+				.stream()
+				.map(Declaration::getComponentName));
 
-		assertEquals(
-				"0.8, 1.0", String.join(
-						", ", parsedListener.getDefinitions()
-								.stream()
-								.map(Declaration::getValue)
-								.filter(Objects::nonNull)
-								.distinct()
-								.sorted()
-								.toList()));
+		checkStringStream("0.8, 1.0", parsedListener.getDefinitions()
+				.stream()
+				.map(Declaration::getValue)
+				.filter(Objects::nonNull));
 
 	}
 
@@ -65,25 +51,40 @@ class DefinitionsListenerTest {
 
 		assertEquals(List.of("Modelica.Units.SI", "Modelica.Blocks.Sources"), parsedListener.getImportedClasses());
 
-		assertEquals(
-				"T, h, ramp, sine", String.join(
-						", ", parsedListener.getDefinitions()
-								.stream()
-								.map(Declaration::getComponentName)
-								.distinct()
-								.sorted()
-								.toList()));
-		assertEquals("ramp.duration, sine.amplitude, sine.f",
-				String.join(
-						", ", parsedListener.getModifications()
-								.stream()
-								.map(Modification::getComponent)
-								.distinct()
-								.sorted()
-								.toList()));
+		checkStringStream("T, h, ramp, sine", parsedListener.getDefinitions()
+				.stream()
+				.map(Declaration::getComponentName));
+		checkStringStream("ramp.duration, sine.amplitude, sine.f", parsedListener.getModifications()
+				.stream()
+				.map(Modification::getComponent));
 		assertEquals(3,
 				parsedListener.getModifications().size());
 
 	}
 
+	@Test
+	void extractDefinitions_ComplexExample_definitionsMatch() throws IOException {
+		String modelicaText = Utils.getModelicaTextFromResources(Utils.ComplexExample);
+		DefinitionsListener parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
+
+		assertEquals(
+				List.of("Modelica.Icons.ExamplesPackage"),
+				parsedListener.getExtendingClasses()
+		);
+
+		checkStringStream("component, crossArea, m_flow, pipe, sink, source, temperature_A_F", parsedListener.getDefinitions()
+				.stream().map(Declaration::getComponentName));
+
+		checkStringStream(String.join(", ",
+						List.of(
+								"Modelica.Blocks.Sources.Ramp",
+								"Modelica.Fluid.Sources.Boundary_pT",
+								"Modelica.Fluid.Sources.MassFlowSource_T",
+								"Package.OtherPackage.Component",
+								"Pipe",
+								"Real",
+								"SI.CrossSection"
+						)),
+				parsedListener.getDefinitions().stream().map(Declaration::getClassName));
+	}
 }

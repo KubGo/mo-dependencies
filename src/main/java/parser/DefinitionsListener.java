@@ -52,7 +52,7 @@ public class DefinitionsListener extends ModelicaBaseListener {
 	@Override
 	public void enterComponent_clause(Modelica.Component_clauseContext ctx) {
 		declarationBuilder.reset();
-		currentClassName = ctx.type_specifier().IDENT().getFirst().getText();
+		currentClassName = ctx.type_specifier().getText();
 		declarationBuilder.setClassName(currentClassName);
 	}
 
@@ -146,6 +146,11 @@ public class DefinitionsListener extends ModelicaBaseListener {
 	@Override
 	public void exitAnnotation(Modelica.AnnotationContext ctx) {
 		sectionsStack.pop();
+	}
+
+	@Override
+	public void enterExtends_clause(Modelica.Extends_clauseContext ctx) {
+		extendingClasses.add(ctx.type_specifier().getText());
 	}
 
 	private boolean isNotAnnotation() {

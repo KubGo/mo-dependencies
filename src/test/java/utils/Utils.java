@@ -11,6 +11,9 @@ import parser.ModelicaListener;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.stream.Stream;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class Utils {
     public final static String BouncingBall = "BuildingsLite/Tests/BouncingBall.mo";
@@ -43,5 +46,14 @@ public class Utils {
         ParseTreeWalker walker = new ParseTreeWalker();
         walker.walk(listener, tree);
         return listener;
+    }
+
+    public static void checkStringStream(String expected, Stream<String> parsedListener) {
+        assertEquals(
+                expected, String.join(
+                        ", ", parsedListener
+                                .distinct()
+                                .sorted()
+                                .toList()));
     }
 }
