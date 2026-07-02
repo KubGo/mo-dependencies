@@ -11,6 +11,7 @@ import parser.ModelicaListener;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -49,11 +50,13 @@ public class Utils {
     }
 
     public static void checkStringStream(String expected, Stream<String> parsedListener) {
+        String result = String.join(
+                ", ", parsedListener
+                        .filter(Objects::nonNull)
+                        .distinct()
+                        .sorted()
+                        .toList());
         assertEquals(
-                expected, String.join(
-                        ", ", parsedListener
-                                .distinct()
-                                .sorted()
-                                .toList()));
+                expected, result);
     }
 }

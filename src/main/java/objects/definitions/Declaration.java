@@ -10,6 +10,7 @@ public class Declaration {
 	String value;
 	ModelicaVariability variability;
 
+
 	public Declaration(
 			String componentName, String className, String description, String constrainingClass, String value,
 			ModelicaVariability variability) {
@@ -51,5 +52,9 @@ public class Declaration {
 
 	public String getValue() {
 		return value;
+	}
+
+	public ModelicaVariability getVariability() {
+		return variability;
 	}
 }

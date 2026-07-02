@@ -63,17 +63,23 @@ public class DefinitionsListener extends ModelicaBaseListener {
 	}
 
 	private void setVariability(String text) {
-		switch (text.toUpperCase()) {
-			case "PARAMETER":
+		String upperText = text.toUpperCase();
+		switch (upperText) {
+			case "PARAMETER" -> {
 				declarationBuilder.setVariability(ModelicaVariability.PARAMETER);
-			case "TYPE":
+			}
+			case "TYPE" -> {
 				declarationBuilder.setVariability(ModelicaVariability.TYPE);
-			case "INPUT":
+			}
+			case "INPUT" -> {
 				declarationBuilder.setVariability(ModelicaVariability.INPUT);
-			case "OUTPUT":
+			}
+			case "OUTPUT" -> {
 				declarationBuilder.setVariability(ModelicaVariability.OUTPUT);
-			default:
+			}
+			default -> {
 				declarationBuilder.setVariability(ModelicaVariability.VARIABLE);
+			}
 		}
 	}
 

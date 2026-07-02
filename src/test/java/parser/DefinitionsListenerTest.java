@@ -1,5 +1,6 @@
 package parser;
 
+import modelica.ModelicaVariability;
 import objects.definitions.Declaration;
 import objects.definitions.Modification;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,76 +16,85 @@ import static utils.Utils.checkStringStream;
 
 class DefinitionsListenerTest {
 
-	DefinitionsListener listener;
+    DefinitionsListener listener;
 
-	@BeforeEach
-	void setUp() {
-		listener = new DefinitionsListener();
-	}
+    @BeforeEach
+    void setUp() {
+        listener = new DefinitionsListener();
+    }
 
-	@Test
-	void extractDefinitions_BoundingBall_definitionsMatch() throws IOException {
-		String modelicaText = Utils.getModelicaTextFromResources(Utils.BouncingBall);
-		DefinitionsListener parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
+    @Test
+    void extractDefinitions_BoundingBall_definitionsMatch() throws IOException {
+        String modelicaText = Utils.getModelicaTextFromResources(Utils.BouncingBall);
+        DefinitionsListener parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
 
-		assertEquals(4, parsedListener.getDefinitions().size());
-		checkStringStream("Height, Real, Velocity", parsedListener.getDefinitions()
-				.stream()
-				.map(Declaration::getClassName));
+        assertEquals(4, parsedListener.getDefinitions().size());
+        checkStringStream("Height, Real, Velocity", parsedListener.getDefinitions()
+                .stream()
+                .map(Declaration::getClassName));
 
-		checkStringStream("e, h, h0, v", parsedListener.getDefinitions()
-				.stream()
-				.map(Declaration::getComponentName));
+        checkStringStream("e, h, h0, v", parsedListener.getDefinitions()
+                .stream()
+                .map(Declaration::getComponentName));
 
-		checkStringStream("0.8, 1.0", parsedListener.getDefinitions()
-				.stream()
-				.map(Declaration::getValue)
-				.filter(Objects::nonNull));
+        checkStringStream("0.8, 1.0", parsedListener.getDefinitions()
+                .stream()
+                .map(Declaration::getValue)
+                .filter(Objects::nonNull));
 
-	}
+        assertEquals(ModelicaVariability.PARAMETER,
+                parsedListener.getDefinitions().getFirst().getVariability());
 
-	@Test
-	void extractDefinitions_ImportsTest_definitionsMatch() throws IOException {
-		String modelicaText = Utils.getModelicaTextFromResources(Utils.ImportsTest);
-		DefinitionsListener parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
-		assertEquals(2, parsedListener.getImportedClasses().size());
+    }
 
-		assertEquals(List.of("Modelica.Units.SI", "Modelica.Blocks.Sources"), parsedListener.getImportedClasses());
+    @Test
+    void extractDefinitions_ImportsTest_definitionsMatch() throws IOException {
+        String modelicaText = Utils.getModelicaTextFromResources(Utils.ImportsTest);
+        DefinitionsListener parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
+        assertEquals(2, parsedListener.getImportedClasses().size());
 
-		checkStringStream("T, h, ramp, sine", parsedListener.getDefinitions()
-				.stream()
-				.map(Declaration::getComponentName));
-		checkStringStream("ramp.duration, sine.amplitude, sine.f", parsedListener.getModifications()
-				.stream()
-				.map(Modification::getComponent));
-		assertEquals(3,
-				parsedListener.getModifications().size());
+        assertEquals(List.of("Modelica.Units.SI", "Modelica.Blocks.Sources"), parsedListener.getImportedClasses());
 
-	}
+        checkStringStream("T, h, ramp, sine", parsedListener.getDefinitions()
+                .stream()
+                .map(Declaration::getComponentName));
+        checkStringStream("ramp.duration, sine.amplitude, sine.f", parsedListener.getModifications()
+                .stream()
+                .map(Modification::getComponent));
+        assertEquals(3,
+                parsedListener.getModifications().size());
 
-	@Test
-	void extractDefinitions_ComplexExample_definitionsMatch() throws IOException {
-		String modelicaText = Utils.getModelicaTextFromResources(Utils.ComplexExample);
-		DefinitionsListener parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
+    }
 
-		assertEquals(
-				List.of("Modelica.Icons.ExamplesPackage"),
-				parsedListener.getExtendingClasses()
-		);
+    @Test
+    void extractDefinitions_ComplexExample_definitionsMatch() throws IOException {
+        String modelicaText = Utils.getModelicaTextFromResources(Utils.ComplexExample);
+        DefinitionsListener parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
 
-		checkStringStream("component, crossArea, m_flow, pipe, sink, source, temperature_A_F", parsedListener.getDefinitions()
-				.stream().map(Declaration::getComponentName));
+        assertEquals(
+                List.of("Modelica.Icons.ExamplesPackage"),
+                parsedListener.getExtendingClasses());
 
-		checkStringStream(String.join(", ",
-						List.of(
-								"Modelica.Blocks.Sources.Ramp",
-								"Modelica.Fluid.Sources.Boundary_pT",
-								"Modelica.Fluid.Sources.MassFlowSource_T",
-								"Package.OtherPackage.Component",
-								"Pipe",
-								"Real",
-								"SI.CrossSection"
-						)),
-				parsedListener.getDefinitions().stream().map(Declaration::getClassName));
-	}
+        checkStringStream("component, crossArea, m_flow, pipe, sink, source, temperature_A_F",
+                parsedListener.getDefinitions()
+                        .stream().map(Declaration::getComponentName));
+
+        checkStringStream(String.join(", ",
+                        List.of(
+                                "Modelica.Blocks.Sources.Ramp",
+                                "Modelica.Fluid.Sources.Boundary_pT",
+                                "Modelica.Fluid.Sources.MassFlowSource_T",
+                                "Package.OtherPackage.Component",
+                                "Pipe",
+                                "Real",
+                                "SI.CrossSection")),
+                parsedListener.getDefinitions().stream().map(Declaration::getClassName));
+
+        checkStringStream("",
+                parsedListener.getDefinitions().stream().map(Declaration::getValue));
+
+        assertEquals(ModelicaVariability.VARIABLE,
+                parsedListener.getDefinitions().getFirst().getVariability()
+        );
+    }
 }
