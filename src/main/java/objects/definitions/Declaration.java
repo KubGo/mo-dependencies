@@ -1,19 +1,24 @@
 package objects.definitions;
 
+import modelica.ModelicaVariability;
+
 public class Declaration {
 	String componentName;
 	String className;
 	String description;
 	String constrainingClass;
 	String value;
+	ModelicaVariability variability;
 
 	public Declaration(
-			String componentName, String className, String description, String constrainingClass, String value) {
+			String componentName, String className, String description, String constrainingClass, String value,
+			ModelicaVariability variability) {
 		this.componentName = componentName;
 		this.className = className;
 		this.description = description;
 		this.constrainingClass = constrainingClass;
 		this.value = value;
+		this.variability = variability;
 	}
 
 	public boolean hasConstraint() {
