@@ -18,7 +18,7 @@ public interface IClassDefinition {
 
 	String getClassName();
 
-	List<Declaration> getDeclarations();
+	List<Component> getDeclarations();
 
 	List<Modification> getModifications();
 }

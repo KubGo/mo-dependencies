@@ -8,9 +8,9 @@ import java.util.List;
 
 public class PackageDefinition implements IClassDefinition {
 
-	private final DeclarationBuilder declarationBuilder = new DeclarationBuilder();
+	private final ComponentBuilder componentBuilder = new ComponentBuilder();
 	private final ArrayList<IClassDefinition> children = new ArrayList<>();
-	ArrayList<Declaration> declarations = new ArrayList<>();
+	ArrayList<Component> components = new ArrayList<>();
 	String className;
 	String classPath;
 	private int currentPosition = 0;
@@ -21,9 +21,9 @@ public class PackageDefinition implements IClassDefinition {
 	}
 
 	public void addChild(IClassDefinition child) {
-		declarationBuilder.reset();
-		declarationBuilder.setClassName(child.getClassName());
-		declarations.add(declarationBuilder.createDeclaration());
+		componentBuilder.reset();
+		componentBuilder.setClassName(child.getClassName());
+		components.add(componentBuilder.createDeclaration());
 		children.add(child);
 	}
 
@@ -70,7 +70,7 @@ public class PackageDefinition implements IClassDefinition {
 	}
 
 	@Override
-	public List<Declaration> getDeclarations() {
+	public List<Component> getDeclarations() {
 		return List.of();
 	}
 

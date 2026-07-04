@@ -2,7 +2,7 @@ package objects.definitions;
 
 import modelica.ModelicaVariability;
 
-public class DeclarationBuilder {
+public class ComponentBuilder {
 	private String componentName = "";
 	private String className = null;
 	private String description = null;
@@ -10,33 +10,33 @@ public class DeclarationBuilder {
 	private String value = null;
 	private ModelicaVariability variability = ModelicaVariability.VARIABLE;
 
-	public DeclarationBuilder setComponentName(String componentName) {
+	public ComponentBuilder setComponentName(String componentName) {
 		this.componentName = componentName;
 		return this;
 	}
 
-	public DeclarationBuilder setClassName(String className) {
+	public ComponentBuilder setClassName(String className) {
 		this.className = className;
 		return this;
 	}
 
-	public DeclarationBuilder setDescription(String description) {
+	public ComponentBuilder setDescription(String description) {
 		this.description = description;
 		return this;
 	}
 
-	public DeclarationBuilder setConstrainingClass(String constrainingClass) {
+	public ComponentBuilder setConstrainingClass(String constrainingClass) {
 		this.constrainingClass = constrainingClass;
 		return this;
 	}
 
-	public DeclarationBuilder setValue(String value) {
+	public ComponentBuilder setValue(String value) {
 		this.value = value;
 		return this;
 	}
 
-	public Declaration createDeclaration() {
-		return new Declaration(componentName, className, description, constrainingClass, value, variability);
+	public Component createDeclaration() {
+		return new Component(componentName, className, description, constrainingClass, value, variability);
 	}
 
 	public void reset() {
@@ -48,7 +48,7 @@ public class DeclarationBuilder {
 		variability = ModelicaVariability.VARIABLE;
 	}
 
-	public DeclarationBuilder setVariability(ModelicaVariability variability) {
+	public ComponentBuilder setVariability(ModelicaVariability variability) {
 		this.variability = variability;
 		return this;
 	}

@@ -1,7 +1,7 @@
 package parser;
 
 import modelica.ModelicaVariability;
-import objects.definitions.Declaration;
+import objects.definitions.Component;
 import objects.definitions.Modification;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,15 +31,15 @@ class DefinitionsListenerTest {
         assertEquals(4, parsedListener.getDefinitions().size());
         checkStringStream("Height, Real, Velocity", parsedListener.getDefinitions()
                 .stream()
-                .map(Declaration::getClassName));
+                .map(Component::getClassName));
 
         checkStringStream("e, h, h0, v", parsedListener.getDefinitions()
                 .stream()
-                .map(Declaration::getComponentName));
+                .map(Component::getComponentName));
 
         checkStringStream("0.8, 1.0", parsedListener.getDefinitions()
                 .stream()
-                .map(Declaration::getValue)
+                .map(Component::getValue)
                 .filter(Objects::nonNull));
 
         assertEquals(ModelicaVariability.PARAMETER,
@@ -57,7 +57,7 @@ class DefinitionsListenerTest {
 
         checkStringStream("T, h, ramp, sine", parsedListener.getDefinitions()
                 .stream()
-                .map(Declaration::getComponentName));
+                .map(Component::getComponentName));
         checkStringStream("ramp.duration, sine.amplitude, sine.f", parsedListener.getModifications()
                 .stream()
                 .map(Modification::getComponent));
@@ -77,7 +77,7 @@ class DefinitionsListenerTest {
 
         checkStringStream("component, crossArea, m_flow, pipe, sink, source, temperature_A_F",
                 parsedListener.getDefinitions()
-                        .stream().map(Declaration::getComponentName));
+                        .stream().map(Component::getComponentName));
 
         checkStringStream(String.join(", ",
                         List.of(
@@ -88,10 +88,10 @@ class DefinitionsListenerTest {
                                 "Pipe",
                                 "Real",
                                 "SI.CrossSection")),
-                parsedListener.getDefinitions().stream().map(Declaration::getClassName));
+                parsedListener.getDefinitions().stream().map(Component::getClassName));
 
         checkStringStream("",
-                parsedListener.getDefinitions().stream().map(Declaration::getValue));
+                parsedListener.getDefinitions().stream().map(Component::getValue));
 
         assertEquals(ModelicaVariability.VARIABLE,
                 parsedListener.getDefinitions().getFirst().getVariability()

@@ -1,5 +1,6 @@
 package objects.definitions;
 
+import lombok.Setter;
 import modelica.ModelicaClassType;
 import objects.modelica.IModelicaClass;
 
@@ -7,11 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ClassDefinition implements IClassDefinition {
-	ArrayList<Declaration> declarations = new ArrayList<>();
+	ArrayList<Component> components = new ArrayList<>();
 	ArrayList<Modification> modifications = new ArrayList<>();
 	String className;
 	String classPath;
-	ModelicaClassType classType;
+	@Setter
+    ModelicaClassType classType;
 	private boolean resolved = false;
 
 	public ClassDefinition(IModelicaClass modelicaClass) {
@@ -19,17 +21,16 @@ public class ClassDefinition implements IClassDefinition {
 		classPath = modelicaClass.getPath();
 	}
 
-	public void addDeclaration(Declaration declaration) {
-		declarations.add(declaration);
+	public void addDeclaration(Component component) {
+		components.add(component);
 	}
 
 	public void addModification(Modification modification) {
 		modifications.add(modification);
 	}
 
-	@Override
-	public List<Declaration> getDeclarations() {
-		return declarations;
+	public List<Component> getComponents() {
+		return components;
 	}
 
 	@Override
@@ -45,6 +46,11 @@ public class ClassDefinition implements IClassDefinition {
 	@Override
 	public String getClassName() {
 		return className;
+	}
+
+	@Override
+	public List<Component> getDeclarations() {
+		return List.of();
 	}
 
 	@Override
@@ -68,7 +74,4 @@ public class ClassDefinition implements IClassDefinition {
 		resolved = false;
 	}
 
-	public void setClassType(ModelicaClassType classType) {
-		this.classType = classType;
-	}
 }

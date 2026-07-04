@@ -5,8 +5,8 @@ import modelica.ClassTypeProvider;
 import modelica.ModelicaClassType;
 import modelica.ModelicaFileSection;
 import modelica.ModelicaVariability;
-import objects.definitions.Declaration;
-import objects.definitions.DeclarationBuilder;
+import objects.definitions.Component;
+import objects.definitions.ComponentBuilder;
 import objects.definitions.Modification;
 
 import java.util.ArrayList;
@@ -14,11 +14,11 @@ import java.util.Stack;
 
 public class DefinitionsListener extends ModelicaBaseListener {
 
-	private final DeclarationBuilder declarationBuilder = new DeclarationBuilder();
+	private final ComponentBuilder componentBuilder = new ComponentBuilder();
 	@Getter
 	public ModelicaClassType modelicaClassType;
 	@Getter
-	ArrayList<Declaration> definitions = new ArrayList<>();
+	ArrayList<Component> definitions = new ArrayList<>();
 	@Getter
 	ArrayList<Modification> modifications = new ArrayList<>();
 	@Getter
@@ -51,9 +51,9 @@ public class DefinitionsListener extends ModelicaBaseListener {
 
 	@Override
 	public void enterComponent_clause(Modelica.Component_clauseContext ctx) {
-		declarationBuilder.reset();
+		componentBuilder.reset();
 		currentClassName = ctx.type_specifier().getText();
-		declarationBuilder.setClassName(currentClassName);
+		componentBuilder.setClassName(currentClassName);
 	}
 
 
@@ -66,19 +66,19 @@ public class DefinitionsListener extends ModelicaBaseListener {
 		String upperText = text.toUpperCase();
 		switch (upperText) {
 			case "PARAMETER" -> {
-				declarationBuilder.setVariability(ModelicaVariability.PARAMETER);
+				componentBuilder.setVariability(ModelicaVariability.PARAMETER);
 			}
 			case "TYPE" -> {
-				declarationBuilder.setVariability(ModelicaVariability.TYPE);
+				componentBuilder.setVariability(ModelicaVariability.TYPE);
 			}
 			case "INPUT" -> {
-				declarationBuilder.setVariability(ModelicaVariability.INPUT);
+				componentBuilder.setVariability(ModelicaVariability.INPUT);
 			}
 			case "OUTPUT" -> {
-				declarationBuilder.setVariability(ModelicaVariability.OUTPUT);
+				componentBuilder.setVariability(ModelicaVariability.OUTPUT);
 			}
 			default -> {
-				declarationBuilder.setVariability(ModelicaVariability.VARIABLE);
+				componentBuilder.setVariability(ModelicaVariability.VARIABLE);
 			}
 		}
 	}
@@ -86,7 +86,7 @@ public class DefinitionsListener extends ModelicaBaseListener {
 	@Override
 	public void enterModification_expression(Modelica.Modification_expressionContext ctx) {
 		if (sectionsStack.peek() == ModelicaFileSection.COMPONENT_DECLARATION) {
-			declarationBuilder.setValue(ctx.getText());
+			componentBuilder.setValue(ctx.getText());
 		}
 	}
 
@@ -94,14 +94,14 @@ public class DefinitionsListener extends ModelicaBaseListener {
 	public void enterComponent_declaration(Modelica.Component_declarationContext ctx) {
 		sectionsStack.add(ModelicaFileSection.COMPONENT_DECLARATION);
 		componentNames.add(ctx.declaration().IDENT().getText());
-		declarationBuilder.setComponentName(ctx.declaration().IDENT().getText());
+		componentBuilder.setComponentName(ctx.declaration().IDENT().getText());
 	}
 
 	@Override
 	public void exitComponent_declaration(Modelica.Component_declarationContext ctx) {
 		componentNames.pop();
 		sectionsStack.pop();
-		definitions.add(declarationBuilder.createDeclaration());
+		definitions.add(componentBuilder.createDeclaration());
 	}
 
 	@Override
