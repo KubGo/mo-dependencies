@@ -11,7 +11,7 @@ public class ClassTypeProvider {
 	 *
 	 * @throws IllegalStateException on unexpected class definition
 	 */
-	public static ModelicaClassType getClassType(String classPrefix) throws IllegalStateException {
+	public static ModelicaClassType resolveModelicaClassType(String classPrefix) throws IllegalStateException {
 		switch (classPrefix){
 			case "model" -> {
 				return ModelicaClassType.MODEL;

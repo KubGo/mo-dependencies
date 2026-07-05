@@ -114,7 +114,7 @@ public class ClassesListener extends ModelicaBaseListener{
     @Override
     public void enterStored_definition(Modelica.Stored_definitionContext ctx) {
         packageName = ctx.name().getText();
-        modelicaClassType = ClassTypeProvider.getClassType(
+        modelicaClassType = ClassTypeProvider.resolveModelicaClassType(
                 ctx.class_definition().getFirst().class_prefixes().getText());
     }
 

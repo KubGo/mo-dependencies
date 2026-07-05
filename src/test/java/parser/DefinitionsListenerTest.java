@@ -1,5 +1,7 @@
 package parser;
 
+import modelica.ComponentPrefix;
+import modelica.ModelicaClassType;
 import modelica.ModelicaVariability;
 import objects.definitions.Component;
 import objects.definitions.Modification;
@@ -28,22 +30,22 @@ class DefinitionsListenerTest {
         String modelicaText = Utils.getModelicaTextFromResources(Utils.BouncingBall);
         DefinitionsListener parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
 
-        assertEquals(4, parsedListener.getDefinitions().size());
-        checkStringStream("Height, Real, Velocity", parsedListener.getDefinitions()
+        assertEquals(4, parsedListener.getComponents().size());
+        checkStringStream("Height, Real, Velocity", parsedListener.getComponents()
                 .stream()
                 .map(Component::getClassName));
 
-        checkStringStream("e, h, h0, v", parsedListener.getDefinitions()
+        checkStringStream("e, h, h0, v", parsedListener.getComponents()
                 .stream()
                 .map(Component::getComponentName));
 
-        checkStringStream("0.8, 1.0", parsedListener.getDefinitions()
+        checkStringStream("0.8, 1.0", parsedListener.getComponents()
                 .stream()
                 .map(Component::getValue)
                 .filter(Objects::nonNull));
 
         assertEquals(ModelicaVariability.PARAMETER,
-                parsedListener.getDefinitions().getFirst().getVariability());
+                parsedListener.getComponents().getFirst().getVariability());
 
     }
 
@@ -55,7 +57,7 @@ class DefinitionsListenerTest {
 
         assertEquals(List.of("Modelica.Units.SI", "Modelica.Blocks.Sources"), parsedListener.getImportedClasses());
 
-        checkStringStream("T, h, ramp, sine", parsedListener.getDefinitions()
+        checkStringStream("T, h, ramp, sine", parsedListener.getComponents()
                 .stream()
                 .map(Component::getComponentName));
         checkStringStream("ramp.duration, sine.amplitude, sine.f", parsedListener.getModifications()
@@ -76,7 +78,7 @@ class DefinitionsListenerTest {
                 parsedListener.getExtendingClasses());
 
         checkStringStream("component, crossArea, m_flow, pipe, sink, source, temperature_A_F",
-                parsedListener.getDefinitions()
+                parsedListener.getComponents()
                         .stream().map(Component::getComponentName));
 
         checkStringStream(String.join(", ",
@@ -88,13 +90,34 @@ class DefinitionsListenerTest {
                                 "Pipe",
                                 "Real",
                                 "SI.CrossSection")),
-                parsedListener.getDefinitions().stream().map(Component::getClassName));
+                parsedListener.getComponents().stream().map(Component::getClassName));
 
         checkStringStream("",
-                parsedListener.getDefinitions().stream().map(Component::getValue));
+                parsedListener.getComponents().stream().map(Component::getValue));
 
         assertEquals(ModelicaVariability.VARIABLE,
-                parsedListener.getDefinitions().getFirst().getVariability()
+                parsedListener.getComponents().getFirst().getVariability()
         );
+
+        assertEquals("Pipe",
+                parsedListener.getDeclarations().getFirst().getDeclarationName());
+
+        assertEquals("Modelica.Fluid.Pipes.DynamicPipe",
+                parsedListener.getDeclarations().getFirst().getDeclarationClass());
+
+        assertEquals(ModelicaClassType.MODEL,
+                parsedListener.getDeclarations().getFirst().getType());
+
+        assertEquals(List.of("Modelica.Units.SI"),
+                parsedListener.getImportedClasses());
+
+        assertEquals(ComponentPrefix.REPLACEABLE,
+                parsedListener.getComponents()
+                        .stream()
+                        .filter(it -> it.getComponentName().equals("m_flow"))
+                        .limit(1)
+                        .toList()
+                        .getFirst()
+                        .getComponentPrefix());
     }
 }

@@ -45,4 +45,10 @@ public class DeclarationBuilder {
     public Declaration build() {
         return new Declaration(type, declarationName, declarationClass, modifications, description, constrainingClass);
     }
+
+    public void reset() {
+        modifications = List.of();
+        description = "";
+        constrainingClass = null;
+    }
 }

@@ -1,24 +1,27 @@
 package parser;
 
 import lombok.Getter;
-import modelica.ClassTypeProvider;
+import modelica.ComponentPrefix;
 import modelica.ModelicaClassType;
 import modelica.ModelicaFileSection;
 import modelica.ModelicaVariability;
-import objects.definitions.Component;
-import objects.definitions.ComponentBuilder;
-import objects.definitions.Modification;
+import objects.definitions.*;
 
 import java.util.ArrayList;
 import java.util.Stack;
 
+import static modelica.ClassTypeProvider.resolveModelicaClassType;
+
 public class DefinitionsListener extends ModelicaBaseListener {
 
 	private final ComponentBuilder componentBuilder = new ComponentBuilder();
+	private final DeclarationBuilder declarationBuilder = new DeclarationBuilder();
 	@Getter
 	public ModelicaClassType modelicaClassType;
 	@Getter
-	ArrayList<Component> definitions = new ArrayList<>();
+	ArrayList<Component> components = new ArrayList<>();
+	@Getter
+	ArrayList<Declaration> declarations = new ArrayList<>();
 	@Getter
 	ArrayList<Modification> modifications = new ArrayList<>();
 	@Getter
@@ -43,19 +46,47 @@ public class DefinitionsListener extends ModelicaBaseListener {
 	public void enterStored_definition(Modelica.Stored_definitionContext ctx) {
 		sectionsStack.add(ModelicaFileSection.DECLARATIVE);
 		packageName = ctx.name().getText();
-		modelicaClassType = ClassTypeProvider.getClassType(
+		modelicaClassType = resolveModelicaClassType(
 				ctx.class_definition().getFirst().class_prefixes().getText());
 		name = ctx.class_definition().getFirst().class_specifier().long_class_specifier().IDENT().getText();
 	}
 
-
 	@Override
 	public void enterComponent_clause(Modelica.Component_clauseContext ctx) {
-		componentBuilder.reset();
 		currentClassName = ctx.type_specifier().getText();
 		componentBuilder.setClassName(currentClassName);
 	}
 
+	@Override
+	public void enterComponent_prefix(Modelica.Component_prefixContext ctx) {
+		setComponentPrefix(ctx.getText());
+	}
+
+	private void setComponentPrefix(String text) {
+		switch (text.toUpperCase()) {
+			case ("REPLACEABLE") -> {
+				componentBuilder.setComponentPrefix(ComponentPrefix.REPLACEABLE);
+			}
+			case ("REDECLARE REPLACEABLE") -> {
+				componentBuilder.setComponentPrefix(ComponentPrefix.REDECLARE_REPLACEABLE);
+			}
+			case ("REDECLARE") -> {
+				componentBuilder.setComponentPrefix(ComponentPrefix.REDECLARE);
+			}
+			case ("INNER") -> {
+				componentBuilder.setComponentPrefix(ComponentPrefix.INNER);
+			}
+			case ("OUTER") -> {
+				componentBuilder.setComponentPrefix(ComponentPrefix.OUTER);
+			}
+			case ("FINAL") -> {
+				componentBuilder.setComponentPrefix(ComponentPrefix.FINAL);
+			}
+			default -> {
+				componentBuilder.setComponentPrefix(ComponentPrefix.NONE);
+			}
+		}
+	}
 
 	@Override
 	public void enterType_prefix(Modelica.Type_prefixContext ctx) {
@@ -101,7 +132,36 @@ public class DefinitionsListener extends ModelicaBaseListener {
 	public void exitComponent_declaration(Modelica.Component_declarationContext ctx) {
 		componentNames.pop();
 		sectionsStack.pop();
-		definitions.add(componentBuilder.createDeclaration());
+		components.add(componentBuilder.createDeclaration());
+		componentBuilder.reset();
+	}
+
+	@Override
+	public void enterClass_definition(Modelica.Class_definitionContext ctx) {
+		sectionsStack.add(ModelicaFileSection.CLASS_DEFINITION);
+		ModelicaClassType classType = resolveModelicaClassType(ctx.class_prefixes().getText());
+		declarationBuilder.setType(classType);
+	}
+
+	@Override
+	public void enterShort_class_specifier(Modelica.Short_class_specifierContext ctx) {
+		if (sectionsStack.peek() == ModelicaFileSection.CLASS_DEFINITION) {
+			declarationBuilder.setDeclarationName(ctx.IDENT().getText());
+		}
+	}
+
+	@Override
+	public void enterType_specifier(Modelica.Type_specifierContext ctx) {
+		if (sectionsStack.peek() == ModelicaFileSection.CLASS_DEFINITION) {
+			declarationBuilder.setDeclarationClass(ctx.getText());
+		}
+	}
+
+	@Override
+	public void exitClass_definition(Modelica.Class_definitionContext ctx) {
+		declarations.add(declarationBuilder.build());
+		declarationBuilder.reset();
+		sectionsStack.pop();
 	}
 
 	@Override

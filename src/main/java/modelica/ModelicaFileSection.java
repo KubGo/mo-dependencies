@@ -10,4 +10,5 @@ public enum ModelicaFileSection {
     ALGORITHM,
     COMPONENT_DECLARATION,
     COMPONENT_MODIFICATION,
+    CLASS_DEFINITION,
 }

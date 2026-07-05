@@ -1,5 +1,6 @@
 package objects.definitions;
 
+import modelica.ComponentPrefix;
 import modelica.ModelicaVariability;
 
 public class ComponentBuilder {
@@ -8,6 +9,8 @@ public class ComponentBuilder {
 	private String description = null;
 	private String constrainingClass = null;
 	private String value = null;
+	private ComponentPrefix componentPrefix = ComponentPrefix.NONE;
+
 	private ModelicaVariability variability = ModelicaVariability.VARIABLE;
 
 	public ComponentBuilder setComponentName(String componentName) {
@@ -36,7 +39,7 @@ public class ComponentBuilder {
 	}
 
 	public Component createDeclaration() {
-		return new Component(componentName, className, description, constrainingClass, value, variability);
+		return new Component(componentName, className, description, constrainingClass, value, variability, componentPrefix);
 	}
 
 	public void reset() {
@@ -46,10 +49,16 @@ public class ComponentBuilder {
 		constrainingClass = null;
 		value = null;
 		variability = ModelicaVariability.VARIABLE;
+		componentPrefix = ComponentPrefix.NONE;
 	}
 
 	public ComponentBuilder setVariability(ModelicaVariability variability) {
 		this.variability = variability;
+		return this;
+	}
+
+	public ComponentBuilder setComponentPrefix(ComponentPrefix componentPrefix) {
+		this.componentPrefix = componentPrefix;
 		return this;
 	}
 }
