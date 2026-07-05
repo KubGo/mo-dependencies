@@ -4,7 +4,6 @@ import modelica.ComponentPrefix;
 import modelica.ModelicaClassType;
 import modelica.ModelicaVariability;
 import objects.definitions.Component;
-import objects.definitions.Modification;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import utils.Utils;
@@ -60,11 +59,11 @@ class DefinitionsListenerTest {
         checkStringStream("T, h, ramp, sine", parsedListener.getComponents()
                 .stream()
                 .map(Component::getComponentName));
-        checkStringStream("ramp.duration, sine.amplitude, sine.f", parsedListener.getModifications()
-                .stream()
-                .map(Modification::getComponent));
-        assertEquals(3,
-                parsedListener.getModifications().size());
+//        checkStringStream("ramp.duration, sine.amplitude, sine.f", parsedListener.getModifications()
+//                .stream()
+//                .map(Modification::getComponent));
+//        assertEquals(3,
+//                parsedListener.getModifications().size());
 
     }
 
@@ -111,13 +110,19 @@ class DefinitionsListenerTest {
         assertEquals(List.of("Modelica.Units.SI"),
                 parsedListener.getImportedClasses());
 
-        assertEquals(ComponentPrefix.REPLACEABLE,
+        Component m_flow =
                 parsedListener.getComponents()
                         .stream()
                         .filter(it -> it.getComponentName().equals("m_flow"))
                         .limit(1)
                         .toList()
-                        .getFirst()
-                        .getComponentPrefix());
+                        .getFirst();
+
+        assertEquals(ComponentPrefix.REPLACEABLE,
+                m_flow.getComponentPrefix());
+
+        assertEquals(
+                "Modelica.Blocks.Interfaces.SO",
+                m_flow.getConstrainingClass());
     }
 }

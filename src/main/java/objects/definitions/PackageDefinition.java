@@ -23,7 +23,7 @@ public class PackageDefinition implements IClassDefinition {
 	public void addChild(IClassDefinition child) {
 		componentBuilder.reset();
 		componentBuilder.setClassName(child.getClassName());
-		components.add(componentBuilder.createDeclaration());
+		components.add(componentBuilder.build());
 		children.add(child);
 	}
 

@@ -52,9 +52,20 @@ public class DefinitionsListener extends ModelicaBaseListener {
 	}
 
 	@Override
-	public void enterComponent_clause(Modelica.Component_clauseContext ctx) {
-		currentClassName = ctx.type_specifier().getText();
-		componentBuilder.setClassName(currentClassName);
+	public void enterDeclaration_clause(Modelica.Declaration_clauseContext ctx) {
+		sectionsStack.add(ModelicaFileSection.COMPONENT_DECLARATION);
+	}
+
+	@Override
+	public void exitDeclaration_clause(Modelica.Declaration_clauseContext ctx) {
+		if (componentBuilder.isReady()) {
+			components.add(componentBuilder.build());
+			componentBuilder.reset();
+		} else if (declarationBuilder.isReady()) {
+			declarations.add(declarationBuilder.build());
+			declarationBuilder.reset();
+		}
+		sectionsStack.pop();
 	}
 
 	@Override
@@ -64,27 +75,14 @@ public class DefinitionsListener extends ModelicaBaseListener {
 
 	private void setComponentPrefix(String text) {
 		switch (text.toUpperCase()) {
-			case ("REPLACEABLE") -> {
-				componentBuilder.setComponentPrefix(ComponentPrefix.REPLACEABLE);
-			}
-			case ("REDECLARE REPLACEABLE") -> {
-				componentBuilder.setComponentPrefix(ComponentPrefix.REDECLARE_REPLACEABLE);
-			}
-			case ("REDECLARE") -> {
-				componentBuilder.setComponentPrefix(ComponentPrefix.REDECLARE);
-			}
-			case ("INNER") -> {
-				componentBuilder.setComponentPrefix(ComponentPrefix.INNER);
-			}
-			case ("OUTER") -> {
-				componentBuilder.setComponentPrefix(ComponentPrefix.OUTER);
-			}
-			case ("FINAL") -> {
-				componentBuilder.setComponentPrefix(ComponentPrefix.FINAL);
-			}
-			default -> {
-				componentBuilder.setComponentPrefix(ComponentPrefix.NONE);
-			}
+			case ("REPLACEABLE") -> componentBuilder.setComponentPrefix(ComponentPrefix.REPLACEABLE);
+			case ("REDECLARE REPLACEABLE") ->
+					componentBuilder.setComponentPrefix(ComponentPrefix.REDECLARE_REPLACEABLE);
+			case ("REDECLARE") -> componentBuilder.setComponentPrefix(ComponentPrefix.REDECLARE);
+			case ("INNER") -> componentBuilder.setComponentPrefix(ComponentPrefix.INNER);
+			case ("OUTER") -> componentBuilder.setComponentPrefix(ComponentPrefix.OUTER);
+			case ("FINAL") -> componentBuilder.setComponentPrefix(ComponentPrefix.FINAL);
+			default -> componentBuilder.setComponentPrefix(ComponentPrefix.NONE);
 		}
 	}
 
@@ -96,44 +94,35 @@ public class DefinitionsListener extends ModelicaBaseListener {
 	private void setVariability(String text) {
 		String upperText = text.toUpperCase();
 		switch (upperText) {
-			case "PARAMETER" -> {
-				componentBuilder.setVariability(ModelicaVariability.PARAMETER);
-			}
-			case "TYPE" -> {
-				componentBuilder.setVariability(ModelicaVariability.TYPE);
-			}
-			case "INPUT" -> {
-				componentBuilder.setVariability(ModelicaVariability.INPUT);
-			}
-			case "OUTPUT" -> {
-				componentBuilder.setVariability(ModelicaVariability.OUTPUT);
-			}
-			default -> {
-				componentBuilder.setVariability(ModelicaVariability.VARIABLE);
-			}
+			case "PARAMETER" -> componentBuilder.setVariability(ModelicaVariability.PARAMETER);
+			case "TYPE" -> componentBuilder.setVariability(ModelicaVariability.TYPE);
+			case "INPUT" -> componentBuilder.setVariability(ModelicaVariability.INPUT);
+			case "OUTPUT" -> componentBuilder.setVariability(ModelicaVariability.OUTPUT);
+			default -> componentBuilder.setVariability(ModelicaVariability.VARIABLE);
 		}
 	}
 
 	@Override
+	public void enterClass_modification(Modelica.Class_modificationContext ctx) {
+		sectionsStack.add(ModelicaFileSection.COMPONENT_MODIFICATION);
+	}
+
+	@Override
+	public void exitClass_modification(Modelica.Class_modificationContext ctx) {
+		sectionsStack.pop();
+	}
+
+	@Override
 	public void enterModification_expression(Modelica.Modification_expressionContext ctx) {
-		if (sectionsStack.peek() == ModelicaFileSection.COMPONENT_DECLARATION) {
+		if (isCurrentSection(ModelicaFileSection.COMPONENT_DECLARATION)) {
 			componentBuilder.setValue(ctx.getText());
 		}
 	}
 
 	@Override
 	public void enterComponent_declaration(Modelica.Component_declarationContext ctx) {
-		sectionsStack.add(ModelicaFileSection.COMPONENT_DECLARATION);
 		componentNames.add(ctx.declaration().IDENT().getText());
 		componentBuilder.setComponentName(ctx.declaration().IDENT().getText());
-	}
-
-	@Override
-	public void exitComponent_declaration(Modelica.Component_declarationContext ctx) {
-		componentNames.pop();
-		sectionsStack.pop();
-		components.add(componentBuilder.createDeclaration());
-		componentBuilder.reset();
 	}
 
 	@Override
@@ -145,59 +134,82 @@ public class DefinitionsListener extends ModelicaBaseListener {
 
 	@Override
 	public void enterShort_class_specifier(Modelica.Short_class_specifierContext ctx) {
-		if (sectionsStack.peek() == ModelicaFileSection.CLASS_DEFINITION) {
+		if (isCurrentSection(ModelicaFileSection.CLASS_DEFINITION)) {
 			declarationBuilder.setDeclarationName(ctx.IDENT().getText());
 		}
 	}
 
 	@Override
 	public void enterType_specifier(Modelica.Type_specifierContext ctx) {
-		if (sectionsStack.peek() == ModelicaFileSection.CLASS_DEFINITION) {
+		if (isCurrentSection(ModelicaFileSection.CLASS_DEFINITION)) {
 			declarationBuilder.setDeclarationClass(ctx.getText());
 		}
+		if (isCurrentSection(ModelicaFileSection.CONSTRAINING_CLAUSE)) {
+			componentBuilder.setConstrainingClass(ctx.getText());
+		}
+		if (isCurrentSection(ModelicaFileSection.COMPONENT_DECLARATION)) {
+			componentBuilder.setClassName(ctx.getText());
+		}
+		if (isCurrentSection(ModelicaFileSection.EXTENDS_CLAUSE)) {
+			extendingClasses.add(ctx.getText());
+		}
+	}
+
+	private boolean isCurrentSection(ModelicaFileSection expectedSection) {
+		return sectionsStack.peek() == expectedSection;
 	}
 
 	@Override
 	public void exitClass_definition(Modelica.Class_definitionContext ctx) {
-		declarations.add(declarationBuilder.build());
-		declarationBuilder.reset();
 		sectionsStack.pop();
 	}
 
-	@Override
-	public void enterElement_modification(Modelica.Element_modificationContext ctx) {
-		if (isNotAnnotation()) {
-			sectionsStack.add(ModelicaFileSection.COMPONENT_MODIFICATION);
-			componentNames.add(ctx.name().getText());
-		}
-	}
+//	@Override
+//	public void enterElement_modification(Modelica.Element_modificationContext ctx) {
+//		if (isNotAnnotation()) {
+//			sectionsStack.add(ModelicaFileSection.COMPONENT_MODIFICATION);
+//			componentNames.add(ctx.name().getText());
+//		}
+//	}
 
-	@Override
-	public void enterModification(Modelica.ModificationContext ctx) {
-		if (sectionsStack.peek() == ModelicaFileSection.COMPONENT_MODIFICATION) {
-			Modification modification = new Modification(String.join(".", componentNames), ctx.getText(), "");
-			modifications.add(modification);
-		}
-	}
 
-	@Override
-	public void exitElement_modification(Modelica.Element_modificationContext ctx) {
-		if (isNotAnnotation()) componentNames.pop();
-	}
+//	@Override
+//	public void enterModification(Modelica.ModificationContext ctx) {
+//		sectionsStack.add(ModelicaFileSection.COMPONENT_MODIFICATION);
+//	}
+//
+//	@Override
+//	public void exitModification(Modelica.ModificationContext ctx) {
+//		sectionsStack.pop();
+//	}
 
-	@Override
-	public void enterElement_modification_or_replaceable(Modelica.Element_modification_or_replaceableContext ctx) {
-		if (isNotAnnotation()) {
-			sectionsStack.add(ModelicaFileSection.COMPONENT_MODIFICATION);
-		}
-	}
+//	@Override
+//	public void enterModification(Modelica.ModificationContext ctx) {
+//		sectionsStack.add(ModelicaFileSection.COMPONENT_MODIFICATION);
+//		if (sectionsStack.peek() == ModelicaFileSection.COMPONENT_MODIFICATION) {
+//			Modification modification = new Modification(String.join(".", componentNames), ctx.getText(), "");
+//			modifications.add(modification);
+//		}
+//	}
+//
+//	@Override
+//	public void exitElement_modification(Modelica.Element_modificationContext ctx) {
+//		if (isNotAnnotation()) componentNames.pop();
+//	}
 
-	@Override
-	public void exitElement_modification_or_replaceable(Modelica.Element_modification_or_replaceableContext ctx) {
-		if (isNotAnnotation()) {
-			sectionsStack.pop();
-		}
-	}
+//	@Override
+//	public void enterElement_modification_or_replaceable(Modelica.Element_modification_or_replaceableContext ctx) {
+//		if (isNotAnnotation()) {
+//			sectionsStack.add(ModelicaFileSection.COMPONENT_MODIFICATION);
+//		}
+//	}
+
+//	@Override
+//	public void exitElement_modification_or_replaceable(Modelica.Element_modification_or_replaceableContext ctx) {
+//		if (isNotAnnotation()) {
+//			sectionsStack.pop();
+//		}
+//	}
 
 	@Override
 	public void enterImport_clause(Modelica.Import_clauseContext ctx) {
@@ -216,9 +228,23 @@ public class DefinitionsListener extends ModelicaBaseListener {
 
 	@Override
 	public void enterExtends_clause(Modelica.Extends_clauseContext ctx) {
-		extendingClasses.add(ctx.type_specifier().getText());
+		sectionsStack.add(ModelicaFileSection.EXTENDS_CLAUSE);
 	}
 
+	@Override
+	public void exitExtends_clause(Modelica.Extends_clauseContext ctx) {
+		sectionsStack.pop();
+	}
+
+	@Override
+	public void enterConstraining_clause(Modelica.Constraining_clauseContext ctx) {
+		sectionsStack.add(ModelicaFileSection.CONSTRAINING_CLAUSE);
+	}
+
+	@Override
+	public void exitConstraining_clause(Modelica.Constraining_clauseContext ctx) {
+		sectionsStack.pop();
+	}
 	private boolean isNotAnnotation() {
 		return sectionsStack.peek() != ModelicaFileSection.ANNOTATION;
 	}

@@ -3,8 +3,8 @@ package objects.definitions;
 import modelica.ComponentPrefix;
 import modelica.ModelicaVariability;
 
-public class ComponentBuilder {
-	private String componentName = "";
+public class ComponentBuilder implements IBuilder<Component> {
+	private String componentName = null;
 	private String className = null;
 	private String description = null;
 	private String constrainingClass = null;
@@ -38,12 +38,18 @@ public class ComponentBuilder {
 		return this;
 	}
 
-	public Component createDeclaration() {
+	@Override
+	public Component build() {
 		return new Component(componentName, className, description, constrainingClass, value, variability, componentPrefix);
 	}
 
+	@Override
+	public boolean isReady() {
+		return className != null && componentName != null;
+	}
+
 	public void reset() {
-		componentName = "";
+		componentName = null;
 		className = null;
 		description = null;
 		constrainingClass = null;

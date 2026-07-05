@@ -4,10 +4,10 @@ import modelica.ModelicaClassType;
 
 import java.util.List;
 
-public class DeclarationBuilder {
-    private ModelicaClassType type;
-    private String declarationName;
-    private String declarationClass;
+public class DeclarationBuilder implements IBuilder<Declaration> {
+    private ModelicaClassType type = ModelicaClassType.MODEL;
+    private String declarationName = null;
+    private String declarationClass = null;
     private List<Modification> modifications = List.of();
     private String description = "";
     private String constrainingClass = null;
@@ -42,11 +42,20 @@ public class DeclarationBuilder {
         return this;
     }
 
+    @Override
     public Declaration build() {
         return new Declaration(type, declarationName, declarationClass, modifications, description, constrainingClass);
     }
 
+    @Override
+    public boolean isReady() {
+        return declarationClass != null && declarationName != null;
+    }
+
     public void reset() {
+        type = ModelicaClassType.MODEL;
+        declarationClass = null;
+        declarationName = null;
         modifications = List.of();
         description = "";
         constrainingClass = null;
