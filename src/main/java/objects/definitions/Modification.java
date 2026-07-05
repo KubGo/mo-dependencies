@@ -1,14 +1,12 @@
 package objects.definitions;
 
 import lombok.Getter;
-import lombok.Setter;
 
 public class Modification {
 	@Getter
 	String component;
 	@Getter
 	String value;
-	@Setter
 	@Getter
 	String constrainingClass = null;
 

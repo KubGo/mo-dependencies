@@ -16,6 +16,8 @@ public class DefinitionsListener extends ModelicaBaseListener {
 
 	private final ComponentBuilder componentBuilder = new ComponentBuilder();
 	private final DeclarationBuilder declarationBuilder = new DeclarationBuilder();
+	private final ModificationBuilder modificationBuilder = new ModificationBuilder();
+
 	@Getter
 	public ModelicaClassType modelicaClassType;
 	@Getter
@@ -65,6 +67,7 @@ public class DefinitionsListener extends ModelicaBaseListener {
 			declarations.add(declarationBuilder.build());
 			declarationBuilder.reset();
 		}
+		componentNames.clear();
 		sectionsStack.pop();
 	}
 
@@ -104,12 +107,16 @@ public class DefinitionsListener extends ModelicaBaseListener {
 
 	@Override
 	public void enterClass_modification(Modelica.Class_modificationContext ctx) {
-		sectionsStack.add(ModelicaFileSection.COMPONENT_MODIFICATION);
+		if (isNotAnnotation()) {
+			sectionsStack.add(ModelicaFileSection.COMPONENT_MODIFICATION);
+		}
 	}
 
 	@Override
 	public void exitClass_modification(Modelica.Class_modificationContext ctx) {
-		sectionsStack.pop();
+		if (isNotAnnotation()) {
+			sectionsStack.pop();
+		}
 	}
 
 	@Override
@@ -117,12 +124,17 @@ public class DefinitionsListener extends ModelicaBaseListener {
 		if (isCurrentSection(ModelicaFileSection.COMPONENT_DECLARATION)) {
 			componentBuilder.setValue(ctx.getText());
 		}
+		if (isCurrentSection(ModelicaFileSection.COMPONENT_MODIFICATION)) {
+			modificationBuilder.setValue(ctx.getText());
+			modificationBuilder.setComponent(String.join(".", componentNames));
+		}
 	}
 
 	@Override
 	public void enterComponent_declaration(Modelica.Component_declarationContext ctx) {
-		componentNames.add(ctx.declaration().IDENT().getText());
-		componentBuilder.setComponentName(ctx.declaration().IDENT().getText());
+		String componentName = ctx.declaration().IDENT().getText();
+		componentBuilder.setComponentName(componentName);
+		componentNames.add(componentName);
 	}
 
 	@Override
@@ -164,52 +176,23 @@ public class DefinitionsListener extends ModelicaBaseListener {
 		sectionsStack.pop();
 	}
 
-//	@Override
-//	public void enterElement_modification(Modelica.Element_modificationContext ctx) {
-//		if (isNotAnnotation()) {
-//			sectionsStack.add(ModelicaFileSection.COMPONENT_MODIFICATION);
-//			componentNames.add(ctx.name().getText());
-//		}
-//	}
+	@Override
+	public void enterElement_modification(Modelica.Element_modificationContext ctx) {
+		if (isCurrentSection(ModelicaFileSection.COMPONENT_MODIFICATION)) {
+			componentNames.add(ctx.name().getText());
+		}
+	}
 
-
-//	@Override
-//	public void enterModification(Modelica.ModificationContext ctx) {
-//		sectionsStack.add(ModelicaFileSection.COMPONENT_MODIFICATION);
-//	}
-//
-//	@Override
-//	public void exitModification(Modelica.ModificationContext ctx) {
-//		sectionsStack.pop();
-//	}
-
-//	@Override
-//	public void enterModification(Modelica.ModificationContext ctx) {
-//		sectionsStack.add(ModelicaFileSection.COMPONENT_MODIFICATION);
-//		if (sectionsStack.peek() == ModelicaFileSection.COMPONENT_MODIFICATION) {
-//			Modification modification = new Modification(String.join(".", componentNames), ctx.getText(), "");
-//			modifications.add(modification);
-//		}
-//	}
-//
-//	@Override
-//	public void exitElement_modification(Modelica.Element_modificationContext ctx) {
-//		if (isNotAnnotation()) componentNames.pop();
-//	}
-
-//	@Override
-//	public void enterElement_modification_or_replaceable(Modelica.Element_modification_or_replaceableContext ctx) {
-//		if (isNotAnnotation()) {
-//			sectionsStack.add(ModelicaFileSection.COMPONENT_MODIFICATION);
-//		}
-//	}
-
-//	@Override
-//	public void exitElement_modification_or_replaceable(Modelica.Element_modification_or_replaceableContext ctx) {
-//		if (isNotAnnotation()) {
-//			sectionsStack.pop();
-//		}
-//	}
+	@Override
+	public void exitElement_modification(Modelica.Element_modificationContext ctx) {
+		if (isCurrentSection(ModelicaFileSection.COMPONENT_MODIFICATION)) {
+			if (modificationBuilder.isReady()) {
+				modifications.add(modificationBuilder.build());
+				modificationBuilder.reset();
+			}
+			componentNames.pop();
+		}
+	}
 
 	@Override
 	public void enterImport_clause(Modelica.Import_clauseContext ctx) {
