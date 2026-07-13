@@ -5,7 +5,7 @@ import modelica.ComponentPrefix;
 import modelica.ModelicaClassType;
 import modelica.ModelicaFileSection;
 import modelica.ModelicaVariability;
-import objects.definitions.*;
+import objects.modelica.*;
 
 import java.util.ArrayList;
 import java.util.Stack;

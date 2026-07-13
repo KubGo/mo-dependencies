@@ -1,8 +1,8 @@
 package modelica.packagestructure;
 
 import filtering.IFilter;
-import objects.modelica.ModelicaFile;
-import objects.modelica.ModelicaPackage;
+import objects.files.ModelicaFile;
+import objects.files.ModelicaFolder;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -12,8 +12,8 @@ import java.util.List;
 public class PackageStructureResolver {
 	private final String pathToLibrary;
 	private final String libraryName;
-	private final ModelicaPackage libraryPackage;
-	private ModelicaPackage currentPackage;
+	private final ModelicaFolder libraryPackage;
+	private ModelicaFolder currentPackage;
 	private List<IFilter> filters = new ArrayList<>();
 
 	public PackageStructureResolver(String pathToLibrary, String libraryName, List<IFilter> filters) {
@@ -22,7 +22,7 @@ public class PackageStructureResolver {
 		}
 		this.pathToLibrary = pathToLibrary;
 		this.libraryName = libraryName;
-		libraryPackage = new ModelicaPackage(libraryName);
+		libraryPackage = new ModelicaFolder(libraryName);
 		this.filters = filters;
 		resolvePackageStructure(libraryPackage);
 	}
@@ -35,14 +35,14 @@ public class PackageStructureResolver {
 		this(pathToLibrary, Path.of(pathToLibrary).getFileName().toString(), List.of());
 	}
 
-	private void resolvePackageStructure(ModelicaPackage modelicaPackage) {
-		currentPackage = modelicaPackage;
+	private void resolvePackageStructure(ModelicaFolder modelicaFolder) {
+		currentPackage = modelicaFolder;
 		List<String> subfolders;
-		if (!modelicaPackage.getPath().contains(".")) {
-			subfolders = List.of(modelicaPackage.getName());
+		if (!modelicaFolder.getPath().contains(".")) {
+			subfolders = List.of(modelicaFolder.getName());
 		}
 		else {
-			subfolders = List.of(modelicaPackage.getPath().split("\\."));
+			subfolders = List.of(modelicaFolder.getPath().split("\\."));
 		}
 		Path path = Path.of(pathToLibrary);
 		for (var folder : subfolders) {
@@ -63,19 +63,19 @@ public class PackageStructureResolver {
 			}
 			if (!filtered) {
 				if (file.isDirectory()) {
-					ModelicaPackage newPackage = new ModelicaPackage(fileName, modelicaPackage);
+					ModelicaFolder newPackage = new ModelicaFolder(fileName, modelicaFolder);
 					resolvePackageStructure(newPackage);
 				} else if (fileName.endsWith(".mo") && !fileName.equals("package.mo")) {
-					new ModelicaFile(fileName.split("\\.")[0], modelicaPackage);
+					new ModelicaFile(fileName.split("\\.")[0], modelicaFolder);
 				}
 			}
 		}
-		if (modelicaPackage.hasParent()) {
-			currentPackage = modelicaPackage.getParent();
+		if (modelicaFolder.hasParent()) {
+			currentPackage = modelicaFolder.getParent();
 		}
 	}
 
-	public ModelicaPackage getLibraryPackage() {
+	public ModelicaFolder getLibraryPackage() {
 		return libraryPackage;
 	}
 

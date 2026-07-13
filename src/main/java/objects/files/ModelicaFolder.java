@@ -1,4 +1,4 @@
-package objects.modelica;
+package objects.files;
 
 import exceptions.ModelicaClassNotFoundException;
 import modelica.ModelicaPath;
@@ -8,15 +8,15 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.StringJoiner;
 
-public class ModelicaPackage implements IModelicaFile {
+public class ModelicaFolder implements IModelicaFile {
 
     private final String name;
     private final String path;
-    private ModelicaPackage parent = null;
+    private ModelicaFolder parent = null;
     private final ArrayList<IModelicaFile> children = new ArrayList<>();
     private int currentPosition = -1;
 
-    public ModelicaPackage(String name, ModelicaPackage parent) {
+    public ModelicaFolder(String name, ModelicaFolder parent) {
         this.name = name;
         if (parent == null) {
             this.path = name;
@@ -27,7 +27,7 @@ public class ModelicaPackage implements IModelicaFile {
         }
     }
 
-    public ModelicaPackage(String name) {
+    public ModelicaFolder(String name) {
         this(name, null);
     }
 
@@ -82,7 +82,7 @@ public class ModelicaPackage implements IModelicaFile {
 
 
     @Override
-    public ModelicaPackage getParent() {
+    public ModelicaFolder getParent() {
         return parent;
     }
 

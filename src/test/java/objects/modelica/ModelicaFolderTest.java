@@ -1,45 +1,47 @@
 package objects.modelica;
 
 import exceptions.ModelicaClassNotFoundException;
+import objects.files.ModelicaFile;
+import objects.files.ModelicaFolder;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ModelicaPackageTest {
+class ModelicaFolderTest {
 
-	private final ModelicaPackage modelicaPackageUnits = new ModelicaPackage("Units");
-	private final ModelicaPackage modelicaPackageSI = new ModelicaPackage("SI", modelicaPackageUnits);
-	private final ModelicaFile modelicaClassInPackage = new ModelicaFile("Height", modelicaPackageSI);
-	private final ModelicaFile testClass = new ModelicaFile("Test", modelicaPackageUnits);
+	private final ModelicaFolder modelicaFolderUnits = new ModelicaFolder("Units");
+	private final ModelicaFolder modelicaFolderSI = new ModelicaFolder("SI", modelicaFolderUnits);
+	private final ModelicaFile modelicaClassInPackage = new ModelicaFile("Height", modelicaFolderSI);
+	private final ModelicaFile testClass = new ModelicaFile("Test", modelicaFolderUnits);
 
 
 	@Test
 	void getName_ModelicaPackage_nameMatches() {
-		assertEquals("SI", modelicaPackageSI.getName());
-		assertEquals("Units", modelicaPackageUnits.getName());
+		assertEquals("SI", modelicaFolderSI.getName());
+		assertEquals("Units", modelicaFolderUnits.getName());
 	}
 
 	@Test
 	void getPath_ModelicaPackage_pathMatches() {
-		assertEquals("Units.SI", modelicaPackageSI.getPath());
-		assertEquals("Units", modelicaPackageUnits.getPath());
+		assertEquals("Units.SI", modelicaFolderSI.getPath());
+		assertEquals("Units", modelicaFolderUnits.getPath());
 		assertEquals("Units.SI.Height", modelicaClassInPackage.getPath());
 	}
 
 	@Test
 	void pathMatches_ModelicaPackage_returnsTrue() {
 		assertTrue(modelicaClassInPackage.pathMatches("Height"));
-		assertTrue(modelicaPackageUnits.pathMatches("Height"));
-		assertTrue(modelicaPackageUnits.pathMatches("Test"));
-		assertTrue(modelicaPackageUnits.pathMatches("SI"));
+		assertTrue(modelicaFolderUnits.pathMatches("Height"));
+		assertTrue(modelicaFolderUnits.pathMatches("Test"));
+		assertTrue(modelicaFolderUnits.pathMatches("SI"));
 	}
 
 	@Test
 	void pathMatches_ModelicaPackage_returnsFalse() {
 		assertFalse(modelicaClassInPackage.pathMatches("Capacitor"));
-		assertFalse(modelicaPackageUnits.pathMatches("Capacitor"));
+		assertFalse(modelicaFolderUnits.pathMatches("Capacitor"));
 	}
 
 	@Test
@@ -53,8 +55,8 @@ class ModelicaPackageTest {
 
 	@Test
 	void hasParent_ModelicaPackage_correctBooleanReturned() {
-		assertFalse(modelicaPackageUnits.hasParent());
-		assertTrue(modelicaPackageSI.hasParent());
+		assertFalse(modelicaFolderUnits.hasParent());
+		assertTrue(modelicaFolderSI.hasParent());
 		assertTrue(modelicaClassInPackage.hasParent());
 	}
 
@@ -62,21 +64,21 @@ class ModelicaPackageTest {
 	void iterator_ModelicaPackage_worksCorrectly() {
 		List<String> names = List.of("Units", "SI", "Height", "Test");
 		for (String name : names) {
-			assertTrue(modelicaPackageUnits.hasNext());
-			assertEquals(name, modelicaPackageUnits.getNext().getName());
+			assertTrue(modelicaFolderUnits.hasNext());
+			assertEquals(name, modelicaFolderUnits.getNext().getName());
 		}
-		assertFalse(modelicaPackageUnits.hasNext());
-		assertFalse(modelicaPackageSI.hasNext());
+		assertFalse(modelicaFolderUnits.hasNext());
+		assertFalse(modelicaFolderSI.hasNext());
 		assertFalse(modelicaClassInPackage.hasNext());
-		modelicaPackageUnits.reset();
-		assertTrue(modelicaPackageUnits.hasNext());
-		assertTrue(modelicaPackageSI.hasNext());
+		modelicaFolderUnits.reset();
+		assertTrue(modelicaFolderUnits.hasNext());
+		assertTrue(modelicaFolderSI.hasNext());
 		assertTrue(modelicaClassInPackage.hasNext());
 	}
 
 	@Test
 	void getModelicaClassByName_ModelicaPackage_returnCorrectClass() {
-		var height = modelicaPackageUnits.getByName("Units.SI.Height");
+		var height = modelicaFolderUnits.getByName("Units.SI.Height");
 		assertEquals("Units.SI.Height", height.getPath());
 		assertEquals("Height", height.getName());
 	}
@@ -85,17 +87,17 @@ class ModelicaPackageTest {
 	void getModelicaClassByName_ModelicaPackage_throwsModelicaClassNotFoundException() throws RuntimeException {
 		assertThrows(
 				ModelicaClassNotFoundException.class, () -> {
-					modelicaPackageUnits.getByName("Modelica.Units.SI.Height");
+					modelicaFolderUnits.getByName("Modelica.Units.SI.Height");
 				});
 	}
 
 	@Test
 	void getFilePath_modelicaPackage_worksCorrectly() {
 		assertEquals("C:/folder/package/Units/package.mo",
-				modelicaPackageUnits.getFilePath("C:/folder/package"));
+				modelicaFolderUnits.getFilePath("C:/folder/package"));
 
 		assertEquals("C:/folder/package/Units/SI/package.mo",
-				modelicaPackageSI.getFilePath("C:/folder/package"));
+				modelicaFolderSI.getFilePath("C:/folder/package"));
 	}
 
 }

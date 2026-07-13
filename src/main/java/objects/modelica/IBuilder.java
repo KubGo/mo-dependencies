@@ -1,4 +1,4 @@
-package objects.definitions;
+package objects.modelica;
 
 public interface IBuilder<T> {
     T build();

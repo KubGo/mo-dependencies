@@ -1,26 +1,29 @@
-package objects.definitions;
+package objects.classes;
 
 import modelica.ModelicaClassType;
-import objects.modelica.IModelicaFile;
+import objects.files.IModelicaFile;
+import objects.modelica.Component;
+import objects.modelica.ComponentBuilder;
+import objects.modelica.Modification;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PackageDefinition implements IClassDefinition {
+public class ModelicaPackage implements IModelicaClass {
 
 	private final ComponentBuilder componentBuilder = new ComponentBuilder();
-	private final ArrayList<IClassDefinition> children = new ArrayList<>();
+	private final ArrayList<IModelicaClass> children = new ArrayList<>();
 	ArrayList<Component> components = new ArrayList<>();
 	String className;
 	String classPath;
 	private int currentPosition = 0;
 
-	public PackageDefinition(IModelicaFile modelicaClass) {
+	public ModelicaPackage(IModelicaFile modelicaClass) {
 		className = modelicaClass.getName();
 		classPath = modelicaClass.getPath();
 	}
 
-	public void addChild(IClassDefinition child) {
+	public void addChild(IModelicaClass child) {
 		componentBuilder.reset();
 		componentBuilder.setClassName(child.getClassName());
 		components.add(componentBuilder.build());
@@ -33,7 +36,7 @@ public class PackageDefinition implements IClassDefinition {
 	}
 
 	@Override
-	public IClassDefinition getNext() {
+	public IModelicaClass getNext() {
 		return children.get(currentPosition).getNext();
 	}
 

@@ -1,5 +1,7 @@
 package objects.modelica;
 
+import objects.files.ModelicaFile;
+import objects.files.ModelicaFolder;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -7,8 +9,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class ModelicaFileTest {
 
 	private final ModelicaFile modelicaClass = new ModelicaFile("Height");
-	private final ModelicaPackage modelicaPackage = new ModelicaPackage("Units");
-	private final ModelicaFile modelicaClassInPackage = new ModelicaFile("Height", modelicaPackage);
+	private final ModelicaFolder modelicaFolder = new ModelicaFolder("Units");
+	private final ModelicaFile modelicaClassInPackage = new ModelicaFile("Height", modelicaFolder);
 
 	@Test
 	void getName_ModelicaClass_nameMatches() {

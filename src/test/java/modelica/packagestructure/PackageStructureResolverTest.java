@@ -1,7 +1,7 @@
 package modelica.packagestructure;
 
 
-import objects.modelica.ModelicaPackage;
+import objects.files.ModelicaFolder;
 import org.junit.jupiter.api.Test;
 import utils.Utils;
 
@@ -14,7 +14,7 @@ class PackageStructureResolverTest {
 	@Test
 	void testCreatingPackageStructure_BuildingsLite_structureCreatedFromPathAndLibName() {
 		PackageStructureResolver resolver = new PackageStructureResolver(pathToLibrary, "BuildingsLite");
-		ModelicaPackage buildingsLitePackage = resolver.getLibraryPackage();
+		ModelicaFolder buildingsLitePackage = resolver.getLibraryPackage();
 		assertEquals("BuildingsLite", buildingsLitePackage.getName());
 		var coefficient = buildingsLitePackage.getByName("BuildingsLite.Airflow.Multizone.Coefficient_m_flow");
 		assertEquals("Coefficient_m_flow", coefficient.getName());
@@ -23,7 +23,7 @@ class PackageStructureResolverTest {
 	@Test
 	void testCreatingPackageStructure_BuildingsLite_structureCreatedFromPath() {
 		PackageStructureResolver resolver = new PackageStructureResolver(pathToLibrary);
-		ModelicaPackage buildingsLitePackage = resolver.getLibraryPackage();
+		ModelicaFolder buildingsLitePackage = resolver.getLibraryPackage();
 		assertEquals("BuildingsLite", buildingsLitePackage.getName());
 		var coefficient = buildingsLitePackage.getByName("BuildingsLite.Airflow.Multizone.Coefficient_m_flow");
 		assertEquals("Coefficient_m_flow", coefficient.getName());

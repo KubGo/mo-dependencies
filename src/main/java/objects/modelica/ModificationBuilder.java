@@ -1,4 +1,4 @@
-package objects.definitions;
+package objects.modelica;
 
 import java.util.List;
 

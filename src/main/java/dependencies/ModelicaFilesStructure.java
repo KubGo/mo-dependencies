@@ -8,7 +8,7 @@ import dependencies.structureinfo.PackageInfo;
 import filtering.ModelicaDirectoryFilter;
 import lombok.Getter;
 import modelica.packagestructure.PackageStructureResolver;
-import objects.modelica.ModelicaPackage;
+import objects.files.ModelicaFolder;
 
 import java.io.File;
 import java.util.Stack;
@@ -19,11 +19,11 @@ import java.util.TreeMap;
  */
 public class ModelicaFilesStructure {
 	private PackageInfo currentPackage;
-	TreeMap<String, ModelicaPackage> resolvedPackageStructures = new TreeMap<>();
+	TreeMap<String, ModelicaFolder> resolvedPackageStructures = new TreeMap<>();
 	private final Stack<PackageInfo> packagesStack = new Stack<>();
 	@Getter
 	TreeMap<String, PackageInfo> tree = new TreeMap<>();
-	private ModelicaPackage modelicaPackage = null;
+	private ModelicaFolder modelicaFolder = null;
 	private String libraryName;
 	private final ModelicaDirectoryFilter modelicaDirectoryFilter = new ModelicaDirectoryFilter();
 	public ModelicaFilesStructure(){
@@ -43,7 +43,7 @@ public class ModelicaFilesStructure {
 		this.libraryName = libraryName;
 		currentPackage = new PackageInfo(path, libraryName);
 		PackageStructureResolver packageStructureResolver = new PackageStructureResolver(path, libraryName);
-		modelicaPackage = packageStructureResolver.getLibraryPackage();
+		modelicaFolder = packageStructureResolver.getLibraryPackage();
 		packagesStack.push(currentPackage);
 		tree.put(libraryName, currentPackage);
 		try {

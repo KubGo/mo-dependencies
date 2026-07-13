@@ -1,4 +1,4 @@
-package objects.modelica;
+package objects.files;
 
 public interface IModelicaFile {
     String getName();

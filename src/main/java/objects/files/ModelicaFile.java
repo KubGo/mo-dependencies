@@ -1,4 +1,4 @@
-package objects.modelica;
+package objects.files;
 
 import modelica.ModelicaPath;
 import modelica.PathMatcher;
@@ -10,10 +10,10 @@ public class ModelicaFile implements IModelicaFile {
 
     private final String name;
     private final String path;
-    private ModelicaPackage parent = null;
+    private ModelicaFolder parent = null;
     private boolean read = false;
 
-    public ModelicaFile(String name, ModelicaPackage parent) {
+    public ModelicaFile(String name, ModelicaFolder parent) {
         this.name = name;
         if (parent == null) {
             this.path = name;

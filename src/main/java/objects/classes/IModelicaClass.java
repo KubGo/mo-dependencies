@@ -1,14 +1,16 @@
-package objects.definitions;
+package objects.classes;
 
 import modelica.ModelicaClassType;
+import objects.modelica.Component;
+import objects.modelica.Modification;
 
 import java.util.List;
 
-public interface IClassDefinition {
+public interface IModelicaClass {
 
 	ModelicaClassType getClassType();
 
-	IClassDefinition getNext();
+	IModelicaClass getNext();
 
 	boolean hasNext();
 
