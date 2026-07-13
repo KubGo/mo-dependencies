@@ -96,6 +96,9 @@ public class ModelicaPackage implements IModelicaClass {
         if (currentPosition < 0) {
             return true;
         }
+        if (currentPosition >= children.size()) {
+            return false;
+        }
         if (!children.get(currentPosition).hasNext()) {
             if (currentPosition + 1 >= children.size()) {
                 return false;
