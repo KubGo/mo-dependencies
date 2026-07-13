@@ -12,6 +12,7 @@ import utils.Utils;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static utils.Utils.checkStringStream;
@@ -125,5 +126,49 @@ class DefinitionsListenerTest {
         assertEquals(
                 "Modelica.Blocks.Interfaces.SO",
                 m_flow.getConstrainingClass());
+
+        checkStringStream(
+                String.join(", ", Stream.of(
+                                "pipe.Medium",
+                                "pipe.allowFlowReversal",
+                                "pipe.length",
+                                "pipe.diameter",
+                                "pipe.FlowModel",
+                                "pipe.FlowModel.m_flows.start",
+                                "pipe.FlowModel.dps_fg.start",
+                                "pipe.FlowModel.Re_turbulent",
+                                "pipe.FlowModel.dp_nominal",
+                                "pipe.FlowModel.m_flow_nominal",
+                                "pipe.energyDynamics",
+                                "pipe.massDynamics",
+                                "pipe.T_start",
+                                "pipe.momentumDynamics",
+                                "pipe.use_HeatTransfer",
+                                "pipe.HeatTransfer",
+                                "pipe.HeatTransfer.k",
+                                "pipe.HeatTransfer.T_ambient",
+                                "pipe.HeatTransfer.alpha0",
+                                "pipe.nNodes",
+                                "pipe.p_b_start",
+                                "pipe.m_flow_start",
+                                "source.use_m_flow_in",
+                                "source.nPorts",
+                                "source.Medium",
+                                "source.T",
+                                "sink.nPorts",
+                                "sink.p",
+                                "sink.T",
+                                "sink.Medium",
+                                "m_flow.height",
+                                "m_flow.duration",
+                                "m_flow.offset",
+                                "m_flow.startTime",
+                                "component.m_flow"
+                        )
+                        .sorted().toList()),
+                parsedListener.getModifications()
+                        .stream()
+                        .map(Modification::getComponent)
+        );
     }
 }

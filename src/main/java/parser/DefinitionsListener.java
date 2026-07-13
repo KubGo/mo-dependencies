@@ -149,6 +149,22 @@ public class DefinitionsListener extends ModelicaBaseListener {
 		if (isCurrentSection(ModelicaFileSection.CLASS_DEFINITION)) {
 			declarationBuilder.setDeclarationName(ctx.IDENT().getText());
 		}
+		if (isCurrentSection(ModelicaFileSection.COMPONENT_MODIFICATION)) {
+			componentNames.add(ctx.IDENT().getText());
+			modificationBuilder.setComponent(String.join(".", componentNames));
+			modificationBuilder.setValue(ctx.type_specifier().getText());
+			if (modificationBuilder.isReady()) {
+				modifications.add(modificationBuilder.build());
+			}
+			modificationBuilder.reset();
+		}
+	}
+
+	@Override
+	public void exitShort_class_specifier(Modelica.Short_class_specifierContext ctx) {
+		if (isCurrentSection(ModelicaFileSection.COMPONENT_MODIFICATION)) {
+			componentNames.pop();
+		}
 	}
 
 	@Override
@@ -210,6 +226,16 @@ public class DefinitionsListener extends ModelicaBaseListener {
 	}
 
 	@Override
+	public void enterClass_annotation(Modelica.Class_annotationContext ctx) {
+		sectionsStack.add(ModelicaFileSection.ANNOTATION);
+	}
+
+	@Override
+	public void exitClass_annotation(Modelica.Class_annotationContext ctx) {
+		sectionsStack.pop();
+	}
+
+	@Override
 	public void enterExtends_clause(Modelica.Extends_clauseContext ctx) {
 		sectionsStack.add(ModelicaFileSection.EXTENDS_CLAUSE);
 	}
@@ -230,5 +256,10 @@ public class DefinitionsListener extends ModelicaBaseListener {
 	}
 	private boolean isNotAnnotation() {
 		return sectionsStack.peek() != ModelicaFileSection.ANNOTATION;
+	}
+
+	@Override
+	public void enterElement_redeclaration(Modelica.Element_redeclarationContext ctx) {
+		super.enterElement_redeclaration(ctx);
 	}
 }
