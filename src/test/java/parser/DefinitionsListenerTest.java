@@ -171,4 +171,56 @@ class DefinitionsListenerTest {
                         .map(Modification::getComponent)
         );
     }
+
+    @Test
+    void extractDefinitions_SimpleModel_definitionsMatch() throws IOException {
+        String modelicaText = Utils.getModelicaTextFromResources(Utils.SimpleModel);
+        DefinitionsListener parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
+
+        checkStringStream(String.join(", ",
+                        Stream.of(
+                                "layer",
+                                "booleanDelay",
+                                "col",
+                                "bouncingBall",
+                                "conductionModel"
+                        ).sorted().toList()),
+                parsedListener.getComponents()
+                        .stream().map(Component::getComponentName));
+
+        checkStringStream(String.join(", ",
+                        Stream.of(
+                                "HeatTransfer.Conduction.SingleLayer",
+                                "Controls.Discrete.BooleanDelay",
+                                "Airflow.Multizone.MediumColumn",
+                                "BouncingBall",
+                                "OtherLibrary.HeatTransfer.Conduction.DiscretizedConduction"
+                        ).sorted().toList()),
+                parsedListener.getComponents()
+                        .stream().map(Component::getClassName));
+
+        checkStringStream(String.join(", ",
+                        Stream.of(
+                                "layer.A",
+                                "layer.material",
+                                "booleanDelay.samplePeriod",
+                                "col.densitySelection"
+                        ).sorted().toList()),
+                parsedListener.getModifications()
+                        .stream().map(Modification::getComponent));
+
+        checkStringStream(String.join(", ",
+                        Stream.of(
+                                "1",
+                                "BuildingsLite.HeatTransfer.Data.Solids.Concrete",
+                                "BuildingsLite.Airflow.Multizone.Types.densitySelection.fromTop"
+                        ).sorted().toList()),
+                parsedListener.getModifications()
+                        .stream().map(Modification::getValue));
+
+        assertEquals(
+                "PartialSimpleModel",
+                String.join(", ", parsedListener.getExtendingClasses())
+        );
+    }
 }

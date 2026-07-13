@@ -131,6 +131,14 @@ public class DefinitionsListener extends ModelicaBaseListener {
 	}
 
 	@Override
+	public void enterDeclaration(Modelica.DeclarationContext ctx) {
+		if (isCurrentSection(ModelicaFileSection.COMPONENT_MODIFICATION)) {
+			componentNames.add(ctx.getText());
+			modificationBuilder.setComponent(componentNames);
+		}
+	}
+
+	@Override
 	public void enterComponent_declaration(Modelica.Component_declarationContext ctx) {
 		String componentName = ctx.declaration().IDENT().getText();
 		componentBuilder.setComponentName(componentName);
@@ -168,6 +176,14 @@ public class DefinitionsListener extends ModelicaBaseListener {
 	}
 
 	@Override
+	public void exitElement_redeclaration(Modelica.Element_redeclarationContext ctx) {
+		if (modificationBuilder.isReady()) {
+			modifications.add(modificationBuilder.build());
+			modificationBuilder.reset();
+		}
+	}
+
+	@Override
 	public void enterType_specifier(Modelica.Type_specifierContext ctx) {
 		if (isCurrentSection(ModelicaFileSection.CLASS_DEFINITION)) {
 			declarationBuilder.setDeclarationClass(ctx.getText());
@@ -180,6 +196,9 @@ public class DefinitionsListener extends ModelicaBaseListener {
 		}
 		if (isCurrentSection(ModelicaFileSection.EXTENDS_CLAUSE)) {
 			extendingClasses.add(ctx.getText());
+		}
+		if (isCurrentSection(ModelicaFileSection.COMPONENT_MODIFICATION)) {
+			modificationBuilder.setValue(ctx.getText());
 		}
 	}
 

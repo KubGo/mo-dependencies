@@ -1,10 +1,16 @@
 package objects.definitions;
 
+import java.util.List;
+
 public class ModificationBuilder implements IBuilder<Modification> {
     private String component = null;
     private String value = null;
     private String constrainingClass = null;
 
+    public ModificationBuilder setComponent(List<String> componentNames) {
+        this.component = String.join(".", componentNames);
+        return this;
+    }
     public ModificationBuilder setComponent(String component) {
         this.component = component;
         return this;
