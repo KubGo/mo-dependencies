@@ -6,14 +6,14 @@ import modelica.PathMatcher;
 import java.io.File;
 import java.util.StringJoiner;
 
-public class ModelicaClass implements IModelicaClass {
+public class ModelicaFile implements IModelicaFile {
 
     private final String name;
     private final String path;
     private ModelicaPackage parent = null;
     private boolean read = false;
 
-    public ModelicaClass(String name, ModelicaPackage parent) {
+    public ModelicaFile(String name, ModelicaPackage parent) {
         this.name = name;
         if (parent == null) {
             this.path = name;
@@ -24,7 +24,7 @@ public class ModelicaClass implements IModelicaClass {
         }
     }
 
-    public ModelicaClass(String name) {
+    public ModelicaFile(String name) {
         this(name, null);
     }
 
@@ -44,7 +44,7 @@ public class ModelicaClass implements IModelicaClass {
     }
 
     @Override
-    public IModelicaClass getParent() {
+    public IModelicaFile getParent() {
         return parent;
     }
 
@@ -59,7 +59,7 @@ public class ModelicaClass implements IModelicaClass {
     }
 
     @Override
-    public IModelicaClass getNext() {
+    public IModelicaFile getNext() {
         read = true;
         return this;
     }

@@ -1,7 +1,7 @@
 package objects.definitions;
 
 import modelica.ModelicaClassType;
-import objects.modelica.IModelicaClass;
+import objects.modelica.IModelicaFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,7 @@ public class PackageDefinition implements IClassDefinition {
 	String classPath;
 	private int currentPosition = 0;
 
-	public PackageDefinition(IModelicaClass modelicaClass) {
+	public PackageDefinition(IModelicaFile modelicaClass) {
 		className = modelicaClass.getName();
 		classPath = modelicaClass.getPath();
 	}

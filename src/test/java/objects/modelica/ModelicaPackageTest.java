@@ -11,8 +11,8 @@ class ModelicaPackageTest {
 
 	private final ModelicaPackage modelicaPackageUnits = new ModelicaPackage("Units");
 	private final ModelicaPackage modelicaPackageSI = new ModelicaPackage("SI", modelicaPackageUnits);
-	private final ModelicaClass modelicaClassInPackage = new ModelicaClass("Height", modelicaPackageSI);
-	private final ModelicaClass testClass = new ModelicaClass("Test", modelicaPackageUnits);
+	private final ModelicaFile modelicaClassInPackage = new ModelicaFile("Height", modelicaPackageSI);
+	private final ModelicaFile testClass = new ModelicaFile("Test", modelicaPackageUnits);
 
 
 	@Test
@@ -87,6 +87,15 @@ class ModelicaPackageTest {
 				ModelicaClassNotFoundException.class, () -> {
 					modelicaPackageUnits.getByName("Modelica.Units.SI.Height");
 				});
+	}
+
+	@Test
+	void getFilePath_modelicaPackage_worksCorrectly() {
+		assertEquals("C:/folder/package/Units/package.mo",
+				modelicaPackageUnits.getFilePath("C:/folder/package"));
+
+		assertEquals("C:/folder/package/Units/SI/package.mo",
+				modelicaPackageSI.getFilePath("C:/folder/package"));
 	}
 
 }

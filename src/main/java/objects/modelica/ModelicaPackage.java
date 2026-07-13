@@ -8,12 +8,12 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.StringJoiner;
 
-public class ModelicaPackage implements IModelicaClass {
+public class ModelicaPackage implements IModelicaFile {
 
     private final String name;
     private final String path;
     private ModelicaPackage parent = null;
-    private final ArrayList<IModelicaClass> children = new ArrayList<>();
+    private final ArrayList<IModelicaFile> children = new ArrayList<>();
     private int currentPosition = -1;
 
     public ModelicaPackage(String name, ModelicaPackage parent) {
@@ -31,7 +31,7 @@ public class ModelicaPackage implements IModelicaClass {
         this(name, null);
     }
 
-    public void addChildren(IModelicaClass child) {
+    public void addChildren(IModelicaFile child) {
         children.add(child);
     }
 
@@ -48,7 +48,7 @@ public class ModelicaPackage implements IModelicaClass {
 
     @Override
     public boolean pathMatches(String path) {
-        for (IModelicaClass child : children) {
+        for (IModelicaFile child : children) {
             if (child.pathMatches(path)) {
                 return true;
             }
@@ -56,7 +56,7 @@ public class ModelicaPackage implements IModelicaClass {
         return PathMatcher.isSubPath(this.path, path);
     }
 
-    public IModelicaClass getByName(String name) {
+    public IModelicaFile getByName(String name) {
         if (!pathMatches(name)) {
             throw new ModelicaClassNotFoundException(name);
         }
@@ -68,8 +68,8 @@ public class ModelicaPackage implements IModelicaClass {
         throw new ModelicaClassNotFoundException(name);
     }
 
-    private IModelicaClass getModelicaClassByName(IModelicaClass modelicaClass, String name) {
-        IModelicaClass searchedClass;
+    private IModelicaFile getModelicaClassByName(IModelicaFile modelicaClass, String name) {
+        IModelicaFile searchedClass;
         while (modelicaClass.hasNext()) {
             searchedClass = modelicaClass.getNext();
             if (searchedClass.getPath().equals(name)) {
@@ -112,8 +112,8 @@ public class ModelicaPackage implements IModelicaClass {
     }
 
     @Override
-    public IModelicaClass getNext() {
-        IModelicaClass nextModelicaClass;
+    public IModelicaFile getNext() {
+        IModelicaFile nextModelicaClass;
         if (currentPosition < 0) {
             nextModelicaClass = this;
             currentPosition++;

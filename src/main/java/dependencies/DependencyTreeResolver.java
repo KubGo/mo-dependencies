@@ -9,7 +9,11 @@ import dependencies.structureinfo.ClassInfo;
 import dependencies.writedependencies.AbstractDependenciesWriter;
 import files.ModelicaFileReader;
 import filtering.IFilter;
+import lombok.Getter;
+import modelica.packagestructure.PackageStructureResolver;
 import modelica.pathresolvers.FileStructurePathResolver;
+import objects.modelica.IModelicaFile;
+import objects.modelica.ModelicaPackage;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -25,6 +29,8 @@ public class DependencyTreeResolver {
 	ModelicaFilesStructure filesStructure = new ModelicaFilesStructure();
 	ModelicaFileReader modelicaFileReader = new ModelicaFileReader();
 	private final ParentDependenciesResolver<ClassDependenciesResolver> parentDependenciesResolver = new ParentDependenciesResolver<>();
+	private final TreeMap<String, ModelicaPackage> packageTreeMap = new TreeMap<>();
+	@Getter
 	private Map<String, ClassDependenciesResolver> dependencyTree = new TreeMap<>();
 	private FileStructurePathResolver fileStructurePathResolver;
 	private String libraryName = "";
@@ -41,10 +47,6 @@ public class DependencyTreeResolver {
 	public DependencyTreeResolver() {
 	}
 
-
-	public Map<String, ClassDependenciesResolver> getDependencyTree() {
-		return dependencyTree;
-	}
 
 	public void addFilter(IFilter filter) {
 		filters.add(filter);
@@ -77,6 +79,9 @@ public class DependencyTreeResolver {
 		if (Config.DEBUG) System.out.println("Creating dependencies for " + libraryName + "...");
 		this.libraryPath = path;
 		this.libraryName = libraryName;
+		PackageStructureResolver packageStructureResolver = new PackageStructureResolver(path, libraryName, filters);
+		ModelicaPackage libraryPackage = packageStructureResolver.getLibraryPackage();
+		packageTreeMap.put(libraryName, libraryPackage);
 		filesStructure.resolveFileStructure(path, libraryName);
 		fileStructurePathResolver = new FileStructurePathResolver(filesStructure.tree);
 		if (Config.DEBUG) {
@@ -85,6 +90,11 @@ public class DependencyTreeResolver {
 				filters.forEach(it -> System.out.println(it.getFilterDescription()));
 			}
 		}
+		while (libraryPackage.hasNext()) {
+			IModelicaFile modelicaClass = libraryPackage.getNext();
+			if (Config.VERBOSE) System.out.println("Reading " + modelicaClass.getPath());
+		}
+		libraryPackage.reset();
 		filesStructure.tree.forEach(
 				(packageName, packageInfo) -> {
 					List<ClassInfo> classInfoList = packageInfo.getClassDefinitions();

@@ -2,7 +2,7 @@ package objects.definitions;
 
 import lombok.Setter;
 import modelica.ModelicaClassType;
-import objects.modelica.IModelicaClass;
+import objects.modelica.IModelicaFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ public class ClassDefinition implements IClassDefinition {
     ModelicaClassType classType;
 	private boolean resolved = false;
 
-	public ClassDefinition(IModelicaClass modelicaClass) {
+	public ClassDefinition(IModelicaFile modelicaClass) {
 		className = modelicaClass.getName();
 		classPath = modelicaClass.getPath();
 	}

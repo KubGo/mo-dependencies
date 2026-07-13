@@ -1,10 +1,12 @@
 package modelica.packagestructure;
 
-import objects.modelica.ModelicaClass;
+import filtering.IFilter;
+import objects.modelica.ModelicaFile;
 import objects.modelica.ModelicaPackage;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PackageStructureResolver {
@@ -12,19 +14,25 @@ public class PackageStructureResolver {
 	private final String libraryName;
 	private final ModelicaPackage libraryPackage;
 	private ModelicaPackage currentPackage;
+	private List<IFilter> filters = new ArrayList<>();
 
-	public PackageStructureResolver(String pathToLibrary, String libraryName) {
+	public PackageStructureResolver(String pathToLibrary, String libraryName, List<IFilter> filters) {
 		if (pathToLibrary.endsWith(libraryName)) {
 			pathToLibrary = Path.of(pathToLibrary).getParent().toString();
 		}
 		this.pathToLibrary = pathToLibrary;
 		this.libraryName = libraryName;
 		libraryPackage = new ModelicaPackage(libraryName);
+		this.filters = filters;
 		resolvePackageStructure(libraryPackage);
 	}
 
+	public PackageStructureResolver(String pathToLibrary, String libraryName) {
+		this(pathToLibrary, libraryName, List.of());
+	}
+
 	public PackageStructureResolver(String pathToLibrary) {
-		this(pathToLibrary, Path.of(pathToLibrary).getFileName().toString());
+		this(pathToLibrary, Path.of(pathToLibrary).getFileName().toString(), List.of());
 	}
 
 	private void resolvePackageStructure(ModelicaPackage modelicaPackage) {
@@ -47,12 +55,19 @@ public class PackageStructureResolver {
 		}
 		for (File file : files) {
 			String fileName = file.getName();
-			if (file.isDirectory()) {
-				ModelicaPackage newPackage = new ModelicaPackage(fileName, modelicaPackage);
-				resolvePackageStructure(newPackage);
+			boolean filtered = false;
+			for (var filter : filters) {
+				if (!filter.shouldBeUsed(fileName)) {
+					filtered = true;
+				}
 			}
-			else if (fileName.endsWith(".mo") && !fileName.equals("package.mo")) {
-				new ModelicaClass(fileName.split("\\.")[0], modelicaPackage);
+			if (!filtered) {
+				if (file.isDirectory()) {
+					ModelicaPackage newPackage = new ModelicaPackage(fileName, modelicaPackage);
+					resolvePackageStructure(newPackage);
+				} else if (fileName.endsWith(".mo") && !fileName.equals("package.mo")) {
+					new ModelicaFile(fileName.split("\\.")[0], modelicaPackage);
+				}
 			}
 		}
 		if (modelicaPackage.hasParent()) {

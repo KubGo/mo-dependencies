@@ -4,11 +4,11 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ModelicaClassTest {
+class ModelicaFileTest {
 
-	private final ModelicaClass modelicaClass = new ModelicaClass("Height");
+	private final ModelicaFile modelicaClass = new ModelicaFile("Height");
 	private final ModelicaPackage modelicaPackage = new ModelicaPackage("Units");
-	private final ModelicaClass modelicaClassInPackage = new ModelicaClass("Height", modelicaPackage);
+	private final ModelicaFile modelicaClassInPackage = new ModelicaFile("Height", modelicaPackage);
 
 	@Test
 	void getName_ModelicaClass_nameMatches() {
@@ -48,5 +48,13 @@ class ModelicaClassTest {
 		assertFalse(modelicaClass.hasNext());
 		modelicaClass.reset();
 		assertTrue(modelicaClass.hasNext());
+	}
+
+	@Test
+	void getFilePath_modelicaClass_worksCorrectly() {
+		assertEquals("C:/folder/library/Height.mo",
+				modelicaClass.getFilePath("C:/folder/library"));
+		assertEquals("C:/folder/library/Units/Height.mo",
+				modelicaClassInPackage.getFilePath("C:/folder/library"));
 	}
 }

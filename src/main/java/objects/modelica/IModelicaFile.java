@@ -1,15 +1,16 @@
 package objects.modelica;
 
-public interface IModelicaClass {
+public interface IModelicaFile {
     String getName();
     String getPath();
     boolean pathMatches(String path);
-    IModelicaClass getParent();
+
+    IModelicaFile getParent();
     boolean hasParent();
 
     boolean hasNext();
 
-    IModelicaClass getNext();
+    IModelicaFile getNext();
 
     void reset();
 

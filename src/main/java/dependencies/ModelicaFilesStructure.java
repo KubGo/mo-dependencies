@@ -6,6 +6,9 @@ import dependencies.structureinfo.ClassInfo;
 import dependencies.structureinfo.ModelicaFileInfo;
 import dependencies.structureinfo.PackageInfo;
 import filtering.ModelicaDirectoryFilter;
+import lombok.Getter;
+import modelica.packagestructure.PackageStructureResolver;
+import objects.modelica.ModelicaPackage;
 
 import java.io.File;
 import java.util.Stack;
@@ -16,21 +19,18 @@ import java.util.TreeMap;
  */
 public class ModelicaFilesStructure {
 	private PackageInfo currentPackage;
+	TreeMap<String, ModelicaPackage> resolvedPackageStructures = new TreeMap<>();
 	private final Stack<PackageInfo> packagesStack = new Stack<>();
+	@Getter
 	TreeMap<String, PackageInfo> tree = new TreeMap<>();
+	private ModelicaPackage modelicaPackage = null;
 	private String libraryName;
 	private final ModelicaDirectoryFilter modelicaDirectoryFilter = new ModelicaDirectoryFilter();
 	public ModelicaFilesStructure(){
 
 	}
 
-	/**
-	 * @return parser.Modelica files tree
-	 */
-	public TreeMap<String, PackageInfo> getTree() {
-		return tree;
-	}
-	public ModelicaFilesStructure(String path, String libraryName){
+	public ModelicaFilesStructure(String path, String libraryName) {
 		resolveFileStructure(path, libraryName);
 	}
 
@@ -42,6 +42,8 @@ public class ModelicaFilesStructure {
 		if (Config.DEBUG) System.out.println("Resolving file structure for " + libraryName + "...");
 		this.libraryName = libraryName;
 		currentPackage = new PackageInfo(path, libraryName);
+		PackageStructureResolver packageStructureResolver = new PackageStructureResolver(path, libraryName);
+		modelicaPackage = packageStructureResolver.getLibraryPackage();
 		packagesStack.push(currentPackage);
 		tree.put(libraryName, currentPackage);
 		try {
