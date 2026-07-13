@@ -12,4 +12,6 @@ public interface IModelicaClass {
     IModelicaClass getNext();
 
     void reset();
+
+    String getFilePath(String rootPath);
 }

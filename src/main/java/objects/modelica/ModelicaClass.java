@@ -3,6 +3,9 @@ package objects.modelica;
 import modelica.ModelicaPath;
 import modelica.PathMatcher;
 
+import java.io.File;
+import java.util.StringJoiner;
+
 public class ModelicaClass implements IModelicaClass {
 
     private final String name;
@@ -64,5 +67,17 @@ public class ModelicaClass implements IModelicaClass {
     @Override
     public void reset() {
         read = false;
+    }
+
+    @Override
+    public String getFilePath(String rootPath) {
+        StringJoiner joiner = new StringJoiner(File.separator);
+        joiner.add(rootPath);
+        for (String p : this.path.split("\\.")) {
+            if (!rootPath.endsWith(p)) {
+                joiner.add(p);
+            }
+        }
+        return joiner + ".mo";
     }
 }

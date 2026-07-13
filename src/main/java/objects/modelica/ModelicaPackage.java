@@ -4,7 +4,9 @@ import exceptions.ModelicaClassNotFoundException;
 import modelica.ModelicaPath;
 import modelica.PathMatcher;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.StringJoiner;
 
 public class ModelicaPackage implements IModelicaClass {
 
@@ -58,7 +60,6 @@ public class ModelicaPackage implements IModelicaClass {
         if (!pathMatches(name)) {
             throw new ModelicaClassNotFoundException(name);
         }
-        IModelicaClass searchedClass;
         for (var child : children) {
             if (child.pathMatches(name)) {
                 return getModelicaClassByName(child, name);
@@ -124,5 +125,18 @@ public class ModelicaPackage implements IModelicaClass {
             child.reset();
         }
         currentPosition = -1;
+    }
+
+    @Override
+    public String getFilePath(String rootPath) {
+        StringJoiner joiner = new StringJoiner(File.separator);
+        joiner.add(rootPath);
+        for (String p : this.path.split("\\.")) {
+            if (!rootPath.endsWith(p)) {
+                joiner.add(p);
+            }
+        }
+        joiner.add("package.mo");
+        return joiner.toString();
     }
 }
