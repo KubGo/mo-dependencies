@@ -9,6 +9,8 @@ import objects.modelica.Modification;
 import java.util.ArrayList;
 import java.util.List;
 
+import static parser.ParseText.parseText;
+
 public class ModelicaPackage implements IModelicaClass {
 
 	private final ComponentBuilder componentBuilder = new ComponentBuilder();
@@ -80,5 +82,9 @@ public class ModelicaPackage implements IModelicaClass {
 	@Override
 	public List<Modification> getModifications() {
 		return List.of();
+	}
+
+	public void getClassDefinitions(String text) {
+		var listener = parseText(text);
 	}
 }

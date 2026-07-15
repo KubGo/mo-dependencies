@@ -5,16 +5,11 @@ import modelica.ModelicaClassType;
 import objects.files.IModelicaFile;
 import objects.modelica.Component;
 import objects.modelica.Modification;
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.atn.PredictionMode;
-import org.antlr.v4.runtime.tree.ParseTreeWalker;
-import parser.DefinitionsListener;
-import parser.Modelica;
-import parser.ModelicaLexer;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static parser.ParseText.parseText;
 
 public class ModelicaClass implements IModelicaClass {
 	ArrayList<Component> components = new ArrayList<>();
@@ -84,12 +79,6 @@ public class ModelicaClass implements IModelicaClass {
 	}
 
 	public void getClassDefinitions(String text) {
-		ModelicaLexer modelicaLexer = new ModelicaLexer(CharStreams.fromString(text));
-		CommonTokenStream tokens = new CommonTokenStream(modelicaLexer);
-		Modelica parser = new Modelica(tokens);
-		parser.getInterpreter().setPredictionMode(PredictionMode.SLL);
-		DefinitionsListener definitionsListener = new DefinitionsListener();
-		ParseTreeWalker walker = new ParseTreeWalker();
-		walker.walk(definitionsListener, parser.stored_definition());
+		var listener = parseText(text);
 	}
 }

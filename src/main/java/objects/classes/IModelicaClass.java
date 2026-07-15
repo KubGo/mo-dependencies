@@ -23,4 +23,6 @@ public interface IModelicaClass {
 	List<Component> getDeclarations();
 
 	List<Modification> getModifications();
+
+	void getClassDefinitions(String text);
 }

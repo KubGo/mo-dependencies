@@ -8,7 +8,9 @@ import objects.files.ModelicaFolder;
 import java.io.File;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class PackageStructureResolver {
 	private final String pathToLibrary;
@@ -65,9 +67,11 @@ public class PackageStructureResolver {
 			}
 			if (!filtered) {
 				if (file.isDirectory()) {
-					ModelicaFolder newPackage = new ModelicaFolder(fileName, modelicaFolder);
-					newPackage.setFilePath(pathToLibrary);
-					resolvePackageStructure(newPackage);
+					if (isModelicaDirectory(file)) {
+						ModelicaFolder newPackage = new ModelicaFolder(fileName, modelicaFolder);
+						newPackage.setFilePath(pathToLibrary);
+						resolvePackageStructure(newPackage);
+					}
 				} else if (fileName.endsWith(".mo") && !fileName.equals("package.mo")) {
 					ModelicaFile modelicaFile = new ModelicaFile(fileName.split("\\.")[0], modelicaFolder);
 					modelicaFile.setFilePath(pathToLibrary);
@@ -77,5 +81,17 @@ public class PackageStructureResolver {
 		if (modelicaFolder.hasParent()) {
 			currentPackage = modelicaFolder.getParent();
 		}
+	}
+
+	private boolean isModelicaDirectory(File file) {
+		if (!file.isDirectory()) {
+			return false;
+		}
+		if (file.listFiles() == null) {
+			return false;
+		}
+		var filteredFiles = Arrays.stream(Objects.requireNonNull(file.listFiles())).filter(f ->
+				f.getName().equals("package.mo")).toList();
+		return !filteredFiles.isEmpty();
 	}
 }

@@ -30,16 +30,18 @@ public class ClassDefinitionsResolver {
         modelicaLibrary = new ModelicaPackage(modelicaFile);
         while (this.libraryStructure.hasNext()) {
             IModelicaFile file = this.libraryStructure.getNext();
+            String text = "";
+            try {
+                text = modelicaFileReader.readFile(file.getFilePath());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             if (file instanceof ModelicaFile) {
                 ModelicaClass modelicaClass = new ModelicaClass(file);
-                try {
-                    String text = modelicaFileReader.readFile(file.getFilePath());
-                    modelicaClass.getClassDefinitions(text);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+                modelicaClass.getClassDefinitions(text);
             } else {
                 ModelicaPackage modelicaPackage = new ModelicaPackage(file);
+                modelicaPackage.getClassDefinitions(text);
             }
         }
         return modelicaLibrary;
