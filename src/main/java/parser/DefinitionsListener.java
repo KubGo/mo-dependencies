@@ -50,8 +50,16 @@ public class DefinitionsListener extends ModelicaBaseListener {
 		packageName = ctx.name().getText();
 		modelicaClassType = resolveModelicaClassType(
 				ctx.class_definition().getFirst().class_prefixes().getText());
-		name = ctx.class_definition().getFirst().class_specifier().long_class_specifier().IDENT().getText();
 	}
+
+	@Override
+	public void enterLong_class_specifier(Modelica.Long_class_specifierContext ctx) {
+		if (isCurrentSection(ModelicaFileSection.DECLARATIVE)) {
+			name = ctx.IDENT().getText();
+		}
+	}
+
+
 
 	@Override
 	public void enterDeclaration_clause(Modelica.Declaration_clauseContext ctx) {
@@ -165,6 +173,9 @@ public class DefinitionsListener extends ModelicaBaseListener {
 				modifications.add(modificationBuilder.build());
 			}
 			modificationBuilder.reset();
+		}
+		if (isCurrentSection(ModelicaFileSection.DECLARATIVE)) {
+			name = ctx.IDENT().getText();
 		}
 	}
 

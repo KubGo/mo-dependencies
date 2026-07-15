@@ -40,7 +40,6 @@ public class Utils {
     }
     public static <T extends ModelicaListener> T getParsedListenerFromText(String text, T listener){
         ModelicaLexer modelicaLexer = new ModelicaLexer(CharStreams.fromString(text));
-
         CommonTokenStream tokens = new CommonTokenStream(modelicaLexer);
         Modelica modelicaParser = new Modelica(tokens);
         ParseTree tree = modelicaParser.stored_definition();

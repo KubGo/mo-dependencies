@@ -5,6 +5,13 @@ import modelica.ModelicaClassType;
 import objects.files.IModelicaFile;
 import objects.modelica.Component;
 import objects.modelica.Modification;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.atn.PredictionMode;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
+import parser.DefinitionsListener;
+import parser.Modelica;
+import parser.ModelicaLexer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,8 +19,8 @@ import java.util.List;
 public class ModelicaClass implements IModelicaClass {
 	ArrayList<Component> components = new ArrayList<>();
 	ArrayList<Modification> modifications = new ArrayList<>();
-	String className;
-	String classPath;
+	private final String className;
+	private final String classPath;
 	@Setter
     ModelicaClassType classType;
 	private boolean resolved = false;
@@ -76,4 +83,13 @@ public class ModelicaClass implements IModelicaClass {
 		resolved = false;
 	}
 
+	public void getClassDefinitions(String text) {
+		ModelicaLexer modelicaLexer = new ModelicaLexer(CharStreams.fromString(text));
+		CommonTokenStream tokens = new CommonTokenStream(modelicaLexer);
+		Modelica parser = new Modelica(tokens);
+		parser.getInterpreter().setPredictionMode(PredictionMode.SLL);
+		DefinitionsListener definitionsListener = new DefinitionsListener();
+		ParseTreeWalker walker = new ParseTreeWalker();
+		walker.walk(definitionsListener, parser.stored_definition());
+	}
 }
