@@ -12,6 +12,7 @@ public class ModelicaFile implements IModelicaFile {
     private final String path;
     private ModelicaFolder parent = null;
     private boolean read = false;
+    private String filePath = "";
 
     public ModelicaFile(String name, ModelicaFolder parent) {
         this.name = name;
@@ -70,7 +71,12 @@ public class ModelicaFile implements IModelicaFile {
     }
 
     @Override
-    public String getFilePath(String rootPath) {
+    public String getFilePath() {
+        return this.filePath;
+    }
+
+    @Override
+    public void setFilePath(String rootPath) {
         StringJoiner joiner = new StringJoiner(File.separator);
         joiner.add(rootPath);
         for (String p : this.path.split("\\.")) {
@@ -78,6 +84,6 @@ public class ModelicaFile implements IModelicaFile {
                 joiner.add(p);
             }
         }
-        return joiner + ".mo";
+        this.filePath = joiner + ".mo";
     }
 }

@@ -93,11 +93,12 @@ class ModelicaFolderTest {
 
 	@Test
 	void getFilePath_modelicaPackage_worksCorrectly() {
+		modelicaFolderUnits.setFilePath("C:/folder/package");
 		assertEquals("C:/folder/package/Units/package.mo",
-				modelicaFolderUnits.getFilePath("C:/folder/package"));
-
+				modelicaFolderUnits.getFilePath());
+		modelicaFolderSI.setFilePath("C:/folder/package");
 		assertEquals("C:/folder/package/Units/SI/package.mo",
-				modelicaFolderSI.getFilePath("C:/folder/package"));
+				modelicaFolderSI.getFilePath());
 	}
 
 }

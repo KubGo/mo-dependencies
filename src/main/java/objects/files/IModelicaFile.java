@@ -14,5 +14,7 @@ public interface IModelicaFile {
 
     void reset();
 
-    String getFilePath(String rootPath);
+    String getFilePath();
+
+    void setFilePath(String rootPath);
 }

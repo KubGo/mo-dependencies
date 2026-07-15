@@ -12,6 +12,7 @@ public class ModelicaFolder implements IModelicaFile {
 
     private final String name;
     private final String path;
+    private String filePath = "";
     private ModelicaFolder parent = null;
     private final ArrayList<IModelicaFile> children = new ArrayList<>();
     private int currentPosition = -1;
@@ -131,7 +132,12 @@ public class ModelicaFolder implements IModelicaFile {
     }
 
     @Override
-    public String getFilePath(String rootPath) {
+    public String getFilePath() {
+        return this.filePath;
+    }
+
+    @Override
+    public void setFilePath(String rootPath) {
         StringJoiner joiner = new StringJoiner(File.separator);
         joiner.add(rootPath);
         for (String p : this.path.split("\\.")) {
@@ -140,6 +146,6 @@ public class ModelicaFolder implements IModelicaFile {
             }
         }
         joiner.add("package.mo");
-        return joiner.toString();
+        this.filePath = joiner.toString();
     }
 }

@@ -1,6 +1,7 @@
 package modelica.packagestructure;
 
 import filtering.IFilter;
+import lombok.Getter;
 import objects.files.ModelicaFile;
 import objects.files.ModelicaFolder;
 
@@ -12,6 +13,7 @@ import java.util.List;
 public class PackageStructureResolver {
 	private final String pathToLibrary;
 	private final String libraryName;
+	@Getter
 	private final ModelicaFolder libraryPackage;
 	private ModelicaFolder currentPackage;
 	private List<IFilter> filters = new ArrayList<>();
@@ -64,9 +66,11 @@ public class PackageStructureResolver {
 			if (!filtered) {
 				if (file.isDirectory()) {
 					ModelicaFolder newPackage = new ModelicaFolder(fileName, modelicaFolder);
+					newPackage.setFilePath(pathToLibrary);
 					resolvePackageStructure(newPackage);
 				} else if (fileName.endsWith(".mo") && !fileName.equals("package.mo")) {
-					new ModelicaFile(fileName.split("\\.")[0], modelicaFolder);
+					ModelicaFile modelicaFile = new ModelicaFile(fileName.split("\\.")[0], modelicaFolder);
+					modelicaFile.setFilePath(pathToLibrary);
 				}
 			}
 		}
@@ -74,9 +78,4 @@ public class PackageStructureResolver {
 			currentPackage = modelicaFolder.getParent();
 		}
 	}
-
-	public ModelicaFolder getLibraryPackage() {
-		return libraryPackage;
-	}
-
 }

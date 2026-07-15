@@ -54,9 +54,11 @@ class ModelicaFileTest {
 
 	@Test
 	void getFilePath_modelicaClass_worksCorrectly() {
+		modelicaClass.setFilePath("C:/folder/library");
 		assertEquals("C:/folder/library/Height.mo",
-				modelicaClass.getFilePath("C:/folder/library"));
+				modelicaClass.getFilePath());
+		modelicaClassInPackage.setFilePath("C:/folder/library");
 		assertEquals("C:/folder/library/Units/Height.mo",
-				modelicaClassInPackage.getFilePath("C:/folder/library"));
+				modelicaClassInPackage.getFilePath());
 	}
 }
