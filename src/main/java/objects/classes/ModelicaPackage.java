@@ -19,7 +19,7 @@ public class ModelicaPackage implements IModelicaClass {
     ArrayList<Component> components = new ArrayList<>();
     String className;
     String classPath;
-    private int currentPosition = 0;
+    private int currentPosition = -1;
     private ModelicaPackage parentPackage = null;
 
     public ModelicaPackage(IModelicaFile modelicaClass) {
@@ -41,11 +41,18 @@ public class ModelicaPackage implements IModelicaClass {
 
     @Override
     public IModelicaClass getNext() {
+        if (currentPosition < 0) {
+            currentPosition++;
+            return this;
+        }
         return children.get(currentPosition).getNext();
     }
 
     @Override
     public boolean hasNext() {
+        if (currentPosition < 0) {
+            return true;
+        }
         if (!children.get(currentPosition).hasNext()) {
             if (currentPosition + 1 >= children.size()) {
                 return false;
@@ -95,8 +102,13 @@ public class ModelicaPackage implements IModelicaClass {
     }
 
     @Override
-    public void setParentPackage(ModelicaPackage parentPackage) {
-        this.parentPackage = parentPackage;
+    public ModelicaPackage getParentPackage() {
+        return this.parentPackage;
     }
 
+    @Override
+    public void setParentPackage(ModelicaPackage parentPackage) {
+        this.parentPackage = parentPackage;
+        parentPackage.addChild(this);
+    }
 }

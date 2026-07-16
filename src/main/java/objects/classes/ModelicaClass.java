@@ -92,7 +92,13 @@ public class ModelicaClass implements IModelicaClass {
     }
 
     @Override
+    public ModelicaPackage getParentPackage() {
+        return this.parentPackage;
+    }
+
+    @Override
     public void setParentPackage(ModelicaPackage parentPackage) {
         this.parentPackage = parentPackage;
+        parentPackage.addChild(this);
     }
 }

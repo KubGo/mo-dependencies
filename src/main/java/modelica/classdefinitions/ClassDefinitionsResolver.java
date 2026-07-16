@@ -35,7 +35,11 @@ public class ClassDefinitionsResolver {
 
     private void resolveFolderClassDefinitions(ModelicaFolder modelicaFolder, ModelicaPackage parentPackage) throws IOException {
         ModelicaPackage modelicaPackage = new ModelicaPackage(modelicaFolder);
-        modelicaPackage.setParentPackage(parentPackage);
+        if (parentPackage == null) {
+            this.modelicaLibrary = modelicaPackage;
+        } else {
+            modelicaPackage.setParentPackage(parentPackage);
+        }
         String text = modelicaFileReader.readFile(modelicaFolder.getFilePath());
         modelicaPackage.getClassDefinitions(text);
         if (modelicaFolder.hasChildren()) {

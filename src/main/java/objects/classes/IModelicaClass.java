@@ -29,5 +29,7 @@ public interface IModelicaClass {
 
     void getClassDefinitions(String text);
 
+    ModelicaPackage getParentPackage();
+
     void setParentPackage(ModelicaPackage parentPackage);
 }
