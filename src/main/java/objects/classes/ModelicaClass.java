@@ -89,7 +89,7 @@ public class ModelicaClass implements IModelicaClass {
         components = listener.getComponents();
         modifications = listener.getModifications();
         declarations = listener.getDeclarations();
-        listener.getPackageName();
+        resolveImports(listener.getImportedClasses());
     }
 
     @Override
@@ -106,5 +106,14 @@ public class ModelicaClass implements IModelicaClass {
     @Override
     public boolean pathMatches(String path) {
         return PathMatcher.isSubPath(this.classPath, path);
+    }
+
+    private void resolveImports(List<String> imports) {
+        for (String importedPath : imports) {
+            components.forEach(it -> it.resolveImport(importedPath));
+            modifications.forEach(it -> it.resolveImport(importedPath));
+            declarations.forEach(it -> it.resolveImport(importedPath));
+        }
+
     }
 }

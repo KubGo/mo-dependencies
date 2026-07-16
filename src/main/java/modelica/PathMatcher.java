@@ -22,4 +22,11 @@ public class PathMatcher {
         return true;
     }
 
+    public static boolean isImportedPath(String classPath, String importedPath) {
+        String[] classPathSplit = classPath.split("\\.");
+        String[] importPathSplit = importedPath.split("\\.");
+
+        return classPathSplit[0].equals(importPathSplit[importPathSplit.length - 1]);
+    }
+
 }

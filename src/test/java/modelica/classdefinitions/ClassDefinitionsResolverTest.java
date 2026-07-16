@@ -85,6 +85,17 @@ class ClassDefinitionsResolverTest {
                 bouncingBall
                         .getComponents().stream()
                         .map(Component::getClassName));
+
     }
 
+    @Test
+    void getComponentsWithResolvedImports_ImportsTests_fullClassNamesRetrieved() {
+        IModelicaClass importsTest = modelicaLibrary.getByName("BuildingsLite.Tests.ImportsTest");
+
+        checkStringStream(
+                "Modelica.Blocks.Sources.Ramp, Modelica.Blocks.Sources.Sine, Modelica.Units.SI.Height, Modelica.Units.SI.Temperature",
+                importsTest.getComponents().stream()
+                        .map(Component::getClassName)
+        );
+    }
 }

@@ -2,10 +2,12 @@ package objects.modelica;
 
 import lombok.Getter;
 import modelica.ComponentPrefix;
+import modelica.ModelicaPath;
 import modelica.ModelicaVariability;
+import modelica.PathMatcher;
 
 @Getter
-public class Component {
+public class Component implements IImportResolver {
     String componentName;
     String className;
     String description;
@@ -39,4 +41,10 @@ public class Component {
         return className != null;
     }
 
+    @Override
+    public void resolveImport(String importedPath) {
+        if (PathMatcher.isImportedPath(this.className, importedPath)) {
+            className = ModelicaPath.joinSubPaths(importedPath, this.className);
+        }
+    }
 }
