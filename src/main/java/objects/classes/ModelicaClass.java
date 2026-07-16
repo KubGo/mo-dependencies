@@ -2,6 +2,7 @@ package objects.classes;
 
 import lombok.Setter;
 import modelica.ModelicaClassType;
+import modelica.PathMatcher;
 import objects.files.IModelicaFile;
 import objects.modelica.Component;
 import objects.modelica.Declaration;
@@ -100,5 +101,10 @@ public class ModelicaClass implements IModelicaClass {
     public void setParentPackage(ModelicaPackage parentPackage) {
         this.parentPackage = parentPackage;
         parentPackage.addChild(this);
+    }
+
+    @Override
+    public boolean pathMatches(String path) {
+        return PathMatcher.isSubPath(this.classPath, path);
     }
 }

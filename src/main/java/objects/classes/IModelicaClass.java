@@ -32,4 +32,6 @@ public interface IModelicaClass {
     ModelicaPackage getParentPackage();
 
     void setParentPackage(ModelicaPackage parentPackage);
+
+    boolean pathMatches(String path);
 }

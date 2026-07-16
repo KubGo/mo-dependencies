@@ -2,6 +2,7 @@ package modelica.classdefinitions;
 
 import modelica.ModelicaClassType;
 import modelica.packagestructure.PackageStructureResolver;
+import objects.classes.IModelicaClass;
 import objects.classes.ModelicaPackage;
 import objects.files.ModelicaFolder;
 import objects.modelica.Component;
@@ -20,6 +21,7 @@ class ClassDefinitionsResolverTest {
 
     static ModelicaFolder modelicaFolder;
     static ClassDefinitionsResolver classDefinitionsResolver;
+    static ModelicaPackage modelicaLibrary;
 
     @BeforeAll
     static void setUp() {
@@ -29,12 +31,12 @@ class ClassDefinitionsResolverTest {
         );
         modelicaFolder = packageStructureResolver.getLibraryPackage();
         classDefinitionsResolver = new ClassDefinitionsResolver(modelicaFolder);
+        modelicaLibrary = classDefinitionsResolver.getModelicaLibrary();
     }
 
 
     @Test
     void verifyLibraryPackage_classDefinitionResolver_libraryPackageInfoMatches() {
-        ModelicaPackage modelicaLibrary = classDefinitionsResolver.getModelicaLibrary();
         assertEquals(
                 "BuildingsLite",
                 modelicaLibrary.getClassName()
@@ -63,6 +65,26 @@ class ClassDefinitionsResolverTest {
         assertEquals(
                 modelicaLibrary,
                 modelicaLibrary.getNext().getParentPackage());
+    }
+
+    @Test
+    void getClassesByName_classDefinitionsResolver_definitionsMatch() {
+        String classPath = "BuildingsLite.Tests.BouncingBall";
+        IModelicaClass bouncingBall = modelicaLibrary.getByName(classPath);
+        assertEquals(
+                classPath,
+                bouncingBall.getClassPath()
+        );
+        assertEquals(
+                "BuildingsLite.Tests",
+                bouncingBall.getParentPackage().getClassPath()
+        );
+
+        checkStringStream(
+                "Height, Real, Velocity",
+                bouncingBall
+                        .getComponents().stream()
+                        .map(Component::getClassName));
     }
 
 }

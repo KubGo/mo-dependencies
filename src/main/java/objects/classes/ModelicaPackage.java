@@ -1,6 +1,8 @@
 package objects.classes;
 
+import exceptions.ModelicaClassNotFoundException;
 import modelica.ModelicaClassType;
+import modelica.PathMatcher;
 import objects.files.IModelicaFile;
 import objects.modelica.Component;
 import objects.modelica.ComponentBuilder;
@@ -110,5 +112,39 @@ public class ModelicaPackage implements IModelicaClass {
     public void setParentPackage(ModelicaPackage parentPackage) {
         this.parentPackage = parentPackage;
         parentPackage.addChild(this);
+    }
+
+    @Override
+    public boolean pathMatches(String path) {
+        for (IModelicaClass child : children) {
+            if (child.pathMatches(path)) {
+                return true;
+            }
+        }
+        return PathMatcher.isSubPath(this.classPath, path);
+    }
+
+    public IModelicaClass getByName(String name) {
+        if (!pathMatches(name)) {
+            throw new ModelicaClassNotFoundException(name);
+        }
+        for (var child : children) {
+            if (child.pathMatches(name)) {
+                return getModelicaClassByName(child, name);
+            }
+        }
+        throw new ModelicaClassNotFoundException(name);
+    }
+
+    private IModelicaClass getModelicaClassByName(IModelicaClass modelicaClass, String name) {
+        IModelicaClass searchedClass;
+        while (modelicaClass.hasNext()) {
+            searchedClass = modelicaClass.getNext();
+            if (searchedClass.getClassPath().equals(name)) {
+                modelicaClass.reset();
+                return searchedClass;
+            }
+        }
+        throw new ModelicaClassNotFoundException(name);
     }
 }
