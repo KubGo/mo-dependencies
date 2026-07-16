@@ -2,27 +2,32 @@ package objects.classes;
 
 import modelica.ModelicaClassType;
 import objects.modelica.Component;
+import objects.modelica.Declaration;
 import objects.modelica.Modification;
 
 import java.util.List;
 
 public interface IModelicaClass {
 
-	ModelicaClassType getClassType();
+    ModelicaClassType getClassType();
 
-	IModelicaClass getNext();
+    IModelicaClass getNext();
 
-	boolean hasNext();
+    boolean hasNext();
 
-	void reset();
+    void reset();
 
-	String getClassPath();
+    String getClassPath();
 
-	String getClassName();
+    String getClassName();
 
-	List<Component> getDeclarations();
+    List<Component> getComponents();
 
-	List<Modification> getModifications();
+    List<Modification> getModifications();
 
-	void getClassDefinitions(String text);
+    List<Declaration> getDeclarations();
+
+    void getClassDefinitions(String text);
+
+    void setParentPackage(ModelicaPackage parentPackage);
 }

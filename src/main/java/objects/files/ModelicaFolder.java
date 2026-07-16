@@ -6,15 +6,16 @@ import modelica.PathMatcher;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.StringJoiner;
 
 public class ModelicaFolder implements IModelicaFile {
 
     private final String name;
     private final String path;
+    private final ArrayList<IModelicaFile> children = new ArrayList<>();
     private String filePath = "";
     private ModelicaFolder parent = null;
-    private final ArrayList<IModelicaFile> children = new ArrayList<>();
     private int currentPosition = -1;
 
     public ModelicaFolder(String name, ModelicaFolder parent) {
@@ -103,8 +104,7 @@ public class ModelicaFolder implements IModelicaFile {
         if (!children.get(currentPosition).hasNext()) {
             if (currentPosition + 1 >= children.size()) {
                 return false;
-            }
-            else {
+            } else {
                 currentPosition++;
                 return hasNext();
             }
@@ -121,6 +121,21 @@ public class ModelicaFolder implements IModelicaFile {
             return nextModelicaClass;
         }
         return children.get(currentPosition).getNext();
+    }
+
+    public boolean hasChildren() {
+        return !children.isEmpty();
+    }
+
+    public List<ModelicaFolder> getAllFolders() {
+        return children.stream().filter(it -> it instanceof ModelicaFolder)
+                .map(it -> (ModelicaFolder) it).toList();
+    }
+
+    public List<ModelicaFile> getAllFiles() {
+
+        return children.stream().filter(it -> it instanceof ModelicaFile)
+                .map(it -> (ModelicaFile) it).toList();
     }
 
     @Override
