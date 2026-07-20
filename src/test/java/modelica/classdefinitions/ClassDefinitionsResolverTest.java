@@ -81,7 +81,7 @@ class ClassDefinitionsResolverTest {
         );
 
         checkStringStream(
-                "Height, Real, Velocity",
+                "Real",
                 bouncingBall
                         .getComponents().stream()
                         .map(Component::getClassName));
@@ -97,5 +97,27 @@ class ClassDefinitionsResolverTest {
                 importsTest.getComponents().stream()
                         .map(Component::getClassName)
         );
+    }
+
+    @Test
+    void resolveDeclarations_ComplexExample_PipeDeclarationResolved() {
+        IModelicaClass complexExamples = modelicaLibrary.getByName("BuildingsLite.Tests.ComplexExample");
+
+        checkStringStream(
+                String.join(", ",
+                        Stream.of(
+                                "Modelica.Fluid.Pipes.DynamicPipe",
+                                "Modelica.Fluid.Sources.MassFlowSource_T",
+                                "Modelica.Fluid.Sources.Boundary_pT",
+                                "Modelica.Blocks.Sources.Ramp",
+                                "Real",
+                                "Modelica.Units.SI.CrossSection",
+                                "Package.OtherPackage.Component"
+                        ).sorted().toList()),
+                complexExamples.getComponents()
+                        .stream()
+                        .map(Component::getClassName)
+        );
+
     }
 }

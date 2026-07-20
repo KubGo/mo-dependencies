@@ -7,7 +7,7 @@ import modelica.PathMatcher;
 
 import java.util.List;
 
-public class Declaration implements IImportResolver {
+public class Declaration implements IImportResolver, IConstrainable {
     @Getter
     ModelicaClassType type;
     @Getter
@@ -30,6 +30,7 @@ public class Declaration implements IImportResolver {
         this.constrainingClass = constrainingClass;
     }
 
+
     @Override
     public void resolveImport(String importedPath) {
         if (PathMatcher.isImportedPath(this.declarationClass, importedPath)) {
@@ -41,5 +42,10 @@ public class Declaration implements IImportResolver {
         if (PathMatcher.isImportedPath(this.constrainingClass, importedPath)) {
             constrainingClass = ModelicaPath.joinSubPaths(importedPath, this.constrainingClass);
         }
+    }
+
+    @Override
+    public boolean hasConstraint() {
+        return constrainingClass != null;
     }
 }

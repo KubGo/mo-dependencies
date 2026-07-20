@@ -6,6 +6,7 @@ import modelica.PathMatcher;
 import objects.files.IModelicaFile;
 import objects.modelica.Component;
 import objects.modelica.Declaration;
+import objects.modelica.IDeclarationsResolver;
 import objects.modelica.Modification;
 import parser.DefinitionsListener;
 
@@ -40,7 +41,7 @@ public class ModelicaClass implements IModelicaClass {
 
     @Override
     public List<Modification> getModifications() {
-        return modifications;
+        return resolveDeclarations(modifications);
     }
 
     @Override
@@ -55,7 +56,7 @@ public class ModelicaClass implements IModelicaClass {
 
     @Override
     public List<Component> getComponents() {
-        return components;
+        return resolveDeclarations(components);
     }
 
     @Override
@@ -92,6 +93,11 @@ public class ModelicaClass implements IModelicaClass {
         resolveImports(listener.getImportedClasses());
     }
 
+    private <T extends IDeclarationsResolver> List<T> resolveDeclarations(List<T> values) {
+        return values.stream().map(
+                it -> it.resolveDeclaration(declarations)).map(it -> (T) it).toList();
+    }
+
     @Override
     public ModelicaPackage getParentPackage() {
         return this.parentPackage;
@@ -109,6 +115,7 @@ public class ModelicaClass implements IModelicaClass {
     }
 
     private void resolveImports(List<String> imports) {
+        // TODO("Resolve imports based on files path to prevent wrong class declarations")
         for (String importedPath : imports) {
             components.forEach(it -> it.resolveImport(importedPath));
             modifications.forEach(it -> it.resolveImport(importedPath));

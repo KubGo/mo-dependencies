@@ -6,8 +6,10 @@ import modelica.ModelicaPath;
 import modelica.ModelicaVariability;
 import modelica.PathMatcher;
 
+import java.util.List;
+
 @Getter
-public class Component implements IImportResolver {
+public class Component implements IImportResolver, IDeclarationsResolver, IConstrainable {
     String componentName;
     String className;
     String description;
@@ -29,6 +31,7 @@ public class Component implements IImportResolver {
         this.componentPrefix = componentPrefix;
     }
 
+    @Override
     public boolean hasConstraint() {
         return constrainingClass != null;
     }
@@ -46,5 +49,26 @@ public class Component implements IImportResolver {
         if (PathMatcher.isImportedPath(this.className, importedPath)) {
             className = ModelicaPath.joinSubPaths(importedPath, this.className);
         }
+    }
+
+    @Override
+    public Component resolveDeclaration(List<Declaration> declarations) {
+        for (Declaration declaration : declarations) {
+            if (className.equals(declaration.declarationName)) {
+                String updatedConstrainingClass = constrainingClass;
+                if (declaration.hasConstraint()) {
+                    updatedConstrainingClass = declaration.constrainingClass;
+                }
+                return new Component(
+                        componentName,
+                        declaration.declarationClass,
+                        description,
+                        updatedConstrainingClass,
+                        value,
+                        variability,
+                        componentPrefix);
+            }
+        }
+        return this;
     }
 }

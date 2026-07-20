@@ -4,7 +4,9 @@ import lombok.Getter;
 import modelica.ModelicaPath;
 import modelica.PathMatcher;
 
-public class Modification implements IImportResolver {
+import java.util.List;
+
+public class Modification implements IImportResolver, IDeclarationsResolver, IConstrainable {
     @Getter
     String component;
     @Getter
@@ -22,6 +24,7 @@ public class Modification implements IImportResolver {
         this(component, value, null);
     }
 
+    @Override
     public boolean hasConstraint() {
         return constrainingClass != null;
     }
@@ -34,5 +37,19 @@ public class Modification implements IImportResolver {
         if (PathMatcher.isImportedPath(this.constrainingClass, importedPath)) {
             constrainingClass = ModelicaPath.joinSubPaths(importedPath, this.constrainingClass);
         }
+    }
+
+    @Override
+    public Modification resolveDeclaration(List<Declaration> declarations) {
+        for (Declaration declaration : declarations) {
+            if (value.equals(declaration.declarationName)) {
+                String updatedConstrainingClass = constrainingClass;
+                if (declaration.hasConstraint()) {
+                    updatedConstrainingClass = declaration.constrainingClass;
+                }
+                return new Modification(this.component, declaration.declarationClass, updatedConstrainingClass);
+            }
+        }
+        return this;
     }
 }
