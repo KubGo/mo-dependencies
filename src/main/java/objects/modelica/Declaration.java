@@ -4,10 +4,14 @@ import lombok.Getter;
 import modelica.ModelicaClassType;
 import modelica.ModelicaPath;
 import modelica.PathMatcher;
+import objects.files.IModelicaFile;
 
 import java.util.List;
 
-public class Declaration implements IImportResolver, IConstrainable {
+public class Declaration implements
+        IImportResolver,
+        IConstrainable,
+        IRelativePathResolver {
     @Getter
     ModelicaClassType type;
     @Getter
@@ -47,5 +51,11 @@ public class Declaration implements IImportResolver, IConstrainable {
     @Override
     public boolean hasConstraint() {
         return constrainingClass != null;
+    }
+
+
+    @Override
+    public void resolveRelativePath(IModelicaFile modelicaFile) {
+        // TODO("Resolve relative paths to absolute")
     }
 }

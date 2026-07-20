@@ -5,11 +5,16 @@ import modelica.ComponentPrefix;
 import modelica.ModelicaPath;
 import modelica.ModelicaVariability;
 import modelica.PathMatcher;
+import objects.files.IModelicaFile;
 
 import java.util.List;
 
 @Getter
-public class Component implements IImportResolver, IDeclarationsResolver, IConstrainable {
+public class Component implements
+        IImportResolver,
+        IDeclarationsResolver,
+        IConstrainable,
+        IRelativePathResolver {
     String componentName;
     String className;
     String description;
@@ -70,5 +75,10 @@ public class Component implements IImportResolver, IDeclarationsResolver, IConst
             }
         }
         return this;
+    }
+
+    @Override
+    public void resolveRelativePath(IModelicaFile modelicaFile) {
+        // TODO("Resolve relative path declarations to absolute path")
     }
 }

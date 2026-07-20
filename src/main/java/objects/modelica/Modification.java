@@ -3,10 +3,15 @@ package objects.modelica;
 import lombok.Getter;
 import modelica.ModelicaPath;
 import modelica.PathMatcher;
+import objects.files.IModelicaFile;
 
 import java.util.List;
 
-public class Modification implements IImportResolver, IDeclarationsResolver, IConstrainable {
+public class Modification implements
+        IImportResolver,
+        IDeclarationsResolver,
+        IConstrainable,
+        IRelativePathResolver {
     @Getter
     String component;
     @Getter
@@ -51,5 +56,10 @@ public class Modification implements IImportResolver, IDeclarationsResolver, ICo
             }
         }
         return this;
+    }
+
+    @Override
+    public void resolveRelativePath(IModelicaFile modelicaFile) {
+        // TODO("Resolve relative paths to absolute")
     }
 }
