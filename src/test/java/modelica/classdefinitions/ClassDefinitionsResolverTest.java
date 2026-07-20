@@ -46,7 +46,7 @@ class ClassDefinitionsResolverTest {
                 modelicaLibrary.getClassType()
         );
         checkStringStream(
-                String.join(", ",
+                String.join("\n",
                         Stream.of("BaseClasses", "Bugfixes", "Airflow", "Tests", "Controls", "HeatTransfer")
                                 .sorted()
                                 .toList()),
@@ -93,7 +93,7 @@ class ClassDefinitionsResolverTest {
         IModelicaClass importsTest = modelicaLibrary.getByName("BuildingsLite.Tests.ImportsTest");
 
         checkStringStream(
-                "Modelica.Blocks.Sources.Ramp, Modelica.Blocks.Sources.Sine, Modelica.Units.SI.Height, Modelica.Units.SI.Temperature",
+                "Modelica.Blocks.Sources.Ramp\nModelica.Blocks.Sources.Sine\nModelica.Units.SI.Height\nModelica.Units.SI.Temperature",
                 importsTest.getComponents().stream()
                         .map(Component::getClassName)
         );
@@ -104,7 +104,7 @@ class ClassDefinitionsResolverTest {
         IModelicaClass complexExamples = modelicaLibrary.getByName("BuildingsLite.Tests.ComplexExample");
 
         checkStringStream(
-                String.join(", ",
+                String.join("\n",
                         Stream.of(
                                 "Modelica.Fluid.Pipes.DynamicPipe",
                                 "Modelica.Fluid.Sources.MassFlowSource_T",
@@ -118,6 +118,26 @@ class ClassDefinitionsResolverTest {
                         .stream()
                         .map(Component::getClassName)
         );
+    }
 
+    @Test
+    void resolveExtendingClasses_SimpleModel_componentsFromPartialModelIncluded() {
+        modelicaLibrary.resolveExtendingClasses(modelicaLibrary);
+        IModelicaClass simpleModel = modelicaLibrary.getByName("BuildingsLite.Tests.SimpleModel");
+        checkStringStream(
+                String.join("\n", Stream.of(
+                        "HeatTransfer.Conduction.SingleLayer",
+                        "Controls.Discrete.BooleanDelay",
+                        "Airflow.Multizone.MediumColumn",
+                        "BouncingBall",
+                        "OtherLibrary.HeatTransfer.Conduction.DiscretizedConduction"
+//                        "Modelica.Units.SI.Length",
+//                        "Modelica.Units.SI.Area",
+//                        "HeatTransfer.Radiosity.Constant"
+                ).sorted().toList()),
+                simpleModel.getComponents()
+                        .stream()
+                        .map(Component::getClassName)
+        );
     }
 }

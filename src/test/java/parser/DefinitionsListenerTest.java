@@ -32,15 +32,15 @@ class DefinitionsListenerTest {
         DefinitionsListener parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
 
         assertEquals(4, parsedListener.getComponents().size());
-        checkStringStream("Height, Real, Velocity", parsedListener.getComponents()
+        checkStringStream("Height\nReal\nVelocity", parsedListener.getComponents()
                 .stream()
                 .map(Component::getClassName));
 
-        checkStringStream("e, h, h0, v", parsedListener.getComponents()
+        checkStringStream("e\nh\nh0\nv", parsedListener.getComponents()
                 .stream()
                 .map(Component::getComponentName));
 
-        checkStringStream("0.8, 1.0", parsedListener.getComponents()
+        checkStringStream("0.8\n1.0", parsedListener.getComponents()
                 .stream()
                 .map(Component::getValue)
                 .filter(Objects::nonNull));
@@ -58,10 +58,10 @@ class DefinitionsListenerTest {
 
         assertEquals(List.of("Modelica.Units.SI", "Modelica.Blocks.Sources"), parsedListener.getImportedClasses());
 
-        checkStringStream("T, h, ramp, sine", parsedListener.getComponents()
+        checkStringStream("T\nh\nramp\nsine", parsedListener.getComponents()
                 .stream()
                 .map(Component::getComponentName));
-        checkStringStream("ramp.duration, sine.amplitude, sine.f", parsedListener.getModifications()
+        checkStringStream("ramp.duration\nsine.amplitude\nsine.f", parsedListener.getModifications()
                 .stream()
                 .map(Modification::getComponent));
         assertEquals(3,
@@ -78,11 +78,11 @@ class DefinitionsListenerTest {
                 List.of("Modelica.Icons.ExamplesPackage"),
                 parsedListener.getExtendingClasses());
 
-        checkStringStream("component, crossArea, m_flow, pipe, sink, source, temperature_A_F",
+        checkStringStream("component\ncrossArea\nm_flow\npipe\nsink\nsource\ntemperature_A_F",
                 parsedListener.getComponents()
                         .stream().map(Component::getComponentName));
 
-        checkStringStream(String.join(", ",
+        checkStringStream(String.join("\n",
                         List.of(
                                 "Modelica.Blocks.Sources.Ramp",
                                 "Modelica.Fluid.Sources.Boundary_pT",
@@ -128,7 +128,7 @@ class DefinitionsListenerTest {
                 m_flow.getConstrainingClass());
 
         checkStringStream(
-                String.join(", ", Stream.of(
+                String.join("\n", Stream.of(
                                 "pipe.Medium",
                                 "pipe.allowFlowReversal",
                                 "pipe.length",
@@ -177,7 +177,7 @@ class DefinitionsListenerTest {
         String modelicaText = Utils.getModelicaTextFromResources(Utils.SimpleModel);
         DefinitionsListener parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
 
-        checkStringStream(String.join(", ",
+        checkStringStream(String.join("\n",
                         Stream.of(
                                 "layer",
                                 "booleanDelay",
@@ -188,7 +188,7 @@ class DefinitionsListenerTest {
                 parsedListener.getComponents()
                         .stream().map(Component::getComponentName));
 
-        checkStringStream(String.join(", ",
+        checkStringStream(String.join("\n",
                         Stream.of(
                                 "HeatTransfer.Conduction.SingleLayer",
                                 "Controls.Discrete.BooleanDelay",
@@ -199,7 +199,7 @@ class DefinitionsListenerTest {
                 parsedListener.getComponents()
                         .stream().map(Component::getClassName));
 
-        checkStringStream(String.join(", ",
+        checkStringStream(String.join("\n",
                         Stream.of(
                                 "layer.A",
                                 "layer.material",
@@ -209,7 +209,7 @@ class DefinitionsListenerTest {
                 parsedListener.getModifications()
                         .stream().map(Modification::getComponent));
 
-        checkStringStream(String.join(", ",
+        checkStringStream(String.join("\n",
                         Stream.of(
                                 "1",
                                 "BuildingsLite.HeatTransfer.Data.Solids.Concrete",

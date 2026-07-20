@@ -27,10 +27,11 @@ public class Utils {
     public final static String ConductorStepResponse = "BuildingsLite/HeatTransfer/Examples/ConductorStepResponse.mo";
     public final static String ReverseBuoyancy3Zone = "BuildingsLite/Airflow/Multizone/Examples/ReverseBuoyancy3Zones.mo";
 
-    public static String getPathAsString(String resourceName){
+    public static String getPathAsString(String resourceName) {
         File file = new File("src/test/resources/" + resourceName);
         return file.getAbsolutePath();
     }
+
     public static String getModelicaTextFromResources(String resourceName) throws IOException {
         ModelicaFileReader modelicaFileReader = new ModelicaFileReader();
         String filePath = getPathAsString(resourceName);
@@ -38,7 +39,8 @@ public class Utils {
         return modelicaFileReader.readFile(
                 filePath);
     }
-    public static <T extends ModelicaListener> T getParsedListenerFromText(String text, T listener){
+
+    public static <T extends ModelicaListener> T getParsedListenerFromText(String text, T listener) {
         ModelicaLexer modelicaLexer = new ModelicaLexer(CharStreams.fromString(text));
         CommonTokenStream tokens = new CommonTokenStream(modelicaLexer);
         Modelica modelicaParser = new Modelica(tokens);
@@ -50,7 +52,7 @@ public class Utils {
 
     public static void checkStringStream(String expected, Stream<String> parsedListener) {
         String result = String.join(
-                ", ", parsedListener
+                "\n", parsedListener
                         .filter(Objects::nonNull)
                         .distinct()
                         .sorted()

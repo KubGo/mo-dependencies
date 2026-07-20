@@ -22,6 +22,7 @@ public class ModelicaPackage implements IModelicaClass {
     String className;
     String classPath;
     private int currentPosition = -1;
+    private boolean exportsResolved = false;
     private ModelicaPackage parentPackage = null;
 
     public ModelicaPackage(IModelicaFile modelicaClass) {
@@ -64,6 +65,16 @@ public class ModelicaPackage implements IModelicaClass {
             }
         }
         return true;
+    }
+
+    @Override
+    public void setExportsResolved(boolean resolved) {
+        exportsResolved = resolved;
+    }
+
+    @Override
+    public boolean exportsResolved() {
+        return exportsResolved;
     }
 
     @Override
@@ -146,5 +157,10 @@ public class ModelicaPackage implements IModelicaClass {
             }
         }
         throw new ModelicaClassNotFoundException(name);
+    }
+
+    @Override
+    public void resolveExtendingClasses(ModelicaPackage modelicaPackage) {
+        setExportsResolved(true);
     }
 }

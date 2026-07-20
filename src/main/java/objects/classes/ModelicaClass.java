@@ -21,9 +21,11 @@ public class ModelicaClass implements IModelicaClass {
     ArrayList<Component> components = new ArrayList<>();
     ArrayList<Modification> modifications = new ArrayList<>();
     ArrayList<Declaration> declarations = new ArrayList<>();
+    List<String> extendingClasses = new ArrayList<>();
     @Setter
     ModelicaClassType classType;
     private boolean resolved = false;
+    private boolean exportsResolved = false;
     private ModelicaPackage parentPackage = null;
 
     public ModelicaClass(IModelicaFile modelicaClass) {
@@ -81,6 +83,30 @@ public class ModelicaClass implements IModelicaClass {
     }
 
     @Override
+    public void resolveExtendingClasses(ModelicaPackage modelicaPackage) {
+        for (String extendingClass : extendingClasses) {
+            try {
+                IModelicaClass modelicaClass = modelicaPackage.getByName(extendingClass);
+                if (!modelicaClass.exportsResolved()) {
+                    modelicaClass.resolveExtendingClasses(modelicaPackage);
+                }
+                components.addAll(modelicaClass.getComponents());
+            } catch (RuntimeException ignored) {
+            }
+        }
+    }
+
+    @Override
+    public void setExportsResolved(boolean resolved) {
+        exportsResolved = resolved;
+    }
+
+    @Override
+    public boolean exportsResolved() {
+        return exportsResolved;
+    }
+
+    @Override
     public void reset() {
         resolved = false;
     }
@@ -90,6 +116,7 @@ public class ModelicaClass implements IModelicaClass {
         components = listener.getComponents();
         modifications = listener.getModifications();
         declarations = listener.getDeclarations();
+        extendingClasses.addAll(listener.getExtendingClasses());
         resolveImports(listener.getImportedClasses());
     }
 
@@ -121,6 +148,5 @@ public class ModelicaClass implements IModelicaClass {
             modifications.forEach(it -> it.resolveImport(importedPath));
             declarations.forEach(it -> it.resolveImport(importedPath));
         }
-
     }
 }

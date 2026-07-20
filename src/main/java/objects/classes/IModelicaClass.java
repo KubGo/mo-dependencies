@@ -15,7 +15,14 @@ public interface IModelicaClass {
 
     boolean hasNext();
 
+    void resolveExtendingClasses(ModelicaPackage modelicaPackage);
+
+    void setExportsResolved(boolean resolved);
+
+    boolean exportsResolved();
+
     void reset();
+
 
     String getClassPath();
 
