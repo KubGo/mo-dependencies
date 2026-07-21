@@ -3,7 +3,6 @@ package modelica.pathresolvers;
 import modelica.packagestructure.PackageStructureResolver;
 import objects.files.ModelicaFolder;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import utils.Utils;
 
@@ -22,11 +21,6 @@ class RelativePathResolverTest {
         );
         modelicaFolder = packageStructureResolver.getLibraryPackage();
         relativePathResolver.setModelicaFile(modelicaFolder.getByName("BuildingsLite.Tests.SimpleModel"));
-    }
-
-    @BeforeEach
-    void reset() {
-        modelicaFolder.reset();
     }
 
     @Test

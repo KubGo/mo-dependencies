@@ -147,6 +147,15 @@ public class ModelicaFolder implements IModelicaFile {
     }
 
     @Override
+    public void resetAll() {
+        IModelicaFile file = this;
+        while (file.hasParent()) {
+            file = file.getParent();
+        }
+        file.reset();
+    }
+
+    @Override
     public String getFilePath() {
         return this.filePath;
     }

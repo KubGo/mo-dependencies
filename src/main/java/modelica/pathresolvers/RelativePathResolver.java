@@ -23,6 +23,7 @@ public class RelativePathResolver {
     }
 
     public String resolvePath(String path) {
+        modelicaFile.resetAll();
         List<String> pathParts = modelicaPathToSubPaths(path);
         int i = 0;
         IModelicaFile currentCorrectFile = modelicaFile.getParent();
