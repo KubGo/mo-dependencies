@@ -3,6 +3,7 @@ package objects.classes;
 import lombok.Setter;
 import modelica.ModelicaClassType;
 import modelica.PathMatcher;
+import modelica.pathresolvers.RelativePathResolver;
 import objects.files.IModelicaFile;
 import objects.files.ModelicaFolder;
 import objects.modelica.Component;
@@ -147,7 +148,7 @@ public class ModelicaClass implements IModelicaClass {
         components.forEach(it -> it.resolveRelativePath(modelicaFolder));
         modifications.forEach(it -> it.resolveRelativePath(modelicaFolder));
         declarations.forEach(it -> it.resolveRelativePath(modelicaFolder));
-//        resolveExports(modelicaFolder);
+        resolveExports(modelicaFolder);
     }
 
     private void resolveImports(List<String> imports) {
@@ -160,6 +161,7 @@ public class ModelicaClass implements IModelicaClass {
     }
 
     private void resolveExports(ModelicaFolder modelicaFolder) {
-
+        RelativePathResolver relativePathResolver = new RelativePathResolver(modelicaFolder);
+        extendingClasses = extendingClasses.stream().map(relativePathResolver::resolvePath).toList();
     }
 }

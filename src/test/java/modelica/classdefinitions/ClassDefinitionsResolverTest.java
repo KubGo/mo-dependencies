@@ -7,6 +7,7 @@ import objects.classes.ModelicaPackage;
 import objects.files.ModelicaFolder;
 import objects.modelica.Component;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import utils.Utils;
 
@@ -20,8 +21,8 @@ import static utils.Utils.checkStringStream;
 class ClassDefinitionsResolverTest {
 
     static ModelicaFolder modelicaFolder;
-    static ClassDefinitionsResolver classDefinitionsResolver;
-    static ModelicaPackage modelicaLibrary;
+    ClassDefinitionsResolver classDefinitionsResolver;
+    ModelicaPackage modelicaLibrary;
 
     @BeforeAll
     static void setUp() {
@@ -30,6 +31,10 @@ class ClassDefinitionsResolverTest {
                 "BuildingsLite"
         );
         modelicaFolder = packageStructureResolver.getLibraryPackage();
+    }
+
+    @BeforeEach
+    void setUpEach() {
         classDefinitionsResolver = new ClassDefinitionsResolver(modelicaFolder);
         modelicaLibrary = classDefinitionsResolver.getModelicaLibrary();
     }
@@ -139,25 +144,42 @@ class ClassDefinitionsResolverTest {
         );
     }
 
-//    @Test
-//    void resolveExtendingClasses_SimpleModel_componentsFromPartialModelIncluded() {
-////        modelicaLibrary.resolveExtendingClasses(modelicaLibrary);
-//        IModelicaClass simpleModel = modelicaLibrary.getByName("BuildingsLite.Tests.SimpleModel");
-//        checkStringStream(
-//                String.join("\n", Stream.of(
-//                        "HeatTransfer.Conduction.SingleLayer",
-//                        "Controls.Discrete.BooleanDelay",
-//                        "Airflow.Multizone.MediumColumn",
-//                        "BouncingBall",
-//                        "OtherLibrary.HeatTransfer.Conduction.DiscretizedConduction"
-////                        "Modelica.Units.SI.Length",
-////                        "Modelica.Units.SI.Area",
-////                        "HeatTransfer.Radiosity.Constant"
-//                        // TODO("Resolve extended classes")
-//                ).sorted().toList()),
-//                simpleModel.getComponents()
-//                        .stream()
-//                        .map(Component::getClassName)
-//        );
-//    }
+    @Test
+    void resolveExtendingClasses_SimpleModel_componentsFromPartialModelIncluded() {
+        modelicaLibrary.resolveExtendingClasses(modelicaLibrary);
+        IModelicaClass simpleModel = modelicaLibrary.getByName("BuildingsLite.Tests.SimpleModel");
+        checkStringStream(
+                String.join("\n", Stream.of(
+                        "BuildingsLite.HeatTransfer.Conduction.SingleLayer",
+                        "BuildingsLite.Controls.Discrete.BooleanDelay",
+                        "BuildingsLite.Airflow.Multizone.MediumColumn",
+                        "BuildingsLite.Tests.BouncingBall",
+                        "OtherLibrary.HeatTransfer.Conduction.DiscretizedConduction",
+                        "Modelica.Units.SI.Length",
+                        "Modelica.Units.SI.Area",
+                        "BuildingsLite.HeatTransfer.Radiosity.Constant"
+                ).sorted().toList()),
+                simpleModel.getComponents()
+                        .stream()
+                        .map(Component::getClassName)
+        );
+
+        IModelicaClass multiExtendsModel = modelicaLibrary.getByName("BuildingsLite.Tests.MultipleExtendsModel");
+        checkStringStream(
+                String.join("\n", Stream.of(
+                        "BuildingsLite.HeatTransfer.Conduction.SingleLayer",
+                        "BuildingsLite.Controls.Discrete.BooleanDelay",
+                        "BuildingsLite.Airflow.Multizone.MediumColumn",
+                        "BuildingsLite.Tests.BouncingBall",
+                        "OtherLibrary.HeatTransfer.Conduction.DiscretizedConduction",
+                        "Modelica.Units.SI.Length",
+                        "Modelica.Units.SI.Area",
+                        "BuildingsLite.HeatTransfer.Radiosity.Constant",
+                        "BuildingsLite.Controls.Predictors.ElectricalLoad"
+                ).sorted().toList()),
+                multiExtendsModel.getComponents()
+                        .stream()
+                        .map(Component::getClassName)
+        );
+    }
 }

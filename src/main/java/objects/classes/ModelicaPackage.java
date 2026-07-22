@@ -137,6 +137,7 @@ public class ModelicaPackage implements IModelicaClass {
     }
 
     public IModelicaClass getByName(String name) {
+        reset();
         if (!pathMatches(name)) {
             throw new ModelicaClassNotFoundException(name);
         }
@@ -157,6 +158,7 @@ public class ModelicaPackage implements IModelicaClass {
             searchedClass = modelicaClass.getNext();
             if (searchedClass.getClassPath().equals(name)) {
                 modelicaClass.reset();
+                reset();
                 return searchedClass;
             }
         }
@@ -165,6 +167,9 @@ public class ModelicaPackage implements IModelicaClass {
 
     @Override
     public void resolveExtendingClasses(ModelicaPackage modelicaPackage) {
+        if (!exportsResolved) {
+            children.forEach(it -> it.resolveExtendingClasses(modelicaPackage));
+        }
         setExportsResolved(true);
     }
 
