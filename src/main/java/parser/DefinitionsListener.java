@@ -135,7 +135,11 @@ public class DefinitionsListener extends ModelicaBaseListener {
         }
         if (isCurrentSection(ModelicaFileSection.COMPONENT_MODIFICATION)) {
             modificationBuilder.setValue(ctx.getText());
-            modificationBuilder.setComponent(String.join(".", componentNames));
+            modificationBuilder.setComponent(componentNames);
+        }
+        if (isCurrentSection(ModelicaFileSection.CLASS_MODIFICATION)) {
+            modificationBuilder.setValue(ctx.getText());
+            modificationBuilder.setComponent(componentNames);
         }
     }
 
@@ -144,6 +148,17 @@ public class DefinitionsListener extends ModelicaBaseListener {
         if (isCurrentSection(ModelicaFileSection.COMPONENT_MODIFICATION)) {
             componentNames.add(ctx.getText());
             modificationBuilder.setComponent(componentNames);
+        }
+        if (isCurrentSection(ModelicaFileSection.CLASS_MODIFICATION)) {
+            componentNames.add(ctx.IDENT().getText());
+            modificationBuilder.setComponent(componentNames);
+        }
+    }
+
+    @Override
+    public void exitDeclaration(Modelica.DeclarationContext ctx) {
+        if (isCurrentSection(ModelicaFileSection.CLASS_MODIFICATION)) {
+            componentNames.pop();
         }
     }
 
@@ -228,11 +243,21 @@ public class DefinitionsListener extends ModelicaBaseListener {
         if (isCurrentSection(ModelicaFileSection.COMPONENT_MODIFICATION)) {
             componentNames.add(ctx.name().getText());
         }
+        if (isCurrentSection(ModelicaFileSection.CLASS_MODIFICATION)) {
+            componentNames.add(ctx.name().getText());
+        }
     }
 
     @Override
     public void exitElement_modification(Modelica.Element_modificationContext ctx) {
         if (isCurrentSection(ModelicaFileSection.COMPONENT_MODIFICATION)) {
+            if (modificationBuilder.isReady()) {
+                modifications.add(modificationBuilder.build());
+                modificationBuilder.reset();
+            }
+            componentNames.pop();
+        }
+        if (isCurrentSection(ModelicaFileSection.CLASS_MODIFICATION)) {
             if (modificationBuilder.isReady()) {
                 modifications.add(modificationBuilder.build());
                 modificationBuilder.reset();
@@ -293,5 +318,15 @@ public class DefinitionsListener extends ModelicaBaseListener {
     @Override
     public void enterElement_redeclaration(Modelica.Element_redeclarationContext ctx) {
         super.enterElement_redeclaration(ctx);
+    }
+
+    @Override
+    public void enterArgument_or_inheritance_modification_list(Modelica.Argument_or_inheritance_modification_listContext ctx) {
+        sectionsStack.add(ModelicaFileSection.CLASS_MODIFICATION);
+    }
+
+    @Override
+    public void exitArgument_or_inheritance_modification_list(Modelica.Argument_or_inheritance_modification_listContext ctx) {
+        sectionsStack.pop();
     }
 }

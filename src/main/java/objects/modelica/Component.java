@@ -15,7 +15,8 @@ public class Component implements
         IImportResolver,
         IDeclarationsResolver,
         IConstrainable,
-        IRelativePathResolver {
+        IRelativePathResolver,
+        IModifiable {
     String componentName;
     String className;
     String description;
@@ -82,5 +83,15 @@ public class Component implements
     public void resolveRelativePath(ModelicaFolder modelicaFile) {
         RelativePathResolver relativePathResolver = new RelativePathResolver(modelicaFile);
         className = relativePathResolver.resolvePath(className);
+    }
+
+    @Override
+    public void modify(Modification modification) {
+        if (modification.component.equals(componentName)) {
+            value = modification.value;
+            if (modification.hasConstraint()) {
+                constrainingClass = modification.constrainingClass;
+            }
+        }
     }
 }

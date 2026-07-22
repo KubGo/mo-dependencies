@@ -6,6 +6,7 @@ import objects.classes.IModelicaClass;
 import objects.classes.ModelicaPackage;
 import objects.files.ModelicaFolder;
 import objects.modelica.Component;
+import objects.modelica.Modification;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -181,5 +182,54 @@ class ClassDefinitionsResolverTest {
                         .stream()
                         .map(Component::getClassName)
         );
+    }
+
+
+    @Test
+    void resolveExtendingClasses_Modifications_modificationsApplied() {
+        modelicaLibrary.resolveExtendingClasses(modelicaLibrary);
+        IModelicaClass noModifications = modelicaLibrary.getByName("BuildingsLite.Modifications.SumNoModifications");
+
+        checkStringStream(
+                String.join("\n", Stream.of(
+                        "Boolean",
+                        "Real",
+                        "Modelica.Blocks.Sources.Constant",
+                        "Modelica.Blocks.Sources.RealExpression",
+                        "Modelica.Blocks.Interfaces.RealOutput",
+                        "BuildingsLite.Bugfixes.Sum"
+                ).sorted().toList()),
+                noModifications.getComponents()
+                        .stream()
+                        .map(Component::getClassName)
+        );
+        IModelicaClass modifications = modelicaLibrary.getByName("BuildingsLite.Modifications.DifferenceRamp");
+        checkStringStream(
+                String.join("\n", Stream.of(
+                        "input1.duration",
+                        "input1.height",
+                        "input1.offset",
+                        "input1.startTime",
+                        "outputModifier",
+                        "modifyOutput"
+                ).sorted().toList()),
+                modifications.getModifications()
+                        .stream().map(Modification::getComponent)
+        );
+        // TODO("Add redeclaration component so the redeclared components can be changed")
+//        checkStringStream(
+//                String.join("\n", Stream.of(
+//                        "Boolean",
+//                        "Real",
+//                        "Modelica.Blocks.Sources.Constant",
+//                        "Modelica.Blocks.Sources.Ramp",
+//                        "Modelica.Blocks.Sources.RealExpression",
+//                        "Modelica.Blocks.Interfaces.RealOutput",
+//                        "BuildingsLite.Bugfixes.Difference"
+//                ).sorted().toList()),
+//                noModifications.getComponents()
+//                        .stream()
+//                        .map(Component::getClassName)
+//        );
     }
 }
