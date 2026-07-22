@@ -52,7 +52,7 @@ class ClassDefinitionsResolverTest {
         );
         checkStringStream(
                 String.join("\n",
-                        Stream.of("BaseClasses", "Bugfixes", "Airflow", "Tests", "Controls", "HeatTransfer")
+                        Stream.of("BaseClasses", "Bugfixes", "Airflow", "Tests", "Controls", "HeatTransfer", "Modifications")
                                 .sorted()
                                 .toList()),
                 modelicaLibrary.getComponents().stream().map(Component::getClassName)
