@@ -17,6 +17,7 @@ public class DefinitionsListener extends ModelicaBaseListener {
     private final ComponentBuilder componentBuilder = new ComponentBuilder();
     private final DeclarationBuilder declarationBuilder = new DeclarationBuilder();
     private final ModificationBuilder modificationBuilder = new ModificationBuilder();
+    private final RedeclarationBuilder redeclarationBuilder = new RedeclarationBuilder();
     private final Stack<ModelicaFileSection> sectionsStack = new Stack<>();
     private final Stack<String> componentNames = new Stack<>();
     @Getter
@@ -27,6 +28,8 @@ public class DefinitionsListener extends ModelicaBaseListener {
     ArrayList<Declaration> declarations = new ArrayList<>();
     @Getter
     ArrayList<Modification> modifications = new ArrayList<>();
+    @Getter
+    ArrayList<Redeclaration> redeclarations = new ArrayList<>();
     @Getter
     ArrayList<String> extendingClasses = new ArrayList<>();
     @Getter
@@ -146,20 +149,22 @@ public class DefinitionsListener extends ModelicaBaseListener {
     @Override
     public void enterDeclaration(Modelica.DeclarationContext ctx) {
         if (isCurrentSection(ModelicaFileSection.COMPONENT_MODIFICATION)) {
-            componentNames.add(ctx.getText());
+            componentNames.add(ctx.IDENT().getText());
             modificationBuilder.setComponent(componentNames);
         }
         if (isCurrentSection(ModelicaFileSection.CLASS_MODIFICATION)) {
             componentNames.add(ctx.IDENT().getText());
             modificationBuilder.setComponent(componentNames);
         }
+        if (isCurrentSection(ModelicaFileSection.REDECLARATION)) {
+            componentNames.add(ctx.IDENT().getText());
+            redeclarationBuilder.setComponent(ctx.IDENT().getText());
+        }
     }
 
     @Override
     public void exitDeclaration(Modelica.DeclarationContext ctx) {
-        if (isCurrentSection(ModelicaFileSection.CLASS_MODIFICATION)) {
-            componentNames.pop();
-        }
+        componentNames.pop();
     }
 
     @Override
@@ -204,14 +209,23 @@ public class DefinitionsListener extends ModelicaBaseListener {
 
     @Override
     public void exitElement_redeclaration(Modelica.Element_redeclarationContext ctx) {
-        if (modificationBuilder.isReady()) {
-            modifications.add(modificationBuilder.build());
-            modificationBuilder.reset();
+        if (isCurrentSection(ModelicaFileSection.REDECLARATION)
+                || isCurrentSection(ModelicaFileSection.REDECLARATION_CONSTRAINING_CLAUSE)) {
+            sectionsStack.pop();
+            if (redeclarationBuilder.isReady()) {
+                redeclarations.add(redeclarationBuilder.build());
+            }
+        } else {
+            if (modificationBuilder.isReady()) {
+                modifications.add(modificationBuilder.build());
+                modificationBuilder.reset();
+            }
         }
     }
 
     @Override
     public void enterType_specifier(Modelica.Type_specifierContext ctx) {
+        // TODO("Rewrite to switch statement")
         if (isCurrentSection(ModelicaFileSection.CLASS_DEFINITION)) {
             declarationBuilder.setDeclarationClass(ctx.getText());
         }
@@ -227,6 +241,12 @@ public class DefinitionsListener extends ModelicaBaseListener {
         if (isCurrentSection(ModelicaFileSection.COMPONENT_MODIFICATION)) {
             modificationBuilder.setValue(ctx.getText());
         }
+        if (isCurrentSection(ModelicaFileSection.REDECLARATION)) {
+            redeclarationBuilder.setClassName(ctx.getText());
+        }
+        if (isCurrentSection(ModelicaFileSection.REDECLARATION_CONSTRAINING_CLAUSE)) {
+            redeclarationBuilder.setConstrainingClass(ctx.getText());
+        }
     }
 
     private boolean isCurrentSection(ModelicaFileSection expectedSection) {
@@ -240,12 +260,7 @@ public class DefinitionsListener extends ModelicaBaseListener {
 
     @Override
     public void enterElement_modification(Modelica.Element_modificationContext ctx) {
-        if (isCurrentSection(ModelicaFileSection.COMPONENT_MODIFICATION)) {
-            componentNames.add(ctx.name().getText());
-        }
-        if (isCurrentSection(ModelicaFileSection.CLASS_MODIFICATION)) {
-            componentNames.add(ctx.name().getText());
-        }
+        componentNames.add(ctx.name().getText());
     }
 
     @Override
@@ -303,7 +318,11 @@ public class DefinitionsListener extends ModelicaBaseListener {
 
     @Override
     public void enterConstraining_clause(Modelica.Constraining_clauseContext ctx) {
-        sectionsStack.add(ModelicaFileSection.CONSTRAINING_CLAUSE);
+        if (isCurrentSection(ModelicaFileSection.REDECLARATION)) {
+            sectionsStack.add(ModelicaFileSection.REDECLARATION_CONSTRAINING_CLAUSE);
+        } else {
+            sectionsStack.add(ModelicaFileSection.CONSTRAINING_CLAUSE);
+        }
     }
 
     @Override
@@ -317,7 +336,9 @@ public class DefinitionsListener extends ModelicaBaseListener {
 
     @Override
     public void enterElement_redeclaration(Modelica.Element_redeclarationContext ctx) {
-        super.enterElement_redeclaration(ctx);
+        if (isCurrentSection(ModelicaFileSection.CLASS_MODIFICATION)) {
+            sectionsStack.add(ModelicaFileSection.REDECLARATION);
+        }
     }
 
     @Override

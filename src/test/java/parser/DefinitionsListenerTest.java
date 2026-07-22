@@ -5,6 +5,7 @@ import modelica.ModelicaClassType;
 import modelica.ModelicaVariability;
 import objects.modelica.Component;
 import objects.modelica.Modification;
+import objects.modelica.Redeclaration;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import utils.Utils;
@@ -221,6 +222,38 @@ class DefinitionsListenerTest {
         assertEquals(
                 "PartialSimpleModel",
                 String.join(", ", parsedListener.getExtendingClasses())
+        );
+    }
+
+    @Test
+    void extractRedeclaration_DifferenceRamp_redeclarationMatch() throws IOException {
+        String modelicaText = Utils.getModelicaTextFromResources(Utils.DifferenceRamp);
+        DefinitionsListener parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
+        checkStringStream(
+                String.join("\n", Stream.of(
+                        "input1",
+                        "calculation"
+                ).sorted().toList()),
+                parsedListener.getRedeclarations()
+                        .stream().map(Redeclaration::getComponent)
+        );
+
+        checkStringStream(
+                String.join("\n", Stream.of(
+                        "Modelica.Blocks.Sources.Ramp",
+                        "BuildingsLite.Bugfixes.Difference"
+                ).sorted().toList()),
+                parsedListener.getRedeclarations()
+                        .stream().map(Redeclaration::getClassName)
+        );
+
+        checkStringStream(
+                String.join("\n", List.of(
+                        "Modelica.Blocks.Interfaces.SO"
+                )),
+                parsedListener.getRedeclarations()
+                        .stream().map(Redeclaration::getConstrainingClass)
+                        .filter(Objects::nonNull)
         );
     }
 }
