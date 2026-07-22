@@ -4,6 +4,7 @@ import exceptions.ModelicaClassNotFoundException;
 import objects.files.ModelicaFile;
 import objects.files.ModelicaFolder;
 import org.junit.jupiter.api.Test;
+import utils.Utils;
 
 import java.util.List;
 
@@ -100,6 +101,20 @@ class ModelicaFolderTest {
         modelicaFolderSI.setFilePath("C:/folder/package");
         assertEquals("C:/folder/package/Units/SI/package.mo",
                 modelicaFolderSI.getFilePath());
+    }
+
+    @Test
+    void getChildrenPaths_modelicaPackage_getAllPackageChildrenPaths() {
+        Utils.checkStringStream(
+                "Units.SI.Height",
+                modelicaFolderSI.getChildrenPaths()
+                        .stream().sorted()
+        );
+        Utils.checkStringStream(
+                "Units.SI\nUnits.SI.Height\nUnits.Test",
+                modelicaFolderUnits.getChildrenPaths()
+                        .stream().sorted()
+        );
     }
 
 }

@@ -4,7 +4,8 @@ import lombok.Getter;
 import modelica.ModelicaClassType;
 import modelica.ModelicaPath;
 import modelica.PathMatcher;
-import objects.files.IModelicaFile;
+import modelica.pathresolvers.RelativePathResolver;
+import objects.files.ModelicaFolder;
 
 import java.util.List;
 
@@ -55,7 +56,8 @@ public class Declaration implements
 
 
     @Override
-    public void resolveRelativePath(IModelicaFile modelicaFile) {
-        // TODO("Resolve relative paths to absolute")
+    public void resolveRelativePath(ModelicaFolder modelicaFile) {
+        RelativePathResolver relativePathResolver = new RelativePathResolver(modelicaFile);
+        declarationClass = relativePathResolver.resolvePath(declarationClass);
     }
 }

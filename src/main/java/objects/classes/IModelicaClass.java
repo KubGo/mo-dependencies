@@ -1,6 +1,7 @@
 package objects.classes;
 
 import modelica.ModelicaClassType;
+import objects.files.ModelicaFolder;
 import objects.modelica.Component;
 import objects.modelica.Declaration;
 import objects.modelica.Modification;
@@ -41,4 +42,6 @@ public interface IModelicaClass {
     void setParentPackage(ModelicaPackage parentPackage);
 
     boolean pathMatches(String path);
+
+    void resolveRelativePaths(ModelicaFolder modelicaFolder);
 }

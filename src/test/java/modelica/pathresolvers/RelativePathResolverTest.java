@@ -20,7 +20,7 @@ class RelativePathResolverTest {
                 "BuildingsLite"
         );
         modelicaFolder = packageStructureResolver.getLibraryPackage();
-        relativePathResolver.setModelicaFile(modelicaFolder.getByName("BuildingsLite.Tests.SimpleModel"));
+        relativePathResolver.setModelicaFolder(modelicaFolder.getByName("BuildingsLite.Tests.SimpleModel").getParent());
     }
 
     @Test

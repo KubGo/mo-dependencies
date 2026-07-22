@@ -4,6 +4,7 @@ import exceptions.ModelicaClassNotFoundException;
 import modelica.ModelicaClassType;
 import modelica.PathMatcher;
 import objects.files.IModelicaFile;
+import objects.files.ModelicaFolder;
 import objects.modelica.Component;
 import objects.modelica.ComponentBuilder;
 import objects.modelica.Declaration;
@@ -148,7 +149,10 @@ public class ModelicaPackage implements IModelicaClass {
     }
 
     private IModelicaClass getModelicaClassByName(IModelicaClass modelicaClass, String name) {
-        IModelicaClass searchedClass;
+        IModelicaClass searchedClass = modelicaClass;
+        if (modelicaClass.getClassPath().equals(name)) {
+            return searchedClass;
+        }
         while (modelicaClass.hasNext()) {
             searchedClass = modelicaClass.getNext();
             if (searchedClass.getClassPath().equals(name)) {
@@ -162,5 +166,17 @@ public class ModelicaPackage implements IModelicaClass {
     @Override
     public void resolveExtendingClasses(ModelicaPackage modelicaPackage) {
         setExportsResolved(true);
+    }
+
+    @Override
+    public void resolveRelativePaths(ModelicaFolder modelicaFolder) {
+        for (var child : children) {
+            try {
+                ModelicaFolder childFolder = modelicaFolder.getByName(child.getClassPath()).getParent();
+                child.resolveRelativePaths(childFolder);
+            } catch (RuntimeException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 }

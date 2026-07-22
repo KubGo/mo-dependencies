@@ -1,46 +1,33 @@
 package modelica.pathresolvers;
 
 import lombok.Setter;
-import modelica.PathMatcher;
-import objects.files.IModelicaFile;
+import modelica.ModelicaPath;
 import objects.files.ModelicaFolder;
 
-import java.util.List;
-
-import static modelica.ModelicaPath.modelicaPathToSubPaths;
+import java.util.Set;
 
 public class RelativePathResolver {
 
     @Setter
-    private IModelicaFile modelicaFile;
+    private ModelicaFolder modelicaFolder;
 
     public RelativePathResolver() {
-        modelicaFile = null;
+        modelicaFolder = null;
     }
 
-    public RelativePathResolver(ModelicaFolder modelicaFile) {
-        this.modelicaFile = modelicaFile;
+    public RelativePathResolver(ModelicaFolder modelicaFolder) {
+        this.modelicaFolder = modelicaFolder;
     }
 
     public String resolvePath(String path) {
-        modelicaFile.resetAll();
-        List<String> pathParts = modelicaPathToSubPaths(path);
-        int i = 0;
-        IModelicaFile currentCorrectFile = modelicaFile.getParent();
-        while (currentCorrectFile != null) {
-            if (PathMatcher.isSubPath(currentCorrectFile.getPath(), path)) {
-                return currentCorrectFile.getPath();
+        ModelicaFolder currentFolder = modelicaFolder;
+        while (currentFolder != null) {
+            Set<String> possiblePaths = currentFolder.getChildrenPaths();
+            String pathToSearch = ModelicaPath.joinPaths(currentFolder.getPath(), path);
+            if (possiblePaths.contains(pathToSearch)) {
+                return pathToSearch;
             }
-            if (!currentCorrectFile.hasNext() || i > pathParts.size() - 1) {
-                currentCorrectFile = currentCorrectFile.getParent();
-                i = 0;
-            } else {
-                IModelicaFile modelicaFile = currentCorrectFile.getNext();
-                if (PathMatcher.isSubPath(modelicaFile.getPath(), pathParts.get(i))) {
-                    currentCorrectFile = modelicaFile;
-                    i++;
-                }
-            }
+            currentFolder = currentFolder.getParent();
         }
         return path;
     }

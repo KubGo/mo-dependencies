@@ -5,15 +5,14 @@ import modelica.ModelicaPath;
 import modelica.PathMatcher;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringJoiner;
+import java.util.*;
 
 public class ModelicaFolder implements IModelicaFile {
 
     private final String name;
     private final String path;
     private final ArrayList<IModelicaFile> children = new ArrayList<>();
+    private final TreeMap<String, IModelicaFile> tree = new TreeMap<>();
     private String filePath = "";
     private ModelicaFolder parent = null;
     private int currentPosition = -1;
@@ -24,8 +23,8 @@ public class ModelicaFolder implements IModelicaFile {
             this.path = name;
         } else {
             this.parent = parent;
-            parent.addChildren(this);
             this.path = ModelicaPath.joinPaths(parent.getPath(), name);
+            parent.addChildren(this);
         }
     }
 
@@ -33,8 +32,20 @@ public class ModelicaFolder implements IModelicaFile {
         this(name, null);
     }
 
+    public void addToParentTree(IModelicaFile child) {
+        tree.put(child.getPath(), child);
+        if (hasParent()) {
+            parent.addToParentTree(child);
+        }
+    }
+
+    public Set<String> getChildrenPaths() {
+        return tree.keySet();
+    }
+
     public void addChildren(IModelicaFile child) {
         children.add(child);
+        addToParentTree(child);
     }
 
 
@@ -59,29 +70,12 @@ public class ModelicaFolder implements IModelicaFile {
     }
 
     public IModelicaFile getByName(String name) {
-        if (!pathMatches(name)) {
+        IModelicaFile file = tree.get(name);
+        if (file == null) {
             throw new ModelicaClassNotFoundException(name);
         }
-        for (var child : children) {
-            if (child.pathMatches(name)) {
-                return getModelicaClassByName(child, name);
-            }
-        }
-        throw new ModelicaClassNotFoundException(name);
+        return file;
     }
-
-    private IModelicaFile getModelicaClassByName(IModelicaFile modelicaClass, String name) {
-        IModelicaFile searchedClass;
-        while (modelicaClass.hasNext()) {
-            searchedClass = modelicaClass.getNext();
-            if (searchedClass.getPath().equals(name)) {
-                modelicaClass.reset();
-                return searchedClass;
-            }
-        }
-        throw new ModelicaClassNotFoundException(name);
-    }
-
 
     @Override
     public ModelicaFolder getParent() {
@@ -144,15 +138,6 @@ public class ModelicaFolder implements IModelicaFile {
             child.reset();
         }
         currentPosition = -1;
-    }
-
-    @Override
-    public void resetAll() {
-        IModelicaFile file = this;
-        while (file.hasParent()) {
-            file = file.getParent();
-        }
-        file.reset();
     }
 
     @Override

@@ -30,6 +30,7 @@ public class ClassDefinitionsResolver {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        modelicaLibrary.resolveRelativePaths(libraryStructure);
         return modelicaLibrary;
     }
 

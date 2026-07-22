@@ -3,7 +3,8 @@ package objects.modelica;
 import lombok.Getter;
 import modelica.ModelicaPath;
 import modelica.PathMatcher;
-import objects.files.IModelicaFile;
+import modelica.pathresolvers.RelativePathResolver;
+import objects.files.ModelicaFolder;
 
 import java.util.List;
 
@@ -59,7 +60,8 @@ public class Modification implements
     }
 
     @Override
-    public void resolveRelativePath(IModelicaFile modelicaFile) {
-        // TODO("Resolve relative paths to absolute")
+    public void resolveRelativePath(ModelicaFolder modelicaFile) {
+        RelativePathResolver relativePathResolver = new RelativePathResolver(modelicaFile);
+        value = relativePathResolver.resolvePath(value);
     }
 }

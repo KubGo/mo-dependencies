@@ -1,7 +1,7 @@
 package objects.modelica;
 
-import objects.files.IModelicaFile;
+import objects.files.ModelicaFolder;
 
 public interface IRelativePathResolver {
-    void resolveRelativePath(IModelicaFile modelicaFile);
+    void resolveRelativePath(ModelicaFolder modelicaFile);
 }

@@ -20,8 +20,8 @@ public class ModelicaFile implements IModelicaFile {
             this.path = name;
         } else {
             this.parent = parent;
-            parent.addChildren(this);
             this.path = ModelicaPath.joinPaths(parent.getPath(), name);
+            parent.addChildren(this);
         }
     }
 
@@ -45,7 +45,7 @@ public class ModelicaFile implements IModelicaFile {
     }
 
     @Override
-    public IModelicaFile getParent() {
+    public ModelicaFolder getParent() {
         return parent;
     }
 
@@ -68,15 +68,6 @@ public class ModelicaFile implements IModelicaFile {
     @Override
     public void reset() {
         read = false;
-    }
-
-    @Override
-    public void resetAll() {
-        IModelicaFile file = this;
-        while (file.hasParent()) {
-            file = file.getParent();
-        }
-        file.reset();
     }
 
     @Override

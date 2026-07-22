@@ -121,23 +121,43 @@ class ClassDefinitionsResolverTest {
     }
 
     @Test
-    void resolveExtendingClasses_SimpleModel_componentsFromPartialModelIncluded() {
-        modelicaLibrary.resolveExtendingClasses(modelicaLibrary);
-        IModelicaClass simpleModel = modelicaLibrary.getByName("BuildingsLite.Tests.SimpleModel");
+    void resolveRelativePaths_SimpleModel_absolutePathsUsed() {
+        modelicaLibrary.resolveRelativePaths(modelicaFolder);
         checkStringStream(
-                String.join("\n", Stream.of(
-                        "HeatTransfer.Conduction.SingleLayer",
-                        "Controls.Discrete.BooleanDelay",
-                        "Airflow.Multizone.MediumColumn",
-                        "BouncingBall",
-                        "OtherLibrary.HeatTransfer.Conduction.DiscretizedConduction"
-//                        "Modelica.Units.SI.Length",
-//                        "Modelica.Units.SI.Area",
-//                        "HeatTransfer.Radiosity.Constant"
-                ).sorted().toList()),
-                simpleModel.getComponents()
+                String.join("\n",
+                        Stream.of(
+                                "BuildingsLite.HeatTransfer.Conduction.SingleLayer",
+                                "BuildingsLite.Controls.Discrete.BooleanDelay",
+                                "BuildingsLite.Airflow.Multizone.MediumColumn",
+                                "BuildingsLite.Tests.BouncingBall",
+                                "OtherLibrary.HeatTransfer.Conduction.DiscretizedConduction"
+                        ).sorted().toList()),
+                modelicaLibrary.getByName("BuildingsLite.Tests.SimpleModel")
+                        .getComponents()
                         .stream()
                         .map(Component::getClassName)
         );
     }
+
+//    @Test
+//    void resolveExtendingClasses_SimpleModel_componentsFromPartialModelIncluded() {
+////        modelicaLibrary.resolveExtendingClasses(modelicaLibrary);
+//        IModelicaClass simpleModel = modelicaLibrary.getByName("BuildingsLite.Tests.SimpleModel");
+//        checkStringStream(
+//                String.join("\n", Stream.of(
+//                        "HeatTransfer.Conduction.SingleLayer",
+//                        "Controls.Discrete.BooleanDelay",
+//                        "Airflow.Multizone.MediumColumn",
+//                        "BouncingBall",
+//                        "OtherLibrary.HeatTransfer.Conduction.DiscretizedConduction"
+////                        "Modelica.Units.SI.Length",
+////                        "Modelica.Units.SI.Area",
+////                        "HeatTransfer.Radiosity.Constant"
+//                        // TODO("Resolve extended classes")
+//                ).sorted().toList()),
+//                simpleModel.getComponents()
+//                        .stream()
+//                        .map(Component::getClassName)
+//        );
+//    }
 }

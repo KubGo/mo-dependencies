@@ -4,6 +4,7 @@ import lombok.Setter;
 import modelica.ModelicaClassType;
 import modelica.PathMatcher;
 import objects.files.IModelicaFile;
+import objects.files.ModelicaFolder;
 import objects.modelica.Component;
 import objects.modelica.Declaration;
 import objects.modelica.IDeclarationsResolver;
@@ -141,6 +142,14 @@ public class ModelicaClass implements IModelicaClass {
         return PathMatcher.isSubPath(this.classPath, path);
     }
 
+    @Override
+    public void resolveRelativePaths(ModelicaFolder modelicaFolder) {
+        components.forEach(it -> it.resolveRelativePath(modelicaFolder));
+        modifications.forEach(it -> it.resolveRelativePath(modelicaFolder));
+        declarations.forEach(it -> it.resolveRelativePath(modelicaFolder));
+//        resolveExports(modelicaFolder);
+    }
+
     private void resolveImports(List<String> imports) {
         // TODO("Resolve imports based on files path to prevent wrong class declarations")
         for (String importedPath : imports) {
@@ -148,5 +157,9 @@ public class ModelicaClass implements IModelicaClass {
             modifications.forEach(it -> it.resolveImport(importedPath));
             declarations.forEach(it -> it.resolveImport(importedPath));
         }
+    }
+
+    private void resolveExports(ModelicaFolder modelicaFolder) {
+
     }
 }

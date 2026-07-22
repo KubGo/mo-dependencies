@@ -1,11 +1,12 @@
 package objects.files;
 
+
 public interface IModelicaFile {
     String getName();
     String getPath();
     boolean pathMatches(String path);
 
-    IModelicaFile getParent();
+    ModelicaFolder getParent();
     boolean hasParent();
 
     boolean hasNext();
@@ -13,8 +14,6 @@ public interface IModelicaFile {
     IModelicaFile getNext();
 
     void reset();
-
-    void resetAll();
 
     String getFilePath();
 

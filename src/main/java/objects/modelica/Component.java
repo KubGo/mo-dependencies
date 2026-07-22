@@ -5,7 +5,8 @@ import modelica.ComponentPrefix;
 import modelica.ModelicaPath;
 import modelica.ModelicaVariability;
 import modelica.PathMatcher;
-import objects.files.IModelicaFile;
+import modelica.pathresolvers.RelativePathResolver;
+import objects.files.ModelicaFolder;
 
 import java.util.List;
 
@@ -78,7 +79,8 @@ public class Component implements
     }
 
     @Override
-    public void resolveRelativePath(IModelicaFile modelicaFile) {
-        // TODO("Resolve relative path declarations to absolute path")
+    public void resolveRelativePath(ModelicaFolder modelicaFile) {
+        RelativePathResolver relativePathResolver = new RelativePathResolver(modelicaFile);
+        className = relativePathResolver.resolvePath(className);
     }
 }
