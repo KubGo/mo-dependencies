@@ -6,10 +6,7 @@ import modelica.PathMatcher;
 import modelica.pathresolvers.RelativePathResolver;
 import objects.files.IModelicaFile;
 import objects.files.ModelicaFolder;
-import objects.modelica.Component;
-import objects.modelica.Declaration;
-import objects.modelica.IDeclarationsResolver;
-import objects.modelica.Modification;
+import objects.modelica.*;
 import parser.DefinitionsListener;
 
 import java.util.ArrayList;
@@ -23,6 +20,7 @@ public class ModelicaClass implements IModelicaClass {
     ArrayList<Component> components = new ArrayList<>();
     ArrayList<Modification> modifications = new ArrayList<>();
     ArrayList<Declaration> declarations = new ArrayList<>();
+    ArrayList<Redeclaration> redeclarations = new ArrayList<>();
     List<String> extendingClasses = new ArrayList<>();
     @Setter
     ModelicaClassType classType;
@@ -92,10 +90,16 @@ public class ModelicaClass implements IModelicaClass {
                 if (!modelicaClass.exportsResolved()) {
                     modelicaClass.resolveExtendingClasses(modelicaPackage);
                 }
-                components.addAll(modelicaClass.getComponents());
+                components.addAll(resolveRedeclaration(modelicaClass.getComponents()));
             } catch (RuntimeException ignored) {
             }
         }
+    }
+
+    private List<Component> resolveRedeclaration(List<Component> parentComponents) {
+        return parentComponents.stream()
+                .map(it -> it.redeclare(redeclarations))
+                .toList();
     }
 
     @Override
@@ -118,6 +122,7 @@ public class ModelicaClass implements IModelicaClass {
         components = listener.getComponents();
         modifications = listener.getModifications();
         declarations = listener.getDeclarations();
+        redeclarations = listener.getRedeclarations();
         extendingClasses.addAll(listener.getExtendingClasses());
         resolveImports(listener.getImportedClasses());
     }

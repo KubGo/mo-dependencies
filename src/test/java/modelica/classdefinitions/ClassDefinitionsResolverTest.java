@@ -15,8 +15,7 @@ import utils.Utils;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static utils.Utils.checkStringStream;
 
 class ClassDefinitionsResolverTest {
@@ -216,20 +215,40 @@ class ClassDefinitionsResolverTest {
                 modifications.getModifications()
                         .stream().map(Modification::getComponent)
         );
-        // TODO("Add redeclaration component so the redeclared components can be changed")
-//        checkStringStream(
-//                String.join("\n", Stream.of(
-//                        "Boolean",
-//                        "Real",
-//                        "Modelica.Blocks.Sources.Constant",
-//                        "Modelica.Blocks.Sources.Ramp",
-//                        "Modelica.Blocks.Sources.RealExpression",
-//                        "Modelica.Blocks.Interfaces.RealOutput",
-//                        "BuildingsLite.Bugfixes.Difference"
-//                ).sorted().toList()),
-//                noModifications.getComponents()
-//                        .stream()
-//                        .map(Component::getClassName)
-//        );
+
+        Modification modifyOutput = modifications.getModifications().
+                stream().filter(it -> it.getComponent().equals("modifyOutput")).findFirst().orElse(null);
+
+        assertNotNull(modifyOutput);
+
+        assertEquals("true", modifyOutput.getValue());
+
+        Modification outputModifier = modifications.getModifications().
+                stream().filter(it -> it.getComponent().equals("outputModifier")).findFirst().orElse(null);
+
+        assertNotNull(outputModifier);
+
+        assertEquals("2", outputModifier.getValue());
+    }
+
+    @Test
+    void resolveRedeclaration_Redeclaration_redeclarationAreIncluded() {
+        modelicaLibrary.resolveExtendingClasses(modelicaLibrary);
+        IModelicaClass modifications = modelicaLibrary.getByName("BuildingsLite.Modifications.DifferenceRamp");
+
+        checkStringStream(
+                String.join("\n", Stream.of(
+                        "Boolean",
+                        "Real",
+                        "Modelica.Blocks.Sources.Constant",
+                        "Modelica.Blocks.Sources.Ramp",
+                        "Modelica.Blocks.Sources.RealExpression",
+                        "Modelica.Blocks.Interfaces.RealOutput",
+                        "BuildingsLite.Bugfixes.Difference"
+                ).sorted().toList()),
+                modifications.getComponents()
+                        .stream()
+                        .map(Component::getClassName)
+        );
     }
 }

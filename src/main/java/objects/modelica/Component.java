@@ -16,7 +16,8 @@ public class Component implements
         IDeclarationsResolver,
         IConstrainable,
         IRelativePathResolver,
-        IModifiable {
+        IModifiable,
+        IRedeclarable<Component> {
     String componentName;
     String className;
     String description;
@@ -93,5 +94,34 @@ public class Component implements
                 constrainingClass = modification.constrainingClass;
             }
         }
+    }
+
+//    @Override
+//    public void redeclare(Redeclaration redeclaration) {
+//        if (componentName.equals(redeclaration.getComponent())){
+//            className = redeclaration.getClassName();
+//            if (redeclaration.hasConstraint()){
+//                constrainingClass = redeclaration.getConstrainingClass();
+//            }
+//        }
+//    }
+
+    @Override
+    public Component redeclare(List<Redeclaration> redeclarations) {
+        var redeclaration = redeclarations.stream()
+                .filter(it -> it.getComponent()
+                        .equals(componentName))
+                .findFirst().orElse(null);
+        if (redeclaration != null) {
+            return new ComponentBuilder()
+                    .setClassName(redeclaration.getClassName())
+                    .setComponentPrefix(componentPrefix)
+                    .setVariability(variability)
+                    .setValue(value)
+                    .setDescription(description)
+                    .setConstrainingClass((redeclaration.hasConstraint()) ? redeclaration.getConstrainingClass() : constrainingClass)
+                    .build();
+        }
+        return this;
     }
 }
