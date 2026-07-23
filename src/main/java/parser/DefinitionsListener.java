@@ -225,27 +225,17 @@ public class DefinitionsListener extends ModelicaBaseListener {
 
     @Override
     public void enterType_specifier(Modelica.Type_specifierContext ctx) {
-        // TODO("Rewrite to switch statement")
-        if (isCurrentSection(ModelicaFileSection.CLASS_DEFINITION)) {
-            declarationBuilder.setDeclarationClass(ctx.getText());
-        }
-        if (isCurrentSection(ModelicaFileSection.CONSTRAINING_CLAUSE)) {
-            componentBuilder.setConstrainingClass(ctx.getText());
-        }
-        if (isCurrentSection(ModelicaFileSection.COMPONENT_DECLARATION)) {
-            componentBuilder.setClassName(ctx.getText());
-        }
-        if (isCurrentSection(ModelicaFileSection.EXTENDS_CLAUSE)) {
-            extendingClasses.add(ctx.getText());
-        }
-        if (isCurrentSection(ModelicaFileSection.COMPONENT_MODIFICATION)) {
-            modificationBuilder.setValue(ctx.getText());
-        }
-        if (isCurrentSection(ModelicaFileSection.REDECLARATION)) {
-            redeclarationBuilder.setClassName(ctx.getText());
-        }
-        if (isCurrentSection(ModelicaFileSection.REDECLARATION_CONSTRAINING_CLAUSE)) {
-            redeclarationBuilder.setConstrainingClass(ctx.getText());
+        String className = ctx.getText();
+        switch (sectionsStack.peek()) {
+            case CLASS_DEFINITION -> declarationBuilder.setDeclarationClass(className);
+            case CONSTRAINING_CLAUSE -> componentBuilder.setConstrainingClass(className);
+            case COMPONENT_DECLARATION -> componentBuilder.setClassName(className);
+            case EXTENDS_CLAUSE -> extendingClasses.add(className);
+            case COMPONENT_MODIFICATION -> modificationBuilder.setValue(className);
+            case REDECLARATION -> redeclarationBuilder.setClassName(className);
+            case REDECLARATION_CONSTRAINING_CLAUSE -> redeclarationBuilder.setConstrainingClass(className);
+            default -> {
+            }
         }
     }
 
