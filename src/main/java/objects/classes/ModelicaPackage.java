@@ -165,6 +165,10 @@ public class ModelicaPackage implements IModelicaClass {
         throw new ModelicaClassNotFoundException(name);
     }
 
+    public void resolveExtendingClasses() {
+        resolveExtendingClasses(this);
+    }
+
     @Override
     public void resolveExtendingClasses(ModelicaPackage modelicaPackage) {
         if (!exportsResolved) {

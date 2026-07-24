@@ -22,6 +22,10 @@ public class ClassDefinitionsResolver {
         modelicaLibrary = generateClassDefinitions(libraryStructure);
     }
 
+    public ModelicaPackage generateClassDefinitions() {
+        return generateClassDefinitions(this.libraryStructure);
+    }
+
     public ModelicaPackage generateClassDefinitions(ModelicaFolder libraryStructure) {
         libraryStructure.reset();
         ModelicaFolder currentFolder = libraryStructure;
