@@ -96,16 +96,6 @@ public class Component implements
         }
     }
 
-//    @Override
-//    public void redeclare(Redeclaration redeclaration) {
-//        if (componentName.equals(redeclaration.getComponent())){
-//            className = redeclaration.getClassName();
-//            if (redeclaration.hasConstraint()){
-//                constrainingClass = redeclaration.getConstrainingClass();
-//            }
-//        }
-//    }
-
     @Override
     public Component redeclare(List<Redeclaration> redeclarations) {
         var redeclaration = redeclarations.stream()
@@ -114,6 +104,7 @@ public class Component implements
                 .findFirst().orElse(null);
         if (redeclaration != null) {
             return new ComponentBuilder()
+                    .setComponentName(componentName)
                     .setClassName(redeclaration.getClassName())
                     .setComponentPrefix(componentPrefix)
                     .setVariability(variability)

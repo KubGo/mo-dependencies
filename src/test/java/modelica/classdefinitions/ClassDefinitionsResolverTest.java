@@ -233,8 +233,12 @@ class ClassDefinitionsResolverTest {
 
     @Test
     void resolveRedeclaration_Redeclaration_redeclarationAreIncluded() {
-        modelicaLibrary.resolveExtendingClasses(modelicaLibrary);
+        IModelicaClass baseClass = modelicaLibrary.getByName("BuildingsLite.Modifications.PartialClass");
         IModelicaClass modifications = modelicaLibrary.getByName("BuildingsLite.Modifications.DifferenceRamp");
+        assertEquals(0, modifications.getComponents().size());
+        modelicaLibrary.resolveExtendingClasses(modelicaLibrary);
+        assertEquals(baseClass.getComponents().size(), modifications.getComponents().size());
+        modifications = modelicaLibrary.getByName("BuildingsLite.Modifications.DifferenceRamp");
 
         checkStringStream(
                 String.join("\n", Stream.of(
@@ -247,6 +251,22 @@ class ClassDefinitionsResolverTest {
                         "BuildingsLite.Bugfixes.Difference"
                 ).sorted().toList()),
                 modifications.getComponents()
+                        .stream()
+                        .map(Component::getClassName)
+        );
+
+        IModelicaClass secondRedeclaration = modelicaLibrary.getByName("BuildingsLite.Modifications.SumRamp");
+        checkStringStream(
+                String.join("\n", Stream.of(
+                        "Boolean",
+                        "Real",
+                        "Modelica.Blocks.Sources.Constant",
+                        "Modelica.Blocks.Sources.Ramp",
+                        "Modelica.Blocks.Sources.RealExpression",
+                        "Modelica.Blocks.Interfaces.RealOutput",
+                        "BuildingsLite.Bugfixes.Sum"
+                ).sorted().toList()),
+                secondRedeclaration.getComponents()
                         .stream()
                         .map(Component::getClassName)
         );

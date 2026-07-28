@@ -229,6 +229,13 @@ class DefinitionsListenerTest {
     void extractRedeclaration_DifferenceRamp_redeclarationMatch() throws IOException {
         String modelicaText = Utils.getModelicaTextFromResources(Utils.DifferenceRamp);
         DefinitionsListener parsedListener = Utils.getParsedListenerFromText(modelicaText, listener);
+
+        checkStringStream("",
+                parsedListener.getComponents()
+                        .stream().map(Component::getClassName));
+
+        assertEquals(0, parsedListener.getComponents().size());
+
         checkStringStream(
                 String.join("\n", Stream.of(
                         "input1",

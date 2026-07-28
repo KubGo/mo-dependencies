@@ -84,15 +84,18 @@ public class ModelicaClass implements IModelicaClass {
 
     @Override
     public void resolveExtendingClasses(ModelicaPackage modelicaPackage) {
-        for (String extendingClass : extendingClasses) {
-            try {
-                IModelicaClass modelicaClass = modelicaPackage.getByName(extendingClass);
-                if (!modelicaClass.exportsResolved()) {
-                    modelicaClass.resolveExtendingClasses(modelicaPackage);
+        if (!exportsResolved) {
+            for (String extendingClass : extendingClasses) {
+                try {
+                    IModelicaClass modelicaClass = modelicaPackage.getByName(extendingClass);
+                    if (!modelicaClass.exportsResolved()) {
+                        modelicaClass.resolveExtendingClasses(modelicaPackage);
+                    }
+                    components.addAll(resolveRedeclaration(modelicaClass.getComponents()));
+                } catch (RuntimeException ignored) {
                 }
-                components.addAll(resolveRedeclaration(modelicaClass.getComponents()));
-            } catch (RuntimeException ignored) {
             }
+            exportsResolved = true;
         }
     }
 
