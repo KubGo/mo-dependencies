@@ -1,5 +1,6 @@
 package facade;
 
+import files.ModelicaDirectoriesFinder;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import modelica.classdefinitions.ClassDefinitionsResolver;
@@ -22,13 +23,21 @@ public class LibraryResolutionFacade {
 
     private boolean resolveRelativePaths = true;
     private boolean resolveExtendingClasses = true;
+    private boolean recursiveDirectoriesSearch = false;
 
     public ModelicaPackage resolveLibrary(String pathToLibrary) {
         Path rootPath = Paths.get(pathToLibrary);
+        ModelicaDirectoriesFinder modelicaDirectoriesFinder = new ModelicaDirectoriesFinder(rootPath, recursiveDirectoriesSearch);
         if (Files.notExists(rootPath)) {
             throw new RuntimeException("Path: ' " + pathToLibrary + "' doesn't exist");
         }
-        // TODO("Verify that it is directory with Modelica classes")
+        if (!modelicaDirectoriesFinder.modelicaDirectoriesFound()) {
+            if (recursiveDirectoriesSearch) {
+                throw new RuntimeException("Could not find any Modelica libraries below path: " + pathToLibrary + ".");
+            } else {
+                throw new RuntimeException("There are no Modelica files under path: " + pathToLibrary + ".");
+            }
+        }
 
         return getModelicaLibrary(rootPath);
     }

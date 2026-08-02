@@ -6,6 +6,7 @@ import objects.modelica.Component;
 import org.junit.jupiter.api.Test;
 import utils.Utils;
 
+import java.io.File;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -41,7 +42,7 @@ class LibraryResolutionFacadeTest {
 
     @Test
     void createLibraryPackageWithoutResolvedAbsolutePaths_BuildingsLite_relativePathsUsed() {
-        facade = new LibraryResolutionFacade(false, false);
+        facade = new LibraryResolutionFacade(false, false, false);
         ModelicaPackage modelicaLibrary = facade.resolveLibrary(
                 Utils.getPathAsString(Utils.BuildingsLite));
         checkStringStream(
@@ -54,7 +55,7 @@ class LibraryResolutionFacadeTest {
 
     @Test
     void createLibraryPackageWithoutExtendingClasses_BuildingsLite_noExtendingClassComponents() {
-        facade = new LibraryResolutionFacade(true, false);
+        facade = new LibraryResolutionFacade(true, false, false);
         ModelicaPackage modelicaLibrary = facade.resolveLibrary(
                 Utils.getPathAsString(Utils.BuildingsLite));
         checkStringStream(
@@ -79,6 +80,16 @@ class LibraryResolutionFacadeTest {
         assertThrows(
                 RuntimeException.class,
                 () -> facade.resolveLibrary("SomeNonExistingPath/path")
+        );
+    }
+
+    @Test
+    void wrongPath_NoModelicaFiles_throwError() {
+        facade = new LibraryResolutionFacade();
+        File file = new File("");
+        assertThrows(
+                RuntimeException.class,
+                () -> facade.resolveLibrary(file.getAbsolutePath() + "/src/test/java/utils")
         );
     }
 
