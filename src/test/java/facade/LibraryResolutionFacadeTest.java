@@ -7,9 +7,10 @@ import org.junit.jupiter.api.Test;
 import utils.Utils;
 
 import java.io.File;
+import java.util.List;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static utils.Utils.checkStringStream;
 
 class LibraryResolutionFacadeTest {
@@ -19,8 +20,8 @@ class LibraryResolutionFacadeTest {
     @Test
     void createLibraryPackage_BuildingsLite_verifyPackageIsCreatedCorrectly() {
         facade = new LibraryResolutionFacade();
-        ModelicaPackage modelicaLibrary = facade.resolveLibrary(
-                Utils.getPathAsString(Utils.BuildingsLite));
+        ModelicaPackage modelicaLibrary = facade.resolveLibraries(
+                Utils.getPathAsString(Utils.BuildingsLite)).getFirst();
 
         IModelicaClass modifications = modelicaLibrary.getByName("BuildingsLite.Modifications.DifferenceRamp");
 
@@ -43,8 +44,8 @@ class LibraryResolutionFacadeTest {
     @Test
     void createLibraryPackageWithoutResolvedAbsolutePaths_BuildingsLite_relativePathsUsed() {
         facade = new LibraryResolutionFacade(false, false, false);
-        ModelicaPackage modelicaLibrary = facade.resolveLibrary(
-                Utils.getPathAsString(Utils.BuildingsLite));
+        ModelicaPackage modelicaLibrary = facade.resolveLibraries(
+                Utils.getPathAsString(Utils.BuildingsLite)).getFirst();
         checkStringStream(
                 String.join("\n",
                         Stream.of("BaseClasses", "Bugfixes", "Airflow", "Tests", "Controls", "HeatTransfer", "Modifications")
@@ -56,8 +57,8 @@ class LibraryResolutionFacadeTest {
     @Test
     void createLibraryPackageWithoutExtendingClasses_BuildingsLite_noExtendingClassComponents() {
         facade = new LibraryResolutionFacade(true, false, false);
-        ModelicaPackage modelicaLibrary = facade.resolveLibrary(
-                Utils.getPathAsString(Utils.BuildingsLite));
+        ModelicaPackage modelicaLibrary = facade.resolveLibraries(
+                Utils.getPathAsString(Utils.BuildingsLite)).getFirst();
         checkStringStream(
                 String.join("\n",
                         Stream.of(
@@ -79,7 +80,7 @@ class LibraryResolutionFacadeTest {
         facade = new LibraryResolutionFacade();
         assertThrows(
                 RuntimeException.class,
-                () -> facade.resolveLibrary("SomeNonExistingPath/path")
+                () -> facade.resolveLibraries("SomeNonExistingPath/path")
         );
     }
 
@@ -89,8 +90,55 @@ class LibraryResolutionFacadeTest {
         File file = new File("");
         assertThrows(
                 RuntimeException.class,
-                () -> facade.resolveLibrary(file.getAbsolutePath() + "/src/test/java/utils")
+                () -> facade.resolveLibraries(file.getAbsolutePath() + "/src/test/java/utils")
         );
     }
 
+    @Test
+    void resolveAllLibraries_resources_bothLibrariesResolved() {
+        facade = new LibraryResolutionFacade(
+                false,
+                false,
+                true
+        );
+        File file = new File("src/test/resources");
+        List<ModelicaPackage> libraries =
+                facade.resolveLibraries(file.getAbsolutePath());
+        assertEquals(2, libraries.size());
+    }
+
+    @Test
+    void resolveAllLibraries_resources_extendsFromSecondLibraryResolved() {
+        facade = new LibraryResolutionFacade(
+                true,
+                true,
+                true
+        );
+        File file = new File("src/test/resources");
+        List<ModelicaPackage> libraries =
+                facade.resolveLibraries(file.getAbsolutePath());
+
+        ModelicaPackage testLibrary = libraries.stream()
+                .filter(it -> it.getClassName()
+                        .equals("TestLibrary")).findFirst().orElse(null);
+        assertNotNull(testLibrary);
+        IModelicaClass exteriorConvection =
+                testLibrary.getByName("TestLibrary.HeatTransfer.ExteriorConvectionTest");
+        assertFalse(
+                exteriorConvection.getComponents().isEmpty()
+        );
+        checkStringStream(
+                String.join("\n",
+                        Stream.of(
+                                "Modelica.Blocks.Sources.Constant",
+                                "BuildingsLite.HeatTransfer.Sources.FixedTemperature",
+                                "BuildingsLite.HeatTransfer.Convection.Exterior",
+                                "BuildingsLite.HeatTransfer.Sources.PrescribedTemperature",
+                                "Modelica.Blocks.Sources.Ramp"
+                        ).sorted().toList()),
+                exteriorConvection.getComponents()
+                        .stream()
+                        .map(Component::getClassName)
+        );
+    }
 }

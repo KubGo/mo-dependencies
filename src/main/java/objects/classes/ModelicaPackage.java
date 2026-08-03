@@ -71,6 +71,8 @@ public class ModelicaPackage implements IModelicaClass {
     @Override
     public void setExportsResolved(boolean resolved) {
         exportsResolved = resolved;
+        children.forEach(it ->
+                it.setExportsResolved(resolved));
     }
 
     @Override
