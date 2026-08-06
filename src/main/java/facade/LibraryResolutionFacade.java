@@ -25,6 +25,7 @@ public class LibraryResolutionFacade {
     private boolean resolveRelativePaths = true;
     private boolean resolveExtendingClasses = true;
     private boolean recursiveDirectoriesSearch = false;
+    // TODO("Add filtering of libraries, e.g. Modelica")
 
     public LibraryResolutionFacade(boolean resolveRelativePaths, boolean resolveExtendingClasses, boolean recursiveDirectoriesSearch) {
         this.resolveRelativePaths = resolveRelativePaths;

@@ -24,9 +24,9 @@ public class ModelicaClass implements IModelicaClass {
     List<String> extendingClasses = new ArrayList<>();
     @Setter
     ModelicaClassType classType;
-    private boolean resolved = false;
-    private boolean exportsResolved = false;
-    private ModelicaPackage parentPackage = null;
+    transient private boolean resolved = false;
+    transient private boolean exportsResolved = false;
+    transient private ModelicaPackage parentPackage = null;
 
     public ModelicaClass(IModelicaFile modelicaClass) {
         className = modelicaClass.getName();

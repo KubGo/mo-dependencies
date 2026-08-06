@@ -17,14 +17,14 @@ import static parser.ParseText.parseText;
 
 public class ModelicaPackage implements IModelicaClass {
 
-    private final ComponentBuilder componentBuilder = new ComponentBuilder();
+    private final String className;
+    private final String classPath;
+    transient private final ComponentBuilder componentBuilder = new ComponentBuilder();
     private final ArrayList<IModelicaClass> children = new ArrayList<>();
     ArrayList<Component> components = new ArrayList<>();
-    String className;
-    String classPath;
-    private int currentPosition = -1;
-    private boolean exportsResolved = false;
-    private ModelicaPackage parentPackage = null;
+    transient private int currentPosition = -1;
+    transient private boolean exportsResolved = false;
+    transient private ModelicaPackage parentPackage = null;
 
     public ModelicaPackage(IModelicaFile modelicaClass) {
         className = modelicaClass.getName();
