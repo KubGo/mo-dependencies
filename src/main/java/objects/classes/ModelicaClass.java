@@ -120,6 +120,11 @@ public class ModelicaClass implements IModelicaClass {
         resolved = false;
     }
 
+    @Override
+    public void setParents(ModelicaPackage parentPackage) {
+        this.parentPackage = parentPackage;
+    }
+
     public void getClassDefinitions(String text) {
         DefinitionsListener listener = parseText(text);
         components = listener.getComponents();

@@ -24,6 +24,8 @@ public interface IModelicaClass {
 
     void reset();
 
+    void setParents(ModelicaPackage parentPackage);
+
 
     String getClassPath();
 

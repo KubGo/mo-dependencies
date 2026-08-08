@@ -89,6 +89,14 @@ public class ModelicaPackage implements IModelicaClass {
     }
 
     @Override
+    public void setParents(ModelicaPackage parentPackage) {
+        this.parentPackage = parentPackage;
+        for (var child : children) {
+            child.setParents(this);
+        }
+    }
+
+    @Override
     public String getClassPath() {
         return classPath;
     }
