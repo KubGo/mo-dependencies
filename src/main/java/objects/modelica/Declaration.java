@@ -12,7 +12,8 @@ import java.util.List;
 public class Declaration implements
         IImportResolver,
         IConstrainable,
-        IRelativePathResolver {
+        IRelativePathResolver,
+        IClassName {
     @Getter
     ModelicaClassType type;
     @Getter
@@ -59,5 +60,10 @@ public class Declaration implements
     public void resolveRelativePath(ModelicaFolder modelicaFile) {
         RelativePathResolver relativePathResolver = new RelativePathResolver(modelicaFile);
         declarationClass = relativePathResolver.resolvePath(declarationClass);
+    }
+
+    @Override
+    public String getClassName() {
+        return declarationClass;
     }
 }

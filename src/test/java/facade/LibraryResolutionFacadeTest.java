@@ -2,6 +2,7 @@ package facade;
 
 import objects.classes.IModelicaClass;
 import objects.classes.ModelicaPackage;
+import objects.filters.ModelicaLibraryFilter;
 import objects.modelica.Component;
 import org.junit.jupiter.api.Test;
 import utils.Utils;
@@ -137,6 +138,27 @@ class LibraryResolutionFacadeTest {
                                 "Modelica.Blocks.Sources.Ramp"
                         ).sorted().toList()),
                 exteriorConvection.getComponents()
+                        .stream()
+                        .map(Component::getClassName)
+        );
+    }
+
+    @Test
+    void filterLibraries_BuildingsLite_verifyFilteringModelicaLibraryClasses() {
+        facade = new LibraryResolutionFacade();
+        ModelicaPackage modelicaLibrary = facade.resolveLibraries(
+                Utils.getPathAsString(Utils.BuildingsLite)).getFirst();
+        ModelicaLibraryFilter filter = new ModelicaLibraryFilter("Modelica");
+        modelicaLibrary.filterByClassName(filter);
+        IModelicaClass modifications = modelicaLibrary.getByName("BuildingsLite.Modifications.DifferenceRamp");
+
+        checkStringStream(
+                String.join("\n", Stream.of(
+                        "Boolean",
+                        "Real",
+                        "BuildingsLite.Bugfixes.Difference"
+                ).sorted().toList()),
+                modifications.getComponents()
                         .stream()
                         .map(Component::getClassName)
         );

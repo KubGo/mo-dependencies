@@ -12,7 +12,8 @@ public class Modification implements
         IImportResolver,
         IDeclarationsResolver,
         IConstrainable,
-        IRelativePathResolver {
+        IRelativePathResolver,
+        IClassName {
     @Getter
     String component;
     @Getter
@@ -63,5 +64,10 @@ public class Modification implements
     public void resolveRelativePath(ModelicaFolder modelicaFile) {
         RelativePathResolver relativePathResolver = new RelativePathResolver(modelicaFile);
         value = relativePathResolver.resolvePath(value);
+    }
+
+    @Override
+    public String getClassName() {
+        return value;
     }
 }

@@ -5,10 +5,8 @@ import modelica.ModelicaClassType;
 import modelica.PathMatcher;
 import objects.files.IModelicaFile;
 import objects.files.ModelicaFolder;
-import objects.modelica.Component;
-import objects.modelica.ComponentBuilder;
-import objects.modelica.Declaration;
-import objects.modelica.Modification;
+import objects.filters.IFilter;
+import objects.modelica.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -197,5 +195,12 @@ public class ModelicaPackage implements IModelicaClass {
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    @Override
+    public void filterByClassName(IFilter<IClassName> filter) {
+        children.forEach(
+                it -> it.filterByClassName(filter)
+        );
     }
 }

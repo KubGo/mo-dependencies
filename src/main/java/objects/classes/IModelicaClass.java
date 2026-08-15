@@ -2,8 +2,10 @@ package objects.classes;
 
 import modelica.ModelicaClassType;
 import objects.files.ModelicaFolder;
+import objects.filters.IFilter;
 import objects.modelica.Component;
 import objects.modelica.Declaration;
+import objects.modelica.IClassName;
 import objects.modelica.Modification;
 
 import java.util.List;
@@ -46,4 +48,6 @@ public interface IModelicaClass {
     boolean pathMatches(String path);
 
     void resolveRelativePaths(ModelicaFolder modelicaFolder);
+
+    void filterByClassName(IFilter<IClassName> filter);
 }

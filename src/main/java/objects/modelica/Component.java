@@ -17,7 +17,8 @@ public class Component implements
         IConstrainable,
         IRelativePathResolver,
         IModifiable,
-        IRedeclarable<Component> {
+        IRedeclarable<Component>,
+        IClassName {
     String componentName;
     String className;
     String description;

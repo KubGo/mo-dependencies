@@ -15,7 +15,8 @@ public class Redeclaration implements
         IDeclarationsResolver,
         IConstrainable,
         IRelativePathResolver,
-        IModifiable {
+        IModifiable,
+        IClassName {
 
     @Getter
     private String component;

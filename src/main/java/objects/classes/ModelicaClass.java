@@ -6,11 +6,13 @@ import modelica.PathMatcher;
 import modelica.pathresolvers.RelativePathResolver;
 import objects.files.IModelicaFile;
 import objects.files.ModelicaFolder;
+import objects.filters.IFilter;
 import objects.modelica.*;
 import parser.DefinitionsListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static parser.ParseText.parseText;
 
@@ -162,6 +164,22 @@ public class ModelicaClass implements IModelicaClass {
         modifications.forEach(it -> it.resolveRelativePath(modelicaFolder));
         declarations.forEach(it -> it.resolveRelativePath(modelicaFolder));
         resolveExports(modelicaFolder);
+    }
+
+    @Override
+    public void filterByClassName(IFilter<IClassName> filter) {
+        components = components.stream().filter(
+                filter::shouldBeUsed
+        ).collect(Collectors.toCollection(ArrayList::new));
+        declarations = declarations.stream().filter(
+                filter::shouldBeUsed
+        ).collect(Collectors.toCollection(ArrayList::new));
+        modifications = modifications.stream().filter(
+                filter::shouldBeUsed
+        ).collect(Collectors.toCollection(ArrayList::new));
+        redeclarations = redeclarations.stream().filter(
+                filter::shouldBeUsed
+        ).collect(Collectors.toCollection(ArrayList::new));
     }
 
     private void resolveImports(List<String> imports) {
