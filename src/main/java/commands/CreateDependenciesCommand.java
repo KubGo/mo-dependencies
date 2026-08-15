@@ -4,6 +4,8 @@ import config.Config;
 import facade.LibraryResolutionFacade;
 import io.write.JsonPackageWriter;
 import objects.classes.ModelicaPackage;
+import objects.filters.BaseTypesFilter;
+import objects.filters.ModelicaLibraryFilter;
 import picocli.CommandLine;
 
 import java.nio.file.Path;
@@ -29,6 +31,8 @@ public class CreateDependenciesCommand implements Runnable {
     private boolean verbose;
     @CommandLine.Option(names = {"--filter", "-f"}, arity = "1..*", defaultValue = CommandLine.Option.NULL_VALUE)
     private List<String> librariesToFilter;
+    @CommandLine.Option(names = {"--skip-base-types"})
+    private boolean skipBaseTypes;
     @CommandLine.Option(names = {"--libraries", "-l"}, arity = "1..*", defaultValue = CommandLine.Option.NULL_VALUE)
     private List<String> additionalLibraries;
     @CommandLine.Option(names = {"--writer", "-w"}, arity = "1..*", defaultValue = "json")
@@ -52,12 +56,9 @@ public class CreateDependenciesCommand implements Runnable {
         if (librariesToFilter == null) {
             librariesToFilter = List.of();
         }
-        LibraryResolutionFacade facade = new LibraryResolutionFacade(
-                !relativePaths,
-                !noExtendingClasses,
-                recursive
-        );
-        List<ModelicaPackage> libraries = facade.resolveLibraries(libraryPath);
+        List<ModelicaPackage> libraries = resolveLibraries();
+
+        // Save libraries
         JsonPackageWriter writer = new JsonPackageWriter();
         Path path = Path.of(libraryPath).toAbsolutePath();
         if (path.toFile().isFile()) {
@@ -66,29 +67,29 @@ public class CreateDependenciesCommand implements Runnable {
         for (var library : libraries) {
             writer.save(library, path);
         }
+    }
 
+    private List<ModelicaPackage> resolveLibraries() {
+        LibraryResolutionFacade facade = new LibraryResolutionFacade(
+                !relativePaths,
+                !noExtendingClasses,
+                recursive
+        );
+        List<ModelicaPackage> libraries = facade.resolveLibraries(libraryPath);
 
-        // TODO("Allow to filter with new implementation")
-//        List<ModelicaLibraryFilter> filters = librariesToFilter.stream().map(ModelicaLibraryFilter::new).toList();
-//        DependencyTreeResolver dependencyResolver = new DependencyTreeResolver(filters);
-//        if (additionalLibraries != null) {
-//            additionalLibraries.forEach(lib -> {
-//                DependencyTreeResolver additionalResolver = new DependencyTreeResolver(filters);
-//                additionalResolver.generateLibraryDependencies(lib);
-//                dependencyResolver.addLibraryDependencies(additionalResolver.getSimplifiedClassDependencies());
-//            });
-//        }
-//        dependencyResolver.generateLibraryDependencies(libraryPath);
-//        List<AbstractDependenciesWriter> dependenciesWriters = new ArrayList<>();
-//        for (String writer : writers) {
-//            if (writer.equals("json")) {
-//                dependenciesWriters.add(new JsonDependenciesWriter());
-//            } else {
-//                System.out.println(
-//                        "Unknown writer \"" + writer + "\", " + "for now available options are: " + Config.getAvailableExtensionsList() + ".");
-//            }
-//        }
-//        dependenciesWriters.forEach(dependencyResolver::saveDependencies);
-//        if (Config.DEBUG) System.out.println("Dependencies created.");
+        for (String libraryToFilter : librariesToFilter) {
+            ModelicaLibraryFilter libraryFilter = new ModelicaLibraryFilter(libraryToFilter);
+            libraries.forEach(
+                    it -> it.filterByClassName(libraryFilter)
+            );
+        }
+
+        if (skipBaseTypes) {
+            BaseTypesFilter baseTypesFilter = new BaseTypesFilter();
+            libraries.forEach(
+                    it -> it.filterByClassName(baseTypesFilter)
+            );
+        }
+        return libraries;
     }
 }
