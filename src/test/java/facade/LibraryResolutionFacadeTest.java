@@ -2,6 +2,7 @@ package facade;
 
 import objects.classes.IModelicaClass;
 import objects.classes.ModelicaPackage;
+import objects.filters.BaseTypesFilter;
 import objects.filters.ModelicaLibraryFilter;
 import objects.modelica.Component;
 import org.junit.jupiter.api.Test;
@@ -157,6 +158,30 @@ class LibraryResolutionFacadeTest {
                         "Boolean",
                         "Real",
                         "BuildingsLite.Bugfixes.Difference"
+                ).sorted().toList()),
+                modifications.getComponents()
+                        .stream()
+                        .map(Component::getClassName)
+        );
+    }
+
+    @Test
+    void filterBaseTypes_BuildingsLite_verifyFilteringBaseTypes() {
+        facade = new LibraryResolutionFacade();
+        ModelicaPackage modelicaLibrary = facade.resolveLibraries(
+                Utils.getPathAsString(Utils.BuildingsLite)).getFirst();
+        BaseTypesFilter filter = new BaseTypesFilter();
+        modelicaLibrary.filterByClassName(filter);
+        IModelicaClass modifications = modelicaLibrary.getByName("BuildingsLite.Modifications.DifferenceRamp");
+
+        checkStringStream(
+                String.join("\n", Stream.of(
+                        "Modelica.Blocks.Sources.Constant",
+                        "Modelica.Blocks.Sources.Ramp",
+                        "Modelica.Blocks.Sources.RealExpression",
+                        "Modelica.Blocks.Interfaces.RealOutput",
+                        "BuildingsLite.Bugfixes.Difference"
+
                 ).sorted().toList()),
                 modifications.getComponents()
                         .stream()
